@@ -6,7 +6,7 @@ export const APP_LINK = {
   BLOG: 'https://blog.getautoclicker.com/',
   CONFIGS: 'https://configs.getautoclicker.com/',
   TEST: 'https://test.getautoclicker.com/',
-  ISSUES: 'https://github.com/Dhruv-Techapps/auto-click-auto-fill/issues/',
+  ISSUES: 'https://github.com/Dhruv-Techapps/auto-clicker-auto-fill/issues',
 };
 // Application Languages
 export const APP_LANGUAGES = ['en', 'kr', 'fr', 'cn'];
@@ -17,7 +17,7 @@ export const SOCIAL_LINKS = {
   DISCORD: 'https://discord.gg/ubMBeX3',
   GOOGLE_GROUP: 'https://groups.google.com/g/auto-clicker-autofill',
   TWITTER: 'https://twitter.com/dharmeshhemaram',
-  GITHUB: 'https://github.com/Dhruv-Techapps/auto-click-auto-fill',
+  GITHUB: 'https://github.com/Dhruv-Techapps/auto-clicker-auto-fill',
 };
 
 export const SPONSORS = [

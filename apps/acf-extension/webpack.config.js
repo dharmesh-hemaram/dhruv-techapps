@@ -5,10 +5,10 @@ const path = require('path');
 function modify(buffer, { KEY, NX_NAME, OAUTH_CLIENT_ID, RELEASE_VERSION }) {
   // copy-webpack-plugin passes a buffer
   const manifest = JSON.parse(buffer.toString());
-  console.log(typeof RELEASE_VERSION, RELEASE_VERSION);
+  console.log(RELEASE_VERSION, RELEASE_VERSION.replace('v', ''));
 
   // make any modifications you like, such as
-  manifest.version = RELEASE_VERSION;
+  manifest.version = RELEASE_VERSION.replace('v', '');
   manifest.name = NX_NAME;
   if (OAUTH_CLIENT_ID) {
     manifest.oauth2.client_id = OAUTH_CLIENT_ID;
