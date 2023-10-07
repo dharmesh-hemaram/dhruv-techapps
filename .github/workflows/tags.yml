@@ -89,7 +89,7 @@ jobs:
         PUBLIC_URL=${{needs.EnvSetup.outputs.PUBLIC_URL}}
         RELEASE_VERSION=${{needs.EnvSetup.outputs.RELEASE_VERSION}}
       parallel-commands-on-agents: |
-        npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer'
+        npx nx affected --target=build --parallel=3 --exclude='tag:puppeteer'
       final-commands: |
         TARGET_FILE="./dist/apps/acf-extension/manifest.json"
         # Use an if-else statement to check if the file exists.

@@ -19,7 +19,7 @@ const Actions = (() => {
   };
 
   const checkStatement = async (actions: Array<Action>, action: Action) => {
-    const actionStatus = actions.map((action) => action.status).filter((status): status is string => !!status);
+    const actionStatus = actions.map((action) => action.status ?? ACTION_STATUS.SKIPPED);
     const result = await Statement.check(actionStatus, action.statement);
     return result;
   };

@@ -22,7 +22,7 @@ const BatchProcessor = (() => {
     if (batch.repeat) {
       if (batch.repeat > 0) {
         for (let i = 0; i < batch.repeat; i += 1) {
-          console.group(`${LOGGER_LETTER} #${i + 1}`);
+          console.group(`${LOGGER_LETTER} #${i + 2}`);
           if (batch?.repeatInterval) {
             await wait(batch?.repeatInterval, `${LOGGER_LETTER} Repeat`, batch.repeat, '<interval>');
           }
@@ -55,7 +55,7 @@ const BatchProcessor = (() => {
 
   const start = async (actions: Array<Action>, batch?: Batch) => {
     try {
-      console.group(`${LOGGER_LETTER} #0`);
+      console.group(`${LOGGER_LETTER} #1`);
       await Actions.start(actions, 0);
       console.groupEnd();
       if (batch) {
