@@ -6,7 +6,6 @@ const path = require('path');
 function modify(buffer, { KEY, NX_NAME, OAUTH_CLIENT_ID, NX_RELEASE_VERSION }) {
   // copy-webpack-plugin passes a buffer
   const manifest = JSON.parse(buffer.toString());
-  console.log(NX_RELEASE_VERSION, NX_RELEASE_VERSION.replace('v', ''));
 
   // make any modifications you like, such as
   manifest.version = NX_RELEASE_VERSION.replace('v', '');
@@ -55,13 +54,13 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
   config.plugins.push(
     new Dotenv({
       path: config.watch ? path.resolve(config.context, '.env') : './.env',
+      safe: true,
       systemvars: true,
     }),
     sentryWebpackPlugin({
       org: 'dhruv-techapps',
       project: 'acf-extension',
       authToken: process.env.SENTRY_AUTH_TOKEN,
-      telemetry: false,
       release: {
         name: process.env.NX_RELEASE_VERSION,
       },
