@@ -61,6 +61,10 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
       org: 'dhruv-techapps',
       project: 'acf-extension',
       authToken: process.env.SENTRY_AUTH_TOKEN,
+      telemetry: false,
+      release: {
+        name: process.env.NX_RELEASE_VERSION,
+      },
     })
   );
   return config;

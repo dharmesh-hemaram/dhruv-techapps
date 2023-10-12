@@ -1,9 +1,10 @@
 import * as Sentry from '@sentry/browser';
-import { NX_RELEASE_VERSION } from '../common/environments';
+import { NX_RELEASE_VERSION, VARIANT } from '../common/environments';
 
 export const sentryInit = () => {
   Sentry.init({
     dsn: 'https://23ec1ed44876c4cbe18082f514cc5901@o4506036997455872.ingest.sentry.io/4506037629943808',
+    environment: VARIANT,
 
     // Alternatively, use `process.env.npm_package_version` for a dynamic release version
     // if your build tool supports it.
