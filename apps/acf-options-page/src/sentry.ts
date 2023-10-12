@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/react';
 export const sentryInit = () => {
   Sentry.init({
     dsn: 'https://aacf1f88c133d2c9b4823c4c0b485ecc@o4506036997455872.ingest.sentry.io/4506037000994816',
+    release: `acf-options-page@${process.env.NX_RELEASE_VERSION}`,
     integrations: [
       new Sentry.BrowserTracing({
         // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled

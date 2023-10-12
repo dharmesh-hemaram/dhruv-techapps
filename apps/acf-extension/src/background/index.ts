@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import { DateUtil, Logger } from '@dhruv-techapps/core-common';
+import { DateUtil } from '@dhruv-techapps/core-common';
 import { LOCAL_STORAGE_KEY, RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
 import { Runtime } from '@dhruv-techapps/core-extension';
 
@@ -14,6 +14,13 @@ import { ACTION_POPUP } from '../common/constant';
 import { OPTIONS_PAGE_URL, UNINSTALL_URL } from '../common/environments';
 import GoogleOauth2 from './google-oauth2';
 import DiscordMessaging from './discord-messaging';
+import { sentryInit } from './sentry';
+
+declare global {
+  interface Window {
+    notaFunction: () => void;
+  }
+}
 
 try {
   /**
@@ -21,6 +28,8 @@ try {
    */
   // new GoogleAnalytics(trackingId, variant)
   // GoogleAnalytics.pageView([], Logger.log)
+
+  sentryInit();
 
   /**
    * Browser Action set to open option page / configuration page
@@ -88,11 +97,10 @@ try {
   };
   Runtime.onMessageExternal(onMessageListener);
   Runtime.onMessage(onMessageListener);
+  setTimeout(() => {
+    window.notaFunction();
+  }, 3000);
 } catch (error) {
-  if (error instanceof Error) {
-    Logger.colorError(error.message);
-  } else {
-    Logger.colorError(JSON.stringify(error));
-  }
+  console.error(error);
   // GoogleAnalytics.error({ error }, () => {})
 }
