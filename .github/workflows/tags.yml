@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   EnvSetup:
-    name: Setup Dynamic Environment Variables
+    name: Setup
     runs-on: ubuntu-latest
     environment: Development
     outputs:
@@ -130,6 +130,7 @@ jobs:
         PUBLIC_URL=${{needs.EnvSetup.outputs.PUBLIC_URL}}
         RELEASE_VERSION=${{needs.EnvSetup.outputs.RELEASE_VERSION}}
         SENTRY_AUTH_TOKEN=${{needs.EnvSetup.outputs.SENTRY_AUTH_TOKEN}}
+
   extension:
     needs: [agents, main]
     runs-on: ubuntu-latest
@@ -161,20 +162,11 @@ jobs:
     environment:
       name: Development
       url: ${{vars.PUBLIC_URL}}
-    name: Configuration Page
+    name: Configuration
     steps:
       - uses: actions/download-artifact@v3
         with:
           name: nx-main-artifacts
-      - name: Create Sentry release
-        if: ${{ hashFiles('acf-options-page/') != '' }}
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: 'acf-options-page'
-          environment: 'Development'
-          # SENTRY_URL: https://sentry.io/
       - name: Build And Deploy
         if: ${{ hashFiles('acf-options-page/') != '' }}
         id: deploy
