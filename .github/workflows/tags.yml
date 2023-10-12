@@ -206,3 +206,17 @@ jobs:
         with:
           force_push_tag: true
           tag: '${{vars.NX_VARIANT}}'
+
+  sentry:
+    needs: [configuration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: 'acf-options-page'
+          environment: 'Development'
+          version: ${{github.ref_name}}
+          # SENTRY_URL: https://sentry.io/
