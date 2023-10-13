@@ -19,6 +19,7 @@ async function loadConfig(loadType: LOAD_TYPES) {
     new ConfigStorage().getConfig().then(async (config?: Configuration) => {
       if (config) {
         if (config.loadType === loadType) {
+          sentryInit();
           const { host } = document.location;
           Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, host, loadType);
           await ConfigProcessor.checkStartType(config);
@@ -34,7 +35,6 @@ async function loadConfig(loadType: LOAD_TYPES) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  sentryInit();
   Session.check();
   loadConfig(LOAD_TYPES.DOCUMENT);
 });
