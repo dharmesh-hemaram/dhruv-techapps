@@ -25,6 +25,7 @@ const ConfigProcessor = (() => {
   const setBadgeDone = (config: Configuration) => {
     Sentry.captureEvent({
       message: 'complete',
+      level: 'info',
       tags: {
         actions: config.actions.length,
         addon: config.actions.filter((action) => action.addon?.elementFinder).length,
