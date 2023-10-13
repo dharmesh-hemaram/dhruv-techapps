@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/react';
 
 export const sentryInit = () => {
-  const release = `acf-options-page@${process.env.NX_RELEASE_VERSION?.replace("v","")}`
-  const tracePropagationTargets = [new RegExp(`^chrome-extension://${process.env.NX_CHROME_EXTENSION_ID}`)]
-  console.log(release,tracePropagationTargets)
+  const release = `acf-options-page@${process.env.NX_RELEASE_VERSION?.replace('v', '')}`;
+  const tracePropagationTargets = [new RegExp(`^chrome-extension://${process.env.NX_CHROME_EXTENSION_ID}`)];
+  console.log(release, tracePropagationTargets);
   Sentry.init({
     dsn: 'https://aacf1f88c133d2c9b4823c4c0b485ecc@o4506036997455872.ingest.sentry.io/4506037000994816',
     release,

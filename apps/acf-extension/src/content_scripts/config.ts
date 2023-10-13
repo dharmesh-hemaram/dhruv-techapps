@@ -1,5 +1,5 @@
 import { ActionService, NotificationsService } from '@dhruv-techapps/core-service';
-import * as Sentry from "@sentry/browser";
+import * as Sentry from '@sentry/browser';
 import { Logger } from '@dhruv-techapps/core-common';
 import { Configuration, START_TYPES } from '@dhruv-techapps/acf-common';
 import { wait } from './util';
@@ -23,7 +23,15 @@ const ConfigProcessor = (() => {
   };
 
   const setBadgeDone = (config: Configuration) => {
-    Sentry.captureMessage(`${config.url}`)
+    Sentry.captureEvent({
+      message: 'complete',
+      tags: {
+        actions: config.actions.length,
+        addon: config.actions.filter((action) => action.addon?.elementFinder).length,
+        actionCondition: config.actions.filter((action) => action.statement?.conditions?.length).length,
+        settings: config.actions.filter((action) => action.settings?.retry).length,
+      },
+    });
     ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [25, 135, 84, 1] });
     ActionService.setBadgeText(chrome.runtime.id, { text: 'Done' });
   };
@@ -45,7 +53,7 @@ const ConfigProcessor = (() => {
         if (onConfig) {
           NotificationsService.create(chrome.runtime.id, { type: 'basic', title: 'Config Completed', message: config.name || config.url, silent: !sound, iconUrl: Common.getNotificationIcon() });
           if (discord) {
-            DiscordMessagingService.success(chrome.runtime.id, 'Configuration Finished', getFields(config)).catch(Logger.colorError);
+            DiscordMessagingService.success(chrome.runtime.id, 'Configuration Finished', getFields(config));
           }
         }
       }
@@ -53,7 +61,6 @@ const ConfigProcessor = (() => {
       if (e instanceof ConfigError) {
         Sentry.captureException(e);
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
-        Logger.colorError(e.title, e.message);
         setBadgeError();
         const { notifications } = await new SettingsStorage().getSettings();
         if (notifications) {
@@ -67,7 +74,7 @@ const ConfigProcessor = (() => {
                   const [name, value] = info.split(':');
                   return { name, value: value.replace(/'/g, '`') };
                 }),
-              ]).catch(Logger.colorError);
+              ]);
             }
           }
         }

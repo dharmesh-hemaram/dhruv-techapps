@@ -1,6 +1,6 @@
 import { LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
-import { Logger } from '@dhruv-techapps/core-common';
 import { FUNCTION_URL, VARIANT } from '../common/environments';
+import * as Sentry from '@sentry/browser';
 
 type DiscordMessagingType = {
   title: string;
@@ -31,11 +31,7 @@ export default class DiscordMessaging {
         body: JSON.stringify(data),
       });
     } catch (error) {
-      if (error instanceof Error) {
-        Logger.colorError(error.message);
-        return error;
-      }
-      Logger.colorError(JSON.stringify(error));
+      Sentry.captureException(error);
       return error;
     }
     return {};

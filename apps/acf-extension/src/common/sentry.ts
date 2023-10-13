@@ -8,7 +8,7 @@ export const sentryInit = () => {
 
     // Alternatively, use `process.env.npm_package_version` for a dynamic release version
     // if your build tool supports it.
-    release: `acf-extension@${NX_RELEASE_VERSION?.replace("v","")}`,
+    release: `acf-extension@${NX_RELEASE_VERSION?.replace('v', '')}`,
     integrations: [new Sentry.Replay()],
 
     // Set tracesSampleRate to 1.0 to capture 100%
