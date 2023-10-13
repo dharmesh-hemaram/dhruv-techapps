@@ -7,8 +7,7 @@ import { AddonRecheck } from './addon/recheck';
 import { getFieldNameValue, updateForm } from '../util/element';
 import { AddonValueExtractorFlags } from './addon/value-extractor-flags';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { actionAddonSelector, setActionAddonMessage, switchActionAddonModal, updateActionAddon } from '../store/config';
-import { syncActionAddon } from '../store/config';
+import { actionAddonSelector, setActionAddonMessage, switchActionAddonModal, updateActionAddon,syncActionAddon } from '../store/config';
 import { useTimeout } from '../_hooks/message.hooks';
 import { FormEvent, useEffect } from 'react';
 

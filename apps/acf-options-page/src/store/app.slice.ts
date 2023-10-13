@@ -4,7 +4,7 @@ import { ManifestService } from '@dhruv-techapps/core-service';
 import { NO_EXTENSION_ERROR } from '../constants';
 
 export const getManifest = createAsyncThunk('app/getManifest', async () => {
-  if (chrome.runtime) {
+  if (window.chrome?.runtime) {
     const manifest = await ManifestService.values(window.EXTENSION_ID, ['name', 'version']);
     return manifest;
   }

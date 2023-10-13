@@ -1,4 +1,5 @@
 import { ActionService, NotificationsService } from '@dhruv-techapps/core-service';
+import * as Sentry from "@sentry/browser";
 import { Logger } from '@dhruv-techapps/core-common';
 import { Configuration, START_TYPES } from '@dhruv-techapps/acf-common';
 import { wait } from './util';
@@ -21,7 +22,8 @@ const ConfigProcessor = (() => {
     return fields;
   };
 
-  const setBadgeDone = () => {
+  const setBadgeDone = (config: Configuration) => {
+    Sentry.captureMessage(`${config.url}`)
     ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [25, 135, 84, 1] });
     ActionService.setBadgeText(chrome.runtime.id, { text: 'Done' });
   };
@@ -36,7 +38,7 @@ const ConfigProcessor = (() => {
     await new GoogleSheets().getValues(config);
     try {
       await BatchProcessor.start(config.actions, config.batch);
-      setBadgeDone();
+      setBadgeDone(config);
       const { notifications } = await new SettingsStorage().getSettings();
       if (notifications) {
         const { onConfig, sound, discord } = notifications;
@@ -49,6 +51,7 @@ const ConfigProcessor = (() => {
       }
     } catch (e) {
       if (e instanceof ConfigError) {
+        Sentry.captureException(e);
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
         Logger.colorError(e.title, e.message);
         setBadgeError();

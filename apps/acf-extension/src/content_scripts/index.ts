@@ -1,9 +1,11 @@
 import { Configuration, LOAD_TYPES } from '@dhruv-techapps/acf-common';
 import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
+import * as Sentry from "@sentry/browser";
 import ConfigProcessor from './config';
 import Session from './util/session';
 import ConfigStorage from './store/config-storage';
 import { Sheets } from './util/google-sheets';
+import { sentryInit } from '../common/sentry';
 
 declare global {
   interface Window {
@@ -27,12 +29,14 @@ async function loadConfig(loadType: LOAD_TYPES) {
       }
     });
   } catch (e) {
+    Sentry.captureException(e);
     Logger.colorError('Error', e);
     // GAService.error(chrome.runtime.id, { name: e.name, stack: e.stack })
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  sentryInit();
   Session.check();
   loadConfig(LOAD_TYPES.DOCUMENT);
 });

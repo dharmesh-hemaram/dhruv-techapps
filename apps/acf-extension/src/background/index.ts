@@ -14,13 +14,7 @@ import { ACTION_POPUP } from '../common/constant';
 import { OPTIONS_PAGE_URL, UNINSTALL_URL } from '../common/environments';
 import GoogleOauth2 from './google-oauth2';
 import DiscordMessaging from './discord-messaging';
-import { sentryInit } from './sentry';
-
-declare global {
-  interface Window {
-    notaFunction: () => void;
-  }
-}
+import { sentryInit } from '../common/sentry';
 
 try {
   /**
@@ -97,9 +91,6 @@ try {
   };
   Runtime.onMessageExternal(onMessageListener);
   Runtime.onMessage(onMessageListener);
-  setTimeout(() => {
-    window.notaFunction();
-  }, 3000);
 } catch (error) {
   console.error(error);
   // GoogleAnalytics.error({ error }, () => {})

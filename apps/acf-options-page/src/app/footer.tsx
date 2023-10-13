@@ -26,8 +26,9 @@ function Footer() {
                 <span className={`${process.env.NX_VARIANT} ms-2`}>[{process.env.NX_VARIANT}]</span>
               </h6>
               <div className='text-muted'>
-                <small>© 2017 - 2023</small>
-                <small className='ms-2'>v{manifest?.version}</small>
+                <small>© 2017 - 2023</small><br/>
+                <small>☘ v{manifest?.version}</small><br/>
+                <small>☯ {process.env.NX_RELEASE_VERSION}</small>
               </div>
             </div>
           </Col>

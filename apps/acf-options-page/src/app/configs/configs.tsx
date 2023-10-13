@@ -36,7 +36,7 @@ function Configs() {
   }, []);
 
   useEffect(() => {
-    if (chrome.runtime) {
+    if (window.chrome?.runtime) {
       dispatch(configGetAllAPI());
     }
   }, [dispatch]);

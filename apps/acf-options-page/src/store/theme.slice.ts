@@ -19,7 +19,6 @@ const slice = createSlice({
     },
   },
 });
-//window.dataLayer.push({ event: 'theme', conversionValue: theme === 'light' ? 'dark' : 'light' })
 export const { switchTheme } = slice.actions;
 export const themeSelector = (state: RootState) => state.theme;
 export default slice.reducer;

@@ -15,7 +15,6 @@ function Header() {
   const { t, i18n } = useTranslation();
 
   const changeLanguage = async (lng) => {
-    window.dataLayer.push({ event: 'language', conversionValue: lng });
     await i18n.changeLanguage(lng);
     localStorage.setItem('language', lng);
   };

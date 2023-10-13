@@ -33,7 +33,7 @@ export const SettingsModal = () => {
   };
 
   useEffect(() => {
-    if (chrome.runtime) {
+    if (window.chrome?.runtime) {
       dispatch(settingsGetAPI());
       dispatch(googleGetAPI());
     }
