@@ -19,7 +19,7 @@ async function loadConfig(loadType: LOAD_TYPES) {
     new ConfigStorage().getConfig().then(async (config?: Configuration) => {
       if (config) {
         if (config.loadType === loadType) {
-          sentryInit();
+          sentryInit('acf-extension-content_scripts', 'https://8d57273e4011b310b2872185670ea92b@o4506036997455872.ingest.sentry.io/4506046995431424');
           const { host } = document.location;
           Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, host, loadType);
           await ConfigProcessor.checkStartType(config);

@@ -1,5 +1,4 @@
 import { ActionService, NotificationsService } from '@dhruv-techapps/core-service';
-import * as Sentry from '@sentry/browser';
 import { Logger } from '@dhruv-techapps/core-common';
 import { Configuration, START_TYPES } from '@dhruv-techapps/acf-common';
 import { wait } from './util';
@@ -22,17 +21,7 @@ const ConfigProcessor = (() => {
     return fields;
   };
 
-  const setBadgeDone = (config: Configuration) => {
-    Sentry.captureEvent({
-      message: 'complete',
-      level: 'info',
-      tags: {
-        actions: config.actions.length,
-        addon: config.actions.filter((action) => action.addon?.elementFinder).length,
-        actionCondition: config.actions.filter((action) => action.statement?.conditions?.length).length,
-        settings: config.actions.filter((action) => action.settings?.retry).length,
-      },
-    });
+  const setBadgeDone = () => {
     ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [25, 135, 84, 1] });
     ActionService.setBadgeText(chrome.runtime.id, { text: 'Done' });
   };
@@ -47,7 +36,7 @@ const ConfigProcessor = (() => {
     await new GoogleSheets().getValues(config);
     try {
       await BatchProcessor.start(config.actions, config.batch);
-      setBadgeDone(config);
+      setBadgeDone();
       const { notifications } = await new SettingsStorage().getSettings();
       if (notifications) {
         const { onConfig, sound, discord } = notifications;
@@ -60,7 +49,6 @@ const ConfigProcessor = (() => {
       }
     } catch (e) {
       if (e instanceof ConfigError) {
-        Sentry.captureException(e);
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
         setBadgeError();
         const { notifications } = await new SettingsStorage().getSettings();

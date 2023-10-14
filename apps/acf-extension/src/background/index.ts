@@ -17,13 +17,7 @@ import DiscordMessaging from './discord-messaging';
 import { sentryInit } from '../common/sentry';
 
 try {
-  /**
-   * Setup Google Analytics
-   */
-  // new GoogleAnalytics(trackingId, variant)
-  // GoogleAnalytics.pageView([], Logger.log)
-
-  sentryInit();
+  sentryInit('acf-extension-background', 'https://23ec1ed44876c4cbe18082f514cc5901@o4506036997455872.ingest.sentry.io/4506037629943808');
 
   /**
    * Browser Action set to open option page / configuration page
@@ -64,19 +58,12 @@ try {
    * On start up check for rate
    * TODO Need to implement rate us feature
    */
-  chrome.runtime.onStartup.addListener(() => {
-    // GoogleAnalytics.event({ event: ['version', version] }, Logger.log)
+  chrome.runtime.onStartup.addListener(async () => {
+    const result = await chrome.runtime.requestUpdateCheck();
+    if (result.status === 'update_available') {
+      chrome.runtime.reload();
+    }
     Blog.check(OPTIONS_PAGE_URL);
-  });
-
-  /**
-   * If an update is available it will auto update
-   */
-  chrome.runtime.onUpdateAvailable.addListener(async () => {
-    const { configs } = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
-    const key = `backup_${Date.now()}`;
-    chrome.storage.local.set({ [key]: configs });
-    chrome.runtime.reload();
   });
 
   /**
@@ -93,5 +80,4 @@ try {
   Runtime.onMessage(onMessageListener);
 } catch (error) {
   console.error(error);
-  // GoogleAnalytics.error({ error }, () => {})
 }
