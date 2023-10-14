@@ -17,7 +17,7 @@ import DiscordMessaging from './discord-messaging';
 import { sentryInit } from '../common/sentry';
 
 try {
-  sentryInit('acf-extension-background', 'https://23ec1ed44876c4cbe18082f514cc5901@o4506036997455872.ingest.sentry.io/4506037629943808');
+  sentryInit('background');
 
   /**
    * Browser Action set to open option page / configuration page
