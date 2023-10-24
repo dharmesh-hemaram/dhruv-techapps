@@ -81,14 +81,19 @@ const AddonProcessor = (() => {
     if (/than/gi.test(condition) && (Number.isNaN(Number(nodeValue)) || Number.isNaN(Number(value)))) {
       throw new ConfigError(`Greater || Less can only compare number '${nodeValue}' '${value}'`, 'Wrong Comparison');
     }
-    if (typeof nodeValue === 'boolean') {
-      if (nodeValue && condition === ADDON_CONDITIONS['✓ Is Checked ']) {
-        return true;
-      } else if (!nodeValue && condition === ADDON_CONDITIONS['✕ Is Not Checked ']) {
-        return true;
+    if (typeof nodeValue === 'boolean' || condition === ADDON_CONDITIONS['✓ Is Checked '] || condition === ADDON_CONDITIONS['✕ Is Not Checked ']) {
+      if (typeof nodeValue === 'boolean') {
+        if (nodeValue && condition === ADDON_CONDITIONS['✓ Is Checked ']) {
+          return true;
+        } else if (!nodeValue && condition === ADDON_CONDITIONS['✕ Is Not Checked ']) {
+          return true;
+        }
+        return false;
+      } else {
+        throw new ConfigError('Element Finder need to point checkbox', 'Wrong Element Finder / Addon Condition');
       }
-      return false;
     }
+
     switch (condition) {
       case ADDON_CONDITIONS['= Equals']:
         return new RegExp(`^${value}$`, 'gi').test(nodeValue);

@@ -66,6 +66,8 @@ const ConfigProcessor = (() => {
               ]);
             }
           }
+        } else {
+          console.error(error.title, '\n', error.message);
         }
       } else {
         throw e;
@@ -100,7 +102,7 @@ const ConfigProcessor = (() => {
       Logger.colorDebug('Config Start Manually');
       ActionService.setBadgeText(chrome.runtime.id, { text: 'Manual' });
       ActionService.setTitle(chrome.runtime.id, { title: 'Start Manually' });
-      Hotkey.setup(config.hotkey, start.bind(this, config));
+      Hotkey.setup(start.bind(this, config), config.hotkey);
     } else {
       Logger.colorDebug('Config Start Automatically');
       ActionService.setBadgeText(chrome.runtime.id, { text: 'Auto' });

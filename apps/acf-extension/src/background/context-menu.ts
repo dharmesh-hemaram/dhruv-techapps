@@ -13,6 +13,7 @@ export default function registerContextMenus(optionsPageUrl?: string) {
       if (menuItemId === CONTEXT_MENU_CONFIG_PAGE_ID) {
         chrome.tabs.create({ url: optionsPageUrl });
       } else if (menuItemId === ACTION_POPUP) {
+        console.info(tab);
         tab?.id && chrome.tabs.sendMessage(tab.id, { action: ACTION_POPUP });
       } else if (menuItemId === CONTEXT_MENU_ELEMENT_ID) {
         const url = new URL(optionsPageUrl);

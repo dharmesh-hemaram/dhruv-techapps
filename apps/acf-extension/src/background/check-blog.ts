@@ -1,6 +1,6 @@
 import { TabsMessenger } from './tab';
 
-const LOCAL_STORAGE_VERSION = 'version';
+const BLOG_VERSION = 'blog-version';
 export class Blog {
   static async check(optionsPageUrl?: string) {
     if (optionsPageUrl) {
@@ -10,7 +10,7 @@ export class Blog {
           const regexResult = /\d+\.\d+\.\d+/.exec(response);
           if (regexResult) {
             const version = regexResult[0];
-            const { version: storageVersion } = await chrome.storage.local.get(LOCAL_STORAGE_VERSION);
+            const { [BLOG_VERSION]: storageVersion } = await chrome.storage.local.get(BLOG_VERSION);
             if (storageVersion === undefined) {
               Blog.update(version);
             } else if (storageVersion !== version) {
@@ -18,7 +18,8 @@ export class Blog {
               Blog.update(version);
             }
           }
-        });
+        })
+        .catch(console.error);
     }
   }
 
@@ -27,6 +28,6 @@ export class Blog {
   }
 
   static update(version: string) {
-    chrome.storage.local.set({ [LOCAL_STORAGE_VERSION]: version });
+    chrome.storage.local.set({ [BLOG_VERSION]: version });
   }
 }
