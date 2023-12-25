@@ -44,7 +44,7 @@
     "@nx/react": "16.9.1",
     "@nx/rollup": "16.9.1",
     "@nx/web": "16.9.1",
-    "@nx/webpack": "16.9.1",
+    "@nx/webpack": "17.2.7",
     "@nx/workspace": "16.9.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "@sentry/webpack-plugin": "^2.8.0",
