@@ -9,7 +9,7 @@
   "dependencies": {
     "@nx/devkit": "17.2.8",
     "@reduxjs/toolkit": "^1.9.7",
-    "@sentry/browser": "^7.73.0",
+    "@sentry/browser": "^7.91.0",
     "@sentry/react": "^7.73.0",
     "@swc/helpers": "0.5.2",
     "@tanstack/react-table": "^8.9.3",
