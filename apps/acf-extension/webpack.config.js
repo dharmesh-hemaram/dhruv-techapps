@@ -51,21 +51,27 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
       },
     ],
   });
+
   config.plugins.push(
     new Dotenv({
       path: config.watch ? path.resolve(config.context, '.env') : './.env',
       safe: true,
       systemvars: true,
-    }),
-    sentryWebpackPlugin({
-      org: 'dhruv-techapps',
-      project: 'acf-extension',
-      telemetry: false,
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      release: {
-        name: process.env.NX_RELEASE_VERSION?.replace('v', ''),
-      },
     })
   );
+
+  if (config.mode === 'development') {
+    config.plugins.push(
+      sentryWebpackPlugin({
+        org: 'dhruv-techapps',
+        project: 'acf-extension',
+        telemetry: false,
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        release: {
+          name: process.env.NX_RELEASE_VERSION?.replace('v', ''),
+        },
+      })
+    );
+  }
   return config;
 });

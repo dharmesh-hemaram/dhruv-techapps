@@ -9,7 +9,10 @@ import { sentryInit } from './sentry';
 
 window.EXTENSION_ID = process.env[`NX_${BROWSER}_EXTENSION_ID`] ?? '';
 
-sentryInit();
+if (process.env.NODE_ENV !== 'development') {
+  sentryInit();
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <Provider store={store}>

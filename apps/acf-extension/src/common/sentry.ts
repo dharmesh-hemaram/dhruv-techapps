@@ -26,7 +26,6 @@ export const sentryInit = (page: string) => {
       'canvas.contentDocument',
       'MyApp_RemoveAllHighlights',
       'http://tt.epicplay.com',
-      'Extension context invalidated.',
       "Can't find variable: ZiteReader",
       'jigsaw is not defined',
       'ComboSearch is not defined',
@@ -44,7 +43,6 @@ export const sentryInit = (page: string) => {
       'EBCallBackMessageReceived',
       // See http://toolbar.conduit.com/Developer/HtmlAndGadget/Methods/JSInjection.aspx
       'conduitPage',
-      'Could not establish connection. Receiving end does not exist.',
       'Non-Error promise rejection captured',
     ],
     denyUrls: [

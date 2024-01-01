@@ -52,19 +52,17 @@ const ConfigProcessor = (() => {
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
         setBadgeError();
         const { notifications } = await new SettingsStorage().getSettings();
-        if (notifications) {
-          const { onError, sound, discord } = notifications;
-          if (onError) {
-            NotificationsService.create(chrome.runtime.id, { type: 'basic', ...error, silent: !sound, iconUrl: Common.getNotificationIcon() }, 'error');
-            if (discord) {
-              DiscordMessagingService.error(chrome.runtime.id, e.title || 'Configuration Error', [
-                ...getFields(config),
-                ...e.message.split('\n').map((info) => {
-                  const [name, value] = info.split(':');
-                  return { name, value: value.replace(/'/g, '`') };
-                }),
-              ]);
-            }
+        if (notifications && notifications.onError) {
+          const { sound, discord } = notifications;
+          NotificationsService.create(chrome.runtime.id, { type: 'basic', ...error, silent: !sound, iconUrl: Common.getNotificationIcon() }, 'error');
+          if (discord) {
+            DiscordMessagingService.error(chrome.runtime.id, e.title || 'Configuration Error', [
+              ...getFields(config),
+              ...e.message.split('\n').map((info) => {
+                const [name, value] = info.split(':');
+                return { name, value: value.replace(/'/g, '`') };
+              }),
+            ]);
           }
         } else {
           console.error(error.title, '\n', error.message);

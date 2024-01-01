@@ -8,14 +8,11 @@ import DiscordOauth2 from './discord-oauth2';
 import GoogleSheets from './google-sheets';
 import GoogleBackup from './google-backup';
 import { TabsMessenger } from './tab';
-import { Blog } from './check-blog';
 import { ACTION_POPUP } from '../common/constant';
 import { OPTIONS_PAGE_URL, UNINSTALL_URL } from '../common/environments';
 import GoogleOauth2 from './google-oauth2';
 import DiscordMessaging from './discord-messaging';
 import { sentryInit } from '../common/sentry';
-
-const EXTENSION_VERSION = 'extension-version';
 
 try {
   sentryInit('background');
@@ -30,8 +27,12 @@ try {
   /**
    *  On initial install setup basic configuration
    */
-  chrome.runtime.onInstalled.addListener(() => {
-    TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });
+  chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason === 'update') {
+      TabsMessenger.optionsTab({ url: `${OPTIONS_PAGE_URL}?version=${details.previousVersion}` });
+    } else if (details.reason === 'install') {
+      TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });
+    }
   });
 
   /**
@@ -50,27 +51,6 @@ try {
   if (UNINSTALL_URL) {
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
   }
-
-  /**
-   * On start up check for rate
-   */
-  chrome.runtime.onStartup.addListener(() => {
-    chrome.storage.local.get(EXTENSION_VERSION).then(({ [EXTENSION_VERSION]: version }) => {
-      const manifestVersion = chrome.runtime.getManifest().version;
-      if (version !== undefined && version !== manifestVersion) {
-        chrome.storage.local.remove(EXTENSION_VERSION);
-        chrome.runtime.reload();
-      }
-    });
-    Blog.check(OPTIONS_PAGE_URL);
-  });
-
-  /**
-   * If an update is available it will auto update
-   */
-  chrome.runtime.onUpdateAvailable.addListener(({ version }) => {
-    chrome.storage.local.set({ [EXTENSION_VERSION]: version });
-  });
 
   /**
    * Setup on Message Listener

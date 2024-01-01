@@ -6,15 +6,17 @@ const { withReact } = require('@nx/react');
 module.exports = composePlugins(withNx(), withReact(), (config) => {
   // Update the webpack config as needed here.
   // e.g. `config.plugins.push(new MyPlugin())`
-  config.plugins.push(
-    sentryWebpackPlugin({
-      org: 'dhruv-techapps',
-      project: 'acf-options-page',
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      release: {
-        name: process.env.NX_RELEASE_VERSION,
-      },
-    })
-  );
+  if (config.mode !== 'development') {
+    config.plugins.push(
+      sentryWebpackPlugin({
+        org: 'dhruv-techapps',
+        project: 'acf-options-page',
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        release: {
+          name: process.env.NX_RELEASE_VERSION,
+        },
+      })
+    );
+  }
   return config;
 });
