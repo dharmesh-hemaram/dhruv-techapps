@@ -11,7 +11,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "@sentry/browser": "^7.73.0",
     "@sentry/react": "^7.73.0",
-    "@swc/helpers": "0.5.2",
+    "@swc/helpers": "0.5.3",
     "@tanstack/react-table": "^8.9.3",
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "axios": "^1.6.0",
