@@ -4,7 +4,7 @@
       "light": "切换到浅色主题",
       "dark": "切换到深色主题"
     },
-    "google-group": "Google群组",
+    "google-group": "Google Group",
     "login": "登录",
     "logout": "登出",
     "settings": "全局设置",
@@ -30,6 +30,8 @@
     "about": "关于",
     "contact": "联系我们",
     "chat": "聊天",
+    "connect": "连接",
+    "google-group": "Google Group",
     "privacy": "隐私和政策",
     "social": "社交",
     "discord": "Discord",
@@ -46,7 +48,7 @@
       },
       "duplicateConfig": {
         "header": "配置",
-        "body": "{{name}} duplicated 添加成功"
+        "body": "{{name}} 复制成功"
       },
       "removeConfig": {
         "header": "配置",
@@ -54,11 +56,11 @@
       },
       "exportAll": {
         "header": "批量导出",
-        "body": "Configurations exported successfully"
+        "body": "配置导出成功"
       },
       "importAll": {
         "header": "批量导入",
-        "body": "Configurations imported successfully"
+        "body": "配置导入成功"
       },
       "importError": {
         "header": "导入错误"
@@ -68,8 +70,8 @@
         "body": "{{name}} 导入成功"
       },
       "updateBatch": {
-        "header": "Batch",
-        "body": "batch saved successfully !"
+        "header": "批",
+        "body": "批量保存成功！"
       }
     },
     "action": {
@@ -203,15 +205,15 @@
     "configSettings": "配置设置保存成功!",
     "batch": "批处理保存成功!",
     "action": "动作保存成功!",
-    "reorderActions": "Action reordered successfully!",
-    "removeAction": "Action removed successfully!",
+    "reorderActions": "操作重新排序成功！",
+    "removeAction": "操作删除成功！",
     "actionAddon": "附加组件保存成功!",
     "actionStatement": "动作条件保存成功!",
     "actionSettings": "动作设置保存成功!"
   },
   "configuration": {
     "title": "配置",
-    "add": "添加配置",
+    "add": "新配置",
     "exportAll": "批量导出配置",
     "importAll": "批量导入配置",
     "remove": "移除配置",
@@ -230,8 +232,10 @@
   "batch": {
     "title": "批处理",
     "repeat": "重复",
+    "repeatHint": "<b>重复</b>将重新运行所有操作，而无需按照给定的时间间隔重新加载页面。",
     "repeatInterval": "重复间隔",
-    "refresh": "刷新"
+    "refresh": "刷新",
+    "refreshHint": "所有操作完成后，<b>刷新</b>将重新加载页面。"
   },
   "error": {
     "number": "只允许有效数字",

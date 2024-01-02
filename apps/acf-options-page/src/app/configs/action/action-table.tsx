@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { Dropdown, Form, Table } from 'react-bootstrap';
+import { Button, Dropdown, Form, Table } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
-import { CaretDown, CaretUp, REGEX, ThreeDots } from '../../../util';
+import { CaretDown, CaretUp, REGEX, ThreeDots, Trash } from '../../../util';
 import { ElementFinderPopover, ValuePopover } from '../../../popover';
 import { DropdownToggle } from '../../../components';
 import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
@@ -43,8 +43,8 @@ const ActionTable = () => {
       {
         header: t('action.initWait'),
         accessorKey: 'initWait',
-        size: 100,
-        maxSize: 100,
+        size: 70,
+        maxSize: 70,
         meta: {
           width: '100px',
           dataType: 'number',
@@ -89,7 +89,7 @@ const ActionTable = () => {
       {
         header: t('action.repeat'),
         accessorKey: 'repeat',
-        size: 100,
+        size: 70,
         meta: {
           dataType: 'number',
           list: 'repeat',
@@ -100,7 +100,7 @@ const ActionTable = () => {
       {
         header: t('action.repeatInterval'),
         accessorKey: 'repeatInterval',
-        size: 100,
+        size: 80,
         meta: {
           dataType: 'number',
           list: 'interval',
@@ -153,7 +153,7 @@ const ActionTable = () => {
 
   return (
     <Form>
-      <Table id='actions' bordered hover className='mb-0'>
+      <Table id='actions' hover className='mb-0'>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -163,7 +163,7 @@ const ActionTable = () => {
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}
-              <th style={{ width: '54px' }}>&nbsp;</th>
+              <th style={{ width: '92px' }}>&nbsp;</th>
             </tr>
           ))}
         </thead>
@@ -188,39 +188,36 @@ const ActionTable = () => {
                 <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
               ))}
               <td align='center'>
-                <Dropdown id='acton-dropdown-wrapper'>
-                  <Dropdown.Toggle as={DropdownToggle} id='action-dropdown' aria-label='Action more option'>
-                    <ThreeDots width='24' height='24' />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {actions[row.id].elementFinder && (
-                      <>
-                        <Dropdown.Item data-testid='action-addon' onClick={() => showAddon(row)}>
-                          {t('action.addon')}
+                <Button
+                  variant='link'
+                  data-testid='action-remove'
+                  onClick={() => {
+                    removeActionConfirm(row.id);
+                  }}
+                  disabled={actions.length === 1}
+                >
+                  <Trash className={actions.length === 1 ? '' : 'text-danger'} />
+                </Button>
+                {actions[row.id].elementFinder && (
+                  <Dropdown id='acton-dropdown-wrapper' className='d-inline-block'>
+                    <Dropdown.Toggle as={DropdownToggle} id='action-dropdown' aria-label='Action more option'>
+                      <ThreeDots width='24' height='24' />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item data-testid='action-addon' onClick={() => showAddon(row)}>
+                        {t('action.addon')}
+                      </Dropdown.Item>
+                      <Dropdown.Item data-testid='action-settings' onClick={() => showSettings(row)}>
+                        {t('action.settings')}
+                      </Dropdown.Item>
+                      {index !== 0 && (
+                        <Dropdown.Item data-testid='action-statement' onClick={() => showCondition(row)}>
+                          {t('modal.actionCondition.title')}
                         </Dropdown.Item>
-                        <Dropdown.Item data-testid='action-settings' onClick={() => showSettings(row)}>
-                          {t('action.settings')}
-                        </Dropdown.Item>
-                        {index !== 0 && (
-                          <Dropdown.Item data-testid='action-statement' onClick={() => showCondition(row)}>
-                            {t('modal.actionCondition.title')}
-                          </Dropdown.Item>
-                        )}
-                        <Dropdown.Divider />
-                      </>
-                    )}
-                    <Dropdown.Item
-                      data-testid='action-remove'
-                      onClick={() => {
-                        removeActionConfirm(row.id);
-                      }}
-                      className={actions.length === 1 ? '' : 'text-danger'}
-                      disabled={actions.length === 1}
-                    >
-                      {t('action.remove')}
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                      )}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                )}
               </td>
             </tr>
           ))}

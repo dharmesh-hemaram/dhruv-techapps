@@ -1,0 +1,19 @@
+.sidebar {
+  .list-group-item {
+    border-left: 3px solid transparent;
+    min-height: 50px;
+    button {
+      display: none;
+    }
+  }
+  .list-group-item:hover button {
+    display: block;
+  }
+  .list-group-item.selected {
+    border-left: 3px solid var(--bs-primary);
+    color: var(--bs-primary);
+    &.not-enabled {
+      border-left-color: var(--bs-secondary);
+    }
+  }
+}

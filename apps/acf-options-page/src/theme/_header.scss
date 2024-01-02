@@ -1,0 +1,22 @@
+.bd-navbar {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, rgba(var(--bd-violet-rgb), 1), rgba(var(--bd-violet-rgb), 0.95));
+}
+.bd-navbar .navbar-brand,
+.bd-navbar .navbar-toggler,
+.bd-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.bd-navbar .navbar-toggler:hover,
+.bd-navbar .navbar-toggler:focus,
+.bd-navbar .nav-link:hover,
+.bd-navbar .nav-link:focus {
+  color: #fff;
+}
+
+.bd-navbar .navbar-toggler.active,
+.bd-navbar .nav-link.active {
+  font-weight: 600;
+  color: #fff;
+}

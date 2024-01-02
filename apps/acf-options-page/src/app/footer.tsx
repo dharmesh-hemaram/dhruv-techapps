@@ -1,7 +1,7 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { Discord, Instagram, Twitter, Github, Youtube, ChatFill } from '../util';
-import { APP_LINK, APP_NAME, SOCIAL_LINKS } from '../constants';
+import { Discord, Twitter, ChatFill, ShieldCheck, Facebook, Whatsapp, Star } from '../util';
+import { APP_NAME, SOCIAL_LINKS } from '../constants';
 import { useAppSelector } from '../hooks';
 import { appSelector } from '../store/app.slice';
 
@@ -35,31 +35,18 @@ function Footer() {
             </div>
           </Col>
           <Col md xs={4}>
-            <h5 className='text-secondary'>{t('footer.resources')}</h5>
+            <h5 className='text-secondary'>{t('footer.connect')}</h5>
             <ul className='list-unstyled text-small'>
               <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='docs' href={`${APP_LINK.DOCS}getting-started`}>
-                  {t('footer.docs')}
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='google group' href={SOCIAL_LINKS.GOOGLE_GROUP}>
+                  <ChatFill className='me-2' />
+                  {t('footer.google-group')}
                 </a>
               </li>
               <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' href={APP_LINK.BLOG} title='blog'>
-                  {t('footer.blog')}
-                </a>
-              </li>
-              <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='issues' href={APP_LINK.ISSUES}>
-                  {t('footer.issues')}
-                </a>
-              </li>
-              <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='configuration' href={APP_LINK.CONFIGS}>
-                  {t('footer.configuration')}
-                </a>
-              </li>
-              <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='practice form' href={APP_LINK.TEST}>
-                  {t('footer.test')}
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' href={SOCIAL_LINKS.DISCORD} title='discord'>
+                  <Discord className='me-2' />
+                  {t('footer.discord')}
                 </a>
               </li>
             </ul>
@@ -68,14 +55,15 @@ function Footer() {
             <h5 className='text-secondary'>{t('footer.about')}</h5>
             <ul className='list-unstyled text-small'>
               <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='chat' href={SOCIAL_LINKS.GOOGLE_GROUP}>
-                  <ChatFill className='me-2' />
-                  {t('footer.chat')}
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='privacy' href='https://getautoclicker.com/policy/'>
+                  <ShieldCheck className='me-2' />
+                  {t('footer.privacy')}
                 </a>
               </li>
               <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='privacy' href='https://getautoclicker.com/policy/'>
-                  {t('footer.privacy')}
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='privacy' href={SOCIAL_LINKS.RATE_US}>
+                  <Star className='me-2' />
+                  {t('footer.rate-us')}
                 </a>
               </li>
             </ul>
@@ -84,21 +72,9 @@ function Footer() {
             <h5 className='text-secondary'>{t('footer.social')}</h5>
             <ul className='list-unstyled text-small'>
               <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='youtube' href={SOCIAL_LINKS.YOUTUBE}>
-                  <Youtube className='me-2' />
-                  {t('footer.youtube')}
-                </a>
-              </li>
-              <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='instagram' href={SOCIAL_LINKS.INSTAGRAM}>
-                  <Instagram className='me-2' />
-                  {t('footer.instagram')}
-                </a>
-              </li>
-              <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' href={SOCIAL_LINKS.DISCORD} title='discord'>
-                  <Discord className='me-2' />
-                  {t('footer.discord')}
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='youtube' href={SOCIAL_LINKS.FACEBOOK}>
+                  <Facebook className='me-2' />
+                  {t('footer.facebook')}
                 </a>
               </li>
               <li>
@@ -108,9 +84,9 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='github' href={SOCIAL_LINKS.GITHUB}>
-                  <Github className='me-2' />
-                  {t('footer.github')}
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='whatsapp' href={SOCIAL_LINKS.WHATSAPP}>
+                  <Whatsapp className='me-2' />
+                  {t('footer.whatsapp')}
                 </a>
               </li>
             </ul>

@@ -1,6 +1,7 @@
+@import 'header';
+@import 'sidebar';
 @import 'configs';
 @import 'input';
-@import 'sponsors';
 
 .btn {
   white-space: nowrap;
@@ -29,4 +30,8 @@ input[type='number'] {
 
 button.btn[data-toggle='dropdown'] {
   color: var(--bs-body-color);
+}
+
+#main {
+  height: calc(100vh - 56px);
 }

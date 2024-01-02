@@ -26,14 +26,20 @@
     "blog": "Blog",
     "configuration": "Configuration",
     "issues": "Issues",
+    "rate-us": "Rate us",
+    "discussion": "Discussion",
     "test": "Practice Form",
     "about": "About",
     "contact": "Contact",
     "chat": "Chat",
+    "connect": "Connect",
+    "google-group": "Google Group",
     "privacy": "Privacy & Policy",
     "social": "Social",
     "discord": "Discord",
     "youtube": "Youtube",
+    "facebook": "Facebook",
+    "whatsapp": "Whatsapp",
     "instagram": "Instagram",
     "twitter": "Twitter",
     "github": "Github"
@@ -211,7 +217,7 @@
   },
   "configuration": {
     "title": "Configuration",
-    "add": "Add Configuration",
+    "add": "New Config",
     "exportAll": "Bulk Export Configuration",
     "importAll": "Bulk Import Configuration",
     "remove": "Remove Configuration",
@@ -230,8 +236,10 @@
   "batch": {
     "title": "Batch",
     "repeat": "Repeat",
+    "repeatHint": "<b>Repeat</b> will re run all action without reloading page with the interval given.",
     "repeatInterval": "R-Interval",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "refreshHint": "<b>Refresh</b> will reload the page once all actions are completed."
   },
   "error": {
     "number": "Only valid numbers are allowed",

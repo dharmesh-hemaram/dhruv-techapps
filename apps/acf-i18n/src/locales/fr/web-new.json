@@ -30,6 +30,8 @@
     "about": "Sur",
     "contact": "Contact",
     "chat": "Discuter",
+    "connect": "Connecter",
+    "google-group": "Google Group",
     "privacy": "Politique de confidentialité",
     "social": "Sociale",
     "discord": "Discord",
@@ -211,7 +213,7 @@
   },
   "configuration": {
     "title": "Configuration",
-    "add": "Ajouter Configuration",
+    "add": "Nouvelle configuration",
     "exportAll": "Configuration de l'exportation en masse",
     "importAll": "Configuration de l'importation en bloc",
     "remove": "Supprimer Configuration",
@@ -230,8 +232,10 @@
   "batch": {
     "title": "Grouper",
     "repeat": "Répéter",
+    "repeatHint": "<b>Répéter</b> réexécutera toutes les actions sans recharger la page avec l'intervalle indiqué.",
     "repeatInterval": "R-intervalle",
-    "refresh": "Rafraîchir"
+    "refresh": "Rafraîchir",
+    "refreshHint": "<b>Actualiser</b> rechargera la page une fois toutes les actions terminées."
   },
   "error": {
     "number": "Seuls les nombres valides sont autorisés",

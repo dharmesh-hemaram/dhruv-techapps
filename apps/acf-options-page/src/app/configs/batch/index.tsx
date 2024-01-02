@@ -15,7 +15,7 @@ function Batch() {
   }, message);
 
   return (
-    <Accordion aria-label='batch' className='mb-3'>
+    <Accordion aria-label='batch' className='mb-3 shadow-sm'>
       <Accordion.Item eventKey='0'>
         <Accordion.Header>
           {t('batch.title')}

@@ -1,7 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import Header from './app/header';
-import Footer from './app/footer';
-import { ToastHandler, ErrorAlert, DataList, Loading } from './components';
+import { ToastHandler, DataList, Loading } from './components';
 import { AdsBlockerModal, BlogModal, ExtensionNotFoundModal } from './modal';
 import { APP_NAME } from './constants';
 import { useAppDispatch, useAppSelector } from './hooks';
@@ -32,9 +31,7 @@ function App() {
       <ConfirmationModalContextProvider>
         <Header />
         {loading && <Loading message='Connecting with extension...' className='m-5 p-5' />}
-        <ErrorAlert error={error} />
-        <Configs />
-        <Footer />
+        <Configs error={error} />
         <ToastHandler />
         <BlogModal />
         <ExtensionNotFoundModal />

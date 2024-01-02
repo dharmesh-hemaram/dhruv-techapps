@@ -72,7 +72,7 @@ const ActionStatementModal = () => {
                 <th>Status</th>
                 <th>
                   <Button type='button' variant='link' className='mt-2 p-0' aria-label='Add' onClick={() => addCondition()}>
-                    <Plus width='30' height='30' />
+                    <Plus />
                   </Button>
                 </th>
               </tr>

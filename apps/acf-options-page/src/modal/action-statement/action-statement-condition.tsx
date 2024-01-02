@@ -68,7 +68,7 @@ function ActionStatementCondition({ condition, index }: Props) {
       </td>
       <td>
         <Button type='button' variant='link' className='ms-1 mt-2 p-0 text-danger' aria-label='Close' hidden={index === 0} onClick={removeCondition}>
-          <X width='30' height='30' />
+          <X />
         </Button>
       </td>
     </tr>

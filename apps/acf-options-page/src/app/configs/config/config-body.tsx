@@ -36,7 +36,13 @@ function ConfigBody() {
     <Form id={FORM_ID}>
       <Card.Body>
         <Row>
-          <Col md='12' sm='12' className='mb-3'>
+          <Col md='2' sm='12'>
+            <Form.Group controlId='config-name'>
+              <FormControl name='name' autoComplete='off' defaultValue={config.name} onBlur={onUpdate} placeholder='getautoclicker.com' />
+              <Form.Label>{t('configuration.name')}</Form.Label>
+            </Form.Group>
+          </Col>
+          <Col md='9' sm='12'>
             <Form.Group controlId='config-url'>
               <FormControl name='url' required isInvalid={isInvalid} onKeyDown={onKeyDown} defaultValue={config.url} autoComplete='off' onBlur={onUpdate} placeholder={APP_LINK.TEST} />
               <Form.Label>
@@ -45,13 +51,7 @@ function ConfigBody() {
               <Form.Control.Feedback type='invalid'>{t('error.url')}</Form.Control.Feedback>
             </Form.Group>
           </Col>
-          <Col md='6' sm='12'>
-            <Form.Group controlId='config-name'>
-              <FormControl name='name' autoComplete='off' defaultValue={config.name} onBlur={onUpdate} placeholder='getautoclicker.com' />
-              <Form.Label>{t('configuration.name')}</Form.Label>
-            </Form.Group>
-          </Col>
-          <Col md='6' sm='12'>
+          <Col md='1' sm='12'>
             <Form.Group controlId='config-init-wait'>
               <FormControl name='initWait' pattern={REGEX.INTERVAL} defaultValue={config.initWait} onBlur={onUpdate} autoComplete='off' list='interval' placeholder='0' />
               <Form.Label>

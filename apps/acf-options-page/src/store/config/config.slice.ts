@@ -33,7 +33,7 @@ const slice = createSlice({
       state.error = undefined;
     },
     addConfig: (state) => {
-      state.configs.unshift({ ...defaultConfig });
+      state.configs.unshift({ ...defaultConfig, id: crypto.randomUUID() });
       state.selectedConfigIndex = 0;
     },
     updateConfig: (state, action: PayloadAction<ConfigAction>) => {
@@ -52,8 +52,9 @@ const slice = createSlice({
         delete configs[selectedConfigIndex].hotkey;
       }
     },
-    removeConfig: (state) => {
-      const { configs, selectedConfigIndex } = state;
+    removeConfig: (state, action: PayloadAction<number | undefined>) => {
+      const { configs } = state;
+      const selectedConfigIndex = action.payload || state.selectedConfigIndex;
       configs.splice(selectedConfigIndex, 1);
       if (configs.length === 2) {
         state.selectedConfigIndex = 0;
@@ -76,7 +77,7 @@ const slice = createSlice({
       const { configs, selectedConfigIndex } = state;
       const config = configs[selectedConfigIndex];
       const name = '(Duplicate) ' + (config.name || config.url || 'Configuration');
-      state.configs.push({ ...configs[selectedConfigIndex], name });
+      state.configs.push({ ...configs[selectedConfigIndex], name, id: crypto.randomUUID() });
       state.selectedConfigIndex = state.configs.length - 1;
     },
     selectConfig: (state, action: PayloadAction<number>) => {

@@ -1,22 +1,18 @@
 import { createRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Badge, Card, Col, Dropdown, Form, Row } from 'react-bootstrap';
+import { Badge, Button, ButtonGroup, Card, Col, Form, Row } from 'react-bootstrap';
 import ConfigBody from './config-body';
-import { ThreeDots } from '../../../util';
-import { DropdownToggle } from '../../../components';
+import { Copy, Download, Gear, Upload } from '../../../util';
 import { getFieldNameValue } from '../../../util/element';
 import { download } from '../../../_helpers';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { configSelector, duplicateConfig, importConfig, removeConfig, selectedConfigSelector, setConfigMessage, switchConfigSettingsModal, updateConfig } from '../../../store/config';
-import { useConfirmationModalContext } from '../../../_providers/confirm.provider';
+import { configSelector, duplicateConfig, importConfig, selectedConfigSelector, setConfigMessage, switchConfigSettingsModal, updateConfig } from '../../../store/config';
 import { addToast } from '@apps/acf-options-page/src/store/toast.slice';
 import { Configuration } from '@dhruv-techapps/acf-common';
 import { useTimeout } from '@apps/acf-options-page/src/_hooks/message.hooks';
 
 function Config() {
-  const { message, configs, error } = useAppSelector(configSelector);
-  const lastConfig = configs.length === 1;
-  const modalContext = useConfirmationModalContext();
+  const { message, error } = useAppSelector(configSelector);
   const config = useAppSelector(selectedConfigSelector);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -74,22 +70,12 @@ function Config() {
     dispatch(switchConfigSettingsModal());
   };
 
-  const onRemoveConfigConfirm = async () => {
-    const name = config.name || config.url;
-    const result = await modalContext.showConfirmation({
-      title: t('confirm.configuration.remove.title'),
-      message: t('confirm.configuration.remove.message', { name }),
-      headerClass: 'text-danger',
-    });
-    result && dispatch(removeConfig());
-  };
-
   const onDuplicateConfig = () => {
     dispatch(duplicateConfig());
   };
 
   return (
-    <Card className='mb-3'>
+    <Card className='mb-3 shadow-sm'>
       <Card.Header as='h6'>
         <Row>
           <Col className='d-flex align-items-center'>
@@ -105,34 +91,23 @@ function Config() {
             <small className='text-success ms-3'>{message}</small>
           </Col>
           <Col xs='auto' className='d-flex align-items-center'>
-            <Form>
-              <Form.Check type='switch' className='m-0' name='enable' id='config-enable' label={t('configuration.enable')} checked={config.enable} onChange={onUpdate} />
+            <Form className='me-3'>
+              <Form.Check type='switch' name='enable' id='config-enable' label={t('configuration.enable')} checked={config.enable} onChange={onUpdate} />
             </Form>
-            <Dropdown id='config-dropdown-wrapper'>
-              <Dropdown.Toggle as={DropdownToggle} id='config-dropdown' className='py-0 pe-0' aria-label='Configuration more option'>
-                <ThreeDots width='24' height='24' />
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={onExportConfig} data-testid='export-configuration'>
-                  {t('configuration.export')}
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => importFiled.current?.click()} data-testid='import-configuration'>
-                  {t('configuration.import')}
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={onDuplicateConfig} data-testid='duplicate-configuration'>
-                  {t('configuration.duplicate')}
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={onRemoveConfigConfirm} className={lastConfig ? '' : 'text-danger'} disabled={lastConfig} data-testid='remove-configuration'>
-                  {t('configuration.remove')}
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={showSettings} data-testid='configuration-settings'>
-                  {t('configuration.settings')}
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <ButtonGroup>
+              <Button variant='link' title={t('configuration.export')} onClick={onExportConfig} data-testid='export-configuration'>
+                <Upload className='link-secondary' />
+              </Button>
+              <Button variant='link' title={t('configuration.import')} onClick={() => importFiled.current?.click()} data-testid='import-configuration'>
+                <Download className='link-secondary' />
+              </Button>
+              <Button variant='link' title={t('configuration.duplicate')} onClick={onDuplicateConfig} data-testid='duplicate-configuration'>
+                <Copy className='link-secondary' />
+              </Button>
+              <Button variant='link' title={t('configuration.settings')} onClick={showSettings} data-testid='configuration-settings'>
+                <Gear className='link-secondary' />
+              </Button>
+            </ButtonGroup>
             <div className='custom-file d-none'>
               <label className='custom-file-label' htmlFor='import-configuration' style={{ fontSize: `${1}rem`, fontWeight: 400 }}>
                 {t('configuration.import')}

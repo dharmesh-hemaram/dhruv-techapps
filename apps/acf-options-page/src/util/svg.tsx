@@ -1,7 +1,8 @@
 export { ReactComponent as GearFill } from 'bootstrap-icons/icons/gear-fill.svg';
 export { ReactComponent as Sun } from 'bootstrap-icons/icons/sun-fill.svg';
 export { ReactComponent as Moon } from 'bootstrap-icons/icons/moon-stars-fill.svg';
-export { ReactComponent as ThreeDots } from 'bootstrap-icons/icons/three-dots-vertical.svg';
+export { ReactComponent as ThreeDotsVertical } from 'bootstrap-icons/icons/three-dots-vertical.svg';
+export { ReactComponent as ThreeDots } from 'bootstrap-icons/icons/three-dots.svg';
 export { ReactComponent as CaretUp } from 'bootstrap-icons/icons/caret-up.svg';
 export { ReactComponent as CaretDown } from 'bootstrap-icons/icons/caret-down.svg';
 export { ReactComponent as InfoCircle } from 'bootstrap-icons/icons/info-circle.svg';
@@ -30,3 +31,17 @@ export { ReactComponent as FileSpreadsheetFill } from 'bootstrap-icons/icons/fil
 export { ReactComponent as ExclamationTriangleFill } from 'bootstrap-icons/icons/exclamation-triangle-fill.svg';
 export { ReactComponent as ArrowUp } from 'bootstrap-icons/icons/arrow-up.svg';
 export { ReactComponent as ArrowDown } from 'bootstrap-icons/icons/arrow-down.svg';
+export { ReactComponent as BoxArrowUpRight } from 'bootstrap-icons/icons/box-arrow-up-right.svg';
+export { ReactComponent as Upload } from 'bootstrap-icons/icons/upload.svg';
+export { ReactComponent as Download } from 'bootstrap-icons/icons/download.svg';
+export { ReactComponent as ArrowDownUp } from 'bootstrap-icons/icons/arrow-down-up.svg';
+export { ReactComponent as FileCode } from 'bootstrap-icons/icons/file-code.svg';
+export { ReactComponent as PlusSquare } from 'bootstrap-icons/icons/plus-square.svg';
+export { ReactComponent as Copy } from 'bootstrap-icons/icons/copy.svg';
+export { ReactComponent as Trash } from 'bootstrap-icons/icons/trash.svg';
+export { ReactComponent as Gear } from 'bootstrap-icons/icons/gear.svg';
+export { ReactComponent as Repeat } from 'bootstrap-icons/icons/repeat.svg';
+export { ReactComponent as ShieldCheck } from 'bootstrap-icons/icons/shield-fill-check.svg';
+export { ReactComponent as Facebook } from 'bootstrap-icons/icons/facebook.svg';
+export { ReactComponent as Whatsapp } from 'bootstrap-icons/icons/whatsapp.svg';
+export { ReactComponent as Star } from 'bootstrap-icons/icons/star-fill.svg';

@@ -19,6 +19,7 @@ export type Configuration = {
   startType: START_TYPES;
   loadType: LOAD_TYPES;
   actions: Array<Action>;
+  id?: string;
   configId?: number;
   name?: string;
   initWait?: number;

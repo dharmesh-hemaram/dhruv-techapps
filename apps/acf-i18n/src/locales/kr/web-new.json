@@ -22,14 +22,16 @@
   },
   "footer": {
     "resources": "자원",
-    "docs": "문서 도구",
+    "docs": "문서",
     "blog": "블로그",
     "configuration": "구성",
     "issues": "문제",
-    "test": "연습 양식",
+    "test": "실습 양식",
     "about": "에 대한",
     "contact": "연락하다",
     "chat": "채팅",
+    "connect": "연결하다",
+    "google-group": "Google Group",
     "privacy": "개인 정보 정책",
     "social": "사회의",
     "discord": "Discord",
@@ -46,7 +48,7 @@
       },
       "duplicateConfig": {
         "header": "구성",
-        "body": "{{name}} duplicated 추가되었습니다"
+        "body": "{{name}}이(가) 성공적으로 복제되었습니다."
       },
       "removeConfig": {
         "header": "구성",
@@ -68,8 +70,8 @@
         "body": "{{name}} 성공적으로 가져온 것"
       },
       "updateBatch": {
-        "header": "Batch",
-        "body": "batch saved successfully !"
+        "header": "일괄",
+        "body": "배치가 성공적으로 저장되었습니다!"
       }
     },
     "action": {
@@ -163,7 +165,7 @@
         "interval": "재시도 간격",
         "stop": "중지",
         "skip": "건너 뛰지 않아",
-        "goto": "GOTO 액션",
+        "goto": "액션으로 이동",
         "refresh": "새로 고치다"
       }
     },
@@ -173,7 +175,7 @@
       "title": "동작 조건",
       "info": "동작 조건은 이전 동작 상태와 관련된 조건을 추가하는 데 사용됩니다.",
       "skip": "건너 뛰다",
-      "goto": "GOTO 액션",
+      "goto": "액션으로 이동",
       "proceed": "진행하다"
     },
     "ads": {
@@ -194,7 +196,7 @@
         "stop": "중지",
         "skip": "건너 뛰지 않아",
         "refresh": "새로 고치다",
-        "goto": "GOTO 액션"
+        "goto": "액션으로 이동"
       }
     }
   },

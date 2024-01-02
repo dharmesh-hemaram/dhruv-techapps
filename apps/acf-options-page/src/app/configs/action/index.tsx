@@ -2,10 +2,10 @@ import { Button, Card, Col, Dropdown, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import ActionTable from './action-table';
 import { DropdownToggle } from '../../../components';
-import { Filter } from '../../../util';
+import { Filter, Plus, Repeat } from '../../../util';
 import { ActionSettingsModal, ActionStatementModal, AddonModal } from '../../../modal';
 import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
-import { addAction } from '@apps/acf-options-page/src/store/config';
+import { addAction, switchBatchModal } from '@apps/acf-options-page/src/store/config';
 import { actionSelector, setActionMessage, setColumnVisibility } from '@apps/acf-options-page/src/store/config/action/action.slice';
 import { useTimeout } from '@apps/acf-options-page/src/_hooks/message.hooks';
 
@@ -29,7 +29,7 @@ function Action() {
 
   return (
     <>
-      <Card className='mt-3'>
+      <Card className='mt-3 shadow-sm'>
         <Card.Header as='h6'>
           <Row>
             <Col className='d-flex align-items-center'>
@@ -38,12 +38,15 @@ function Action() {
               <small className='text-danger ms-3'>{error}</small>
             </Col>
             <Col xs='auto' className='d-flex align-items-center'>
-              <Button variant='outline-primary px-4' onClick={onAddAction} id='add-action'>
-                {t('action.add')}
+              <Button size='sm' variant='outline-primary px-3' onClick={() => dispatch(switchBatchModal())} id='batch-model'>
+                <Repeat className='me-2' /> {t('batch.title')}
+              </Button>
+              <Button size='sm' variant='outline-primary px-3 mx-3' onClick={onAddAction} id='add-action'>
+                <Plus className='me-2' /> {t('action.add')}
               </Button>
               <Dropdown className='ml-2' id='acton-column-filter'>
                 <Dropdown.Toggle as={DropdownToggle} id='column-dropdown' className='pe-0' aria-label='Filter Action Column'>
-                  <Filter width='28' height='28' />
+                  <Filter />
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={onColumnChange} data-column='name' active={columnVisibility.name}>

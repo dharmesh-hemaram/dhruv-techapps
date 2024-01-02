@@ -57,7 +57,7 @@ export const SettingsModal = () => {
           <Modal.Title as='h6'>
             {page ? (
               <Button onClick={() => setPage(undefined)} data-testid='settings-back-button' variant='link' className='me-2 p-0 d-inline-flex align-items-center'>
-                <ChevronLeft width='24' height='24' />
+                <ChevronLeft />
               </Button>
             ) : (
               <>{t('modal.settings.title')}</>
@@ -71,35 +71,35 @@ export const SettingsModal = () => {
               <li className='list-group-item'>
                 <Button onClick={() => setPage(SETTINGS_PAGE.NOTIFICATION)} variant={theme} className='d-flex justify-content-between w-100' data-testid='settings-notification'>
                   <div className='fw-bold'>
-                    <BellFill width='24' height='24' className='me-2' />
+                    <BellFill className='me-2' />
                     {t('modal.settings.notification.title')}
                   </div>
-                  <ChevronRight width='24' height='24' />
+                  <ChevronRight />
                 </Button>
               </li>
               <li className='list-group-item'>
                 <Button onClick={() => setPage(SETTINGS_PAGE.RETRY)} variant={theme} className='d-flex justify-content-between w-100' data-testid='settings-retry'>
                   <div className='fw-bold'>
-                    <ArrowRepeat width='24' height='24' className='me-2' />
+                    <ArrowRepeat className='me-2' />
                     {t('modal.settings.retry.title')}
                   </div>
-                  <ChevronRight width='24' height='24' />
+                  <ChevronRight />
                 </Button>
               </li>
               <li className='list-group-item'>
                 <Button onClick={() => setPage(SETTINGS_PAGE.BACKUP)} variant={theme} className='d-flex justify-content-between w-100' data-testid='settings-backup'>
                   <div className='fw-bold'>
-                    <CloudArrowUpFill width='24' height='24' className='me-2' /> Backup
+                    <CloudArrowUpFill className='me-2' /> Backup
                   </div>
-                  <ChevronRight width='24' height='24' />
+                  <ChevronRight />
                 </Button>
               </li>
               <li className='list-group-item'>
                 <Button onClick={() => setPage(SETTINGS_PAGE.SHEETS)} variant={theme} className='d-flex justify-content-between w-100' data-testid='settings-backup'>
                   <div className='fw-bold'>
-                    <FileSpreadsheetFill width='24' height='24' className='me-2' /> Google Sheets
+                    <FileSpreadsheetFill className='me-2' /> Google Sheets
                   </div>
-                  <ChevronRight width='24' height='24' />
+                  <ChevronRight />
                 </Button>
               </li>
               <li className='list-group-item d-flex justify-content-between align-items-center'>
