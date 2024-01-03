@@ -93,7 +93,7 @@ jobs:
         NX_RELEASE_VERSION=${{needs.EnvSetup.outputs.NX_RELEASE_VERSION}}
         SENTRY_AUTH_TOKEN=${{needs.EnvSetup.outputs.SENTRY_AUTH_TOKEN}}
       parallel-commands-on-agents: |
-        npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer' --skip-nx-cache
+        npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer' --skip-nx-cache --base-href ${{needs.EnvSetup.outputs.PUBLIC_URL}}
       final-commands: |
         EXTENSION_TARGET_FILE="./dist/apps/acf-extension/manifest.json"
         # Use an if-else statement to check if the file exists.

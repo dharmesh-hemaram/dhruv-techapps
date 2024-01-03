@@ -80,8 +80,8 @@ function Configs(props) {
                 </Alert>
               )}
               <Config />
-              <Ads />
               <Action />
+              <Ads />
               <Footer />
               <ConfigSettingsModal />
               <BatchModal />
