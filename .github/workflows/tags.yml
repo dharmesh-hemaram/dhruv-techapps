@@ -138,11 +138,6 @@ jobs:
       contents: write
     name: Extension
     steps:
-      - name: Name
-        id: name
-        run: |
-          echo "${{ needs.EnvSetup.outputs.NX_NAME == 'DEV' }}"
-          echo "${{needs.EnvSetup.outputs.NX_NAME}}"
       - uses: actions/download-artifact@v3
         with:
           name: nx-main-artifacts
