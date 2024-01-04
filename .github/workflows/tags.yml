@@ -95,14 +95,10 @@ jobs:
       parallel-commands-on-agents: |
         npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer' --skip-nx-cache --base-href ${{needs.EnvSetup.outputs.PUBLIC_URL}}
       final-commands: |
-        EXTENSION_TARGET_FILE="./dist/apps/acf-extension/manifest.json"
-        # Use an if-else statement to check if the file exists.
-        if [ -f "$EXTENSION_TARGET_FILE" ]
-        then
-            npx web-ext build --sourceDir="./dist/apps/acf-extension" --artifactsDir="./dist/apps"
-        else
-            echo "$EXTENSION_TARGET_FILE does not exist."
-        fi
+        npx web-ext build --sourceDir="./dist/apps/acf-extension" --artifactsDir="./dist/apps"
+        cd dist/apps
+        zip -r acf-options-page.zip acf-options-page/
+        zip -r acf-i18n.zip acf-i18n/
 
   agents:
     needs: [EnvSetup]
@@ -150,8 +146,8 @@ jobs:
           generate_release_notes: true
           files: |
             auto_clicker_-_autofill*.zip
-            acf-i18n/*
-            acf-options-page/*
+            acf-i18n.zip
+            acf-options-page.zip
           fail_on_unmatched_files: true
 
   configuration:
