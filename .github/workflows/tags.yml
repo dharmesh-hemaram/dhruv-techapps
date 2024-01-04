@@ -149,9 +149,9 @@ jobs:
           prerelease: ${{ needs.EnvSetup.outputs.NX_VARIANT == 'BETA' }}
           generate_release_notes: true
           files: |
-            'auto_clicker_-_autofill*.zip'
-            'acf-i18n'
-            'acf-options-page'
+            auto_clicker_-_autofill*.zip
+            acf-i18n/
+            acf-options-page/
           fail_on_unmatched_files: true
 
   configuration:
