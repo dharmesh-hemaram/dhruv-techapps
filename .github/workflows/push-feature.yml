@@ -1,4 +1,4 @@
-name: mono-repo [push]
+name: feature [push]
 
 on:
   push:
