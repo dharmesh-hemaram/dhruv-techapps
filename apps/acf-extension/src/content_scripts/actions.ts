@@ -41,7 +41,7 @@ const Actions = (() => {
     let i = 0;
     while (i < actions.length) {
       const action = actions[i];
-      console.group(`${LOGGER_LETTER} #${action.name || i + 1}`);
+      console.group(`${LOGGER_LETTER} #${i + 1} [${action.name || 'no-name'}]`);
       if (!action.elementFinder) {
         throw new ConfigError('Element Finder is blank', 'Configuration Action');
       }

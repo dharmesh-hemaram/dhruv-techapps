@@ -15,7 +15,7 @@ function Footer() {
   }
 
   return (
-    <footer className='pt-4 mt-3 mt-md-5 pt-md-5 border-top'>
+    <footer className='pt-3 mt-3 mt-md-3 pt-md-3 border-top'>
       <Container>
         <Row>
           <Col md xs={12} className='mb-3'>

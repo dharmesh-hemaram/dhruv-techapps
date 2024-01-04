@@ -6,6 +6,8 @@ import { BROWSER } from './_helpers';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { sentryInit } from './sentry';
+import { TourProvider } from '@reactour/tour';
+import { steps } from './tour';
 
 window.EXTENSION_ID = process.env[`NX_${BROWSER}_EXTENSION_ID`] ?? '';
 
@@ -15,7 +17,9 @@ if (process.env.NODE_ENV !== 'development') {
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <Provider store={store}>
-    <App />
-  </Provider>
+  <TourProvider steps={steps}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </TourProvider>
 );

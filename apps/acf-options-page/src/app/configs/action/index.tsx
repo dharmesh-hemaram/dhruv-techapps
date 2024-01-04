@@ -29,7 +29,7 @@ function Action() {
 
   return (
     <>
-      <Card className='mt-3 shadow-sm'>
+      <Card className='mb-3 shadow-sm'>
         <Card.Header as='h6'>
           <Row>
             <Col className='d-flex align-items-center'>

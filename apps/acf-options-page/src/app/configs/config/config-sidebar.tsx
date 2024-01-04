@@ -2,7 +2,6 @@ import { DropdownToggle } from '@apps/acf-options-page/src/components';
 import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
 import { addConfig, configSelector, removeConfig, selectConfig, switchConfigRemoveModal, switchConfigReorderModal } from '@apps/acf-options-page/src/store/config';
 import { Plus, ThreeDots, Trash } from '@apps/acf-options-page/src/util';
-import { START_TYPES } from '@dhruv-techapps/acf-common';
 import { Button, Dropdown, ListGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
@@ -19,7 +18,7 @@ export const ConfigSidebar = (props) => {
   return (
     <div className='bg-white border rounded sidebar shadow-sm'>
       <div className='d-flex justify-content-between align-items-center border-bottom p-2'>
-        <Button size='sm' variant='primary' onClick={() => dispatch(addConfig())}>
+        <Button size='sm' variant='primary' onClick={() => dispatch(addConfig())} data-testid='configurations-add'>
           <Plus /> {t('configuration.add')}
         </Button>
         <Dropdown id='configurations-dropdown-wrapper'>
@@ -55,20 +54,20 @@ export const ConfigSidebar = (props) => {
             key={index}
             as='li'
             variant={config.enable ? 'light' : 'dark'}
-            className={`d-flex justify-content-between ps-1 pe-0 ${selectedConfigIndex === index ? 'selected' : ''}`}
+            className={`d-flex justify-content-between ps-2 pe-0 ${selectedConfigIndex === index ? 'selected' : ''}`}
             action
             onClick={() => dispatch(selectConfig(index))}
           >
             <div className='d-flex align-items-center'>
-              <strong title={config.enable ? config.startType + ' start' : 'Disabled'} className={`me-2 ${config.enable ? 'bg-secondary text-dark' : 'bg-dark text-light'}  px-1 bg-opacity-25`}>
-                {config.enable ? (config.startType === START_TYPES.AUTO ? 'A' : 'M') : 'D'}
-              </strong>
               <div>
-                <div className='text-truncate' style={{ width: '383px' }}>{`${config.name || 'configuration - ' + index}`}</div>
-                <small className='text-truncate' style={{ width: '383px' }}>
+                <div className='text-truncate fs-5' style={{ width: '383px' }}>{`${config.name || 'configuration - ' + index}`}</div>
+                <small className='text-truncate text-dark' style={{ width: '383px' }}>
                   {config.url}
                 </small>
               </div>
+              {/*<strong title={config.enable ? config.startType + ' start' : 'Disabled'} className={`me-2 ${config.enable ? 'bg-secondary text-dark' : 'bg-dark text-light'}  px-1 bg-opacity-25`}>
+                {config.enable ? (config.startType === START_TYPES.AUTO ? 'A' : 'M') : 'D'}
+              </strong>*/}
             </div>
             <Button variant='link' onClick={(e) => onRemoveConfig(e, index)}>
               <Trash className='link-danger' />

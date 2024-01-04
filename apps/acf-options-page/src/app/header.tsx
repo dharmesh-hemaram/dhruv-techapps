@@ -7,12 +7,25 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import { switchTheme, themeSelector } from '../store/theme.slice';
 import { appSelector } from '../store/app.slice';
 import { switchSettingsModal } from '../store/settings/settings.slice';
+import { useTour } from '@reactour/tour';
+import { useEffect } from 'react';
 
 function Header() {
+  const { setIsOpen } = useTour();
   const theme = useAppSelector(themeSelector);
   const { error } = useAppSelector(appSelector);
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    const tour = localStorage.getItem('tour');
+    if (!tour) {
+      localStorage.setItem('tour', 'true');
+      setTimeout(() => {
+        setIsOpen(true);
+      }, 1000);
+    }
+  });
 
   const changeLanguage = async (lng) => {
     await i18n.changeLanguage(lng);
@@ -54,6 +67,9 @@ function Header() {
             </Nav.Link>
             <Nav.Link target='_blank' rel='noopener noreferrer' title='practice form' href={APP_LINK.TEST}>
               {t('footer.test')}
+            </Nav.Link>
+            <Nav.Link onClick={() => setIsOpen(true)} id='tour'>
+              Tour
             </Nav.Link>
           </Nav>
           <Nav>
