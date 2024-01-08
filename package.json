@@ -19,7 +19,7 @@
     "bootstrap-icons": "^1.11.2",
     "discord.js": "^14.12.1",
     "express": "^4.18.1",
-    "i18next": "^23.3.0",
+    "i18next": "^23.7.16",
     "i18next-http-backend": "^2.2.1",
     "react": "18.2.0",
     "react-bootstrap": "^2.9.2",
