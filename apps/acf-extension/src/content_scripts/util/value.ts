@@ -1,4 +1,5 @@
 import { Logger } from '@dhruv-techapps/core-common';
+import RandExp from 'randexp';
 import { ConfigError } from '../error';
 import Common from '../common';
 
@@ -6,63 +7,15 @@ export const VALUE_MATCHER = {
   GOOGLE_SHEETS: /^GoogleSheets::/i,
   QUERY_PARAM: /^Query::/i,
   FUNC: /^Func::/i,
-  RANDOM: /<random(\[.+?\])?(\{(\d+),?(\d+)?\})?>/gi,
-  CHOICE: /<choice(\[.+?\])?(\{(\d+),?(\d+)?\})?>/gi,
+  RANDOM: /<random(.+)>/gi,
   BATCH_REPEAT: /<batchRepeat>/,
 };
 
-/*
- * Random Number Constant
- */
-const CAP_ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const SMALL_ALPHA = 'abcdefghijklmnopqrstuvwxyz';
-const SPECIAL_CHAR = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
-const NUM = '0123456789';
-
 const Value = (() => {
   const getRandomValue = (value: string) =>
-    value.replace(VALUE_MATCHER.RANDOM, (_, range, __, start = 6, end = undefined) => {
-      let characters;
-      switch (range) {
-        case '[A-Z]':
-          characters = CAP_ALPHA;
-          break;
-        case '[a-z]':
-          characters = SMALL_ALPHA;
-          break;
-        case '[^a-z]':
-          characters = CAP_ALPHA + SPECIAL_CHAR + NUM;
-          break;
-        case '[^A-Z]':
-          characters = SMALL_ALPHA + SPECIAL_CHAR + NUM;
-          break;
-        case '[\\d]':
-          characters = NUM;
-          break;
-        case '[\\D]':
-          characters = CAP_ALPHA + SMALL_ALPHA;
-          break;
-        case '[\\w]':
-          characters = `${CAP_ALPHA + SMALL_ALPHA + NUM}_`;
-          break;
-        case '[\\W]':
-          characters = SPECIAL_CHAR;
-          break;
-        case '[.]':
-          characters = CAP_ALPHA + SMALL_ALPHA + SPECIAL_CHAR + NUM;
-          break;
-        default:
-          characters = range?.match(/\[(.+)\]/)[1] || CAP_ALPHA + SMALL_ALPHA + SPECIAL_CHAR + NUM;
-      }
-      const charactersLength = characters.length;
-      let result = '';
-      let length = start;
-      if (end) {
-        length = Math.floor(Math.random() * Number(end)) + Number(start);
-      }
-      for (let i = 0; i < length; i += 1) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
+    value.replace(VALUE_MATCHER.RANDOM, (_, regex) => {
+      Logger.colorDebug('RandExp', regex);
+      const result = new RandExp(regex).gen();
       Logger.colorDebug('GetRandomValue', result);
       return result;
     });
