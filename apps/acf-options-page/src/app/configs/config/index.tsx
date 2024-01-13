@@ -96,16 +96,16 @@ function Config() {
             </Form>
             <ButtonGroup>
               <Button variant='link' title={t('configuration.export')} onClick={onExportConfig} data-testid='export-configuration'>
-                <Upload className='link-secondary' />
+                <Upload />
               </Button>
               <Button variant='link' title={t('configuration.import')} onClick={() => importFiled.current?.click()} data-testid='import-configuration'>
-                <Download className='link-secondary' />
+                <Download />
               </Button>
               <Button variant='link' title={t('configuration.duplicate')} onClick={onDuplicateConfig} data-testid='duplicate-configuration'>
-                <Copy className='link-secondary' />
+                <Copy />
               </Button>
               <Button variant='link' title={t('configuration.settings')} onClick={showSettings} data-testid='configuration-settings'>
-                <Gear className='link-secondary' />
+                <Gear />
               </Button>
             </ButtonGroup>
             <div className='custom-file d-none'>
