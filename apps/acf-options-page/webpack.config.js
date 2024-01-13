@@ -11,6 +11,7 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
       sentryWebpackPlugin({
         org: 'dhruv-techapps',
         project: 'acf-options-page',
+        telemetry: false,
         authToken: process.env.SENTRY_AUTH_TOKEN,
         release: {
           name: process.env.NX_RELEASE_VERSION,

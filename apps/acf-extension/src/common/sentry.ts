@@ -11,12 +11,6 @@ export const sentryInit = (page: string) => {
     // If the entire session is not sampled, use the below sample rate to sample
     // sessions when an error occurs.
     replaysOnErrorSampleRate: 1.0,
-    integrations: [
-      new Sentry.Replay({
-        maskAllText: true,
-        blockAllMedia: true,
-      }),
-    ],
     environment: VARIANT,
     ignoreErrors: [
       // Random plugins/extensions
@@ -36,6 +30,7 @@ export const sentryInit = (page: string) => {
       'atomicFindClose',
       // Facebook borked
       'fb_xd_fragment',
+      'The browser is shutting down.',
       // ISP "optimizing" proxy - `Cache-Control: no-transform` seems to
       // reduce this. (thanks @acdha)
       // See http://stackoverflow.com/questions/4113268

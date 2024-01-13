@@ -10,15 +10,19 @@ export const Popup = (() => {
 
   const setHover = (xpath: string, operation: 'add' | 'remove') => {
     xpath = WizardElementUtil.clearXpath(xpath);
-    if (xpath) {
-      const nodes = document.evaluate(xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-      if (nodes.snapshotLength !== 0) {
-        let i = 0;
-        while (i < nodes.snapshotLength) {
-          (nodes.snapshotItem(i) as HTMLElement).classList[operation]('auto-clicker-hover');
-          i += 1;
+    try {
+      if (xpath) {
+        const nodes = document.evaluate(xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+        if (nodes.snapshotLength !== 0) {
+          let i = 0;
+          while (i < nodes.snapshotLength) {
+            (nodes.snapshotItem(i) as HTMLElement).classList[operation]('auto-clicker-hover');
+            i += 1;
+          }
         }
       }
+    } catch (error) {
+      NotificationsService.create(chrome.runtime.id, { type: 'basic', title: 'Invalid Xpath', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
     }
   };
 
@@ -43,13 +47,17 @@ export const Popup = (() => {
     }) as EventListener);
     popupContainer.addEventListener('element-focus', ((e: CustomEvent) => {
       const xpath = WizardElementUtil.clearXpath(e.detail.xpath);
-      if (xpath) {
-        const result = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
-        if (result.singleNodeValue) {
-          (<HTMLInputElement>result.singleNodeValue).focus();
-        } else {
-          NotificationsService.create(chrome.runtime.id, { type: 'basic', title: 'Element not found', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
+      try {
+        if (xpath) {
+          const result = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+          if (result.singleNodeValue) {
+            (<HTMLInputElement>result.singleNodeValue).focus();
+          } else {
+            NotificationsService.create(chrome.runtime.id, { type: 'basic', title: 'Element not found', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
+          }
         }
+      } catch (error) {
+        NotificationsService.create(chrome.runtime.id, { type: 'basic', title: 'Invalid Xpath', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
       }
     }) as EventListener);
   };
