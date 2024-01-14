@@ -1,6 +1,6 @@
 /*global chrome*/
 
-import { AUTO_BACKUP, GOOGLE_SCOPES, LOCAL_STORAGE_KEY, defaultConfig, defaultSettings } from '@dhruv-techapps/acf-common';
+import { AUTO_BACKUP, DriveFile, GOOGLE_SCOPES, LOCAL_STORAGE_KEY, defaultConfig, defaultSettings } from '@dhruv-techapps/acf-common';
 import GoogleOauth2 from './google-oauth2';
 import { NotificationHandler } from './notifications';
 
@@ -19,7 +19,7 @@ type GoogleDriveFile = {
   kind: string;
   incompleteSearch: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  files: Array<{ id: string; name: string; [index: string]: any }>;
+  files: Array<DriveFile>;
 };
 
 export default class GoogleBackup extends GoogleOauth2 {
@@ -86,30 +86,23 @@ export default class GoogleBackup extends GoogleOauth2 {
     }
   }
 
-  async restore() {
+  async restore(file: DriveFile) {
     try {
-      const { files } = await this.list();
-      if (files.length === 0) {
-        NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'No configurations found on google drive for your account');
-      } else {
-        files.forEach(async (file) => {
-          const fileContent = await this.get(file.id);
-          if (fileContent) {
-            if (file.name === BACKUP_FILE_NAMES.SETTINGS) {
-              chrome.storage.local.set({ [LOCAL_STORAGE_KEY.SETTINGS]: fileContent });
-            }
-            if (file.name === BACKUP_FILE_NAMES.CONFIGS) {
-              chrome.storage.local.set({ [LOCAL_STORAGE_KEY.CONFIGS]: fileContent });
-              NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'Configurations are restored from Google Drive. Refresh configurations page to load content.');
-            }
-          }
-        });
+      const fileContent = await this.get(file);
+      if (fileContent) {
+        if (file.name === BACKUP_FILE_NAMES.SETTINGS) {
+          chrome.storage.local.set({ [LOCAL_STORAGE_KEY.SETTINGS]: fileContent });
+        }
+        if (file.name === BACKUP_FILE_NAMES.CONFIGS) {
+          chrome.storage.local.set({ [LOCAL_STORAGE_KEY.CONFIGS]: fileContent });
+        }
+        NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'Configurations are restored from Google Drive. Refresh configurations page to load content.');
       }
     } catch (error) {
       if (error instanceof Error) {
         const retry = await this.checkInvalidCredentials(error.message);
         if (retry) {
-          this.restore();
+          this.restore(file);
         }
       }
     }
@@ -146,7 +139,7 @@ export default class GoogleBackup extends GoogleOauth2 {
 
   async list(): Promise<GoogleDriveFile> {
     const headers = await this.getHeaders(this.scopes);
-    const response = await fetch('https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id%2C%20name)&pageSize=10', { headers });
+    const response = await fetch('https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&fields=files(id%2C%20name%2C%20modifiedTime)&pageSize=10', { headers });
     if (response.status === 401) {
       const { error } = await response.json();
       throw new Error(error.message);
@@ -155,11 +148,25 @@ export default class GoogleBackup extends GoogleOauth2 {
     return result;
   }
 
-  async get(fileId: string) {
+  async listWithContent(): Promise<Array<DriveFile>> {
+    const { files } = await this.list();
+    for (const file of files) {
+      file.content = await this.get(file);
+    }
+    return files;
+  }
+
+  async get({ id }: DriveFile) {
     const headers = await this.getHeaders(this.scopes);
-    const result = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers });
+    const result = await fetch(`https://www.googleapis.com/drive/v3/files/${id}?alt=media`, { headers });
     const file = await result.json();
     return file;
+  }
+
+  async delete({ id }: DriveFile) {
+    const headers = await this.getHeaders(this.scopes);
+    const result = await fetch(`https://www.googleapis.com/drive/v3/files/${id}`, { headers, method: 'DELETE' });
+    return result;
   }
 }
 

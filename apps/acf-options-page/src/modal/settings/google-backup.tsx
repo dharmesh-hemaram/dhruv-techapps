@@ -1,7 +1,7 @@
-import { Button, Image, ListGroup, NavDropdown } from 'react-bootstrap';
+import { Accordion, Button, Card, Image, ListGroup, NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { AUTO_BACKUP, GOOGLE_SCOPES } from '@dhruv-techapps/acf-common';
-import { CloudArrowUpFill } from '../../util';
+import { AUTO_BACKUP, DriveFile, GOOGLE_SCOPES } from '@dhruv-techapps/acf-common';
+import { CloudArrowDownFill, CloudArrowUpFill, Trash } from '../../util';
 import { GoogleBackupService } from '@dhruv-techapps/acf-service';
 import GoogleSignInLight from '../../assets/btn_google_signin_light_normal_web.png';
 import GoogleSignInDark from '../../assets/btn_google_signin_dark_normal_web.png';
@@ -10,12 +10,15 @@ import { settingsSelector, updateSettingsBackup } from '../../store/settings/set
 import { useConfirmationModalContext } from '../../_providers/confirm.provider';
 import { themeSelector } from '../../store/theme.slice';
 import { googleLoginAPI } from '../../store/settings/settings.api';
+import { useEffect, useState } from 'react';
 
 export function SettingsGoogleBackup() {
   const { t } = useTranslation();
   const theme = useAppSelector(themeSelector);
   const modalContext = useConfirmationModalContext();
   const { settings, google, googleScopes } = useAppSelector(settingsSelector);
+  const [files, setFiles] = useState<Array<DriveFile>>();
+  const [filesLoading, setFilesLoading] = useState<boolean>();
   const { backup } = settings;
 
   const scope = GOOGLE_SCOPES.DRIVE;
@@ -24,6 +27,14 @@ export function SettingsGoogleBackup() {
   const connect = async () => {
     dispatch(googleLoginAPI(scope));
   };
+
+  useEffect(() => {
+    setFilesLoading(true);
+    GoogleBackupService.listWithContent(window.EXTENSION_ID).then((files) => {
+      setFiles(files);
+      setFilesLoading(false);
+    });
+  }, []);
 
   const onBackup = async (autoBackup?: AUTO_BACKUP) => {
     if (autoBackup) {
@@ -35,13 +46,21 @@ export function SettingsGoogleBackup() {
     }
   };
 
-  const restore = async () => {
+  const restore = async (id: string, name: string) => {
     const result = await modalContext.showConfirmation({
       title: t('confirm.backup.restore.title'),
       message: t('confirm.backup.restore.message'),
       headerClass: 'text-danger',
     });
-    result && GoogleBackupService.restore(window.EXTENSION_ID);
+    result && GoogleBackupService.restore(window.EXTENSION_ID, id, name);
+  };
+
+  const deleteFile = async (id: string, name: string) => {
+    GoogleBackupService.delete(window.EXTENSION_ID, id, name)
+      .then(() => {
+        setFiles(files?.filter((file) => file.id !== id));
+      })
+      .catch(console.error);
   };
 
   if (!google || !googleScopes.includes(scope)) {
@@ -64,12 +83,6 @@ export function SettingsGoogleBackup() {
       </div>
       <hr />
       <ol className='list-group'>
-        {backup?.lastBackup && (
-          <ListGroup.Item as='li'>
-            <NavDropdown.Header>{t('header.backup.last-backup')}</NavDropdown.Header>
-            <NavDropdown.ItemText>{backup?.lastBackup}</NavDropdown.ItemText>
-          </ListGroup.Item>
-        )}
         <ListGroup.Item as='li'>
           <NavDropdown.Item href='#backup-now' title={t('header.backup.now')} onClick={() => onBackup()}>
             <CloudArrowUpFill className='me-2' />
@@ -101,16 +114,39 @@ export function SettingsGoogleBackup() {
         </ListGroup.Item>
       </ol>
       <hr />
-      <ol className='list-group'>
-        <ListGroup.Item as='li'>
-          <NavDropdown.Item href='#backup-restore' title={t('header.backup.restore')} onClick={restore} className='text-danger'>
-            <svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' className='bi bi-cloud-arrow-down-fill me-2' viewBox='0 0 16 16'>
-              <path d='M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 6.854-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5a.5.5 0 0 1 1 0v3.793l1.146-1.147a.5.5 0 0 1 .708.708z' />
-            </svg>
-            {t('header.backup.restore')}
-          </NavDropdown.Item>
-        </ListGroup.Item>
-      </ol>
+      <h6 className='mt-4'>{t('header.backup.restore')}</h6>
+      {filesLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <div>
+          {files && files.length !== 0 ? (
+            <Accordion defaultActiveKey='0'>
+              {files.map((file) => (
+                <Accordion.Item eventKey={file.id} key={file.id}>
+                  <Accordion.Header>
+                    {file.name} <small className='ms-2'>{new Date(file.modifiedTime).toLocaleString()}</small>
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    <Button onClick={() => restore(file.id, file.name)} variant='link' type='button' size='sm' className='text-danger'>
+                      <CloudArrowDownFill className='me-2' />
+                      Restore
+                    </Button>
+                    <Button onClick={() => deleteFile(file.id, file.name)} variant='link' type='button' size='sm' className='text-danger'>
+                      <Trash className='me-2' />
+                      Delete
+                    </Button>
+                    <Card>
+                      <pre>{JSON.stringify(file.content, null, 2)}</pre>
+                    </Card>
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          ) : (
+            <div> No Backup found</div>
+          )}
+        </div>
+      )}
     </>
   );
 }

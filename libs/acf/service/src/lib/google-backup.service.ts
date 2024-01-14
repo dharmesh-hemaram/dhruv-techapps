@@ -10,7 +10,23 @@ export class GoogleBackupService extends AcfService {
     return await this.message(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'setAlarm', message: autoBackup });
   }
 
-  static async restore(extensionId: string) {
-    return await this.message(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'restore' });
+  static async list(extensionId: string) {
+    return await this.message(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'list', message: true });
+  }
+
+  static async listWithContent(extensionId: string) {
+    return await this.message(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'listWithContent', message: true });
+  }
+
+  static async restore(extensionId: string, id: string, name: string) {
+    return await this.message(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'restore', message: { id, name } });
+  }
+
+  static async get(extensionId: string, id: string, name: string) {
+    return await this.message(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'get', message: { id, name } });
+  }
+
+  static async delete(extensionId: string, id: string, name: string) {
+    return await this.message(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'delete', message: { id, name } });
   }
 }

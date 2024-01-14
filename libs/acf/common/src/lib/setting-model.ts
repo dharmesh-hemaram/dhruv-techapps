@@ -80,3 +80,10 @@ export type Google = {
   picture: string;
   sub: string;
 };
+
+export type DriveFile = {
+  id: string;
+  name: string;
+  modifiedTime: string;
+  content?: string;
+};

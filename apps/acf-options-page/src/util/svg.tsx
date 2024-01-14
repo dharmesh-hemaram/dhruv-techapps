@@ -21,6 +21,7 @@ export { ReactComponent as X } from 'bootstrap-icons/icons/x-lg.svg';
 export { ReactComponent as ChatFill } from 'bootstrap-icons/icons/chat-fill.svg';
 export { ReactComponent as Filter } from 'bootstrap-icons/icons/filter.svg';
 export { ReactComponent as CloudArrowUpFill } from 'bootstrap-icons/icons/cloud-arrow-up-fill.svg';
+export { ReactComponent as CloudArrowDownFill } from 'bootstrap-icons/icons/cloud-arrow-down-fill.svg';
 export { ReactComponent as ChevronLeft } from 'bootstrap-icons/icons/chevron-left.svg';
 export { ReactComponent as ChevronRight } from 'bootstrap-icons/icons/chevron-right.svg';
 export { ReactComponent as BellFill } from 'bootstrap-icons/icons/bell-fill.svg';
