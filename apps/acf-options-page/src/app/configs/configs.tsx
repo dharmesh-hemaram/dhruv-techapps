@@ -65,7 +65,7 @@ function Configs(props) {
   };
 
   return (
-    <Container fluid className='bg-body-tertiary' id='main'>
+    <Container fluid id='main'>
       <Row>
         <Col lg='3' className='pt-3'>
           <ConfigSidebar importFiled={importFiled} onExportAll={onExportAll} />

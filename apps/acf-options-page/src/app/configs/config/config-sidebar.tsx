@@ -16,7 +16,7 @@ export const ConfigSidebar = (props) => {
   };
 
   return (
-    <div className='bg-white border rounded sidebar shadow-sm'>
+    <div className='bg-body-tertiary rounded sidebar'>
       <div className='d-flex justify-content-between align-items-center border-bottom p-2'>
         <Button size='sm' variant='primary' onClick={() => dispatch(addConfig())} data-testid='configurations-add'>
           <Plus /> {t('configuration.add')}
@@ -53,9 +53,8 @@ export const ConfigSidebar = (props) => {
           <ListGroup.Item
             key={index}
             as='li'
-            variant={config.enable ? 'light' : 'dark'}
+            style={{ cursor: 'pointer' }}
             className={`d-flex justify-content-between ps-2 pe-0 ${selectedConfigIndex === index ? 'selected' : ''}`}
-            action
             onClick={() => dispatch(selectConfig(index))}
           >
             <div className='d-flex align-items-center'>
