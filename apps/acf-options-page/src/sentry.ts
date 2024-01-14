@@ -14,7 +14,17 @@ export const sentryInit = () => {
     // If the entire session is not sampled, use the below sample rate to sample
     // sessions when an error occurs.
     replaysOnErrorSampleRate: 1.0,
+    beforeSend: (event) => {
+      // Check if it is an exception, and if so, show the report dialog
+      if (event.exception) {
+        Sentry.showReportDialog({ eventId: event.event_id });
+      }
+      return event;
+    },
     integrations: [
+      new Sentry.Feedback({
+        colorScheme: localStorage.getItem('theme') === 'light' ? 'light' : 'dark',
+      }),
       new Sentry.BrowserProfilingIntegration(),
       new Sentry.BrowserTracing(),
       new Sentry.Replay({

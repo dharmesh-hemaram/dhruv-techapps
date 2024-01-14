@@ -11,9 +11,7 @@ import { steps } from './tour';
 
 window.EXTENSION_ID = process.env[`NX_${BROWSER}_EXTENSION_ID`] ?? '';
 
-if (process.env.NODE_ENV !== 'development') {
-  sentryInit();
-}
+sentryInit();
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
