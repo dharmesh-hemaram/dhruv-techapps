@@ -29,7 +29,7 @@ try {
    */
   chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === 'update') {
-      TabsMessenger.optionsTab({ url: `${OPTIONS_PAGE_URL}?version=${details.previousVersion}` });
+      TabsMessenger.optionsTab({ url: `${OPTIONS_PAGE_URL}?version=${chrome.runtime.getManifest().version}` });
     } else if (details.reason === 'install') {
       TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });
     }

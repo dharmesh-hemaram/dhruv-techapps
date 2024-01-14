@@ -57,12 +57,10 @@ export const ConfigSidebar = (props) => {
             className={`d-flex justify-content-between ps-2 pe-0 ${selectedConfigIndex === index ? 'selected' : ''}`}
             onClick={() => dispatch(selectConfig(index))}
           >
-            <div className='d-flex align-items-center'>
-              <div>
-                <div className='text-truncate fs-5' style={{ width: '383px' }}>{`${config.name || 'configuration - ' + index}`}</div>
-                <small className='text-truncate text-dark' style={{ width: '383px' }}>
-                  {config.url}
-                </small>
+            <div className='d-flex align-items-center' style={{ width: 'calc(100% - 40px)' }}>
+              <div className='w-100'>
+                <div className='text-truncate'>{`${config.name || 'configuration - ' + index}`}</div>
+                <div className='text-truncate text-secondary'>{config.url}</div>
               </div>
               {/*<strong title={config.enable ? config.startType + ' start' : 'Disabled'} className={`me-2 ${config.enable ? 'bg-secondary text-dark' : 'bg-dark text-light'}  px-1 bg-opacity-25`}>
                 {config.enable ? (config.startType === START_TYPES.AUTO ? 'A' : 'M') : 'D'}

@@ -36,7 +36,7 @@ export const ConfigDropdown = (props) => {
   const style = { '--bs-bg-opacity': `.25` } as React.CSSProperties;
 
   return (
-    <div id='configs' className={`${scroll ? 'shadow bg-body-tertiary' : ' mb-4 mt-3'} d-md-none sticky-top`}>
+    <div id='configs' className={`${scroll ? 'shadow bg-body-tertiary' : ' mb-4 mt-3'} d-lg-none sticky-top`}>
       <Row className={`rounded-pill ${!scroll && 'border'}`}>
         <Col>
           <Form>

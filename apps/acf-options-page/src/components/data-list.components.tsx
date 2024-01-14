@@ -116,7 +116,14 @@ export function DataList() {
         <option value='Attr::remove::prop'>Attr::remove::prop</option>
         <option value='Class::add::className'>Class::add::className</option>
         <option value='Class::remove::className'>Class::remove::className</option>
+        <option value='Append::'>Append::</option>
+        <option value='Prepend::'>Prepend::</option>
+        <option value='Replace::Hello::World'>Replace::Hello::World</option>
         <option value='KeyboardEvents::'>KeyboardEvents::</option>
+        <option value='KeyboardEvents::0'>KeyboardEvents::0</option>
+        <option value='KeyboardEvents::9'>KeyboardEvents::9</option>
+        <option value='KeyboardEvents::a'>KeyboardEvents::a</option>
+        <option value='KeyboardEvents::z'>KeyboardEvents::z</option>
         <option value='KeyboardEvents::Enter'>KeyboardEvents::Enter</option>
         <option value='KeyboardEvents::Shift+Enter'>KeyboardEvents::Shift+Enter</option>
         <option value='KeyboardEvents::Shift+Alt+Enter'>KeyboardEvents::Shift+Alt+Enter</option>
