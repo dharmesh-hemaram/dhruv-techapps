@@ -29,7 +29,7 @@
     "react-redux": "^9.0.0",
     "react-reorder": "^3.0.0-alpha.7",
     "sitemap": "^7.1.1",
-    "tslib": "^2.3.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
