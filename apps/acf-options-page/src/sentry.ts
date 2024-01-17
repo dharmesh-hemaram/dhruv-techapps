@@ -5,7 +5,13 @@ export const sentryInit = () => {
   Sentry.init({
     dsn: 'https://aacf1f88c133d2c9b4823c4c0b485ecc@o4506036997455872.ingest.sentry.io/4506037000994816',
     release,
-    ignoreErrors: ['NetFunnel is not defined', 'adsbygoogle.push() error: No slot size for availableWidth=0', 'ResizeObserver loop completed with undelivered notifications.'],
+    ignoreErrors: [
+      'NetFunnel is not defined',
+      'Extension context invalidated.',
+      'Could not establish connection. Receiving end does not exist.',
+      'adsbygoogle.push() error: No slot size for availableWidth=0',
+      'ResizeObserver loop completed with undelivered notifications.',
+    ],
     environment: process.env.NX_VARIANT,
     // This sets the sample rate to be 10%. You may want this to be 100% while
     // in development and sample at a lower rate in production
