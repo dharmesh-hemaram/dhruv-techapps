@@ -5,7 +5,7 @@
   "version": "5.0.0",
   "manifest_version": 3,
   "default_locale": "en",
-  "permissions": ["storage", "notifications", "contextMenus", "activeTab", "identity", "alarms"],
+  "permissions": ["storage", "notifications", "contextMenus", "activeTab", "identity", "alarms", "unlimitedStorage"],
   "optional_host_permissions": ["http://*/*", "https://*/*"],
   "icons": {
     "16": "assets/icons/icon16.png",
