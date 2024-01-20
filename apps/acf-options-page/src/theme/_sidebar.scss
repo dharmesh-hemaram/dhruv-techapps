@@ -1,5 +1,6 @@
 .sidebar {
   .list-group-item {
+    --bs-list-group-border-color: var(--bs-white);
     border-left: 3px solid transparent;
     background-color: rgba(var(--bs-secondary-bg-rgb), var(--bs-bg-opacity));
     min-height: 50px;
@@ -20,5 +21,9 @@
         border-left-color: var(--bs-secondary);
       }
     }
+  }
+  .list-group {
+    overflow-y: auto;
+    height: calc(100vh - 122px);
   }
 }

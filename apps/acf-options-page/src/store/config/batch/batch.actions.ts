@@ -3,18 +3,26 @@ import { ConfigStore } from '../config.slice';
 
 export const batchActions = {
   updateBatch: (state: ConfigStore, action: PayloadAction<{ name: string; value: number }>) => {
-    const { configs, selectedConfigIndex } = state;
+    const { configs, selectedConfigId } = state;
     const { name, value } = action.payload;
-    const { batch } = configs[selectedConfigIndex];
+    const config = configs.find((config) => config.id === selectedConfigId);
+    if (!config) {
+      throw new Error('Invalid Configuration');
+    }
+    const { batch } = config;
     if (batch) {
       batch[name] = value;
     } else {
-      configs[selectedConfigIndex].batch = { [name]: value };
+      config.batch = { [name]: value };
     }
   },
   updateBatchRefresh: (state: ConfigStore) => {
-    const { configs, selectedConfigIndex } = state;
-    const { batch } = configs[selectedConfigIndex];
+    const { configs, selectedConfigId } = state;
+    const config = configs.find((config) => config.id === selectedConfigId);
+    if (!config) {
+      throw new Error('Invalid Configuration');
+    }
+    const { batch } = config;
     if (batch) {
       batch.refresh = !batch.refresh;
     }

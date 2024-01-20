@@ -1,6 +1,6 @@
 /*global chrome*/
 
-import { AUTO_BACKUP, DriveFile, GOOGLE_SCOPES, LOCAL_STORAGE_KEY, defaultConfig, defaultSettings } from '@dhruv-techapps/acf-common';
+import { AUTO_BACKUP, DriveFile, GOOGLE_SCOPES, LOCAL_STORAGE_KEY, getDefaultConfig, defaultSettings } from '@dhruv-techapps/acf-common';
 import GoogleOauth2 from './google-oauth2';
 import { NotificationHandler } from './notifications';
 
@@ -59,7 +59,7 @@ export default class GoogleBackup extends GoogleOauth2 {
 
   async backup(now?: boolean) {
     try {
-      const { configs = [{ ...defaultConfig }] } = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
+      const { configs = [getDefaultConfig()] } = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
       if (configs) {
         const { settings = { ...defaultSettings } } = await chrome.storage.local.get(LOCAL_STORAGE_KEY.SETTINGS);
         const { files } = await this.list();

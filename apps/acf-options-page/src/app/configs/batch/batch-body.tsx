@@ -9,9 +9,21 @@ import { REGEX } from '@apps/acf-options-page/src/util';
 const FORM_ID = 'batch-body';
 
 function BatchBody() {
-  const { batch } = useAppSelector(selectedConfigSelector);
+  const config = useAppSelector(selectedConfigSelector);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (config && config.batch) {
+      updateForm(FORM_ID, config.batch);
+    }
+  }, [config]);
+
+  if (!config) {
+    return null;
+  }
+
+  const { batch } = config;
 
   const onUpdate = (e) => {
     const update = getFieldNameValue(e, batch);
@@ -19,10 +31,6 @@ function BatchBody() {
       dispatch(updateBatch(update));
     }
   };
-
-  useEffect(() => {
-    updateForm(FORM_ID, batch);
-  }, [batch]);
 
   return (
     <Form id={FORM_ID}>

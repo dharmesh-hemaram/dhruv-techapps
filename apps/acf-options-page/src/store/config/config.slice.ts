@@ -1,24 +1,38 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { Configuration, START_TYPES, defaultConfig } from '@dhruv-techapps/acf-common';
+import { Configuration, RANDOM_UUID, START_TYPES, getDefaultConfig } from '@dhruv-techapps/acf-common';
 import { configGetAllAPI } from './config.api';
 import { actionActions, openActionAddonModalAPI, openActionSettingsModalAPI, openActionStatementModalAPI } from './action';
 import { batchActions } from './batch';
-import { getConfigName } from './config.slice.util';
+import { getConfigName, updateConfigId, updateConfigIds } from './config.slice.util';
+import { LocalStorage } from '../../_helpers';
+
+const HIDDEN_DETAIL_KEY = 'config-detail-visibility';
+const defaultDetailVisibility = { name: true, url: true };
 
 export type ConfigStore = {
   loading: boolean;
-  selectedConfigIndex: number;
-  selectedActionIndex: number;
+  selectedConfigId: RANDOM_UUID;
+  selectedActionId: RANDOM_UUID;
   error?: string;
   configs: Array<Configuration>;
   message?: string;
+  search?: string;
+  detailVisibility: { name: boolean; url: boolean };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ConfigAction = { name: string; value: any };
 
-const initialState: ConfigStore = { loading: true, configs: [{ ...defaultConfig }], selectedConfigIndex: 0, selectedActionIndex: 0 };
+const config = getDefaultConfig();
+
+const initialState: ConfigStore = {
+  loading: true,
+  configs: [config],
+  selectedConfigId: config.id,
+  selectedActionId: config.actions[0].id,
+  detailVisibility: LocalStorage.getItem(HIDDEN_DETAIL_KEY, defaultDetailVisibility),
+};
 
 const slice = createSlice({
   name: 'configuration',
@@ -32,56 +46,87 @@ const slice = createSlice({
       state.message = action.payload;
       state.error = undefined;
     },
-    addConfig: (state) => {
-      state.configs.unshift({ ...defaultConfig, id: crypto.randomUUID() });
-      state.selectedConfigIndex = 0;
+    setSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
+    },
+    addConfig: {
+      reducer: (state, action: PayloadAction<Configuration>) => {
+        state.configs.unshift(action.payload);
+        state.selectedConfigId = action.payload.id;
+      },
+      prepare: () => {
+        const config = getDefaultConfig();
+        return { payload: config };
+      },
     },
     updateConfig: (state, action: PayloadAction<ConfigAction>) => {
       const { name, value } = action.payload;
-      const { configs, selectedConfigIndex } = state;
-      configs[selectedConfigIndex][name] = value;
-      if (name === 'url' && !configs[selectedConfigIndex].name) {
-        configs[selectedConfigIndex].name = getConfigName(value);
+      const { configs, selectedConfigId } = state;
+
+      const selectedConfig = configs.find((config) => config.id === selectedConfigId);
+      if (!selectedConfig) {
+        state.error = 'Invalid Configuration';
+        return;
+      }
+
+      selectedConfig[name] = value;
+      if (name === 'url' && !selectedConfig.name) {
+        selectedConfig.name = getConfigName(value);
       }
     },
     updateConfigSettings: (state, action: PayloadAction<ConfigAction>) => {
       const { name, value } = action.payload;
-      const { configs, selectedConfigIndex } = state;
-      configs[selectedConfigIndex][name] = value;
+      const { configs, selectedConfigId } = state;
+
+      const selectedConfig = configs.find((config) => config.id === selectedConfigId);
+      if (!selectedConfig) {
+        state.error = 'Invalid Configuration';
+        return;
+      }
+
+      selectedConfig[name] = value;
       if (name === 'startType' && value === START_TYPES.AUTO) {
-        delete configs[selectedConfigIndex].hotkey;
+        delete selectedConfig.hotkey;
       }
     },
-    removeConfig: (state, action: PayloadAction<number | undefined>) => {
+    removeConfig: (state, action: PayloadAction<RANDOM_UUID>) => {
       const { configs } = state;
-      const selectedConfigIndex = action.payload || state.selectedConfigIndex;
-      configs.splice(selectedConfigIndex, 1);
-      if (configs.length === 2) {
-        state.selectedConfigIndex = 0;
-      }
-      state.selectedConfigIndex = selectedConfigIndex === 0 ? selectedConfigIndex : selectedConfigIndex - 1;
+      const selectConfigIndex = configs.findIndex((config) => config.id === action.payload);
+      configs.splice(selectConfigIndex, 1);
+      state.selectedConfigId = configs[0].id;
     },
     setConfigs: (state, action: PayloadAction<Array<Configuration>>) => {
-      state.configs = action.payload;
-      state.selectedConfigIndex = 0;
+      state.configs = updateConfigIds(action.payload);
+      state.selectedConfigId = state.configs[0].id;
     },
     importAll: (state, action: PayloadAction<Array<Configuration>>) => {
-      state.configs = action.payload;
-      state.selectedConfigIndex = 0;
+      state.configs = updateConfigIds(action.payload);
+      state.selectedConfigId = state.configs[0].id;
     },
     importConfig: (state, action: PayloadAction<Configuration>) => {
-      state.configs.push(action.payload);
-      state.selectedConfigIndex = state.configs.length - 1;
+      const config = updateConfigId(action.payload);
+      state.configs.push(config);
+      state.selectedConfigId = config.id;
     },
     duplicateConfig: (state) => {
-      const { configs, selectedConfigIndex } = state;
-      const config = configs[selectedConfigIndex];
-      const name = '(Duplicate) ' + (config.name || config.url || 'Configuration');
-      state.configs.push({ ...configs[selectedConfigIndex], name, id: crypto.randomUUID() });
-      state.selectedConfigIndex = state.configs.length - 1;
+      const { configs, selectedConfigId } = state;
+      const id = crypto.randomUUID();
+      const selectedConfig = configs.find((config) => config.id === selectedConfigId);
+      if (!selectedConfig) {
+        state.error = 'Invalid Configuration';
+        return;
+      }
+      const name = '(Duplicate) ' + (selectedConfig.name || selectedConfig.url || 'Configuration');
+      const actions = selectedConfig.actions.map((action) => ({ ...action, id: crypto.randomUUID() }));
+      state.configs.push({ ...selectedConfig, name, id, actions });
+      state.selectedConfigId = id;
     },
-    selectConfig: (state, action: PayloadAction<number>) => {
-      state.selectedConfigIndex = action.payload;
+    selectConfig: (state, action: PayloadAction<RANDOM_UUID>) => {
+      state.selectedConfigId = action.payload;
+    },
+    setDetailVisibility: (state, action: PayloadAction<string>) => {
+      state.detailVisibility[action.payload] = !state.detailVisibility[action.payload];
+      LocalStorage.setItem(HIDDEN_DETAIL_KEY, state.detailVisibility);
     },
     ...actionActions,
     ...batchActions,
@@ -89,9 +134,9 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(configGetAllAPI.fulfilled, (state, action) => {
       if (action.payload) {
-        const { configurations, selectedConfigIndex } = action.payload;
+        const { configurations, selectedConfigId } = action.payload;
         state.configs = configurations;
-        state.selectedConfigIndex = selectedConfigIndex;
+        state.selectedConfigId = selectedConfigId || state.configs[0].id;
       }
       state.loading = false;
     });
@@ -100,13 +145,22 @@ const slice = createSlice({
       state.loading = false;
     });
     builder.addCase(openActionAddonModalAPI.fulfilled, (state, action) => {
-      state.selectedActionIndex = action.payload.index;
+      state.selectedActionId = action.payload.selectedActionId;
+    });
+    builder.addCase(openActionAddonModalAPI.rejected, (state, action) => {
+      state.error = action.error.message;
     });
     builder.addCase(openActionSettingsModalAPI.fulfilled, (state, action) => {
-      state.selectedActionIndex = action.payload.index;
+      state.selectedActionId = action.payload.selectedActionId;
+    });
+    builder.addCase(openActionSettingsModalAPI.rejected, (state, action) => {
+      state.error = action.error.message;
     });
     builder.addCase(openActionStatementModalAPI.fulfilled, (state, action) => {
-      state.selectedActionIndex = action.payload.index;
+      state.selectedActionId = action.payload.selectedActionId;
+    });
+    builder.addCase(openActionStatementModalAPI.rejected, (state, action) => {
+      state.error = action.error.message;
     });
   },
 });
@@ -131,24 +185,46 @@ export const {
   syncActionAddon,
   syncActionSettings,
   syncActionStatement,
+  setSearch,
+  setDetailVisibility,
 } = slice.actions;
 
+//Config Selectors
 export const configSelector = (state: RootState) => state.configuration;
 
-const configsSelector = (state: RootState) => state.configuration.configs;
-const selectedConfigIndexSelector = (state: RootState) => state.configuration.selectedConfigIndex;
-const selectedActionIndexSelector = (state: RootState) => state.configuration.selectedActionIndex;
+const searchSelector = (state: RootState) => state.configuration.search;
+export const filteredConfigsSelector = createSelector(
+  (state: RootState) => state.configuration.configs,
+  searchSelector,
+  (configs, search) => {
+    if (search) {
+      return configs.filter((config) => {
+        const name = config.name ? config.name.toLowerCase() : '';
+        const url = config.url ? config.url.toLowerCase() : '';
+        return name.includes(search.toLowerCase()) || url.includes(search.toLowerCase());
+      });
+    }
+    return configs;
+  }
+);
+const selectedConfigIdSelector = (state: RootState) => state.configuration.selectedConfigId;
+const selectedActionIdSelector = (state: RootState) => state.configuration.selectedActionId;
 
-export const selectedConfigSelector = createSelector(configsSelector, selectedConfigIndexSelector, (configs, selectedConfigIndex) => configs[selectedConfigIndex]);
+export const selectedConfigSelector = createSelector(filteredConfigsSelector, selectedConfigIdSelector, (configs, selectedConfigId) => configs.find((config) => config.id === selectedConfigId));
 
-export const selectedActionSelector = createSelector(selectedConfigSelector, selectedActionIndexSelector, (config, selectedActionIndex) => config.actions[selectedActionIndex]);
+//Action Selectors
+export const selectedActionSelector = createSelector(selectedConfigSelector, selectedActionIdSelector, (config, selectedActionId) => config?.actions.find((action) => action.id === selectedActionId));
 
-export const selectedActionSettingsSelector = createSelector(selectedActionSelector, (action) => action.settings);
+//Action Settings Selectors
+export const selectedActionSettingsSelector = createSelector(selectedActionSelector, (action) => action?.settings);
 
-export const selectedActionStatementSelector = createSelector(selectedActionSelector, (action) => action.statement);
+//Action Statement Selectors
+export const selectedActionStatementSelector = createSelector(selectedActionSelector, (action) => action?.statement);
 
-export const selectedActionAddonSelector = createSelector(selectedActionSelector, (action) => action.addon);
+// Action Addon Selectors
+export const selectedActionAddonSelector = createSelector(selectedActionSelector, (action) => action?.addon);
 
-export const selectedActionStatementConditionsSelector = createSelector(selectedActionSelector, (action) => action.statement?.conditions);
+// Action Statement Conditions Selectors
+export const selectedActionStatementConditionsSelector = createSelector(selectedActionSelector, (action) => action?.statement?.conditions);
 
 export const configReducer = slice.reducer;

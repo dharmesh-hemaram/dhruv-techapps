@@ -8,7 +8,7 @@ export const defaultColumn: Partial<ColumnDef<Action>> = {
   cell: Cell,
 };
 
-function Cell({ getValue, row: { index, original }, column: { id, columnDef }, table }) {
+function Cell({ getValue, row: { original }, column: { id, columnDef }, table }) {
   const { meta } = columnDef;
   const initialValue = getValue();
   const [value, setValue] = useState(initialValue);
@@ -18,7 +18,7 @@ function Cell({ getValue, row: { index, original }, column: { id, columnDef }, t
   const onBlur = (e) => {
     const update = getFieldNameValue(e, { [id]: initialValue });
     if (update) {
-      table.options.meta?.updateData(index, update.name, update.value);
+      table.options.meta?.updateData(original.id, update.name, update.value);
     }
   };
 

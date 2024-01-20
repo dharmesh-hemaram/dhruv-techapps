@@ -1,6 +1,11 @@
-import { Action, Configuration, defaultConfig } from '@dhruv-techapps/acf-common';
+import { Action, Configuration, RANDOM_UUID, getDefaultAction, getDefaultConfig } from '@dhruv-techapps/acf-common';
 import { blogCheckAPI } from '../blog';
 
+/**
+ * Retrieves the configuration name based on the provided URL.
+ * @param url - The URL to extract the configuration name from.
+ * @returns The configuration name extracted from the URL.
+ */
 export const getConfigName = (url?: string) => {
   if (url && url.match('://.*') !== null) {
     const domainNames = url.split('/')[2].split('.');
@@ -12,44 +17,84 @@ export const getConfigName = (url?: string) => {
   return url;
 };
 
-export const checkQueryParams = (_configs: Array<Configuration>, thunkAPI) => {
+/**
+ * Checks the query parameters in the URL and performs necessary actions on the configurations.
+ * @param configs - An array of configurations.
+ * @param thunkAPI - The thunk API object.
+ * @returns The index of the selected configuration.
+ */
+export const checkQueryParams = (configs: Array<Configuration>, thunkAPI): RANDOM_UUID | undefined => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const object: any = {};
-  let selectedConfigIndex = 0;
   if (window.location.search) {
     const params = window.location.search.replace('?', '').split('&');
     Object.values(params).forEach((param) => {
       const [name, value] = param.split('=');
       object[name] = decodeURIComponent(value);
     });
-    if (object.url) {
-      selectedConfigIndex = _configs.findIndex((_config) => _config.url === object.url);
-      if (selectedConfigIndex === -1 && object.elementFinder) {
-        const newConfig = { ...defaultConfig, name: 'getautoclicker.com' };
-        newConfig.url = object.url;
-        newConfig.actions[0].elementFinder = object.elementFinder;
-        _configs.push(newConfig);
-        selectedConfigIndex = _configs.length - 1;
-      } else if (object.error) {
-        const XPathIndex = _configs[selectedConfigIndex].actions.findIndex((action) => action.elementFinder === object.elementFinder);
-        if (XPathIndex !== -1) {
-          const { error } = _configs[selectedConfigIndex].actions[XPathIndex];
-          if (error) {
-            error.push('elementFinder');
-          } else {
-            _configs[selectedConfigIndex].actions[XPathIndex].error = ['elementFinder'];
+    if (object.configId) {
+      const selectedConfig = configs.find((config) => config.id === object.id);
+      if (selectedConfig) {
+        const action = selectedConfig.actions.find((action) => action.id === object.actionId);
+        if (action) {
+          const { error } = action;
+          if (object.error) {
+            if (error) {
+              error.push('elementFinder');
+            } else {
+              action.error = ['elementFinder'];
+            }
           }
         }
-      } else if (object.elementFinder) {
-        const XPathIndex = _configs[selectedConfigIndex].actions.findIndex((action) => action.elementFinder === object.elementFinder);
-        if (XPathIndex === -1) {
-          const action: Action = { elementFinder: object.elementFinder };
-          _configs[selectedConfigIndex].actions.push(action);
+        return selectedConfig.id;
+      }
+    } else if (object.url && object.elementFinder) {
+      const selectedConfig = configs.find((config) => config.url === object.url);
+      if (selectedConfig) {
+        const selectedAction = selectedConfig.actions.find((action) => action.elementFinder === object.elementFinder);
+        if (!selectedAction) {
+          const action: Action = { ...getDefaultAction(), elementFinder: object.elementFinder, error: [] };
+          selectedConfig.actions.push(action);
         }
+        return selectedConfig.id;
+      } else {
+        const newConfig = getDefaultConfig();
+        newConfig.url = object.url;
+        newConfig.name = getConfigName(object.url);
+        newConfig.actions[0].elementFinder = object.elementFinder;
+        newConfig.actions[0].error = [];
+        configs.unshift(newConfig);
+        return newConfig.id;
       }
     } else if (object.version) {
       thunkAPI.dispatch(blogCheckAPI(object.version));
     }
   }
-  return selectedConfigIndex;
+};
+
+/**
+ * Updates the configuration IDs for the given array of configurations.
+ * @param configs - An array of configurations.
+ * @returns The updated array of configurations with updated IDs.
+ */
+export const updateConfigIds = (configs: Array<Configuration>) => {
+  const updatedConfigs = configs.map((config) => {
+    if (!config.id) {
+      config.id = crypto.randomUUID();
+    }
+    return config;
+  });
+  return updatedConfigs;
+};
+
+/**
+ * Updates the configuration IDs for the given configuration.
+ * @param config - A configuration.
+ * @returns The updated configuration with updated IDs.
+ */
+export const updateConfigId = (config: Configuration) => {
+  if (!config.id) {
+    return { ...config, id: crypto.randomUUID() };
+  }
+  return config;
 };

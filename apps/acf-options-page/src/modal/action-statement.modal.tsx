@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent } from 'react';
 
 import { Alert, Button, Col, Form, Modal, Row, Table } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { ACTION_RUNNING, defaultActionCondition } from '@dhruv-techapps/acf-common';
+import { ACTION_CONDITION_OPR, ACTION_RUNNING, getDefaultActionCondition } from '@dhruv-techapps/acf-common';
 import { ActionStatementCondition } from './action-statement/action-statement-condition';
 import { Plus } from '../util/svg';
 import { actionStatementSelector, setActionStatementMessage, switchActionStatementModal, syncActionStatement } from '../store/config';
@@ -15,8 +15,8 @@ const FORM_ID = 'actionCondition';
 const ActionStatementModal = () => {
   const { t } = useTranslation();
   const { message, visible, statement, error } = useAppSelector(actionStatementSelector);
-  const { actions } = useAppSelector(selectedConfigSelector);
-  const { selectedActionIndex } = useAppSelector(configSelector);
+  const config = useAppSelector(selectedConfigSelector);
+  const { selectedActionId } = useAppSelector(configSelector);
   const dispatch = useAppDispatch();
 
   useTimeout(() => {
@@ -37,7 +37,7 @@ const ActionStatementModal = () => {
   };
 
   const addCondition = () => {
-    dispatch(addActionStatementCondition({ ...defaultActionCondition }));
+    dispatch(addActionStatementCondition(getDefaultActionCondition(ACTION_CONDITION_OPR.AND)));
   };
 
   const onHide = () => {
@@ -54,6 +54,12 @@ const ActionStatementModal = () => {
     form.checkValidity();
     dispatch(syncActionStatement(statement));
   };
+
+  if (!config || !selectedActionId) {
+    return null;
+  }
+
+  const { actions } = config;
 
   return (
     <Modal show={visible} size='lg' onHide={onHide} onShow={onShow} data-testid='action-statement-modal'>
@@ -79,7 +85,7 @@ const ActionStatementModal = () => {
             </thead>
             <tbody>
               {statement.conditions.map((condition, index) => (
-                <ActionStatementCondition key={index} index={index} condition={condition} />
+                <ActionStatementCondition key={condition.id} index={index} condition={condition} />
               ))}
             </tbody>
           </Table>
@@ -120,9 +126,9 @@ const ActionStatementModal = () => {
             <Row>
               <Col xs={{ span: 4, offset: 8 }}>
                 <Form.Select value={statement.goto} onChange={onUpdateGoto} name='goto' required>
-                  {actions.map((_action, index) => (
-                    <option key={index} value={index} disabled={index === Number(selectedActionIndex)}>
-                      {index + 1} . {_action.name || _action.elementFinder}
+                  {actions.map((_action) => (
+                    <option key={_action.id} value={_action.id} disabled={_action.id === selectedActionId}>
+                      {_action.id} . {_action.name || _action.elementFinder}
                     </option>
                   ))}
                 </Form.Select>

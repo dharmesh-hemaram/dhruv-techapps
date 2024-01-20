@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ErrorAlert } from '../components';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { configRemoveSelector, configRemoveUpdateAPI, switchConfigRemoveModal, switchConfigRemoveSelection } from '../store/config';
+import { RANDOM_UUID } from '@dhruv-techapps/acf-common';
 
 const RemoveConfigsModal = () => {
   const { visible, configs, error } = useAppSelector(configRemoveSelector);
@@ -21,8 +22,8 @@ const RemoveConfigsModal = () => {
 
   const remove = (e: ChangeEvent<HTMLInputElement>) => {
     const { dataset } = e.currentTarget;
-    if (dataset.index) {
-      dispatch(switchConfigRemoveSelection(Number(dataset.index)));
+    if (dataset.id) {
+      dispatch(switchConfigRemoveSelection(dataset.id as RANDOM_UUID));
     }
   };
 
@@ -45,20 +46,20 @@ const RemoveConfigsModal = () => {
           <ErrorAlert error={error} />
           <p className='text-muted'>This action cant be reverted.</p>
           <ListGroup>
-            {configs?.map((config, index) => (
-              <ListGroup.Item key={index}>
+            {configs?.map((config) => (
+              <ListGroup.Item key={config.id}>
                 <Form.Check
                   type='checkbox'
                   checked={config.checked || false}
                   onChange={remove}
                   className={config.checked ? 'text-danger' : ''}
-                  data-index={index}
-                  name={`remove-configs-${index}`}
+                  data-id={config.id}
+                  name={`remove-configs-${config.id}`}
                   disabled={!config.checked && configs.length === checkedConfigLength()}
-                  id={`configuration-checkbox-${index}`}
+                  id={`configuration-checkbox-${config.id}`}
                   label={
                     <>
-                      {config.name || 'configuration - ' + index}
+                      {config.name || 'configuration - ' + config.id}
                       {!config.enable && (
                         <Badge pill bg='secondary' className='ms-2'>
                           {t('common.disabled')}

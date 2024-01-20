@@ -57,9 +57,9 @@ const ReorderConfigsModal = () => {
           </Button>
           <div className='list-group'>
             <Reorder reorderId='configurations' draggedClassName='active' placeholderClassName='list-group' onReorder={onReorder}>
-              {configs?.map((config, index) => (
-                <ListGroup.Item key={index}>
-                  {config.name || 'configuration - ' + index}
+              {configs?.map((config) => (
+                <ListGroup.Item key={config.id}>
+                  {config.name || 'configuration - ' + config.id}
                   {!config.enable && (
                     <Badge pill bg='secondary' className='ms-2'>
                       {t('common.disabled')}

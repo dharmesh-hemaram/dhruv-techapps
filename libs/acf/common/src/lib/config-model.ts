@@ -1,5 +1,6 @@
 import { Batch } from './batch-model';
-import { Action, defaultAction } from './action-model';
+import { Action, getDefaultAction } from './action-model';
+import { RANDOM_UUID } from './common';
 
 export enum LOAD_TYPES {
   WINDOW = 'window',
@@ -19,7 +20,7 @@ export type Configuration = {
   startType: START_TYPES;
   loadType: LOAD_TYPES;
   actions: Array<Action>;
-  id?: string;
+  id: RANDOM_UUID;
   configId?: number;
   name?: string;
   initWait?: number;
@@ -30,10 +31,11 @@ export type Configuration = {
   new?: boolean;
 };
 
-export const defaultConfig: Configuration = {
+export const getDefaultConfig = (): Configuration => ({
   url: '',
+  id: crypto.randomUUID(),
   enable: true,
   startType: START_TYPES.AUTO,
   loadType: LOAD_TYPES.WINDOW,
-  actions: [{ ...defaultAction }],
-};
+  actions: [getDefaultAction()],
+});

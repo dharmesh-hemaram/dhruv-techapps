@@ -5,13 +5,14 @@ import { DropdownToggle } from '../../../components';
 import { Filter, Plus, Repeat } from '../../../util';
 import { ActionSettingsModal, ActionStatementModal, AddonModal } from '../../../modal';
 import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
-import { addAction, switchBatchModal } from '@apps/acf-options-page/src/store/config';
+import { addAction, selectedConfigSelector, switchBatchModal } from '@apps/acf-options-page/src/store/config';
 import { actionSelector, setActionMessage, setColumnVisibility } from '@apps/acf-options-page/src/store/config/action/action.slice';
 import { useTimeout } from '@apps/acf-options-page/src/_hooks/message.hooks';
 
 function Action() {
   const { t } = useTranslation();
   const { message, error, columnVisibility } = useAppSelector(actionSelector);
+  const config = useAppSelector(selectedConfigSelector);
   const dispatch = useAppDispatch();
 
   useTimeout(() => {
@@ -26,6 +27,12 @@ function Action() {
   const onAddAction = () => {
     dispatch(addAction());
   };
+
+  if (!config) {
+    return null;
+  }
+
+  const { actions } = config;
 
   return (
     <>
@@ -67,7 +74,7 @@ function Action() {
           </Row>
         </Card.Header>
         <Card.Body className='p-0'>
-          <ActionTable />
+          <ActionTable actions={actions} />
         </Card.Body>
       </Card>
       <AddonModal />

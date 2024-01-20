@@ -1,12 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
-import { ActionStatement } from '@dhruv-techapps/acf-common';
+import { ActionStatement, RANDOM_UUID } from '@dhruv-techapps/acf-common';
 
-export const openActionStatementModalAPI = createAsyncThunk<{ statement: ActionStatement | undefined; index: number }, number, { state: RootState }>(
+export const openActionStatementModalAPI = createAsyncThunk<{ statement: ActionStatement | undefined; selectedActionId: RANDOM_UUID }, RANDOM_UUID, { state: RootState }>(
   'action-statement/open',
-  async (index, thunkAPI) => {
+  async (selectedActionId, thunkAPI) => {
     const { configuration } = thunkAPI.getState() as RootState;
-    const { selectedConfigIndex, configs } = configuration;
-    return { statement: configs[selectedConfigIndex].actions[index].statement, index };
+    const { selectedConfigId, configs } = configuration;
+    const config = configs.find((config) => config.id === selectedConfigId);
+    if (!config) {
+      throw new Error('Invalid Configuration');
+    }
+    const action = config.actions.find((action) => action.id === selectedActionId);
+    if (!action) {
+      throw new Error('Invalid Action');
+    }
+    return { statement: action.statement, selectedActionId };
   }
 );

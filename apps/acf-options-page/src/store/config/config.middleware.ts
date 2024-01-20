@@ -83,13 +83,10 @@ configsListenerMiddleware.startListening({
     updateConfigSettings,
     removeConfig,
     duplicateConfig,
-
     updateBatch,
-
     updateAction,
     reorderActions,
     removeAction,
-
     syncActionAddon,
     syncActionSettings,
     syncActionStatement

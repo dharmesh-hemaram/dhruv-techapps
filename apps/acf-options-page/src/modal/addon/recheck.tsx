@@ -10,8 +10,8 @@ import { ChangeEvent } from 'react';
 function AddonRecheck() {
   const { t } = useTranslation();
   const { addon } = useAppSelector(actionAddonSelector);
-  const { actions } = useAppSelector(selectedConfigSelector);
-  const { selectedActionIndex } = useAppSelector(configSelector);
+  const config = useAppSelector(selectedConfigSelector);
+  const { selectedActionId } = useAppSelector(configSelector);
   const dispatch = useAppDispatch();
 
   const onUpdate = (e) => {
@@ -24,6 +24,12 @@ function AddonRecheck() {
   const onUpdateGoto = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(updateActionAddonGoto(Number(e.currentTarget.value)));
   };
+
+  if (!config || !addon || !selectedActionId) {
+    return null;
+  }
+
+  const actions = config.actions;
 
   return (
     <Row>
@@ -89,9 +95,9 @@ function AddonRecheck() {
       {addon.recheckOption === RECHECK_OPTIONS.GOTO && (
         <Col xs={{ span: 3, offset: 9 }}>
           <Form.Select value={addon.recheckGoto} onChange={onUpdateGoto} name='goto' required>
-            {actions.map((_action, index) => (
-              <option key={index} value={index} disabled={index === Number(selectedActionIndex)}>
-                {index + 1} . {_action.name || _action.elementFinder}
+            {actions.map((_action) => (
+              <option key={_action.id} value={_action.id} disabled={_action.id === selectedActionId}>
+                {_action.id} . {_action.name || _action.elementFinder}
               </option>
             ))}
           </Form.Select>

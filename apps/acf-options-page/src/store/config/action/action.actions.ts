@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { defaultAction } from '@dhruv-techapps/acf-common';
+import { RANDOM_UUID, getDefaultAction } from '@dhruv-techapps/acf-common';
 import { ConfigStore } from '../config.slice';
 import { actionAddonActions } from './addon';
 import { actionSettingsActions } from './settings';
@@ -19,20 +19,45 @@ const arrayMove = (arr, oldIndex, newIndex) => {
 
 export const actionActions = {
   reorderActions: (state: ConfigStore, action: PayloadAction<{ oldIndex: number; newIndex: number }>) => {
-    const { configs, selectedConfigIndex } = state;
+    const { configs, selectedConfigId } = state;
     const { oldIndex, newIndex } = action.payload;
-    configs[selectedConfigIndex].actions = [...arrayMove(configs[selectedConfigIndex].actions, oldIndex, newIndex)];
+
+    const selectedConfig = configs.find((config) => config.id === selectedConfigId);
+    if (!selectedConfig) {
+      state.error = 'Invalid Configuration';
+      return;
+    }
+    selectedConfig.actions = [...arrayMove(selectedConfig.actions, oldIndex, newIndex)];
   },
   addAction: (state: ConfigStore) => {
-    const { configs, selectedConfigIndex } = state;
-    configs[selectedConfigIndex].actions.push({ ...defaultAction });
+    const { configs, selectedConfigId } = state;
+
+    const selectedConfig = configs.find((config) => config.id === selectedConfigId);
+    if (!selectedConfig) {
+      state.error = 'Invalid Configuration';
+      return;
+    }
+    selectedConfig.actions.push(getDefaultAction());
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  updateAction: (state: ConfigStore, action: PayloadAction<{ index: number; name: string; value: any }>) => {
-    const { configs, selectedConfigIndex } = state;
-    const { name, value, index } = action.payload;
-    configs[selectedConfigIndex].actions[index][name] = value;
-    const { error } = configs[selectedConfigIndex].actions[index];
+  updateAction: (state: ConfigStore, action: PayloadAction<{ selectedActionId: RANDOM_UUID; name: string; value: any }>) => {
+    const { configs, selectedConfigId } = state;
+    const { name, value, selectedActionId } = action.payload;
+
+    const selectedConfig = configs.find((config) => config.id === selectedConfigId);
+    if (!selectedConfig) {
+      state.error = 'Invalid Configuration';
+      return;
+    }
+
+    const selectedAction = selectedConfig.actions.find((action) => action.id === selectedActionId);
+    if (!selectedAction) {
+      state.error = 'Invalid Action';
+      return;
+    }
+
+    selectedAction[name] = value;
+    const { error } = selectedAction;
     if (error) {
       const index = error.indexOf(name);
       if (index > -1) {
@@ -40,9 +65,23 @@ export const actionActions = {
       }
     }
   },
-  removeAction: (state: ConfigStore, action: PayloadAction<number>) => {
-    const { configs, selectedConfigIndex } = state;
-    configs[selectedConfigIndex].actions.splice(action.payload, 1);
+  removeAction: (state: ConfigStore, action: PayloadAction<RANDOM_UUID>) => {
+    const { configs, selectedConfigId } = state;
+    const selectedActionId = action.payload;
+
+    const selectedConfig = configs.find((config) => config.id === selectedConfigId);
+    if (!selectedConfig) {
+      state.error = 'Invalid Configuration';
+      return;
+    }
+
+    const selectedActionIndex = selectedConfig.actions.findIndex((action) => action.id === selectedActionId);
+    if (selectedActionIndex === -1) {
+      state.error = 'Invalid Action';
+      return;
+    }
+
+    selectedConfig.actions.splice(selectedActionIndex, 1);
   },
   ...actionAddonActions,
   ...actionSettingsActions,

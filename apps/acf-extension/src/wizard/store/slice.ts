@@ -3,13 +3,13 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { WizardAction } from '../type';
 import { WizardElementUtil } from '../element-util';
 import { RootState } from '../store';
-import { Configuration, defaultConfig } from '@dhruv-techapps/acf-common';
+import { Configuration, getDefaultConfig } from '@dhruv-techapps/acf-common';
 
 type WizardConfiguration = Omit<Configuration, 'actions'> & {
   actions: Array<WizardAction>;
 };
 
-const initialState: WizardConfiguration = { ...defaultConfig };
+const initialState: WizardConfiguration = getDefaultConfig();
 
 const slice = createSlice({
   name: 'wizard',
@@ -20,10 +20,9 @@ const slice = createSlice({
         return action.payload;
       }
       const { host, pathname, origin } = document.location;
-      const config = { ...defaultConfig };
+      const config = getDefaultConfig();
       config.url = origin + pathname;
       config.name = host + pathname;
-      config.actions = [];
       return config;
     },
     removeWizardAction: (state, action: PayloadAction<number>) => {

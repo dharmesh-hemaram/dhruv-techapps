@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../store';
-import { Configuration } from '@dhruv-techapps/acf-common';
+import { Configuration, RANDOM_UUID } from '@dhruv-techapps/acf-common';
 import { configRemoveUpdateAPI } from './config-remove.api';
 
 export type ConfigurationRemoveType = Configuration & { checked?: boolean };
@@ -24,9 +24,14 @@ const slice = createSlice({
       }
       state.visible = !state.visible;
     },
-    switchConfigRemoveSelection: (state, action: PayloadAction<number>) => {
+    switchConfigRemoveSelection: (state, action: PayloadAction<RANDOM_UUID>) => {
       if (state.configs) {
-        state.configs[action.payload].checked = !state.configs[action.payload].checked;
+        const config = state.configs.find((config) => config.id === action.payload);
+        if (!config) {
+          throw new Error('Config not found');
+        }
+
+        config.checked = !config.checked;
       }
     },
     setConfigRemoveMessage: (state, action: PayloadAction<string | undefined>) => {

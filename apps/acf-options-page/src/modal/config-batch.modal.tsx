@@ -11,7 +11,7 @@ const FORM_ID = 'batch-body';
 const BatchModal = () => {
   const { t } = useTranslation();
 
-  const { batch } = useAppSelector(selectedConfigSelector);
+  const config = useAppSelector(selectedConfigSelector);
   const { visible, message } = useAppSelector(batchSelector);
   const dispatch = useAppDispatch();
 
@@ -33,6 +33,12 @@ const BatchModal = () => {
   const onShow = () => {
     //:TODO
   };
+
+  if (!config) {
+    return null;
+  }
+
+  const { batch } = config;
 
   return (
     <Modal show={visible} size='lg' onHide={handleClose} onShow={onShow} data-testid='config-batch-modal'>

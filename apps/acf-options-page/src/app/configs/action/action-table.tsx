@@ -1,41 +1,41 @@
 import { useMemo } from 'react';
 import { Button, Dropdown, Form, Table } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnDef, Row, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
 import { CaretDown, CaretUp, REGEX, ThreeDots, Trash } from '../../../util';
 import { ElementFinderPopover, ValuePopover } from '../../../popover';
 import { DropdownToggle } from '../../../components';
 import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
-import {
-  removeAction,
-  reorderActions,
-  selectedConfigSelector,
-  updateAction,
-  actionSelector,
-  openActionAddonModalAPI,
-  openActionStatementModalAPI,
-  openActionSettingsModalAPI,
-} from '@apps/acf-options-page/src/store/config';
+import { removeAction, reorderActions, updateAction, actionSelector, openActionAddonModalAPI, openActionStatementModalAPI, openActionSettingsModalAPI } from '@apps/acf-options-page/src/store/config';
 import { useConfirmationModalContext } from '@apps/acf-options-page/src/_providers/confirm.provider';
-import { Action } from '@dhruv-techapps/acf-common';
+import { Action, RANDOM_UUID } from '@dhruv-techapps/acf-common';
 import { defaultColumn } from './editable-cell';
 
 type ActionMeta = { dataType: string; list: string; pattern: string; required: boolean; width?: string };
-const ActionTable = () => {
+
+type ActionProps = {
+  actions: Action[];
+};
+
+const ActionTable = ({ actions }: ActionProps) => {
   const { t } = useTranslation();
-  const { actions } = useAppSelector(selectedConfigSelector);
+
   const { columnVisibility } = useAppSelector(actionSelector);
   const dispatch = useAppDispatch();
   const modalContext = useConfirmationModalContext();
 
-  const removeActionConfirm = async (rowIndex) => {
-    const name = `#${+rowIndex + 1} - ${actions[rowIndex].name || actions[rowIndex].elementFinder || 'row'}`;
+  const removeActionConfirm = async (actionId: RANDOM_UUID) => {
+    const action = actions.find((action) => action.id === actionId);
+    if (!action) {
+      return false;
+    }
+    const name = action.name || action.elementFinder || `action ${action.id}`;
     const result = await modalContext.showConfirmation({
       title: t('confirm.action.remove.title'),
       message: t('confirm.action.remove.message', name),
       headerClass: 'text-danger',
     });
-    result && dispatch(removeAction(Number(rowIndex)));
+    result && dispatch(removeAction(actionId));
   };
 
   const columns = useMemo<ColumnDef<Action, ActionMeta>[]>(
@@ -121,22 +121,22 @@ const ActionTable = () => {
     // Provide our updateData function to our table meta
     meta: {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      updateData: (rowIndex: number, columnId: string, value: any) => {
-        dispatch(updateAction({ index: rowIndex, name: columnId, value }));
+      updateData: (selectedActionId: RANDOM_UUID, columnId: string, value: any) => {
+        dispatch(updateAction({ selectedActionId, name: columnId, value }));
       },
     },
   });
 
-  const showAddon = (row) => {
-    dispatch(openActionAddonModalAPI(Number(row.id)));
+  const showAddon = (row: Row<Action>) => {
+    dispatch(openActionAddonModalAPI(row.original.id));
   };
 
-  const showCondition = (row) => {
-    dispatch(openActionStatementModalAPI(Number(row.id)));
+  const showCondition = (row: Row<Action>) => {
+    dispatch(openActionStatementModalAPI(row.original.id));
   };
 
-  const showSettings = (row) => {
-    dispatch(openActionSettingsModalAPI(Number(row.id)));
+  const showSettings = (row: Row<Action>) => {
+    dispatch(openActionSettingsModalAPI(row.original.id));
   };
 
   const moveUp = (e, rowId) => {
@@ -172,16 +172,8 @@ const ActionTable = () => {
             <tr key={row.id}>
               <td align='center'>
                 <div className='d-flex flex-column align-items-center text-secondary'>
-                  <CaretUp
-                    width='20'
-                    height='20'
-                    onClick={(e) => moveUp(e, row.id)} //disabled={index === 0}
-                  />
-                  <CaretDown
-                    width='20'
-                    height='20'
-                    onClick={(e) => moveDown(e, row.id)} //disabled={index === rows.length - 1}
-                  />
+                  <CaretUp width='20' height='20' onClick={(e) => moveUp(e, row.id)} />
+                  <CaretDown width='20' height='20' onClick={(e) => moveDown(e, row.id)} />
                 </div>
               </td>
               {row.getVisibleCells().map((cell) => (
@@ -192,7 +184,7 @@ const ActionTable = () => {
                   variant='link'
                   data-testid='action-remove'
                   onClick={() => {
-                    removeActionConfirm(row.id);
+                    removeActionConfirm(row.original.id);
                   }}
                   disabled={actions.length === 1}
                 >

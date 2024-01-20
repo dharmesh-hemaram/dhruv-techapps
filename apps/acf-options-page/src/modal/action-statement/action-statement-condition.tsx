@@ -14,24 +14,30 @@ type Props = {
 
 function ActionStatementCondition({ condition, index }: Props) {
   const { actionIndex, status, operator = ACTION_CONDITION_OPR.AND } = condition;
-  const { actions } = useAppSelector(selectedConfigSelector);
+  const config = useAppSelector(selectedConfigSelector);
 
   const dispatch = useAppDispatch();
 
   const changeOpr = (_operator: ACTION_CONDITION_OPR) => {
-    dispatch(updateActionStatementCondition({ name: 'operator', value: _operator, index }));
+    dispatch(updateActionStatementCondition({ name: 'operator', value: _operator, id: condition.id }));
   };
 
   const removeCondition = () => {
-    dispatch(removeActionStatementCondition(index));
+    dispatch(removeActionStatementCondition(condition.id));
   };
 
   const onUpdate = (e: ChangeEvent<HTMLSelectElement>) => {
     const update = getFieldNameValue(e);
     if (update) {
-      dispatch(updateActionStatementCondition({ ...update, index }));
+      dispatch(updateActionStatementCondition({ ...update, id: condition.id }));
     }
   };
+
+  if (!config) {
+    return null;
+  }
+
+  const { actions } = config;
 
   return (
     <tr>
@@ -50,17 +56,17 @@ function ActionStatementCondition({ condition, index }: Props) {
       <td>
         <Form.Select value={actionIndex} onChange={onUpdate} name='actionIndex' required className='flex-grow-1 me-1'>
           <option value=''>~~ SELECT ACTION ~~</option>
-          {actions.map((_action, index) => (
-            <option key={index} value={index}>
-              {index + 1} . {_action.name || _action.elementFinder}
+          {actions.map((_action) => (
+            <option key={_action.id} value={_action.id}>
+              {_action.id} . {_action.name || _action.elementFinder}
             </option>
           ))}
         </Form.Select>
       </td>
       <td>
         <Form.Select value={status} onChange={onUpdate} name='status' required style={{ flexShrink: 2 }}>
-          {Object.entries(ACTION_STATUS).map((_status, index) => (
-            <option key={index} value={_status[1]}>
+          {Object.entries(ACTION_STATUS).map((_status) => (
+            <option key={_status[1]} value={_status[1]}>
               {_status[0]}
             </option>
           ))}

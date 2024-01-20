@@ -4,11 +4,23 @@ import { ActionSettings } from '@dhruv-techapps/acf-common';
 
 export const actionSettingsActions = {
   syncActionSettings: (state: ConfigStore, action: PayloadAction<ActionSettings | undefined>) => {
-    const { configs, selectedActionIndex, selectedConfigIndex } = state;
+    const { configs, selectedActionId, selectedConfigId } = state;
+
+    const selectedConfig = configs.find((config) => config.id === selectedConfigId);
+    if (!selectedConfig) {
+      state.error = 'Invalid Configuration';
+      return;
+    }
+    const selectedAction = selectedConfig.actions.find((action) => action.id === selectedActionId);
+    if (!selectedAction) {
+      state.error = 'Invalid Action';
+      return;
+    }
+
     if (action.payload) {
-      configs[selectedConfigIndex].actions[selectedActionIndex].settings = action.payload;
+      selectedAction.settings = action.payload;
     } else {
-      delete configs[selectedConfigIndex].actions[selectedActionIndex].settings;
+      delete selectedAction.settings;
     }
   },
 };

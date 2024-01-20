@@ -14,6 +14,7 @@ function ConfigBody() {
   const [isInvalid, setIsInvalid] = useState(true);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
   const onUpdate = (e) => {
     const update = getFieldNameValue(e, config);
     if (update) {
@@ -26,11 +27,15 @@ function ConfigBody() {
   };
 
   useEffect(() => {
-    if (config.url) {
+    if (config && config.url) {
       setIsInvalid(false);
     }
     updateForm(FORM_ID, config);
   }, [config]);
+
+  if (!config) {
+    return null;
+  }
 
   return (
     <Form id={FORM_ID}>

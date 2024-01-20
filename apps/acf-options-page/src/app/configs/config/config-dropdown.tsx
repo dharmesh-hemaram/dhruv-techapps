@@ -31,7 +31,7 @@ export const ConfigDropdown = (props) => {
     dispatch(addConfig());
   };
 
-  const { configs, selectedConfigIndex } = useAppSelector(configSelector);
+  const { configs, selectedConfigId } = useAppSelector(configSelector);
 
   const style = { '--bs-bg-opacity': `.25` } as React.CSSProperties;
 
@@ -41,10 +41,10 @@ export const ConfigDropdown = (props) => {
         <Col>
           <Form>
             <Form.Group controlId='selected' className='mb-0'>
-              <Form.Select onChange={onChange} value={selectedConfigIndex} id='configuration-list' className='ps-4 border-0' data-type='number'>
-                {configs.map((config, index) => (
-                  <option key={index} value={index} className={!config.enable ? 'bg-secondary' : ''} style={style}>
-                    {`(${config.name || 'configuration - ' + index})`} {config.url}
+              <Form.Select onChange={onChange} value={selectedConfigId} id='configuration-list' className='ps-4 border-0' data-type='number'>
+                {configs.map((config) => (
+                  <option key={config.id} value={config.id} className={!config.enable ? 'bg-secondary' : ''} style={style}>
+                    {`(${config.name || 'configuration - ' + config.id})`} {config.url}
                   </option>
                 ))}
               </Form.Select>

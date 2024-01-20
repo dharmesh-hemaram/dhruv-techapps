@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
-import { ACTION_RUNNING, ActionCondition, ActionStatement, defaultActionStatement } from '@dhruv-techapps/acf-common';
+import { ACTION_RUNNING, ActionCondition, ActionStatement, RANDOM_UUID, getDefaultActionStatement } from '@dhruv-techapps/acf-common';
 import { openActionStatementModalAPI } from './statement.api';
 
 type ActionStatementStore = {
@@ -10,24 +10,25 @@ type ActionStatementStore = {
   statement: ActionStatement;
 };
 
-const initialState: ActionStatementStore = { visible: false, statement: { ...defaultActionStatement } };
+const initialState: ActionStatementStore = { visible: false, statement: getDefaultActionStatement() };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type StatementCondition = { name: string; value: any; index: number };
+type StatementCondition = { name: string; value: any; id: RANDOM_UUID };
 
 const slice = createSlice({
   name: 'actionStatement',
   initialState,
   reducers: {
     updateActionStatementCondition: (state, action: PayloadAction<StatementCondition>) => {
-      const { name, value, index } = action.payload;
-      state.statement.conditions[index][name] = value;
+      const { name, value, id } = action.payload;
+      state.statement.conditions.find((condition) => condition.id === id)![name] = value;
     },
     addActionStatementCondition: (state, action: PayloadAction<ActionCondition>) => {
       state.statement.conditions.push(action.payload);
     },
-    removeActionStatementCondition: (state, action: PayloadAction<number>) => {
-      state.statement.conditions.splice(action.payload, 1);
+    removeActionStatementCondition: (state, action: PayloadAction<RANDOM_UUID>) => {
+      const conditionIndex = state.statement.conditions.findIndex((condition) => condition.id === action.payload);
+      state.statement.conditions.splice(conditionIndex, 1);
     },
     updateActionStatementThen: (state, action: PayloadAction<ACTION_RUNNING>) => {
       state.statement.then = action.payload;
@@ -52,7 +53,7 @@ const slice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(openActionStatementModalAPI.fulfilled, (state, action) => {
-      state.statement = action.payload.statement || { ...defaultActionStatement };
+      state.statement = action.payload.statement || getDefaultActionStatement();
       state.visible = !state.visible;
     });
   },

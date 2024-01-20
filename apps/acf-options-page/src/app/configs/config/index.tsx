@@ -22,6 +22,10 @@ function Config() {
     dispatch(setConfigMessage());
   }, message);
 
+  if (!config) {
+    return null;
+  }
+
   const onUpdate = (e) => {
     const update = getFieldNameValue(e, config);
     if (update) {
