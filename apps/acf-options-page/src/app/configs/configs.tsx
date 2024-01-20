@@ -67,7 +67,7 @@ function Configs(props) {
   return (
     <Container fluid id='main'>
       <Row>
-        <Col lg='3' className='pt-3'>
+        <Col lg='3' className='pt-3 d-none d-lg-block'>
           <ConfigSidebar importFiled={importFiled} onExportAll={onExportAll} />
         </Col>
         <Col sm='auto' lg='9' className='pt-3'>

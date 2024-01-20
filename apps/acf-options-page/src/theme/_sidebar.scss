@@ -1,25 +1,16 @@
 .sidebar {
   .list-group-item {
-    --bs-list-group-border-color: var(--bs-white);
-    border-left: 3px solid transparent;
-    background-color: rgba(var(--bs-secondary-bg-rgb), var(--bs-bg-opacity));
     min-height: 50px;
     button {
       display: none;
     }
     &:hover {
-      background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity));
       button {
         display: block;
       }
     }
     &.selected {
-      background-color: rgba(var(--bs-body-bg-rgb), var(--bs-bg-opacity));
-      border-left: 3px solid var(--bs-primary);
-      color: var(--bs-primary);
-      &.not-enabled {
-        border-left-color: var(--bs-secondary);
-      }
+      background-color: var(--bs-primary-bg-subtle);
     }
   }
   .list-group {

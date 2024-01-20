@@ -1,6 +1,6 @@
 import { createRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Badge, Button, ButtonGroup, Card, Col, Form, Row } from 'react-bootstrap';
+import { Alert, Badge, Button, ButtonGroup, Card, Col, Form, Row } from 'react-bootstrap';
 import ConfigBody from './config-body';
 import { Copy, Download, Gear, Upload } from '../../../util';
 import { getFieldNameValue } from '../../../util/element';
@@ -23,7 +23,7 @@ function Config() {
   }, message);
 
   if (!config) {
-    return null;
+    return <Alert variant='secondary'>Please select configuration from left</Alert>;
   }
 
   const onUpdate = (e) => {
@@ -99,16 +99,16 @@ function Config() {
               <Form.Check type='switch' name='enable' id='config-enable' label={t('configuration.enable')} checked={config.enable} onChange={onUpdate} />
             </Form>
             <ButtonGroup>
-              <Button variant='link' title={t('configuration.export')} onClick={onExportConfig} data-testid='export-configuration'>
+              <Button variant='link' title={t('configuration.export')} onClick={onExportConfig} data-testid='export-configuration' className='fs-5'>
                 <Upload />
               </Button>
-              <Button variant='link' title={t('configuration.import')} onClick={() => importFiled.current?.click()} data-testid='import-configuration'>
+              <Button variant='link' title={t('configuration.import')} onClick={() => importFiled.current?.click()} data-testid='import-configuration' className='fs-5'>
                 <Download />
               </Button>
-              <Button variant='link' title={t('configuration.duplicate')} onClick={onDuplicateConfig} data-testid='duplicate-configuration'>
+              <Button variant='link' title={t('configuration.duplicate')} onClick={onDuplicateConfig} data-testid='duplicate-configuration' className='fs-5'>
                 <Copy />
               </Button>
-              <Button variant='link' title={t('configuration.settings')} onClick={showSettings} data-testid='configuration-settings'>
+              <Button variant='link' title={t('configuration.settings')} onClick={showSettings} data-testid='configuration-settings' className='fs-5'>
                 <Gear />
               </Button>
             </ButtonGroup>

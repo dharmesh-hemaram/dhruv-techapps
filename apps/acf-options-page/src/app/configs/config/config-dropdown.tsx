@@ -56,7 +56,7 @@ export const ConfigDropdown = (props) => {
             {t('configuration.add')}
           </Button>
           <Dropdown id='configurations-dropdown-wrapper'>
-            <Dropdown.Toggle as={DropdownToggle} id='configs-dropdown' aria-label='Configurations more option' data-testid='configurations-more-option'>
+            <Dropdown.Toggle as={DropdownToggle} id='configs-dropdown' aria-label='Configurations more option' data-testid='configurations-more-option' className='rounded-end-circle'>
               <ThreeDots />
             </Dropdown.Toggle>
             <Dropdown.Menu>

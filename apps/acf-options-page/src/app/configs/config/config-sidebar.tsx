@@ -52,16 +52,16 @@ export const ConfigSidebar = (props) => {
   }, []);
 
   return (
-    <div className='rounded sidebar'>
-      <div className='bg-body-tertiary d-flex justify-content-between align-items-center border-bottom p-2 rounded-top'>
-        <Button size='sm' variant='primary' onClick={() => dispatch(addConfig())} data-testid='configurations-add'>
+    <div className='rounded sidebar bg-body'>
+      <div className='d-flex justify-content-between align-items-center border-bottom p-2 rounded-top'>
+        <Button variant='primary' onClick={() => dispatch(addConfig())} data-testid='configurations-add'>
           <Plus /> {t('configuration.add')}
         </Button>
         <Form className='flex-grow-1 mx-2'>
           <Form.Control className='d-flex' ref={searchRef} type='search' onChange={onSearchChange} placeholder='Search' id='search-configuration'></Form.Control>
         </Form>
-        <Dropdown className='ml-2' id='cnfig-detail-filter'>
-          <Dropdown.Toggle as={DropdownToggle} id='column-dropdown' className='pe-0' aria-label='Filter Action Column'>
+        <Dropdown className='ml-2' id='config-detail-filter'>
+          <Dropdown.Toggle as={DropdownToggle} id='column-dropdown' className='fs-4' aria-label='Filter Action Column'>
             <Filter />
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -74,7 +74,7 @@ export const ConfigSidebar = (props) => {
           </Dropdown.Menu>
         </Dropdown>
         <Dropdown id='configurations-dropdown-wrapper'>
-          <Dropdown.Toggle as={DropdownToggle} id='configs-dropdown' aria-label='Configurations more option' data-testid='configurations-more-option'>
+          <Dropdown.Toggle as={DropdownToggle} id='configs-dropdown' aria-label='Configurations more option' data-testid='configurations-more-option' className='fs-4'>
             <ThreeDots />
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -100,18 +100,20 @@ export const ConfigSidebar = (props) => {
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <ListGroup variant='flush' as='ul'>
+      <ListGroup as='ul'>
+        {configs.length === 0 && <ListGroup.Item as='li'>{t('configuration.noConfig')}</ListGroup.Item>}
         {configs.map((config) => (
           <ListGroup.Item
             key={config.id}
             as='li'
             style={{ cursor: 'pointer' }}
+            action
             className={`d-flex justify-content-between ps-2 pe-0 ${selectedConfigId === config.id ? 'selected' : ''}`}
             onClick={() => dispatch(selectConfig(config.id))}
           >
             <div className='d-flex align-items-center' style={{ width: 'calc(100% - 40px)' }}>
               <div className='w-100'>
-                {detailVisibility.name && <b className='text-truncate'>{`${config.name || 'configuration - ' + config.id}`}</b>}
+                {detailVisibility.name && <div className='text-truncate'>{`${config.name || 'configuration - ' + config.id}`}</div>}
                 {detailVisibility.url && <div className='text-truncate text-secondary'>{config.url}</div>}
               </div>
             </div>
