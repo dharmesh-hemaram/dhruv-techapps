@@ -126,9 +126,9 @@ const ActionStatementModal = () => {
             <Row>
               <Col xs={{ span: 4, offset: 8 }}>
                 <Form.Select value={statement.goto} onChange={onUpdateGoto} name='goto' required>
-                  {actions.map((_action) => (
-                    <option key={_action.id} value={_action.id} disabled={_action.id === selectedActionId}>
-                      {_action.id} . {_action.name || _action.elementFinder}
+                  {actions.map((_action, index) => (
+                    <option key={index} value={index} disabled={_action.id === selectedActionId}>
+                      {index + 1} . {_action.name || _action.elementFinder}
                     </option>
                   ))}
                 </Form.Select>

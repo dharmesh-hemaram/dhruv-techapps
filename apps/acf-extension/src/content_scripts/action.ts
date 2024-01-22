@@ -22,10 +22,11 @@ const ActionProcessor = (() => {
   const start = async (action: Action) => {
     const elementFinder = await Value.getValue(action.elementFinder);
     const elements = await Common.start(elementFinder, action.settings);
-    if (!elements) {
-      return ACTION_STATUS.SKIPPED;
-    } else if (typeof elements === 'number') {
+    if (typeof elements === 'number') {
       return elements;
+    }
+    if (elements === undefined) {
+      return ACTION_STATUS.SKIPPED;
     }
     const value = action.value ? await Value.getValue(action.value) : action.value;
     await Events.check(elements, value);
