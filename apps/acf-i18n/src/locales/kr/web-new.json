@@ -44,15 +44,15 @@
     "configuration": {
       "addConfig": {
         "header": "구성",
-        "body": "{{name}} 성공적으로 추가되었습니다"
+        "body": "[{{name}}] 성공적으로 추가되었습니다"
       },
       "duplicateConfig": {
         "header": "구성",
-        "body": "{{name}}이(가) 성공적으로 복제되었습니다."
+        "body": "[{{name}}]이(가) 성공적으로 복제되었습니다."
       },
       "removeConfig": {
         "header": "구성",
-        "body": "{{name}} 성공적으로 제거되었습니다"
+        "body": "[{{name}}] 성공적으로 제거되었습니다"
       },
       "exportAll": {
         "header": "대량 내보내기",
@@ -67,7 +67,7 @@
       },
       "importSuccess": {
         "header": "구성",
-        "body": "{{name}} 성공적으로 가져온 것"
+        "body": "[{{name}}] 성공적으로 가져온 것"
       },
       "updateBatch": {
         "header": "일괄",
@@ -85,7 +85,7 @@
     "configuration": {
       "remove": {
         "title": "구성을 제거하십시오",
-        "message": "당신은 확실히 제거 할 것입니다 {{name}} 구성?"
+        "message": "당신은 확실히 제거 할 것입니다 [{{name}}] 구성?"
       }
     },
     "backup": {
@@ -97,7 +97,7 @@
     "action": {
       "remove": {
         "title": "조치를 제거하십시오",
-        "message": "당신은 확실히 제거 할 것입니다 {{name}} 동작?"
+        "message": "당신은 확실히 제거 할 것입니다 [{{name}}] 동작?"
       }
     }
   },
@@ -151,7 +151,7 @@
     },
     "extensionNotFound": {
       "title": "확장명을 찾을 수 없습니다",
-      "subTitle": "이것은 구성 페이지입니다 <b>{{NX_NAME}}</b> 확대",
+      "subTitle": "이것은 구성 페이지입니다 <b>[{{NX_NAME}}]</b> 확대",
       "hint": "이를 사용하려면 먼저 확장을 다운로드해야합니다."
     },
     "actionSettings": {

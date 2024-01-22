@@ -44,15 +44,15 @@
     "configuration": {
       "addConfig": {
         "header": "配置",
-        "body": "{{name}} 添加成功"
+        "body": "[{{name}}] 添加成功"
       },
       "duplicateConfig": {
         "header": "配置",
-        "body": "{{name}} 复制成功"
+        "body": "[{{name}}] 复制成功"
       },
       "removeConfig": {
         "header": "配置",
-        "body": "{{name}} 移除成功"
+        "body": "[{{name}}] 移除成功"
       },
       "exportAll": {
         "header": "批量导出",
@@ -67,7 +67,7 @@
       },
       "importSuccess": {
         "header": "配置",
-        "body": "{{name}} 导入成功"
+        "body": "[{{name}}] 导入成功"
       },
       "updateBatch": {
         "header": "批",
@@ -85,7 +85,7 @@
     "configuration": {
       "remove": {
         "title": "移除配置",
-        "message": "确定移除 {{name}} 配置吗?"
+        "message": "确定移除 [{{name}}] 配置吗?"
       }
     },
     "backup": {
@@ -97,7 +97,7 @@
     "action": {
       "remove": {
         "title": "移除动作",
-        "message": "确定移除 {{name}} 动作吗?"
+        "message": "确定移除 [{{name}}] 动作吗?"
       }
     }
   },
@@ -151,7 +151,7 @@
     },
     "extensionNotFound": {
       "title": "未找到扩展",
-      "subTitle": "这是 <b>{{NX_NAME}}</b> 扩展的配置页面",
+      "subTitle": "这是 <b>[{{NX_NAME}}]</b> 扩展的配置页面",
       "hint": "您需要先下载扩展才能使用此功能"
     },
     "actionSettings": {

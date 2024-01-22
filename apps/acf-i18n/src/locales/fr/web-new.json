@@ -44,15 +44,15 @@
     "configuration": {
       "addConfig": {
         "header": "Configuration",
-        "body": "{{name}} ajouté avec succès"
+        "body": "[{{name}}] ajouté avec succès"
       },
       "duplicateConfig": {
         "header": "Configuration",
-        "body": "{{name}} Duplifié avec succès"
+        "body": "[{{name}}] Duplifié avec succès"
       },
       "removeConfig": {
         "header": "Configuration",
-        "body": "{{name}} enlevé avec succès"
+        "body": "[{{name}}] enlevé avec succès"
       },
       "exportAll": {
         "header": "Exportation en masse",
@@ -67,7 +67,7 @@
       },
       "importSuccess": {
         "header": "Configuration",
-        "body": "{{name}} importé avec succès"
+        "body": "[{{name}}] importé avec succès"
       },
       "updateBatch": {
         "header": "Lot",
@@ -85,7 +85,7 @@
     "configuration": {
       "remove": {
         "title": "Supprimer Configuration",
-        "message": "Êtes-vous sûr de supprimer {{name}} Configuration?"
+        "message": "Êtes-vous sûr de supprimer [{{name}}] Configuration?"
       }
     },
     "backup": {
@@ -97,7 +97,7 @@
     "action": {
       "remove": {
         "title": "Supprimer Action",
-        "message": "Êtes-vous sûr de supprimer {{name}} Action?"
+        "message": "Êtes-vous sûr de supprimer [{{name}}] Action?"
       }
     }
   },
@@ -151,7 +151,7 @@
     },
     "extensionNotFound": {
       "title": "Extension non trouvée",
-      "subTitle": "Ceci est la page de configuration pour<b>{{NX_NAME}}</b> extension",
+      "subTitle": "Ceci est la page de configuration pour<b>[{{NX_NAME}}]</b> extension",
       "hint": "Vous devez télécharger d'abord une extension afin de l'utiliser"
     },
     "actionSettings": {

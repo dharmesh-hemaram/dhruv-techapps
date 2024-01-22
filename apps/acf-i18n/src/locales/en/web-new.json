@@ -48,15 +48,15 @@
     "configuration": {
       "addConfig": {
         "header": "Configuration",
-        "body": "{{name}} added successfully"
+        "body": "[{{name}}] added successfully"
       },
       "duplicateConfig": {
         "header": "Configuration",
-        "body": "{{name}} duplicated successfully"
+        "body": "[{{name}}] duplicated successfully"
       },
       "removeConfig": {
         "header": "Configuration",
-        "body": "{{name}} removed successfully"
+        "body": "[{{name}}] removed successfully"
       },
       "exportAll": {
         "header": "Bulk Export",
@@ -71,7 +71,7 @@
       },
       "importSuccess": {
         "header": "Configuration",
-        "body": "{{name}} imported successfully"
+        "body": "[{{name}}] imported successfully"
       },
       "updateBatch": {
         "header": "Batch",
@@ -89,7 +89,7 @@
     "configuration": {
       "remove": {
         "title": "Remove Configuration",
-        "message": "Are you sure to remove {{name}} Configuration?"
+        "message": "Are you sure to remove [{{name}}] Configuration?"
       }
     },
     "backup": {
@@ -101,7 +101,7 @@
     "action": {
       "remove": {
         "title": "Remove Action",
-        "message": "Are you sure to remove {{name}} Action?"
+        "message": "Are you sure to remove [{{name}}] Action?"
       }
     }
   },
