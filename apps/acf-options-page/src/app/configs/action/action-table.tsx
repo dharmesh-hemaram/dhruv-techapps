@@ -32,7 +32,7 @@ const ActionTable = ({ actions }: ActionProps) => {
     const name = action.name || action.elementFinder || `action ${action.id}`;
     const result = await modalContext.showConfirmation({
       title: t('confirm.action.remove.title'),
-      message: t('confirm.action.remove.message', name),
+      message: t('confirm.action.remove.message', { name }),
       headerClass: 'text-danger',
     });
     result && dispatch(removeAction(actionId));

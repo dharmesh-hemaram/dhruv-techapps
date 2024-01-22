@@ -56,9 +56,9 @@ function ActionStatementCondition({ condition, index }: Props) {
       <td>
         <Form.Select value={actionIndex} onChange={onUpdate} name='actionIndex' required className='flex-grow-1 me-1'>
           <option value=''>~~ SELECT ACTION ~~</option>
-          {actions.map((_action) => (
-            <option key={_action.id} value={_action.id}>
-              {_action.id} . {_action.name || _action.elementFinder}
+          {actions.map((_action, index) => (
+            <option key={index} value={index}>
+              {index + 1} . {_action.name || _action.elementFinder}
             </option>
           ))}
         </Form.Select>
