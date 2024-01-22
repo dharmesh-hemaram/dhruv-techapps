@@ -95,9 +95,9 @@ function AddonRecheck() {
       {addon.recheckOption === RECHECK_OPTIONS.GOTO && (
         <Col xs={{ span: 3, offset: 9 }}>
           <Form.Select value={addon.recheckGoto} onChange={onUpdateGoto} name='goto' required>
-            {actions.map((_action) => (
-              <option key={_action.id} value={_action.id} disabled={_action.id === selectedActionId}>
-                {_action.id} . {_action.name || _action.elementFinder}
+            {actions.map((_action, index) => (
+              <option key={_action.id} value={index} disabled={_action.id === selectedActionId}>
+                {index + 1} . {_action.name || _action.elementFinder}
               </option>
             ))}
           </Form.Select>

@@ -35,7 +35,7 @@ const AddonProcessor = (() => {
       }
     } else if (recheckOption === RECHECK_OPTIONS.STOP) {
       throw new ConfigError(`'${nodeValue}' ${condition} '${value}'`, "Addon didn't matched");
-    } else if (recheckOption === RECHECK_OPTIONS.GOTO && props.recheckGoto) {
+    } else if (recheckOption === RECHECK_OPTIONS.GOTO && props.recheckGoto !== undefined) {
       return props.recheckGoto;
     }
     Logger.colorInfo('RecheckOption', recheckOption);
