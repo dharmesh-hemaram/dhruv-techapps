@@ -227,7 +227,8 @@
     "url": "URL",
     "name": "名称",
     "initWait": "初始化等待",
-    "startTime": "开始时间"
+    "startTime": "开始时间",
+    "noConfig": "未找到配置，请优化您的搜索。"
   },
   "batch": {
     "title": "批处理",

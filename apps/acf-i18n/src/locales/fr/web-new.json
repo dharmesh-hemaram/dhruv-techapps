@@ -227,7 +227,8 @@
     "url": "URL",
     "name": "Nom",
     "initWait": "Attendre",
-    "startTime": "Heure de début"
+    "startTime": "Heure de début",
+    "noConfig": "Aucune configuration trouvée, veuillez affiner votre recherche."
   },
   "batch": {
     "title": "Grouper",
