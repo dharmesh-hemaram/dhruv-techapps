@@ -21,14 +21,23 @@ const slice = createSlice({
   reducers: {
     updateActionStatementCondition: (state, action: PayloadAction<StatementCondition>) => {
       const { name, value, id } = action.payload;
-      state.statement.conditions.find((condition) => condition.id === id)![name] = value;
+      const condition = state.statement.conditions.find((condition) => condition.id === id);
+      if (!condition) {
+        state.error = 'Invalid Condition';
+      } else {
+        condition[name] = value;
+      }
     },
     addActionStatementCondition: (state, action: PayloadAction<ActionCondition>) => {
       state.statement.conditions.push(action.payload);
     },
     removeActionStatementCondition: (state, action: PayloadAction<RANDOM_UUID>) => {
       const conditionIndex = state.statement.conditions.findIndex((condition) => condition.id === action.payload);
-      state.statement.conditions.splice(conditionIndex, 1);
+      if (conditionIndex !== -1) {
+        state.error = 'Invalid Condition';
+      } else {
+        state.statement.conditions.splice(conditionIndex, 1);
+      }
     },
     updateActionStatementThen: (state, action: PayloadAction<ACTION_RUNNING>) => {
       state.statement.then = action.payload;
