@@ -13,7 +13,7 @@
     "@sentry/browser": "^7.93.0",
     "@sentry/react": "^7.93.0",
     "@swc/helpers": "0.5.3",
-    "@tanstack/react-table": "^8.9.3",
+    "@tanstack/react-table": "^8.11.7",
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "axios": "^1.6.0",
     "bootstrap-icons": "^1.11.3",
