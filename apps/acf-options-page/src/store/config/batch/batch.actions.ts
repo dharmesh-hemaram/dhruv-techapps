@@ -7,7 +7,8 @@ export const batchActions = {
     const { name, value } = action.payload;
     const config = configs.find((config) => config.id === selectedConfigId);
     if (!config) {
-      throw new Error('Invalid Configuration');
+      state.error = 'Invalid Configuration';
+      return;
     }
     const { batch } = config;
     if (batch) {
@@ -20,7 +21,8 @@ export const batchActions = {
     const { configs, selectedConfigId } = state;
     const config = configs.find((config) => config.id === selectedConfigId);
     if (!config) {
-      throw new Error('Invalid Configuration');
+      state.error = 'Invalid Configuration';
+      return;
     }
     const { batch } = config;
     if (batch) {

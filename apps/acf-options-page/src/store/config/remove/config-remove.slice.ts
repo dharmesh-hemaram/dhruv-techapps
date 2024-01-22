@@ -28,7 +28,8 @@ const slice = createSlice({
       if (state.configs) {
         const config = state.configs.find((config) => config.id === action.payload);
         if (!config) {
-          throw new Error('Config not found');
+          state.error = 'Invalid Config';
+          return;
         }
 
         config.checked = !config.checked;

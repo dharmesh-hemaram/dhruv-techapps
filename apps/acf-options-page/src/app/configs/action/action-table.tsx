@@ -24,12 +24,12 @@ const ActionTable = ({ actions }: ActionProps) => {
   const dispatch = useAppDispatch();
   const modalContext = useConfirmationModalContext();
 
-  const removeActionConfirm = async (actionId: RANDOM_UUID) => {
+  const removeActionConfirm = async (actionId: RANDOM_UUID, index: number) => {
     const action = actions.find((action) => action.id === actionId);
     if (!action) {
       return false;
     }
-    const name = action.name || action.elementFinder || `action ${action.id}`;
+    const name = action.name || action.elementFinder || index + 1;
     const result = await modalContext.showConfirmation({
       title: t('confirm.action.remove.title'),
       message: t('confirm.action.remove.message', { name }),
@@ -158,6 +158,7 @@ const ActionTable = ({ actions }: ActionProps) => {
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               <th style={{ width: '30px' }}>&nbsp;</th>
+              <th style={{ width: '22px' }}>#</th>
               {headerGroup.headers.map((header) => (
                 <th key={header.id} style={{ width: header.getSize() }}>
                   {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -176,6 +177,7 @@ const ActionTable = ({ actions }: ActionProps) => {
                   <CaretDown width='20' height='20' onClick={(e) => moveDown(e, row.id)} />
                 </div>
               </td>
+              <td className='align-middle'>{index + 1}</td>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
               ))}
@@ -184,7 +186,7 @@ const ActionTable = ({ actions }: ActionProps) => {
                   variant='link'
                   data-testid='action-remove'
                   onClick={() => {
-                    removeActionConfirm(row.original.id);
+                    removeActionConfirm(row.original.id, index);
                   }}
                   disabled={actions.length === 1}
                 >

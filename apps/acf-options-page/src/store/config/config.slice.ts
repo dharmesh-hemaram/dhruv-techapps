@@ -92,6 +92,10 @@ const slice = createSlice({
     removeConfig: (state, action: PayloadAction<RANDOM_UUID>) => {
       const { configs } = state;
       const selectConfigIndex = configs.findIndex((config) => config.id === action.payload);
+      if (selectConfigIndex === -1) {
+        state.error = 'Invalid Configuration';
+        return;
+      }
       configs.splice(selectConfigIndex, 1);
       state.selectedConfigId = configs[0].id;
     },
