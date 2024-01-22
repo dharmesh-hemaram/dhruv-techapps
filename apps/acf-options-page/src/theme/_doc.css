@@ -660,10 +660,6 @@
   }
 }
 
-.bd-navbar .navbar-brand:hover {
-  transform: rotate(-5deg) scale(1.1);
-}
-
 .bd-navbar .navbar-toggler,
 .bd-navbar .nav-link,
 .bd-header .nav-link {

@@ -102,7 +102,7 @@ export const ConfigSidebar = (props) => {
       </div>
       <ListGroup as='ul'>
         {configs.length === 0 && <ListGroup.Item as='li'>{t('configuration.noConfig')}</ListGroup.Item>}
-        {configs.map((config) => (
+        {configs.map((config, index) => (
           <ListGroup.Item
             key={config.id}
             as='li'
@@ -113,7 +113,7 @@ export const ConfigSidebar = (props) => {
           >
             <div className='d-flex align-items-center' style={{ width: 'calc(100% - 40px)' }}>
               <div className='w-100'>
-                {detailVisibility.name && <div className='text-truncate'>{`${config.name || 'configuration - ' + config.id}`}</div>}
+                {detailVisibility.name && <div className='text-truncate'>{`${config.name || 'configuration - ' + (index + 1)}`}</div>}
                 {detailVisibility.url && <div className='text-truncate text-secondary'>{config.url}</div>}
               </div>
             </div>

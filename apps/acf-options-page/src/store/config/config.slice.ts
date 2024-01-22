@@ -201,14 +201,14 @@ export const filteredConfigsSelector = createSelector(
   (state: RootState) => state.configuration.configs,
   searchSelector,
   (configs, search) => {
-    if (search) {
-      return configs.filter((config) => {
-        const name = config.name ? config.name.toLowerCase() : '';
-        const url = config.url ? config.url.toLowerCase() : '';
-        return name.includes(search.toLowerCase()) || url.includes(search.toLowerCase());
-      });
-    }
-    return configs;
+    return configs.filter((config) => {
+      if (!search) {
+        return true;
+      }
+      const name = config.name ? config.name.toLowerCase() : '';
+      const url = config.url ? config.url.toLowerCase() : '';
+      return name.includes(search.toLowerCase()) || url.includes(search.toLowerCase());
+    });
   }
 );
 const selectedConfigIdSelector = (state: RootState) => state.configuration.selectedConfigId;
