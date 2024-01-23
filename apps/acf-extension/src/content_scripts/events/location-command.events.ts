@@ -1,6 +1,7 @@
 import { Logger } from '@dhruv-techapps/core-common';
 import { SystemError } from '../error';
 import CommonEvents from './common.events';
+import { TabsService } from '@dhruv-techapps/acf-service';
 
 const LOCATION_COMMANDS = ['reload', 'href', 'replace', 'open', 'close', 'focus', 'blur', 'print', 'stop', 'moveBy', 'moveTo'];
 
@@ -9,7 +10,7 @@ export const LocationCommandEvents = (() => {
     commands.forEach((command) => {
       switch (command) {
         case 'reload':
-          window.location.reload();
+          TabsService.reload(chrome.runtime.id, window.location.href);
           break;
         case 'href':
           // eslint-disable-next-line prefer-destructuring

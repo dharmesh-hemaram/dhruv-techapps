@@ -4,6 +4,7 @@ export enum RUNTIME_MESSAGE_ACF {
   GOOGLE_SHEETS = 'google-sheets',
   GOOGLE_OAUTH2 = 'google-oauth',
   GOOGLE_BACKUP = 'google-backup',
+  TABS = 'tabs',
 }
 
 export type RuntimeMessageRequest = {
