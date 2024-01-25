@@ -35,5 +35,3 @@ nx run-many -t <target1> <target2>
 ```
 nx run-many -t <target1> <target2> -p <proj1> <proj2>
 ```
-
-
