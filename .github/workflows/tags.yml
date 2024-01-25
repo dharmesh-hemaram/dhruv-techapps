@@ -141,8 +141,7 @@ jobs:
         if: ${{ hashFiles('auto_clicker_-_autofill*.zip') }}
         id: extension-release
         with:
-          draft: ${{ needs.EnvSetup.outputs.NX_VARIANT == 'DEV' }}
-          prerelease: ${{ needs.EnvSetup.outputs.NX_VARIANT == 'BETA' }}
+          prerelease: ${{ needs.EnvSetup.outputs.NX_VARIANT == 'BETA' || needs.EnvSetup.outputs.NX_VARIANT == 'DEV'}}
           generate_release_notes: true
           files: |
             auto_clicker_-_autofill*.zip
