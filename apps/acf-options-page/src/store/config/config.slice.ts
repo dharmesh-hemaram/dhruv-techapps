@@ -4,7 +4,7 @@ import { Configuration, RANDOM_UUID, START_TYPES, getDefaultConfig } from '@dhru
 import { configGetAllAPI } from './config.api';
 import { actionActions, openActionAddonModalAPI, openActionSettingsModalAPI, openActionStatementModalAPI } from './action';
 import { batchActions } from './batch';
-import { getConfigName, updateConfigId, updateConfigIds } from './config.slice.util';
+import { getConfigName, updateConfigIds } from './config.slice.util';
 import { LocalStorage } from '../../_helpers';
 
 const HIDDEN_DETAIL_KEY = 'config-detail-visibility';
@@ -97,7 +97,9 @@ const slice = createSlice({
         return;
       }
       configs.splice(selectConfigIndex, 1);
-      state.selectedConfigId = configs[0].id;
+      if (configs.length !== 0) {
+        state.selectedConfigId = configs[0].id;
+      }
     },
     setConfigs: (state, action: PayloadAction<Array<Configuration>>) => {
       state.configs = updateConfigIds(action.payload);
@@ -108,7 +110,7 @@ const slice = createSlice({
       state.selectedConfigId = state.configs[0].id;
     },
     importConfig: (state, action: PayloadAction<Configuration>) => {
-      const config = updateConfigId(action.payload);
+      const config = { ...action.payload, id: crypto.randomUUID() };
       state.configs.push(config);
       state.selectedConfigId = config.id;
     },
@@ -139,8 +141,10 @@ const slice = createSlice({
     builder.addCase(configGetAllAPI.fulfilled, (state, action) => {
       if (action.payload) {
         const { configurations, selectedConfigId } = action.payload;
-        state.configs = configurations;
-        state.selectedConfigId = selectedConfigId || state.configs[0].id;
+        if (configurations.length !== 0) {
+          state.configs = configurations;
+          state.selectedConfigId = selectedConfigId || configurations[0].id;
+        }
       }
       state.loading = false;
     });

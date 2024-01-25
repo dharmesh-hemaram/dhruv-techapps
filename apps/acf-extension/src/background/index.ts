@@ -61,6 +61,7 @@ try {
     [RUNTIME_MESSAGE_ACF.GOOGLE_OAUTH2]: new GoogleOauth2(),
     [RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP]: new GoogleBackup(),
     [RUNTIME_MESSAGE_ACF.GOOGLE_SHEETS]: new GoogleSheets(),
+    [RUNTIME_MESSAGE_ACF.TABS]: new TabsMessenger(),
   };
   Runtime.onMessageExternal(onMessageListener);
   Runtime.onMessage(onMessageListener);

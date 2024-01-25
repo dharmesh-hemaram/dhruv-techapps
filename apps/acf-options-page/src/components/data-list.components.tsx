@@ -104,6 +104,7 @@ export function DataList() {
         <option value='KeyEvents::{"value":"Example text","delay":3}'>KeyEvents::&lcub;&quot;value&quot;:&quot;Example text&quot;,&quot;delay&quot;:3&rcub;</option>
         <option value='example<batchRepeat>@gmail.com'>example&lt;batchRepeat&gt;@gmail.com</option>
         <option value='LocationCommand::reload'>LocationCommand::reload</option>
+        <option value='LocationCommand::reload::background'>LocationCommand::reload::background</option>
         <option value='LocationCommand::href::url'>LocationCommand::href::url</option>
         <option value='LocationCommand::replace::url'>LocationCommand::replace::url</option>
         <option value='LocationCommand::assign::url'>LocationCommand::assign::url</option>
