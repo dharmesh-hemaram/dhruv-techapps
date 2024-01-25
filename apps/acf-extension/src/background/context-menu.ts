@@ -39,7 +39,11 @@ export default function registerContextMenus(optionsPageUrl?: string) {
             chrome.permissions.contains({ permissions: ['tabs'], origins: [origin] }, (requested) => {
               if (!requested) {
                 chrome.permissions.request({ permissions: ['tabs'], origins: [origin] }, (requested) => {
-                  chrome.contextMenus.update(TABS, { checked: requested });
+                  if (requested) {
+                    NotificationHandler.notify(CONTEXT_MENUS_ID, 'Permissions', `tabs permission granted for ${origin}`);
+                  } else {
+                    NotificationHandler.notify(CONTEXT_MENUS_ID, 'Permissions', `tabs permission denied for ${origin}`);
+                  }
                 });
               } else {
                 NotificationHandler.notify(CONTEXT_MENUS_ID, 'Permissions', `tabs permission granted for ${origin}`);

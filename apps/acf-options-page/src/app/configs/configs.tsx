@@ -7,7 +7,7 @@ import { Ads } from '../../components';
 import { ConfigSettingsModal, ReorderConfigsModal, RemoveConfigsModal } from '../../modal';
 import { download } from '../../_helpers';
 import { useAppDispatch } from '../../hooks';
-import { importAll } from '../../store/config';
+import { importAll, importConfig } from '../../store/config';
 import { addToast } from '../../store/toast.slice';
 import { configGetAllAPI } from '../../store/config/config.api';
 import Action from './action';
@@ -43,9 +43,9 @@ function Configs(props) {
         if (target === null || target.result === null) {
           dispatch(addToast({ header: 'File', body: t('error.json'), variant: 'danger' }));
         } else {
-          const importedConfigs: Array<Configuration> = JSON.parse(target.result as string);
+          const importedConfigs: Array<Configuration> | Configuration = JSON.parse(target.result as string);
           if (!Array.isArray(importedConfigs)) {
-            dispatch(addToast({ header: 'File', body: t('error.json'), variant: 'danger' }));
+            dispatch(importConfig(importedConfigs));
           } else {
             dispatch(importAll(importedConfigs));
           }
