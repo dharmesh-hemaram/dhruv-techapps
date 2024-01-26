@@ -1,4 +1,4 @@
-name: mono-repo [tags]
+name: Publish
 
 on:
   workflow_dispatch:
