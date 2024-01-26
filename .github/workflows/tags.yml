@@ -67,7 +67,7 @@ jobs:
           echo "DISCORD_CLIENT_ID='${{ vars.DISCORD_CLIENT_ID }}'" >> $GITHUB_OUTPUT
           echo "OAUTH_CLIENT_ID=${{ vars.OAUTH_CLIENT_ID }}" >> $GITHUB_OUTPUT
           echo "PUBLIC_URL=${{ vars.PUBLIC_URL }}" >> $GITHUB_OUTPUT
-          echo "NX_RELEASE_VERSION=${{github.ref_name}}" >> $GITHUB_OUTPUT
+          echo "NX_RELEASE_VERSION=v3.4.79" >> $GITHUB_OUTPUT
           echo "SENTRY_AUTH_TOKEN=${{ vars.SENTRY_AUTH_TOKEN }}" >> $GITHUB_OUTPUT
           echo "MEASUREMENT_ID=${{ vars.MEASUREMENT_ID }}" >> $GITHUB_OUTPUT
           echo "API_SECRET=${{ vars.API_SECRET }}" >> $GITHUB_OUTPUT
