@@ -150,7 +150,7 @@ jobs:
             acf-options-page.zip
           fail_on_unmatched_files: true
 
-  deploy_dev:
+  deploy:
     needs: [extension]
     runs-on: ubuntu-latest
     environment: ${{inputs.environment}}
@@ -170,7 +170,7 @@ jobs:
           glob: true
 
   configuration:
-    needs: [agents, main]
+    needs: [agents, main, deploy]
     permissions:
       contents: read
       pull-requests: write
@@ -201,7 +201,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
 
   tag:
-    needs: [EnvSetup, extension, configuration]
+    needs: [EnvSetup, deploy, configuration]
     runs-on: ubuntu-latest
     permissions:
       contents: write
