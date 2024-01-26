@@ -67,7 +67,7 @@ jobs:
           echo "DISCORD_CLIENT_ID='${{ vars.DISCORD_CLIENT_ID }}'" >> $GITHUB_OUTPUT
           echo "OAUTH_CLIENT_ID=${{ vars.OAUTH_CLIENT_ID }}" >> $GITHUB_OUTPUT
           echo "PUBLIC_URL=${{ vars.PUBLIC_URL }}" >> $GITHUB_OUTPUT
-          echo "NX_RELEASE_VERSION=v3.4.79" >> $GITHUB_OUTPUT
+          echo "NX_RELEASE_VERSION=${{github.ref_name}}" >> $GITHUB_OUTPUT
           echo "SENTRY_AUTH_TOKEN=${{ vars.SENTRY_AUTH_TOKEN }}" >> $GITHUB_OUTPUT
           echo "MEASUREMENT_ID=${{ vars.MEASUREMENT_ID }}" >> $GITHUB_OUTPUT
           echo "API_SECRET=${{ vars.API_SECRET }}" >> $GITHUB_OUTPUT
@@ -100,9 +100,12 @@ jobs:
         MEASUREMENT_ID=${{needs.EnvSetup.outputs.MEASUREMENT_ID}}
         SENTRY_AUTH_TOKEN=${{needs.EnvSetup.outputs.SENTRY_AUTH_TOKEN}}
       parallel-commands-on-agents: |
-        npx nx build acf-extension --skip-nx-cache --base-href ${{needs.EnvSetup.outputs.PUBLIC_URL}}
+        npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer' --skip-nx-cache --base-href ${{needs.EnvSetup.outputs.PUBLIC_URL}}
       final-commands: |
         npx web-ext build --sourceDir="./dist/apps/acf-extension" --artifactsDir="./dist/apps"
+        cd dist/apps
+        zip -r acf-options-page.zip acf-options-page/
+        zip -r acf-i18n.zip acf-i18n/
 
   agents:
     needs: [EnvSetup]
@@ -133,8 +136,30 @@ jobs:
         MEASUREMENT_ID=${{needs.EnvSetup.outputs.MEASUREMENT_ID}}
         API_SECRET=${{needs.EnvSetup.outputs.API_SECRET}}
 
+  release:
+    needs: [agents, main]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    name: Extension
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: nx-main-artifacts
+      - uses: softprops/action-gh-release@v1
+        if: ${{ hashFiles('auto_clicker_-_autofill*.zip') }}
+        id: extension-release
+        with:
+          prerelease: ${{ needs.EnvSetup.outputs.NX_VARIANT == 'BETA' || needs.EnvSetup.outputs.NX_VARIANT == 'DEV'}}
+          generate_release_notes: true
+          files: |
+            auto_clicker_-_autofill*.zip
+            acf-i18n.zip
+            acf-options-page.zip
+          fail_on_unmatched_files: true
+
   deploy:
-    needs: [main]
+    needs: [release]
     runs-on: ubuntu-latest
     environment: ${{inputs.environment}}
     steps:
@@ -151,3 +176,47 @@ jobs:
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
           publish: false
           glob: true
+
+  configuration:
+    needs: [release]
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{inputs.environment}}
+      url: ${{vars.PUBLIC_URL}}
+    name: Configuration
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: nx-main-artifacts
+      - name: Build And Deploy
+        if: ${{ hashFiles('acf-options-page/') != '' }}
+        id: deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          action: 'upload'
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          app_location: 'acf-options-page' # App source code path
+          api_location: '' # Api source code path - optional
+          skip_app_build: true
+          skip_api_build: true
+          output_location: '' # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
+
+  tag:
+    needs: [deploy, configuration]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set ${{needs.EnvSetup.outputs.NX_VARIANT}} Tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          force_push_tag: true
+          tag: '${{needs.EnvSetup.outputs.NX_VARIANT}}'
