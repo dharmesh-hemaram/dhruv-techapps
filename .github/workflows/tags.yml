@@ -150,6 +150,25 @@ jobs:
             acf-options-page.zip
           fail_on_unmatched_files: true
 
+  deploy_dev:
+    needs: [extension]
+    runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: nx-main-artifacts
+      - name: Upload & release
+        uses: mnao305/chrome-extension-upload@v4.0.1
+        with:
+          file-path: auto_clicker_-_autofill*.zip
+          extension-id: ${{ vars.NX_CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          refresh-token: ${{ secrets.REFRESH_TOKEN }}
+          publish: false
+          glob: true
+
   configuration:
     needs: [agents, main]
     permissions:
