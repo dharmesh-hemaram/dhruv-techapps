@@ -8,6 +8,11 @@ on:
         type: environment
         default: Development
         required: true
+      publish:
+        description: 'Publish extension'
+        type: boolean
+        default: false
+        required: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -175,7 +180,7 @@ jobs:
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
-          publish: false
+          publish: ${{inputs.publish}}
           glob: true
 
   web:
