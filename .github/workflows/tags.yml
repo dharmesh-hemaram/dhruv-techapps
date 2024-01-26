@@ -152,13 +152,14 @@ jobs:
         with:
           prerelease: ${{ needs.EnvSetup.outputs.NX_VARIANT == 'BETA' || needs.EnvSetup.outputs.NX_VARIANT == 'DEV'}}
           generate_release_notes: true
+          discussion_category_name: 'Release'
           files: |
             auto_clicker_-_autofill*.zip
             acf-i18n.zip
             acf-options-page.zip
           fail_on_unmatched_files: true
 
-  deploy:
+  extension:
     needs: [release]
     runs-on: ubuntu-latest
     environment: ${{inputs.environment}}
@@ -177,7 +178,7 @@ jobs:
           publish: false
           glob: true
 
-  configuration:
+  web:
     needs: [release]
     permissions:
       contents: read
@@ -209,7 +210,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
 
   tag:
-    needs: [deploy, configuration]
+    needs: [extension, web]
     runs-on: ubuntu-latest
     permissions:
       contents: write
