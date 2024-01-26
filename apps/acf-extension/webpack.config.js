@@ -60,7 +60,7 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
     })
   );
 
-  if (config.mode !== 'development') {
+  if (!config.watch) {
     config.plugins.push(
       sentryWebpackPlugin({
         org: 'dhruv-techapps',

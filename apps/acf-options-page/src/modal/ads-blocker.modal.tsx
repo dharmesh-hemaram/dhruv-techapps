@@ -3,6 +3,7 @@ import { Button, Image, Modal, Nav, Tab } from 'react-bootstrap';
 import { PatchQuestionFill } from '../util';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { appSelector, switchAdsBlocker } from '../store/app.slice';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const AdsBlockerModal = () => {
   const { adsBlocker } = useAppSelector(appSelector);
@@ -11,6 +12,7 @@ const AdsBlockerModal = () => {
   useEffect(() => {
     setTimeout(() => {
       if (!window.adsLoaded) {
+        GoogleAnalyticsService.firePageViewEvent(window.EXTENSION_ID, 'AdsBlockerModal', '/ads-blocker-modal', 'modal_view');
         dispatch(switchAdsBlocker());
       }
     }, 2000);

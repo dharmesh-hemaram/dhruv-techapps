@@ -6,6 +6,7 @@ import Session from './util/session';
 import ConfigStorage from './store/config-storage';
 import { Sheets } from './util/google-sheets';
 import { sentryInit } from '../common/sentry';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 declare global {
   interface Window {
@@ -19,6 +20,7 @@ async function loadConfig(loadType: LOAD_TYPES) {
     new ConfigStorage().getConfig().then(async (config?: Configuration) => {
       if (config) {
         if (config.loadType === loadType) {
+          GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_started', { url: config.url, actions: config.actions.length, batch: config.batch });
           sentryInit('content_scripts');
           const { host } = document.location;
           Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, host, loadType);
@@ -30,6 +32,9 @@ async function loadConfig(loadType: LOAD_TYPES) {
       }
     });
   } catch (e) {
+    if (e instanceof Error) {
+      GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, e.name, e.message, { page: 'content_scripts' });
+    }
     Sentry.captureException(e);
   }
 }

@@ -7,7 +7,7 @@ import { ConfigError } from './error';
 import { Hotkey } from './hotkey';
 import GoogleSheets from './util/google-sheets';
 import Common from './common';
-import { DiscordMessagingService } from '@dhruv-techapps/acf-service';
+import { DiscordMessagingService, GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 import SettingsStorage from './store/settings-storage';
 
 const LOGGER_LETTER = 'Config';
@@ -47,6 +47,7 @@ const ConfigProcessor = (() => {
           }
         }
       }
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_completed', { url: config.url, actions: config.actions.length, batch: config.batch });
     } catch (e) {
       if (e instanceof ConfigError) {
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
@@ -67,6 +68,7 @@ const ConfigProcessor = (() => {
         } else {
           console.error(error.title, '\n', error.message);
         }
+        GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, e.name, e.message, { page: 'content_scripts' });
       } else {
         throw e;
       }
