@@ -41,7 +41,8 @@ export const WizardElementUtil = (() => {
     return xpath;
   };
 
-  const getName = (element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLButtonElement) => element.name || element.type || element.getAttribute('for') || '';
+  const getName = (element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLButtonElement) =>
+    element.name || element.id || element.getAttribute('for') || element.getAttribute('placeholder') || element.getAttribute('aria-label') || '';
 
   const check = async (element: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLElement, listener = false): Promise<WizardAction | undefined> => {
     const elementFinder = xPath(element, true);
@@ -50,7 +51,7 @@ export const WizardElementUtil = (() => {
       // Input Element
       if (RADIO_CHECKBOX_NODE_NAME.test(element.type)) {
         const checked = radioCheckbox(element);
-        return { name: getName(element), elementFinder, checked, elementValue: element.value, elementType: element.type };
+        return { name: getName(element), id: crypto.randomUUID(), elementFinder, checked, elementValue: element.value, elementType: element.type };
       }
 
       let value;
@@ -65,29 +66,32 @@ export const WizardElementUtil = (() => {
       }
 
       if (value !== null && value !== undefined) {
-        return { name: getName(element), elementFinder, value, elementValue, elementType: element.type };
+        return { name: getName(element), id: crypto.randomUUID(), elementFinder, value, elementValue, elementType: element.type };
       }
     } else if (element instanceof HTMLButtonElement && listener) {
       // Button
-      return { name: getName(element), elementFinder, value: '', elementValue: element.innerText };
+      return { name: getName(element), id: crypto.randomUUID(), elementFinder, value: '', elementValue: element.innerText };
     } else if (element instanceof HTMLSelectElement) {
       // Select Dropdown
       const selectType = listener ? await optionListener(element) : select(element);
       if (selectType) {
-        return { name: getName(element), xpath: elementFinder, elementFinder: elementFinder + selectType.optionValue, value: 'true', elementValue: selectType.elementValue };
+        return { name: getName(element), id: crypto.randomUUID(), xpath: elementFinder, elementFinder: elementFinder + selectType.optionValue, value: 'true', elementValue: selectType.elementValue };
       }
     } else if (element instanceof HTMLTextAreaElement) {
       // Textarea && Editable Content
       const value = listener ? await inputListener(element) : element.value;
       if (value) {
-        return { name: getName(element), elementFinder, value };
+        return { name: getName(element), id: crypto.randomUUID(), elementFinder, value };
       }
     } else if (element.isContentEditable && listener) {
       //isContentEditable
       const value = await inputListener(element);
       if (value) {
-        return { elementFinder, value };
+        return { elementFinder, id: crypto.randomUUID(), value };
       }
+    } else {
+      // Other
+      return { id: crypto.randomUUID(), elementFinder };
     }
     return;
   };

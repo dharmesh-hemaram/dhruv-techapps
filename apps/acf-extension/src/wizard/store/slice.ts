@@ -3,13 +3,14 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { WizardAction } from '../type';
 import { WizardElementUtil } from '../element-util';
 import { RootState } from '../store';
-import { Configuration, getDefaultConfig } from '@dhruv-techapps/acf-common';
+import { CONFIG_SOURCE, Configuration, getDefaultConfig } from '@dhruv-techapps/acf-common';
 
 type WizardConfiguration = Omit<Configuration, 'actions'> & {
   actions: Array<WizardAction>;
+  timer?: number;
 };
 
-const initialState: WizardConfiguration = getDefaultConfig();
+const initialState: WizardConfiguration = getDefaultConfig(CONFIG_SOURCE.WIZARD, []);
 
 const slice = createSlice({
   name: 'wizard',
@@ -20,9 +21,9 @@ const slice = createSlice({
         return action.payload;
       }
       const { host, pathname, origin } = document.location;
-      const config = getDefaultConfig();
+      const config = getDefaultConfig(CONFIG_SOURCE.WIZARD, []);
       config.url = origin + pathname;
-      config.name = host + pathname;
+      config.name = document.title || host + pathname;
       return config;
     },
     removeWizardAction: (state, action: PayloadAction<number>) => {
@@ -45,6 +46,12 @@ const slice = createSlice({
         }
         return _action.elementFinder === elementFinder;
       });
+
+      if (state.timer) {
+        const initWait = (new Date().getTime() - state.timer) / 1000;
+        action.payload.initWait = initWait < 1 ? 1 : initWait < 5 ? initWait : 5; // 1s < initWait < 5s
+      }
+      state.timer = new Date().getTime();
 
       if (checked === false) {
         if (index !== -1) {

@@ -1,4 +1,4 @@
-import { Action, Configuration, RANDOM_UUID, getDefaultAction, getDefaultConfig } from '@dhruv-techapps/acf-common';
+import { Action, CONFIG_SOURCE, Configuration, RANDOM_UUID, getDefaultAction, getDefaultConfig } from '@dhruv-techapps/acf-common';
 import { blogCheckAPI } from '../blog';
 
 /**
@@ -58,7 +58,7 @@ export const checkQueryParams = (configs: Array<Configuration>, thunkAPI): RANDO
         }
         return selectedConfig.id;
       } else {
-        const newConfig = getDefaultConfig();
+        const newConfig = getDefaultConfig(CONFIG_SOURCE.WEB);
         newConfig.url = object.url;
         newConfig.name = getConfigName(object.url);
         newConfig.actions[0].elementFinder = object.elementFinder;

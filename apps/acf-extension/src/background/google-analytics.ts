@@ -83,7 +83,7 @@ export class GoogleAnalytics {
     }
 
     try {
-      const response = await fetch(`${this.debug ? GA_DEBUG_ENDPOINT : GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`, {
+      await fetch(`${this.debug ? GA_DEBUG_ENDPOINT : GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`, {
         method: 'POST',
         body: JSON.stringify({
           client_id: await this.getOrCreateClientId(),
@@ -98,7 +98,6 @@ export class GoogleAnalytics {
       if (!this.debug) {
         return;
       }
-      console.log(await response.text());
     } catch (e) {
       console.error('Google Analytics request failed with an exception', e);
     }

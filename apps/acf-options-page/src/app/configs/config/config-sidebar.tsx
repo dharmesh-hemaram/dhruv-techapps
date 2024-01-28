@@ -117,8 +117,8 @@ export const ConfigSidebar = (props) => {
                 {detailVisibility.url && <div className='text-truncate text-secondary'>{config.url}</div>}
               </div>
             </div>
-            <Button variant='link' onClick={(e) => onRemoveConfig(e, config.id)}>
-              <Trash className='link-danger' />
+            <Button variant='link' onClick={(e) => onRemoveConfig(e, config.id)} disabled={configs.length === 1}>
+              <Trash className={configs.length === 1 ? '' : 'link-danger'} />
             </Button>
           </ListGroup.Item>
         ))}

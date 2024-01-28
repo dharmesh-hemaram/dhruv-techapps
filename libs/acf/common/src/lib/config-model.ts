@@ -14,6 +14,11 @@ export enum START_TYPES {
 
 export const defaultHotkey = 'Ctrl + Shift + A';
 
+export enum CONFIG_SOURCE {
+  WIZARD = 'wizard',
+  WEB = 'web',
+}
+
 export type Configuration = {
   url: string;
   enable: boolean;
@@ -28,14 +33,16 @@ export type Configuration = {
   spreadsheetId?: string;
   hotkey?: string;
   batch?: Batch;
+  source?: CONFIG_SOURCE;
   new?: boolean;
 };
 
-export const getDefaultConfig = (): Configuration => ({
+export const getDefaultConfig = (source?: CONFIG_SOURCE, actions?: Array<Action>): Configuration => ({
   url: '',
+  source,
   id: crypto.randomUUID(),
   enable: true,
   startType: START_TYPES.AUTO,
   loadType: LOAD_TYPES.WINDOW,
-  actions: [getDefaultAction()],
+  actions: actions || [getDefaultAction()],
 });

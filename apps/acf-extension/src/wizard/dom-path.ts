@@ -18,10 +18,11 @@ export const xPath = function (node: any, optimized: any) {
     }
     contextNode = contextNode.parentNode;
   }
-
   steps.reverse();
-  return (steps.length && steps[0].optimized ? '' : '/') + steps.join('/');
+  return (steps.length && steps[0].optimized ? '' : '//') + steps.join('/');
 };
+
+const FORM_CONTROL_ELEMENTS = ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON', 'A'];
 
 const xPathValue = function (node: any, optimized: any) {
   let ownValue;
@@ -32,8 +33,24 @@ const xPathValue = function (node: any, optimized: any) {
 
   switch (node.nodeType) {
     case Node.ELEMENT_NODE:
-      if (optimized && node.getAttribute('id')) {
-        return new Step(`//*[@id="${node.getAttribute('id')}"]`, true);
+      if (optimized) {
+        let xpath = `//${node.nodeName.toLowerCase()}`;
+        if (node.nodeName === 'A' && node.hasAttribute('href') && (node.getAttribute('href').startsWith('/') || node.getAttribute('href').startsWith('http'))) {
+          xpath += `[@href="${node.getAttribute('href')}"]`;
+        }
+        if (FORM_CONTROL_ELEMENTS.includes(node.nodeName)) {
+          node.getAttributeNames().forEach((attributeName: string) => {
+            if (['id', 'name', 'value', 'placeholder', 'rows', 'cols', 'target', 'readonly', 'disabled', 'aria-describedby', 'aria-labelledby', 'for'].includes(attributeName)) {
+              xpath += `[@${attributeName}="${node.getAttribute(attributeName)}"]`;
+            }
+          });
+          if (xpath.charAt(xpath.length - 1) === ']') {
+            return new Step(xpath, true);
+          }
+        }
+        if (node.getAttribute('id')) {
+          return new Step(`//*[@id="${node.getAttribute('id')}"]`, true);
+        }
       }
       ownValue = node.localName;
       break;
