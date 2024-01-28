@@ -15,7 +15,7 @@ import DiscordMessaging from './discord-messaging';
 import { sentryInit } from '../common/sentry';
 import { GoogleAnalytics } from './google-analytics';
 
-let googleAnalytics;
+let googleAnalytics: GoogleAnalytics | undefined;
 try {
   sentryInit('background');
 
@@ -23,6 +23,7 @@ try {
    * Browser Action set to open option page / configuration page
    */
   chrome.action.onClicked.addListener((tab) => {
+    googleAnalytics?.fireEvent({ name: 'Wizard', params: { location: 'action:onClicked' } });
     tab.id && chrome.tabs.sendMessage(tab.id, { action: ACTION_POPUP });
   });
 
@@ -40,7 +41,7 @@ try {
   /**
    * Set Context Menu for right click
    */
-  registerContextMenus(OPTIONS_PAGE_URL);
+  registerContextMenus(OPTIONS_PAGE_URL, googleAnalytics);
 
   /**
    * Set Notifications
@@ -71,7 +72,7 @@ try {
   Runtime.onMessage(onMessageListener);
 } catch (error) {
   console.error(error);
-  if (googleAnalytics && error instanceof Error) {
-    googleAnalytics.fireErrorEvent({ name: error.name, error: error.message, additionalParams: { page: 'background' } });
+  if (error instanceof Error) {
+    googleAnalytics?.fireErrorEvent({ name: error.name, error: error.message, additionalParams: { page: 'background' } });
   }
 }

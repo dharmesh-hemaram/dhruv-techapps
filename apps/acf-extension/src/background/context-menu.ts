@@ -1,16 +1,17 @@
 import { LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
 import { ACTION_POPUP, CONTEXT_MENU_CONFIG_PAGE_ID, CONTEXT_MENU_ELEMENT_ID, PERMISSIONS, TABS, getOrigin } from '../common/constant';
 import { NotificationHandler } from './notifications';
+import { GoogleAnalytics } from './google-analytics';
 
 const CONTEXT_MENUS_ID = 'context-menu-id';
-export default function registerContextMenus(optionsPageUrl?: string) {
+export default function registerContextMenus(optionsPageUrl?: string, googleAnalytics?: GoogleAnalytics) {
   chrome.contextMenus.removeAll();
-  chrome.contextMenus.create({ id: CONTEXT_MENU_ELEMENT_ID, title: '★ Configure for this Field', contexts: ['all'] });
-  chrome.contextMenus.create({ id: ACTION_POPUP, title: '☉ Auto Clicker (Record)', contexts: ['all'] });
-  chrome.contextMenus.create({ id: 'PERMISSION-SEPARATOR', type: 'separator', contexts: ['all'] });
-  chrome.contextMenus.create({ id: PERMISSIONS, title: 'Permissions', contexts: ['all'] });
-  chrome.contextMenus.create({ id: TABS, title: 'Tabs', contexts: ['all'], parentId: PERMISSIONS });
-  chrome.contextMenus.create({ id: 'CONFIG-SEPARATOR', type: 'separator', contexts: ['all'] });
+  chrome.contextMenus.create({ id: CONTEXT_MENU_ELEMENT_ID, title: '★ Configure for this Field', contexts: ['page'] });
+  chrome.contextMenus.create({ id: ACTION_POPUP, title: '☉ Auto Clicker (Record)', contexts: ['page'] });
+  chrome.contextMenus.create({ id: 'PERMISSION-SEPARATOR', type: 'separator', contexts: ['page'] });
+  chrome.contextMenus.create({ id: PERMISSIONS, title: 'Permissions', contexts: ['page'] });
+  chrome.contextMenus.create({ id: TABS, title: 'Tabs', contexts: ['page'], parentId: PERMISSIONS });
+  chrome.contextMenus.create({ id: 'CONFIG-SEPARATOR', type: 'separator', contexts: ['page'] });
   chrome.contextMenus.create({ id: CONTEXT_MENU_CONFIG_PAGE_ID, title: '↗ Open Configuration Page', contexts: ['all'] });
 
   if (optionsPageUrl) {
@@ -18,10 +19,11 @@ export default function registerContextMenus(optionsPageUrl?: string) {
       switch (menuItemId) {
         case CONTEXT_MENU_CONFIG_PAGE_ID:
           chrome.tabs.create({ url: optionsPageUrl });
+          googleAnalytics?.fireEvent({ name: 'Web', params: { location: 'contextMenus.onClicked' } });
           break;
         case ACTION_POPUP:
-          console.info(JSON.stringify(tab));
           tab?.id && chrome.tabs.sendMessage(tab.id, { action: ACTION_POPUP });
+          googleAnalytics?.fireEvent({ name: 'Wizard', params: { location: 'contextMenus.onClicked' } });
           break;
         case CONTEXT_MENU_ELEMENT_ID:
           {
@@ -30,6 +32,7 @@ export default function registerContextMenus(optionsPageUrl?: string) {
             url.searchParams.append('url', configURL);
             url.searchParams.append('elementFinder', xpath);
             chrome.tabs.create({ url: url.href });
+            googleAnalytics?.fireEvent({ name: 'Wizard', params: { location: 'contextMenus.onClicked', data: true } });
             chrome.storage.local.remove([LOCAL_STORAGE_KEY.URL, LOCAL_STORAGE_KEY.XPATH]);
           }
           break;
