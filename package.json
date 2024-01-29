@@ -15,7 +15,7 @@
     "@swc/helpers": "0.5.3",
     "@tanstack/react-table": "^8.11.7",
     "@webcomponents/webcomponentsjs": "^2.8.0",
-    "axios": "^1.6.0",
+    "axios": "^1.6.7",
     "bootstrap-icons": "^1.11.3",
     "discord.js": "^14.12.1",
     "express": "^4.18.1",
