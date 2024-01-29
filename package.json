@@ -49,7 +49,7 @@
     "@nx/webpack": "17.2.8",
     "@nx/workspace": "17.2.8",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
-    "@sentry/webpack-plugin": "^2.10.2",
+    "@sentry/webpack-plugin": "^2.10.3",
     "@svgr/webpack": "^8.1.0",
     "@swc-node/register": "1.6.8",
     "@swc/cli": "~0.3.5",
