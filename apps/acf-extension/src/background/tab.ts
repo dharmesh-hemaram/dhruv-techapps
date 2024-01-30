@@ -1,4 +1,3 @@
-import { getOrigin } from '../common/constant';
 import { NotificationHandler } from './notifications';
 
 let optionsTab: chrome.tabs.Tab | undefined;
@@ -21,22 +20,19 @@ export class TabsMessenger {
     }
   }
 
-  async reload(url: string) {
-    const origin = getOrigin(url);
-    chrome.permissions.contains({ permissions: ['tabs'], origins: [origin] }, (requested) => {
-      if (requested) {
-        chrome.tabs.query({ url }, (tabs) => {
-          tabs.forEach((tab) => {
-            if (tab.id) {
-              chrome.tabs.reload(tab.id);
-            } else {
-              NotificationHandler.notify(NOTIFICATIONS_ID, 'Tabs', `tab not found ${url}`);
-            }
-          });
-        });
-      } else {
-        NotificationHandler.notify(NOTIFICATIONS_ID, 'Permissions', `tabs permission not granted for ${url}`);
-      }
-    });
+  async update(updateProperties: chrome.tabs.UpdateProperties, sender: chrome.runtime.MessageSender) {
+    if (sender.tab?.id) {
+      chrome.tabs.update(sender.tab.id, updateProperties);
+    } else {
+      NotificationHandler.notify(NOTIFICATIONS_ID, 'Tabs', `tab or tabId not found`);
+    }
+  }
+
+  async reload(_: string, sender: chrome.runtime.MessageSender) {
+    if (sender.tab?.id) {
+      chrome.tabs.reload(sender.tab.id);
+    } else {
+      NotificationHandler.notify(NOTIFICATIONS_ID, 'Tabs', `tab or tabId not found`);
+    }
   }
 }

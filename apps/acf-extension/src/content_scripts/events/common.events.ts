@@ -112,6 +112,7 @@ export const EVENTS = {
   TOUCH_EVENTS: 'touchevents',
   FORM_EVENTS: 'formevents',
   KEY_EVENTS: 'keyevents',
+  TABS_EVENTS: 'tabs',
   KEYBOARD_EVENTS: 'keyboardevents',
   ATTR: 'attr',
   CLASS: 'class',

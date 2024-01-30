@@ -101,14 +101,15 @@ export function DataList() {
         <option value='FormEvents::remove'>FormEvents::remove</option>
         <option value='FormEvents::submit'>FormEvents::submit</option>
         <option value='KeyEvents::Example Text'>KeyEvents::Example Text</option>
-        <option value='KeyEvents::{"value":"Example text","delay":3}'>KeyEvents::&lcub;&quot;value&quot;:&quot;Example text&quot;,&quot;delay&quot;:3&rcub;</option>
+        <option value='KeyEvents::{"value":"Example text","delay":3}'>KeyEvents::&#123;&quot;value&quot;:&quot;Example text&quot;,&quot;delay&quot;:3&#125;</option>
         <option value='example<batchRepeat>@gmail.com'>example&lt;batchRepeat&gt;@gmail.com</option>
         <option value='LocationCommand::reload'>LocationCommand::reload</option>
-        <option value='LocationCommand::reload::background'>LocationCommand::reload::background</option>
         <option value='LocationCommand::href::url'>LocationCommand::href::url</option>
         <option value='LocationCommand::replace::url'>LocationCommand::replace::url</option>
         <option value='LocationCommand::assign::url'>LocationCommand::assign::url</option>
         <option value='LocationCommand::open::https://getautoclicker.com'>LocationCommand::open::https://getautoclicker.com</option>
+        <option value='Tabs::reload'>Tabs::reload</option>
+        <option value='Tabs::update::{"url":"https://test.getautoclicker.com/"}'>Tabs::update::&#123;"url":"https://test.getautoclicker.com/"&#125;</option>
         <option value='WindowCommand::close'>WindowCommand::close</option>
         <option value='WindowCommand::open::https://getautoclicker.com'>WindowCommand::open::https://getautoclicker.com</option>
         <option value='WindowCommand::delete'>WindowCommand::delete</option>

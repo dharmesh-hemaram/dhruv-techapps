@@ -8,7 +8,7 @@ export type MessengerConfigObject = {
 export type RuntimeMessageRequest = ActionRequest | ManifestRequest | NotificationsRequest | StorageRequest;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const messageListener = async (request: any, configs: MessengerConfigObject): Promise<any> => {
+export const messageListener = async (request: any, sender: chrome.runtime.MessageSender, configs: MessengerConfigObject): Promise<any> => {
   const { messenger, methodName, message } = request;
 
   try {
@@ -24,7 +24,7 @@ export const messageListener = async (request: any, configs: MessengerConfigObje
       default:
         if (configs[messenger]) {
           if (typeof configs[messenger][methodName] === 'function') {
-            return configs[messenger][methodName](message);
+            return configs[messenger][methodName](message, sender);
           } else {
             throw new Error(`${messenger}.${methodName} ${chrome.i18n.getMessage('@PORT__method_not_found')}`);
           }
@@ -48,8 +48,8 @@ export class Runtime {
   }
 
   static onMessage(configs: MessengerConfigObject) {
-    chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
-      messageListener(request, configs)
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      messageListener(request, sender, configs)
         .then(sendResponse)
         .catch((error) => {
           sendResponse({ error: error.message });
@@ -59,8 +59,8 @@ export class Runtime {
   }
 
   static onMessageExternal(configs: MessengerConfigObject) {
-    chrome.runtime.onMessageExternal.addListener((request, _, sendResponse) => {
-      messageListener(request, configs)
+    chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
+      messageListener(request, sender, configs)
         .then(sendResponse)
         .catch((error) => {
           sendResponse({ error: error.message });

@@ -1,17 +1,13 @@
 import { Logger } from '@dhruv-techapps/core-common';
 import { SystemError } from '../error';
 import CommonEvents from './common.events';
-import { TabsService } from '@dhruv-techapps/acf-service';
 
-const LOCATION_COMMANDS = ['reload::background', 'reload', 'href', 'replace', 'open', 'close', 'focus', 'blur', 'print', 'stop', 'moveBy', 'moveTo'];
+const LOCATION_COMMANDS = ['reload', 'href', 'replace', 'open', 'close', 'focus', 'blur', 'print', 'stop', 'moveBy', 'moveTo'];
 
 export const LocationCommandEvents = (() => {
   const execCommand = (commands: Array<string | Event>, value: string) => {
     commands.forEach((command) => {
       switch (command) {
-        case 'reload::background':
-          TabsService.reload(chrome.runtime.id, window.location.href);
-          break;
         case 'reload':
           window.location.reload();
           break;

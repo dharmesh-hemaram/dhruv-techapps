@@ -17,6 +17,7 @@ import { KeyEvents } from './key.events';
 import { LocationCommandEvents } from './location-command.events';
 import { PlainEvents } from './plain.events';
 import { KeyboardEvents } from './keyboard.events';
+import { TabsEvents } from './tabs.events';
 
 const DEFAULT_EVENT = ['mouseover', 'mousedown', 'mouseup', 'click'];
 
@@ -44,6 +45,9 @@ const Events = (() => {
           break;
         case EVENTS.KEY_EVENTS:
           KeyEvents.start(elements, value);
+          break;
+        case EVENTS.TABS_EVENTS:
+          TabsEvents.start(value);
           break;
         case EVENTS.ATTR:
           AttributeEvents.start(elements, value);
