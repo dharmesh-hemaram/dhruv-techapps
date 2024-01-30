@@ -26,6 +26,7 @@
     "react-bootstrap": "^2.10.0",
     "react-dom": "18.2.0",
     "react-i18next": "^14.0.1",
+    "react-markdown": "^9.0.1",
     "react-redux": "^9.0.0",
     "react-reorder": "^3.0.0-alpha.7",
     "sitemap": "^7.1.1",
