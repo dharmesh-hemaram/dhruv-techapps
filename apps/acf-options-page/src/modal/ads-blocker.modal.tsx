@@ -3,7 +3,6 @@ import { Button, Image, Modal, Nav, Tab } from 'react-bootstrap';
 import { PatchQuestionFill } from '../util';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { appSelector, switchAdsBlocker } from '../store/app.slice';
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const AdsBlockerModal = () => {
   const { adsBlocker } = useAppSelector(appSelector);
@@ -12,7 +11,6 @@ const AdsBlockerModal = () => {
   useEffect(() => {
     setTimeout(() => {
       if (!window.adsLoaded) {
-        GoogleAnalyticsService.firePageViewEvent(window.EXTENSION_ID, 'AdsBlockerModal', '/ads-blocker-modal', 'modal_view');
         dispatch(switchAdsBlocker());
       }
     }, 2000);
@@ -34,7 +32,7 @@ const AdsBlockerModal = () => {
   return (
     <Modal show={adsBlocker} centered backdrop='static' keyboard={false} id='ads-blocker' data-testid='ads-blocker-modal'>
       <Modal.Header className='justify-content-center'>
-        <Modal.Title as='h6'>Please allow ads on our site</Modal.Title>
+        <Modal.Title as='a'>Please allow ads on our site</Modal.Title>
       </Modal.Header>
       <Modal.Body className='mx-auto'>
         <p className='d-flex justify-content-center'>Which of these extensions do you have?</p>
