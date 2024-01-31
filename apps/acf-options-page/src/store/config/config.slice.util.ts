@@ -78,13 +78,7 @@ export const checkQueryParams = (configs: Array<Configuration>, thunkAPI): RANDO
  * @returns The updated array of configurations with updated IDs.
  */
 export const updateConfigIds = (configs: Array<Configuration>) => {
-  const updatedConfigs = configs.map((config) => {
-    if (!config.id) {
-      config.id = crypto.randomUUID();
-    }
-    return config;
-  });
-  return updatedConfigs;
+  return configs.map(updateConfigId);
 };
 
 /**
@@ -96,5 +90,11 @@ export const updateConfigId = (config: Configuration) => {
   if (!config.id) {
     return { ...config, id: crypto.randomUUID() };
   }
+  config.actions.map((action) => {
+    if (!action.id) {
+      action.id = crypto.randomUUID();
+    }
+    return action;
+  });
   return config;
 };

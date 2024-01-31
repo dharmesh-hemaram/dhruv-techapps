@@ -4,7 +4,7 @@ import { CONFIG_SOURCE, Configuration, RANDOM_UUID, START_TYPES, getDefaultConfi
 import { configGetAllAPI } from './config.api';
 import { actionActions, openActionAddonModalAPI, openActionSettingsModalAPI, openActionStatementModalAPI } from './action';
 import { batchActions } from './batch';
-import { getConfigName, updateConfigIds } from './config.slice.util';
+import { getConfigName, updateConfigId, updateConfigIds } from './config.slice.util';
 import { LocalStorage } from '../../_helpers';
 
 const HIDDEN_DETAIL_KEY = 'config-detail-visibility';
@@ -110,7 +110,7 @@ const slice = createSlice({
       state.selectedConfigId = state.configs[0].id;
     },
     importConfig: (state, action: PayloadAction<Configuration>) => {
-      const config = { ...action.payload, id: crypto.randomUUID() };
+      const config = updateConfigId(action.payload);
       state.configs.push(config);
       state.selectedConfigId = config.id;
     },
