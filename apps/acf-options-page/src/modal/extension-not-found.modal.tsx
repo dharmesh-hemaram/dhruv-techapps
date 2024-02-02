@@ -28,12 +28,8 @@ const ExtensionNotFoundModal = () => {
     dispatch(switchExtensionNotFound());
   };
 
-  const onShow = () => {
-    //:TODO
-  };
-
   return (
-    <Modal show={extensionNotFound} size='lg' centered backdrop='static' keyboard={false} onShow={onShow} onHide={onHide} data-testid='extension-not-found-modal'>
+    <Modal show={extensionNotFound} size='lg' centered backdrop='static' keyboard={false} onHide={onHide} data-testid='extension-not-found-modal'>
       <Modal.Header>
         <Modal.Title>{t('modal.extensionNotFound.title')}</Modal.Title>
       </Modal.Header>
