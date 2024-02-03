@@ -1,5 +1,7 @@
 import { GOOGLE_SCOPES, LOCAL_STORAGE_KEY, RESPONSE_CODE } from '@dhruv-techapps/acf-common';
 import { NotificationHandler } from './notifications';
+import { BROWSER } from '../common/browser';
+import { EDGE_OAUTH_CLIENT_ID } from '../common/environments';
 
 const NOTIFICATIONS_TITLE = 'Google OAuth';
 const NOTIFICATIONS_ID = 'authentication';
@@ -47,12 +49,45 @@ export default class GoogleOauth2 {
     return RESPONSE_CODE.REMOVED;
   }
 
-  async getAuthToken(scopes: Array<GOOGLE_SCOPES>) {
-    const { token } = await chrome.identity.getAuthToken({ interactive: true, scopes });
-    for (const scope of scopes) {
-      await this.#addScope(scope);
+  async getAuthTokenEdge(scopes: Array<GOOGLE_SCOPES>) {
+    const redirectUrl = chrome.identity.getRedirectURL();
+    const clientId = EDGE_OAUTH_CLIENT_ID;
+    const redirectUri = encodeURIComponent(redirectUrl);
+    const scopesString = encodeURIComponent(scopes.join(' '));
+    const result = await chrome.identity.launchWebAuthFlow({
+      url: `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scopesString}`,
+      interactive: true,
+    });
+    if (result) {
+      const url = new URL(result);
+      const token = url?.hash
+        ?.split('&')
+        .find((param) => param.startsWith('#access_token='))
+        ?.split('=')[1];
+      if (token) {
+        return token;
+      } else {
+        NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'Token not found');
+      }
+    } else {
+      NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'Error while retrieving token');
     }
-    return token;
+  }
+
+  async getAuthToken(scopes: Array<GOOGLE_SCOPES>) {
+    if (BROWSER === 'EDGE') {
+      const token = this.getAuthTokenEdge(scopes);
+      for (const scope of scopes) {
+        await this.#addScope(scope);
+      }
+      return token;
+    } else {
+      const { token } = await chrome.identity.getAuthToken({ interactive: true, scopes });
+      for (const scope of scopes) {
+        await this.#addScope(scope);
+      }
+      return token;
+    }
   }
 
   async getHeaders(scopes: Array<GOOGLE_SCOPES>) {
