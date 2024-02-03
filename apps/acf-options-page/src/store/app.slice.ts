@@ -39,13 +39,17 @@ const slice = createSlice({
     },
     switchExtensionNotFound: (state, action: PayloadAction<string | undefined>) => {
       state.loading = false;
+      window.dataLayer.push({ event: 'Extension Not Found', value: !state.extensionNotFound });
       state.extensionNotFound = !state.extensionNotFound;
       if (action.payload) {
         state.error = action.payload;
       }
     },
     switchAdsBlocker: (state) => {
-      state.adsBlocker = !state.adsBlocker;
+      if (!state.extensionNotFound) {
+        window.dataLayer.push({ event: 'Ads Blocker', value: !state.adsBlocker });
+        state.adsBlocker = !state.adsBlocker;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -59,6 +63,7 @@ const slice = createSlice({
       if (error) {
         state.error = error;
         if (NO_EXTENSION_ERROR.includes(error)) {
+          window.dataLayer.push({ event: 'Extension Not Found', value: !state.extensionNotFound });
           state.extensionNotFound = !state.extensionNotFound;
         }
       }

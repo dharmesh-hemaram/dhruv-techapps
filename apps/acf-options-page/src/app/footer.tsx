@@ -28,9 +28,9 @@ function Footer() {
               <div className='text-muted'>
                 <small>© 2017 - 2023</small>
                 <br />
-                <small>☘ v{manifest?.version}</small>
+                <small id='extension-version'>☘ v{manifest?.version}</small>
                 <br />
-                <small>☯ {process.env.NX_RELEASE_VERSION}</small>
+                <small id='web-version'>☯ {process.env.NX_RELEASE_VERSION}</small>
               </div>
             </div>
           </Col>
