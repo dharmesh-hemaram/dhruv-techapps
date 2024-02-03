@@ -1,5 +1,5 @@
 import { ACTION_STATUS, Action } from '@dhruv-techapps/acf-common';
-import { ActionService, NotificationsService } from '@dhruv-techapps/core-service';
+import { NotificationsService } from '@dhruv-techapps/core-service';
 import ActionProcessor from './action';
 import Statement from './statement';
 import { wait } from './util';
@@ -12,12 +12,6 @@ import { Logger } from '@dhruv-techapps/core-common';
 const LOGGER_LETTER = 'Action';
 
 const Actions = (() => {
-  const setBadge = (i: number) => {
-    ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [25, 135, 84, 1] });
-    ActionService.setBadgeText(chrome.runtime.id, { text: `${window.__batchRepeat}-${i}` });
-    ActionService.setTitle(chrome.runtime.id, { title: `Batch:${window.__batchRepeat} Action:${i}` });
-  };
-
   const checkStatement = async (actions: Array<Action>, action: Action) => {
     const actionStatus = actions.map((action) => action.status ?? ACTION_STATUS['~~ Select STATUS ~~']);
     const result = await Statement.check(actionStatus, action.statement);
@@ -45,7 +39,6 @@ const Actions = (() => {
       if (!action.elementFinder) {
         throw new ConfigError('Element Finder is blank', 'Configuration Action');
       }
-      setBadge(i);
       const statementResult = await checkStatement(actions, action);
       if (statementResult === true) {
         await wait(action.initWait, `${LOGGER_LETTER} initWait`);

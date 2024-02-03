@@ -1,4 +1,4 @@
-import { ActionService, NotificationsService } from '@dhruv-techapps/core-service';
+import { NotificationsService } from '@dhruv-techapps/core-service';
 import { Logger } from '@dhruv-techapps/core-common';
 import { Configuration, START_TYPES } from '@dhruv-techapps/acf-common';
 import { wait } from './util';
@@ -21,22 +21,11 @@ const ConfigProcessor = (() => {
     return fields;
   };
 
-  const setBadgeDone = () => {
-    ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [25, 135, 84, 1] });
-    ActionService.setBadgeText(chrome.runtime.id, { text: 'Done' });
-  };
-
-  const setBadgeError = () => {
-    ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [220, 53, 69, 1] });
-    ActionService.setBadgeText(chrome.runtime.id, { text: 'Error' });
-  };
-
   const start = async (config: Configuration) => {
     Logger.colorDebug('Config Start');
     await new GoogleSheets().getValues(config);
     try {
       await BatchProcessor.start(config.actions, config.batch);
-      setBadgeDone();
       const { notifications } = await new SettingsStorage().getSettings();
       if (notifications) {
         const { onConfig, sound, discord } = notifications;
@@ -51,7 +40,6 @@ const ConfigProcessor = (() => {
     } catch (e) {
       if (e instanceof ConfigError) {
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
-        setBadgeError();
         const { notifications } = await new SettingsStorage().getSettings();
         if (notifications && notifications.onError) {
           const { sound, discord } = notifications;
@@ -97,16 +85,11 @@ const ConfigProcessor = (() => {
   };
 
   const checkStartType = async (config: Configuration) => {
-    ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [13, 110, 253, 1] });
     if (config.startType === START_TYPES.MANUAL) {
       Logger.colorDebug('Config Start Manually');
-      ActionService.setBadgeText(chrome.runtime.id, { text: 'Manual' });
-      ActionService.setTitle(chrome.runtime.id, { title: 'Start Manually' });
       Hotkey.setup(start.bind(this, config), config.hotkey);
     } else {
       Logger.colorDebug('Config Start Automatically');
-      ActionService.setBadgeText(chrome.runtime.id, { text: 'Auto' });
-      ActionService.setTitle(chrome.runtime.id, { title: 'Start Automatically' });
       await checkStartTime(config);
       await start(config);
     }

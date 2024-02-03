@@ -1,6 +1,5 @@
 import { Logger } from '@dhruv-techapps/core-common';
 import { ActionSettings, RETRY_OPTIONS } from '@dhruv-techapps/acf-common';
-import { ActionService } from '@dhruv-techapps/core-service';
 import { ConfigError } from './error/config-error';
 import { wait } from './util';
 import Sandbox from './sandbox';
@@ -11,8 +10,6 @@ const Common = (() => {
   const retryFunc = async (retry?: number, retryInterval?: number | string) => {
     if (retry !== undefined) {
       if (retry > 0 || retry < -1) {
-        ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [102, 16, 242, 1] });
-        ActionService.setBadgeText(chrome.runtime.id, { text: 'Retry' });
         await wait(retryInterval, 'Retry', retry, '<interval>');
         return true;
       }

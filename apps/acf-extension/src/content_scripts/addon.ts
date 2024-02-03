@@ -1,5 +1,4 @@
 import { ADDON_CONDITIONS, ActionSettings, Addon, RECHECK_OPTIONS, ValueExtractorFlags } from '@dhruv-techapps/acf-common';
-import { ActionService } from '@dhruv-techapps/core-service';
 import { Logger } from '@dhruv-techapps/core-common';
 import { wait } from './util';
 import { ConfigError, SystemError } from './error';
@@ -16,8 +15,6 @@ const AddonProcessor = (() => {
     if (recheck !== undefined) {
       if (recheck > 0 || recheck < -1) {
         recheck -= 1;
-        ActionService.setBadgeBackgroundColor(chrome.runtime.id, { color: [13, 202, 240, 1] });
-        ActionService.setBadgeText(chrome.runtime.id, { text: 'Recheck' });
         await wait(props.recheckInterval, `${LOGGER_LETTER} Recheck`, recheck, '<interval>');
         // eslint-disable-next-line no-use-before-define
         return await start({ elementFinder, value, condition, recheck, recheckOption, ...props }, settings);
