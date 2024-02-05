@@ -10,7 +10,7 @@
     "@nx/devkit": "17.2.8",
     "@reactour/tour": "^3.6.1",
     "@reduxjs/toolkit": "^2.0.1",
-    "@sentry/browser": "^7.93.0",
+    "@sentry/browser": "^7.99.0",
     "@sentry/react": "^7.93.0",
     "@swc/helpers": "0.5.3",
     "@tanstack/react-table": "^8.11.7",
