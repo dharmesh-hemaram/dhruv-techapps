@@ -1,9 +1,9 @@
-import { Configuration, LOAD_TYPES } from '@dhruv-techapps/acf-common';
+import { LOAD_TYPES } from '@dhruv-techapps/acf-common';
 import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
 import * as Sentry from '@sentry/browser';
 import ConfigProcessor from './config';
 import Session from './util/session';
-import ConfigStorage from './store/config-storage';
+import ConfigStorage, { GetConfigResult } from './store/config-storage';
 import { Sheets } from './util/google-sheets';
 import { sentryInit } from '../common/sentry';
 import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
@@ -17,16 +17,17 @@ declare global {
 
 async function loadConfig(loadType: LOAD_TYPES) {
   try {
-    new ConfigStorage().getConfig().then(async (config?: Configuration) => {
-      if (config) {
-        if (config.loadType === loadType) {
-          GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_started', { url: config.url, actions: config.actions.length, batch: config.batch });
+    new ConfigStorage().getConfig().then(async ({ autoConfig, manualConfigs }: GetConfigResult) => {
+      if (autoConfig) {
+        if (autoConfig.loadType === loadType) {
           sentryInit('content_scripts');
           const { host } = document.location;
           Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, host, loadType);
-          await ConfigProcessor.checkStartType(config);
+          await ConfigProcessor.checkStartType(manualConfigs, autoConfig);
           Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, host, 'END');
         }
+      } else if (manualConfigs.length > 0 && loadType === LOAD_TYPES.DOCUMENT) {
+        await ConfigProcessor.checkStartType(manualConfigs);
       } else {
         console.info(chrome.runtime.getManifest().name, 'No config found', window.location.href);
       }
