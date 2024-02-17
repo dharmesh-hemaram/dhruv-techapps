@@ -1,6 +1,6 @@
 import { NotificationsService } from '@dhruv-techapps/core-service';
 import { Logger } from '@dhruv-techapps/core-common';
-import { Configuration, START_TYPES } from '@dhruv-techapps/acf-common';
+import { Configuration } from '@dhruv-techapps/acf-common';
 import { wait } from './util';
 import BatchProcessor from './batch';
 import { ConfigError } from './error';
@@ -22,7 +22,14 @@ const ConfigProcessor = (() => {
   };
 
   const start = async (config: Configuration) => {
-    Logger.colorDebug('Config Start');
+    GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_started', {
+      url: config.url,
+      loadType: config.loadType,
+      actions: config.actions.length,
+      batchRefresh: config.batch?.refresh,
+      batchRepeat: config.batch?.repeat,
+      batchRepeatInterval: config.batch?.repeatInterval,
+    });
     await new GoogleSheets().getValues(config);
     try {
       await BatchProcessor.start(config.actions, config.batch);
@@ -84,12 +91,11 @@ const ConfigProcessor = (() => {
     }
   };
 
-  const checkStartType = async (config: Configuration) => {
-    if (config.startType === START_TYPES.MANUAL) {
-      Logger.colorDebug('Config Start Manually');
-      Hotkey.setup(start.bind(this, config), config.hotkey);
-    } else {
-      Logger.colorDebug('Config Start Automatically');
+  const checkStartType = async (configs: Array<Configuration>, config?: Configuration) => {
+    configs.forEach((c) => {
+      Hotkey.setup(start.bind(this, c), c.hotkey);
+    });
+    if (config) {
       await checkStartTime(config);
       await start(config);
     }
