@@ -1,5 +1,4 @@
 const { composePlugins, withNx } = require('@nx/webpack');
-const { sentryWebpackPlugin } = require('@sentry/webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const path = require('path');
@@ -38,7 +37,7 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
   config.plugins[1] = new CopyPlugin({
     patterns: [
       { from: `**/messages.json`, to: './_locales', context: `${ctx.options.root}/apps/acf-i18n/src/locales` },
-      { from: path.join(__dirname, 'assets', process.env.NX_VARIANT || 'DEV'), to: './assets' },
+      { from: path.join(__dirname, 'assets', config.watch ? 'DEV' : process.env.NX_VARIANT), to: './assets' },
       { from: `./*.html`, to: './html', context: 'src/wizard/popup' },
       { from: `./*.html`, to: './html', context: 'src/sandbox' },
       { from: path.join(ctx.options.root, './node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js'), to: './webcomponents' },
@@ -60,18 +59,5 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
     })
   );
 
-  if (!config.watch) {
-    config.plugins.push(
-      sentryWebpackPlugin({
-        org: 'dhruv-techapps',
-        project: 'acf-extension',
-        telemetry: false,
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-        release: {
-          name: process.env.NX_RELEASE_VERSION?.replace('v', ''),
-        },
-      })
-    );
-  }
   return config;
 });
