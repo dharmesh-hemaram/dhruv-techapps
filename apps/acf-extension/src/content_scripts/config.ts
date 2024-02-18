@@ -43,7 +43,14 @@ const ConfigProcessor = (() => {
           }
         }
       }
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_completed', { url: config.url, actions: config.actions.length, batch: config.batch });
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_completed', {
+        url: config.url,
+        loadType: config.loadType,
+        actions: config.actions.length,
+        batchRefresh: config.batch?.refresh,
+        batchRepeat: config.batch?.repeat,
+        batchRepeatInterval: config.batch?.repeatInterval,
+      });
     } catch (e) {
       if (e instanceof ConfigError) {
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };

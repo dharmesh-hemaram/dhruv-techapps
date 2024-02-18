@@ -28,10 +28,12 @@ try {
    *  On initial install setup basic configuration
    */
   chrome.runtime.onInstalled.addListener((details) => {
-    if (details.reason === 'update') {
-      TabsMessenger.optionsTab({ url: `${OPTIONS_PAGE_URL}?version=${chrome.runtime.getManifest().version}` });
-    } else if (details.reason === 'install') {
-      TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });
+    if (VARIANT !== 'LOCAL') {
+      if (details.reason === 'update') {
+        TabsMessenger.optionsTab({ url: `${OPTIONS_PAGE_URL}?version=${chrome.runtime.getManifest().version}` });
+      } else if (details.reason === 'install') {
+        TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });
+      }
     }
   });
 
@@ -74,5 +76,9 @@ try {
 }
 
 addEventListener('unhandledrejection', async (event) => {
-  googleAnalytics?.fireErrorEvent({ error: event.reason, additionalParams: { page: 'background' } });
+  if (event.reason instanceof Error) {
+    googleAnalytics?.fireErrorEvent({ error: event.reason.message, additionalParams: { page: 'background' } });
+  } else {
+    googleAnalytics?.fireErrorEvent({ error: JSON.stringify(event.reason), additionalParams: { page: 'background' } });
+  }
 });
