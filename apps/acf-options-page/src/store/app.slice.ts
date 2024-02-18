@@ -39,7 +39,7 @@ const slice = createSlice({
     },
     switchExtensionNotFound: (state, action: PayloadAction<string | undefined>) => {
       state.loading = false;
-      window.dataLayer.push({ event: 'Extension Not Found', value: !state.extensionNotFound });
+      window.dataLayer.push({ event: 'modal', name: 'extension_not_found', visibility: !state.extensionNotFound });
       state.extensionNotFound = !state.extensionNotFound;
       if (action.payload) {
         state.error = action.payload;
@@ -47,7 +47,7 @@ const slice = createSlice({
     },
     switchAdsBlocker: (state) => {
       if (!state.extensionNotFound) {
-        window.dataLayer.push({ event: 'Ads Blocker', value: !state.adsBlocker });
+        window.dataLayer.push({ event: 'modal', name: 'ads_blocker', visibility: !state.adsBlocker });
         state.adsBlocker = !state.adsBlocker;
       }
     },
@@ -63,7 +63,7 @@ const slice = createSlice({
       if (error) {
         state.error = error;
         if (NO_EXTENSION_ERROR.includes(error)) {
-          window.dataLayer.push({ event: 'Extension Not Found', value: !state.extensionNotFound });
+          window.dataLayer.push({ event: 'modal', name: 'extension_not_found', visibility: !state.extensionNotFound });
           state.extensionNotFound = !state.extensionNotFound;
         }
       }

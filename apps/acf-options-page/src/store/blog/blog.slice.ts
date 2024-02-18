@@ -88,12 +88,14 @@ const slice = createSlice({
   initialState,
   reducers: {
     hideBlog: () => {
+      window.dataLayer.push({ event: 'modal', name: 'blog', visibility: false });
       return initialState;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(blogCheckAPI.fulfilled, (state, action) => {
       state.release = action.payload;
+      window.dataLayer.push({ event: 'modal', name: 'blog', visibility: true });
       state.visible = true;
     });
   },

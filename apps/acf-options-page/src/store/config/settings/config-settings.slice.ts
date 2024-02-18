@@ -15,6 +15,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     switchConfigSettingsModal: (state) => {
+      window.dataLayer.push({ event: 'modal', name: 'config_settings', visibility: !state.visible });
       state.visible = !state.visible;
     },
     setConfigSettingsMessage: (state, action: PayloadAction<string | undefined>) => {

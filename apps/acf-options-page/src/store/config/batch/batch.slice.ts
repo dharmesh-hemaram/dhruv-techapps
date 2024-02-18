@@ -14,6 +14,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     switchBatchModal: (state) => {
+      window.dataLayer.push({ event: 'modal', name: 'batch', visibility: !state.visible });
       state.visible = !state.visible;
     },
     setBatchMessage: (state, action: PayloadAction<string | undefined>) => {

@@ -23,6 +23,7 @@ const slice = createSlice({
       state.settings[name] = value;
     },
     switchActionSettingsModal: (state) => {
+      window.dataLayer.push({ event: 'modal', name: 'action_settings', visibility: !state.visible });
       state.visible = !state.visible;
     },
     setActionSettingsMessage: (state, action: PayloadAction<string | undefined>) => {
