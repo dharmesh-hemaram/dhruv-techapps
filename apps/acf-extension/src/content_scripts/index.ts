@@ -1,11 +1,9 @@
 import { LOAD_TYPES } from '@dhruv-techapps/acf-common';
 import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
-import * as Sentry from '@sentry/browser';
 import ConfigProcessor from './config';
 import Session from './util/session';
 import ConfigStorage, { GetConfigResult } from './store/config-storage';
 import { Sheets } from './util/google-sheets';
-import { sentryInit } from '../common/sentry';
 import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 declare global {
@@ -20,7 +18,6 @@ async function loadConfig(loadType: LOAD_TYPES) {
     new ConfigStorage().getConfig().then(async ({ autoConfig, manualConfigs }: GetConfigResult) => {
       if (autoConfig) {
         if (autoConfig.loadType === loadType) {
-          sentryInit('content_scripts');
           const { host } = document.location;
           Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, host, loadType);
           await ConfigProcessor.checkStartType(manualConfigs, autoConfig);
@@ -36,7 +33,6 @@ async function loadConfig(loadType: LOAD_TYPES) {
     if (e instanceof Error) {
       GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, e.name, e.message, { page: 'content_scripts' });
     }
-    Sentry.captureException(e);
   }
 }
 
@@ -47,4 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('load', () => {
   loadConfig(LOAD_TYPES.WINDOW);
+});
+
+addEventListener('unhandledrejection', (event) => {
+  GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, 'unhandledrejection', event.reason, { page: 'content_scripts' });
 });
