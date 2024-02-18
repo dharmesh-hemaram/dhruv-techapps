@@ -1,6 +1,6 @@
 import { LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
 import { FUNCTION_URL, VARIANT } from '../common/environments';
-import * as Sentry from '@sentry/browser';
+import { GoogleAnalytics } from './google-analytics';
 
 type DiscordMessagingType = {
   title: string;
@@ -32,7 +32,9 @@ export default class DiscordMessaging {
         body: JSON.stringify(data),
       });
     } catch (error) {
-      Sentry.captureException(error);
+      if (error instanceof Error) {
+        new GoogleAnalytics().fireErrorEvent({ name: 'discord-messaging', error: error.message });
+      }
       return error;
     }
     return {};
