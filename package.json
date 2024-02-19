@@ -40,7 +40,7 @@
     "@nx/eslint": "17.2.8",
     "@nx/eslint-plugin": "17.2.8",
     "@nx/express": "17.2.8",
-    "@nx/jest": "17.2.8",
+    "@nx/jest": "18.0.4",
     "@nx/js": "17.2.8",
     "@nx/node": "17.2.8",
     "@nx/plugin": "17.2.8",
