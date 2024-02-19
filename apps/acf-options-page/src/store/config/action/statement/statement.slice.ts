@@ -49,6 +49,7 @@ const slice = createSlice({
       state.statement.goto = action.payload;
     },
     switchActionStatementModal: (state) => {
+      window.dataLayer.push({ event: 'modal', name: 'action_statement', visibility: !state.visible });
       state.visible = !state.visible;
     },
     setActionStatementMessage: (state, action: PayloadAction<string | undefined>) => {

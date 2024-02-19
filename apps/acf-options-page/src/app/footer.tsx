@@ -61,7 +61,7 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='privacy' href={SOCIAL_LINKS.RATE_US}>
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='rate-us' href={SOCIAL_LINKS.RATE_US}>
                   <Star className='me-2' />
                   {t('footer.rate-us')}
                 </a>
@@ -72,7 +72,7 @@ function Footer() {
             <h5 className='text-secondary'>{t('footer.social')}</h5>
             <ul className='list-unstyled text-small'>
               <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='youtube' href={SOCIAL_LINKS.FACEBOOK}>
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='facebook' href={SOCIAL_LINKS.FACEBOOK}>
                   <Facebook className='me-2' />
                   {t('footer.facebook')}
                 </a>
