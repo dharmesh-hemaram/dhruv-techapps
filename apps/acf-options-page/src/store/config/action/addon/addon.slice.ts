@@ -24,6 +24,7 @@ const slice = createSlice({
       state.addon.recheckGoto = action.payload;
     },
     switchActionAddonModal: (state) => {
+      window.dataLayer.push({ event: 'modal', name: 'action_addon', visibility: !state.visible });
       state.visible = !state.visible;
     },
     setActionAddonMessage: (state, action: PayloadAction<string | undefined>) => {

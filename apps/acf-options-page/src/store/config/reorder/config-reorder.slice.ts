@@ -23,6 +23,7 @@ const slice = createSlice({
       if (action.payload) {
         state.configs = action.payload;
       }
+      window.dataLayer.push({ event: 'modal', name: 'config_reorder', visibility: !state.visible });
       state.visible = !state.visible;
     },
     setConfigReorderMessage: (state, action: PayloadAction<string | undefined>) => {

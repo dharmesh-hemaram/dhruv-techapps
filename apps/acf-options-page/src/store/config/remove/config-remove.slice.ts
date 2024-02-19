@@ -22,6 +22,7 @@ const slice = createSlice({
       if (action.payload) {
         state.configs = action.payload;
       }
+      window.dataLayer.push({ event: 'modal', name: 'config_remove', visibility: !state.visible });
       state.visible = !state.visible;
     },
     switchConfigRemoveSelection: (state, action: PayloadAction<RANDOM_UUID>) => {
