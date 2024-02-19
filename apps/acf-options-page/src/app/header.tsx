@@ -98,7 +98,7 @@ function Header() {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link onClick={() => setIsOpen(true)} id='tour'>
+                <Nav.Link onClick={() => setIsOpen(true)} id='tour' title='tour'>
                   Tour
                 </Nav.Link>
               </Nav.Item>
@@ -108,7 +108,7 @@ function Header() {
               {!error && (
                 <>
                   <Nav.Item as='li' className='col-6 col-lg-auto'>
-                    <Nav.Link onClick={() => dispatch(switchSettingsModal())} data-testid='open-settings'>
+                    <Nav.Link onClick={() => dispatch(switchSettingsModal())} data-testid='open-global-settings'>
                       <GearFill title={t('header.settings')} />
                       <small className='d-lg-none ms-2'>{t('header.settings')}</small>
                     </Nav.Link>
