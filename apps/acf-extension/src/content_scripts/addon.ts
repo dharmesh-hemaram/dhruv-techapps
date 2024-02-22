@@ -70,7 +70,6 @@ const AddonProcessor = (() => {
     if (typeof value === 'string') {
       value = extractValue(element, value, valueExtractor, valueExtractorFlags);
     }
-    Logger.colorDebug('GetNodeValue', value);
     return value;
   };
 

@@ -1,4 +1,3 @@
-import { Logger } from '@dhruv-techapps/core-common';
 import RandExp from 'randexp';
 import { ConfigError } from '../error';
 import Common from '../common';
@@ -9,20 +8,23 @@ export const VALUE_MATCHER = {
   FUNC: /^Func::/i,
   RANDOM: /<random(.+)>/gi,
   BATCH_REPEAT: /<batchRepeat>/,
+  ACTION_REPEAT: /<actionRepeat>/,
 };
 
 const Value = (() => {
   const getRandomValue = (value: string) =>
     value.replace(VALUE_MATCHER.RANDOM, (_, regex) => {
-      Logger.colorDebug('RandExp', regex);
       const result = new RandExp(regex).gen();
-      Logger.colorDebug('GetRandomValue', result);
       return result;
     });
 
   const getBatchRepeat = (value: string) => {
     value = value.replaceAll('<batchRepeat>', String(window.__batchRepeat));
-    Logger.colorDebug('GetBatchRepeat', value);
+    return value;
+  };
+
+  const getActionRepeat = (value: string) => {
+    value = value.replaceAll('<actionRepeat>', String(window.__actionRepeat));
     return value;
   };
 
@@ -56,7 +58,6 @@ const Value = (() => {
           return '::empty';
         }
         value = values[rowIndex][colIndex];
-        Logger.colorDebug('Google Sheet Value', value);
         return value;
       }
     }
@@ -69,7 +70,6 @@ const Value = (() => {
     if (searchParams.has(key)) {
       value = searchParams.get(key) || key;
     }
-    Logger.colorDebug('GetQueryParam', value);
     return value;
   };
 
@@ -81,24 +81,28 @@ const Value = (() => {
   const getValue = async (value: string): Promise<string> => {
     /// For select box value is boolean true
     if (typeof value !== 'string') {
-      Logger.colorDebug('Value', value);
       return value;
     }
 
-    switch (true) {
-      case VALUE_MATCHER.GOOGLE_SHEETS.test(value):
-        return getSheetValue(value);
-      case VALUE_MATCHER.QUERY_PARAM.test(value):
-        return getQueryParam(value);
-      case VALUE_MATCHER.BATCH_REPEAT.test(value):
-        return getBatchRepeat(value);
-      case VALUE_MATCHER.RANDOM.test(value):
-        return getRandomValue(value);
-      case VALUE_MATCHER.FUNC.test(value):
-        return await getFuncValue(value);
-      default:
-        return value;
+    if (VALUE_MATCHER.GOOGLE_SHEETS.test(value)) {
+      value = getSheetValue(value);
     }
+    if (VALUE_MATCHER.QUERY_PARAM.test(value)) {
+      value = getQueryParam(value);
+    }
+    if (VALUE_MATCHER.BATCH_REPEAT.test(value)) {
+      value = getBatchRepeat(value);
+    }
+    if (VALUE_MATCHER.ACTION_REPEAT.test(value)) {
+      value = getActionRepeat(value);
+    }
+    if (VALUE_MATCHER.RANDOM.test(value)) {
+      value = getRandomValue(value);
+    }
+    if (VALUE_MATCHER.FUNC.test(value)) {
+      value = await getFuncValue(value);
+    }
+    return value;
   };
 
   return { getValue };

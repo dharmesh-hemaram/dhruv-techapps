@@ -7,19 +7,26 @@ import { wait } from './util';
 const LOGGER_LETTER = 'Action';
 
 const ActionProcessor = (() => {
-  const repeatFunc = async (elements: Array<HTMLElement>, repeat?: number, repeatInterval?: number | string, value?: string): Promise<ACTION_STATUS> => {
+  const repeatFunc = async (action: Action, repeat?: number, repeatInterval?: number | string): Promise<ACTION_STATUS | number> => {
     if (repeat !== undefined) {
       if (repeat > 0 || repeat < -1) {
         await wait(repeatInterval, `${LOGGER_LETTER} repeat`, repeat, '<interval>');
         repeat -= 1;
-        await Events.check(elements, value);
-        return await repeatFunc(elements, repeat, repeatInterval, value);
+        window.__actionRepeat = window.__actionRepeat + 1;
+        const result = await process(action);
+        if (typeof result === 'number') {
+          return result;
+        }
+        if (result === ACTION_STATUS.SKIPPED) {
+          return ACTION_STATUS.SKIPPED;
+        }
+        return await repeatFunc(action, repeat, repeatInterval);
       }
     }
     return ACTION_STATUS.DONE;
   };
 
-  const start = async (action: Action) => {
+  const process = async (action: Action) => {
     const elementFinder = await Value.getValue(action.elementFinder);
     const elements = await Common.start(elementFinder, action.settings);
     if (typeof elements === 'number') {
@@ -30,7 +37,18 @@ const ActionProcessor = (() => {
     }
     const value = action.value ? await Value.getValue(action.value) : action.value;
     await Events.check(elements, value);
-    return await repeatFunc(elements, action.repeat, action.repeatInterval, value);
+  };
+
+  const start = async (action: Action) => {
+    window.__actionRepeat = 1;
+    const result = await process(action);
+    if (typeof result === 'number') {
+      return result;
+    }
+    if (result === ACTION_STATUS.SKIPPED) {
+      return ACTION_STATUS.SKIPPED;
+    }
+    return await repeatFunc(action, action.repeat, action.repeatInterval);
   };
 
   return { start };

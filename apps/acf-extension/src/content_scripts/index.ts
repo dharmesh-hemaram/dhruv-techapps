@@ -10,6 +10,7 @@ import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 declare global {
   interface Window {
     __batchRepeat: number;
+    __actionRepeat: number;
     __sheets?: Sheets;
   }
 }
