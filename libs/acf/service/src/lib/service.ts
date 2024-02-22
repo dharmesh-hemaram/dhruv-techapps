@@ -4,13 +4,17 @@ export class AcfService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static messageChrome<T = any>(extensionId: string, message: RuntimeMessageRequest): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      chrome.runtime.sendMessage(extensionId, message, (response) => {
-        if (chrome.runtime.lastError || response?.error) {
-          reject(chrome.runtime.lastError || response?.error);
-        } else {
-          resolve(response);
-        }
-      });
+      try {
+        chrome.runtime.sendMessage(extensionId, message, (response) => {
+          if (chrome.runtime.lastError || response?.error) {
+            reject(chrome.runtime.lastError || response?.error);
+          } else {
+            resolve(response);
+          }
+        });
+      } catch (error) {
+        console.warn(error);
+      }
     });
   }
 

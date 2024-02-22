@@ -25,6 +25,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
+      "css": ["css/status.min.css"],
       "js": ["content_scripts.js"],
       "run_at": "document_start",
       "all_frames": true

@@ -9,6 +9,7 @@ import GoogleSheets from './util/google-sheets';
 import Common from './common';
 import { DiscordMessagingService, GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 import SettingsStorage from './store/settings-storage';
+import { StatusBar } from './status';
 
 const LOGGER_LETTER = 'Config';
 const ConfigProcessor = (() => {
@@ -21,15 +22,18 @@ const ConfigProcessor = (() => {
     return fields;
   };
 
+  const getEvents = (config: Configuration) => {
+    const events: { [key: string]: string | number | boolean | undefined } = { url: config.url, loadType: config.loadType, actions: config.actions.length };
+    if (config.batch) {
+      events['batchRefresh'] = config.batch.refresh;
+      events['batchRepeat'] = config.batch.repeat;
+      events['batchRepeatInterval'] = config.batch.repeatInterval;
+    }
+    return events;
+  };
+
   const start = async (config: Configuration) => {
-    GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_started', {
-      url: config.url,
-      loadType: config.loadType,
-      actions: config.actions.length,
-      batchRefresh: config.batch?.refresh,
-      batchRepeat: config.batch?.repeat,
-      batchRepeatInterval: config.batch?.repeatInterval,
-    });
+    GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_started', getEvents(config));
     await new GoogleSheets().getValues(config);
     try {
       await BatchProcessor.start(config.actions, config.batch);
@@ -43,16 +47,11 @@ const ConfigProcessor = (() => {
           }
         }
       }
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_completed', {
-        url: config.url,
-        loadType: config.loadType,
-        actions: config.actions.length,
-        batchRefresh: config.batch?.refresh,
-        batchRepeat: config.batch?.repeat,
-        batchRepeatInterval: config.batch?.repeatInterval,
-      });
+      StatusBar.getInstance().done();
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_completed', getEvents(config));
     } catch (e) {
       if (e instanceof ConfigError) {
+        StatusBar.getInstance().error(e.message);
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
         const { notifications } = await new SettingsStorage().getSettings();
         if (notifications && notifications.onError) {
@@ -94,7 +93,7 @@ const ConfigProcessor = (() => {
     if (config.startTime?.match(/^\d{2}:\d{2}:\d{2}:\d{3}$/)) {
       await schedule(config.startTime);
     } else {
-      await wait(config.initWait, `${LOGGER_LETTER} initWait`);
+      await wait(config.initWait, `${LOGGER_LETTER} wait`);
     }
   };
 

@@ -10,7 +10,7 @@ const ActionProcessor = (() => {
   const repeatFunc = async (elements: Array<HTMLElement>, repeat?: number, repeatInterval?: number | string, value?: string): Promise<ACTION_STATUS> => {
     if (repeat !== undefined) {
       if (repeat > 0 || repeat < -1) {
-        await wait(repeatInterval, `${LOGGER_LETTER} Repeat`, repeat, '<interval>');
+        await wait(repeatInterval, `${LOGGER_LETTER} repeat`, repeat, '<interval>');
         repeat -= 1;
         await Events.check(elements, value);
         return await repeatFunc(elements, repeat, repeatInterval, value);

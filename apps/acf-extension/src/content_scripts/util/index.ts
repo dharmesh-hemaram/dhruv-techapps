@@ -1,4 +1,4 @@
-import { Logger } from '@dhruv-techapps/core-common';
+import { StatusBar } from '../status';
 
 export const sleep = async (msec: number) =>
   new Promise((resolve) => {
@@ -20,7 +20,8 @@ export const wait = async (time?: number | string, type = '', ...args: Array<str
       waitTime = Number(time) * 1000;
     }
     if (waitTime) {
-      Logger.colorDebug(type, ...args, `${waitTime / 1000} sec`);
+      StatusBar.getInstance().wait(type, waitTime, args[0]);
+      //Logger.colorDebug(type, ...args, `${waitTime / 1000} sec`);
       await sleep(waitTime);
     }
   }

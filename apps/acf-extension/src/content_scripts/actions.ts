@@ -8,6 +8,7 @@ import Common from './common';
 import { ConfigError } from './error';
 import SettingsStorage from './store/settings-storage';
 import { Logger } from '@dhruv-techapps/core-common';
+import { StatusBar } from './status';
 
 const LOGGER_LETTER = 'Action';
 
@@ -35,13 +36,14 @@ const Actions = (() => {
     let i = 0;
     while (i < actions.length) {
       const action = actions[i];
+      StatusBar.getInstance().actionUpdate(i + 1, action.name);
       console.group(`${LOGGER_LETTER} #${i + 1} [${action.name || 'no-name'}]`);
       if (!action.elementFinder) {
         throw new ConfigError('Element Finder is blank', 'Configuration Action');
       }
       const statementResult = await checkStatement(actions, action);
       if (statementResult === true) {
-        await wait(action.initWait, `${LOGGER_LETTER} initWait`);
+        await wait(action.initWait, `${LOGGER_LETTER} wait`);
         const addonResult = await AddonProcessor.check(action.addon, action.settings);
         if (typeof addonResult === 'number') {
           i = Number(addonResult) - 1;

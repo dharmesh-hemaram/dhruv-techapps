@@ -1,0 +1,78 @@
+$sections: 'icon', 'text', 'batch', 'action', 'addon', 'timer';
+$colors: #140330, #290661, #3d0a91, #520dc2, #6610f2, #8540f5, #a370f7, #c29ffa, #e0cffc;
+$gray-colors: #212529, #343a40, #495057, #6c757d, #adb5bd, #ced4da, #dee2e6, #e9ecef, #f8f9fa;
+
+#auto-clicker-auto-fill-status {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  font-size: 14px;
+  color: #fff;
+  display: flex;
+  margin-right: 16px;
+  gap: 4px;
+  z-index: 1000000000;
+  span:not(:empty) {
+    padding: 5px;
+
+    &:before,
+    &:after {
+      top: 0;
+      position: absolute;
+      content: '';
+    }
+
+    @each $section in $sections {
+      $index: index($sections, $section);
+      $bg-color: nth($gray-colors, $index);
+
+      &.#{$section} {
+        position: relative;
+        background-color: $bg-color;
+        &:before {
+          border-top: 16px solid $bg-color;
+          border-left: 16px solid transparent;
+          border-bottom: 16px solid $bg-color;
+          left: -16px;
+        }
+
+        &:after {
+          border-top: 16px solid transparent;
+          border-left: 16px solid $bg-color;
+          border-bottom: 16px solid transparent;
+          right: -16px;
+        }
+        @if $index <= 4 {
+          color: white;
+        } @else {
+          color: black;
+        }
+      }
+    }
+  }
+}
+
+#auto-clicker-auto-fill-manual {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  font-size: 12px;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  z-index: 1000000000;
+  ul.manual {
+    background-color: #031633;
+    color: #fff;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li {
+      padding: 5px;
+      float: left;
+    }
+    li:not(:first-child) {
+      background-color: #084298;
+    }
+  }
+}

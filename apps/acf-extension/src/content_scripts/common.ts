@@ -10,7 +10,7 @@ const Common = (() => {
   const retryFunc = async (retry?: number, retryInterval?: number | string) => {
     if (retry !== undefined) {
       if (retry > 0 || retry < -1) {
-        await wait(retryInterval, 'Retry', retry, '<interval>');
+        await wait(retryInterval, 'retry', retry, '<interval>');
         return true;
       }
     }

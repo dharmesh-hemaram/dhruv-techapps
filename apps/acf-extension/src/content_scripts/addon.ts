@@ -5,6 +5,7 @@ import { ConfigError, SystemError } from './error';
 import Common from './common';
 import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import Value from './util/value';
+import { StatusBar } from './status';
 
 const LOGGER_LETTER = 'Addon';
 
@@ -15,7 +16,7 @@ const AddonProcessor = (() => {
     if (recheck !== undefined) {
       if (recheck > 0 || recheck < -1) {
         recheck -= 1;
-        await wait(props.recheckInterval, `${LOGGER_LETTER} Recheck`, recheck, '<interval>');
+        await wait(props.recheckInterval, `${LOGGER_LETTER} recheck`, recheck + 1, '<interval>');
         // eslint-disable-next-line no-use-before-define
         return await start({ elementFinder, value, condition, recheck, recheckOption, ...props }, settings);
       }
@@ -47,7 +48,7 @@ const AddonProcessor = (() => {
       return element.getAttribute(valueExtractor.replace('@', '')) || value;
     }
     const matches = value.match(RegExp(valueExtractor, valueExtractorFlags || ''));
-    return (matches && matches.join('')) || value;
+    return matches?.join('') || value;
   };
 
   const getNodeValue = (elements: Array<HTMLElement>, valueExtractor?: string, valueExtractorFlags?: ValueExtractorFlags): string | boolean => {
@@ -74,15 +75,13 @@ const AddonProcessor = (() => {
   };
 
   const compare = (nodeValue: string | boolean, condition: ADDON_CONDITIONS, value: string) => {
-    Logger.colorDebug('Compare', { nodeValue, condition, value });
+    Logger.colorDebug('Compare', nodeValue, condition, value);
     if (/than/gi.test(condition) && (Number.isNaN(Number(nodeValue)) || Number.isNaN(Number(value)))) {
       throw new ConfigError(`Greater || Less can only compare number '${nodeValue}' '${value}'`, 'Wrong Comparison');
     }
     if (typeof nodeValue === 'boolean' || condition === ADDON_CONDITIONS['✓ Is Checked '] || condition === ADDON_CONDITIONS['✕ Is Not Checked ']) {
       if (typeof nodeValue === 'boolean') {
-        if (nodeValue && condition === ADDON_CONDITIONS['✓ Is Checked ']) {
-          return true;
-        } else if (!nodeValue && condition === ADDON_CONDITIONS['✕ Is Not Checked ']) {
+        if ((nodeValue && condition === ADDON_CONDITIONS['✓ Is Checked ']) || (!nodeValue && condition === ADDON_CONDITIONS['✕ Is Not Checked '])) {
           return true;
         }
         return false;
@@ -115,7 +114,7 @@ const AddonProcessor = (() => {
 
   const start = async ({ elementFinder, value, condition, valueExtractor, valueExtractorFlags, ...props }: Addon, settings?: ActionSettings) => {
     try {
-      Logger.colorDebug('Start', { elementFinder, value, condition, valueExtractor, valueExtractorFlags });
+      StatusBar.getInstance().addonUpdate();
       let nodeValue;
       if (/^Func::/gi.test(elementFinder)) {
         nodeValue = await Common.sandboxEval(elementFinder.replace(/^Func::/gi, ''));

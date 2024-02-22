@@ -4,6 +4,7 @@ import ConfigProcessor from './config';
 import Session from './util/session';
 import ConfigStorage, { GetConfigResult } from './store/config-storage';
 import { Sheets } from './util/google-sheets';
+import { StatusBar } from './status';
 import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 declare global {
@@ -31,6 +32,7 @@ async function loadConfig(loadType: LOAD_TYPES) {
     });
   } catch (e) {
     if (e instanceof Error) {
+      StatusBar.getInstance().error(e.message);
       GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, e.name, e.message, { page: 'content_scripts' });
     }
   }
