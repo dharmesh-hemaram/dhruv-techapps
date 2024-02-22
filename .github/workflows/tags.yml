@@ -105,7 +105,6 @@ jobs:
         API_SECRET=${{needs.EnvSetup.outputs.API_SECRET}}
         MEASUREMENT_ID=${{needs.EnvSetup.outputs.MEASUREMENT_ID}}
         SENTRY_AUTH_TOKEN=${{needs.EnvSetup.outputs.SENTRY_AUTH_TOKEN}}
-        PUPPETEER_SKIP_DOWNLOAD=true
       parallel-commands-on-agents: |
         npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer' --skip-nx-cache --base-href ${{needs.EnvSetup.outputs.PUBLIC_URL}}
       final-commands: |
@@ -142,7 +141,6 @@ jobs:
         SENTRY_AUTH_TOKEN=${{needs.EnvSetup.outputs.SENTRY_AUTH_TOKEN}}
         MEASUREMENT_ID=${{needs.EnvSetup.outputs.MEASUREMENT_ID}}
         API_SECRET=${{needs.EnvSetup.outputs.API_SECRET}}
-        PUPPETEER_SKIP_DOWNLOAD=true
 
   release:
     needs: [EnvSetup, agents, main]
