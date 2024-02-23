@@ -14,11 +14,8 @@ const ActionProcessor = (() => {
         repeat -= 1;
         window.__actionRepeat = window.__actionRepeat + 1;
         const result = await process(action);
-        if (typeof result === 'number') {
+        if (typeof result === 'number' || result === ACTION_STATUS.SKIPPED) {
           return result;
-        }
-        if (result === ACTION_STATUS.SKIPPED) {
-          return ACTION_STATUS.SKIPPED;
         }
         return await repeatFunc(action, repeat, repeatInterval);
       }
@@ -42,11 +39,8 @@ const ActionProcessor = (() => {
   const start = async (action: Action) => {
     window.__actionRepeat = 1;
     const result = await process(action);
-    if (typeof result === 'number') {
+    if (typeof result === 'number' || result === ACTION_STATUS.SKIPPED) {
       return result;
-    }
-    if (result === ACTION_STATUS.SKIPPED) {
-      return ACTION_STATUS.SKIPPED;
     }
     return await repeatFunc(action, action.repeat, action.repeatInterval);
   };
