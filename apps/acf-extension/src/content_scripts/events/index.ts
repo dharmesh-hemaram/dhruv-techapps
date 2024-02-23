@@ -18,6 +18,7 @@ import { LocationCommandEvents } from './location-command.events';
 import { PlainEvents } from './plain.events';
 import { KeyboardEvents } from './keyboard.events';
 import { TabsEvents } from './tabs.events';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const DEFAULT_EVENT = ['mouseover', 'mousedown', 'mouseup', 'click'];
 
@@ -29,6 +30,7 @@ const Events = (() => {
       if (eventRegexArray) {
         event = eventRegexArray[1].toLowerCase();
       }
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, event || 'Plain');
       switch (event) {
         case EVENTS.SCROLL_TO:
           ScrollToEvents.start(elements, value);
