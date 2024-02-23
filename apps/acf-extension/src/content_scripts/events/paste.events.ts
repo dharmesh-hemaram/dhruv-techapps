@@ -3,6 +3,7 @@ import { RADIO_CHECKBOX_NODE_NAME } from '../../common/constant';
 import Common from '../common';
 import CommonEvents, { UNKNOWN_ELEMENT_TYPE_ERROR } from './common.events';
 import { ConfigError } from '../error';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const LOCAL_STORAGE_COPY = 'auto-clicker-copy';
 const CHANGE_EVENT = ['input', 'change'];
@@ -15,6 +16,7 @@ export const PasteEvents = (() => {
       element.value = value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'PasteEvents' });
       element.textContent = value;
     } else {
       throw new ConfigError(UNKNOWN_ELEMENT_TYPE_ERROR, 'PasteEvents');

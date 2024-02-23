@@ -3,6 +3,7 @@ import CommonEvents, { UNKNOWN_ELEMENT_TYPE_ERROR } from './common.events';
 import Common from '../common';
 import { RADIO_CHECKBOX_NODE_NAME } from '../../common/constant';
 import { ConfigError } from '../error';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const LOGGER_LETTER = 'FuncEvents';
 const CHANGE_EVENT = ['input', 'change'];
@@ -13,6 +14,7 @@ export const FuncEvents = (() => {
       element.value = value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'FuncEvents' });
       element.textContent = value;
     } else {
       throw new ConfigError(UNKNOWN_ELEMENT_TYPE_ERROR, 'Append Events');

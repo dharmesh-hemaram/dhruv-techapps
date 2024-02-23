@@ -6,6 +6,7 @@ import Common from './common';
 import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import Value from './util/value';
 import { StatusBar } from './status';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const LOGGER_LETTER = 'Addon';
 
@@ -63,6 +64,7 @@ const AddonProcessor = (() => {
         value = element.value;
       }
     } else if (element.isContentEditable) {
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'Addon' });
       value = element.textContent || element.innerText;
     } else {
       value = element.innerText;

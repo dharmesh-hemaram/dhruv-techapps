@@ -25,10 +25,9 @@ const ConfigProcessor = (() => {
   const getEvents = (config: Configuration) => {
     const events: { [key: string]: string | number | boolean | undefined } = { url: config.url, loadType: config.loadType, actions: config.actions.length };
     if (config.batch) {
-      events['batchRefresh'] = config.batch.refresh;
-      events['batchRepeat'] = config.batch.repeat;
-      events['batchRepeatInterval'] = config.batch.repeatInterval;
+      events['batch'] = config.batch.refresh || config.batch.repeat;
     }
+    events.actions = config.actions.length;
     return events;
   };
 

@@ -1,6 +1,7 @@
 import { Logger } from '@dhruv-techapps/core-common';
 import { RADIO_CHECKBOX_NODE_NAME } from '../../common/constant';
 import CommonEvents from './common.events';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const DEFAULT_EVENT = ['mouseover', 'mousedown', 'mouseup', 'click'];
 const CHANGE_EVENT = ['input', 'change'];
@@ -16,6 +17,7 @@ export const PlainEvents = (() => {
     } else if (element instanceof HTMLOptionElement) {
       element.selected = true;
     } else if (element.isContentEditable) {
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'PlainEvents' });
       element.textContent = value;
     } else {
       DEFAULT_EVENT.forEach((event) => {

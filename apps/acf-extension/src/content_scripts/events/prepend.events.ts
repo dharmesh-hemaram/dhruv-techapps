@@ -2,6 +2,7 @@ import { Logger } from '@dhruv-techapps/core-common';
 import { RADIO_CHECKBOX_NODE_NAME } from '../../common/constant';
 import CommonEvents, { UNKNOWN_ELEMENT_TYPE_ERROR } from './common.events';
 import { ConfigError } from '../error';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const CHANGE_EVENT = ['input', 'change'];
 
@@ -11,6 +12,7 @@ export const PrependEvents = (() => {
       element.value = value + element.value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'PrependEvents' });
       element.textContent = value + element.textContent;
     } else {
       throw new ConfigError(UNKNOWN_ELEMENT_TYPE_ERROR, 'PrependEvents');

@@ -1,5 +1,6 @@
 import { Logger } from '@dhruv-techapps/core-common';
 import { RADIO_CHECKBOX_NODE_NAME } from '../../common/constant';
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 const LOCAL_STORAGE_COPY = 'auto-clicker-copy';
 const LOGGER_LETTER = 'CopyEvents';
@@ -21,6 +22,7 @@ export const CopyEvents = (() => {
       return element.value;
     }
     if (element.isContentEditable) {
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'CopyEvents' });
       return element.textContent || element.innerText;
     }
     return element.innerText || element.innerHTML;

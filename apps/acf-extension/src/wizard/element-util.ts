@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 import { BUTTON_FILE_SUBMIT_NODE_NAME, RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import { xPath } from './dom-path';
 import { WizardAction } from './type';
@@ -84,7 +85,7 @@ export const WizardElementUtil = (() => {
         return { name: getName(element), id: crypto.randomUUID(), elementFinder, value };
       }
     } else if (element.isContentEditable && listener) {
-      //isContentEditable
+      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'Wizard' });
       const value = await inputListener(element);
       if (value) {
         return { elementFinder, id: crypto.randomUUID(), value };
