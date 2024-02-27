@@ -121,6 +121,15 @@
           "info": "Son actuellement en cours de développement et de fonctionnalité peut passer à <b>action</b> Notification spécifique dans la prochaine version"
         }
       },
+      "statusBar": {
+        "title": "Barre d'état",
+        "hint": "Afficher la barre d'état en bas de la page",
+        "hide": "Cacher",
+        "top-left": "En haut à gauche",
+        "top-right": "En haut à droite",
+        "bottom-left": "En bas à gauche",
+        "bottom-right": "En bas à droite"
+      },
       "retry": {
         "title": "Réessayez",
         "interval": "Intervalle de réessayer",

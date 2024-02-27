@@ -13,6 +13,7 @@ import { settingsSelector, switchSettingsModal, updateSettings } from '../store/
 import { googleGetAPI, settingsGetAPI } from '../store/settings/settings.api';
 import { SettingGoogleSheets } from './settings/google-sheets';
 import { themeSelector } from '../store/theme.slice';
+import { STATUS_BAR_LOCATION } from '@dhruv-techapps/acf-common';
 
 enum SETTINGS_PAGE {
   NOTIFICATION = 'Show Notification',
@@ -108,6 +109,24 @@ export const SettingsModal = () => {
                   {t('modal.settings.checkIFramesHint')}
                 </Form.Label>
                 <Form.Check type='switch' name='checkiFrames' onChange={onUpdate} id='settings-checkiFrames' checked={settings.checkiFrames || false} />
+              </li>
+              <li className='list-group-item d-flex justify-content-between align-items-center'>
+                <Form.Label className='ms-2' htmlFor='settings-statusBar'>
+                  <div className='fw-bold'>{t('modal.settings.statusBar.title')}</div>
+                  {t('modal.settings.statusBar.hint')}
+                </Form.Label>
+                {Object.values(STATUS_BAR_LOCATION).map((location) => (
+                  <Form.Check
+                    key={location}
+                    type='radio'
+                    value={location}
+                    name='statusBar'
+                    onChange={onUpdate}
+                    id={`settings-statusBar-${location}`}
+                    checked={settings.statusBar === location}
+                    label={t(`modal.settings.statusBar.${location}`)}
+                  />
+                ))}
               </li>
             </ol>
           )}

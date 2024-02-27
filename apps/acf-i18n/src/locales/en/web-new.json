@@ -125,6 +125,15 @@
           "info": "Its currently under development and feature may move to <b>action</b> specific notification in upcoming release"
         }
       },
+      "statusBar": {
+        "title": "Status Bar",
+        "hint": "Show status bar at bottom of the page",
+        "hide": "Hide",
+        "top-left": "Top Left",
+        "top-right": "Top Right",
+        "bottom-left": "Bottom Left",
+        "bottom-right": "Bottom Right"
+      },
       "retry": {
         "title": "Retry",
         "interval": "Retry Interval",

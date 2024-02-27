@@ -12,6 +12,14 @@ export enum AUTO_BACKUP {
   OFF = 'off',
 }
 
+export enum STATUS_BAR_LOCATION {
+  HIDE = 'hide',
+  TOP_LEFT = 'top-left',
+  TOP_RIGHT = 'top-right',
+  BOTTOM_LEFT = 'bottom-left',
+  BOTTOM_RIGHT = 'bottom-right',
+}
+
 export type SettingsNotifications = {
   onAction: boolean;
   onBatch: boolean;
@@ -44,6 +52,7 @@ export type Settings = {
   retryInterval: number | string;
   retryOption: RETRY_OPTIONS;
   checkiFrames: boolean;
+  statusBar: STATUS_BAR_LOCATION;
   backup?: SettingsBackup;
   notifications?: SettingsNotifications;
 };
@@ -51,6 +60,7 @@ export type Settings = {
 export const defaultSettings: Settings = {
   retry: 5,
   retryInterval: 1,
+  statusBar: STATUS_BAR_LOCATION.BOTTOM_RIGHT,
   retryOption: RETRY_OPTIONS.STOP,
   checkiFrames: false,
 };

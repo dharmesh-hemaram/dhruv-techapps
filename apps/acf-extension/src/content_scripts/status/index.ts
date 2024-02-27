@@ -1,3 +1,5 @@
+import SettingsStorage from '../store/settings-storage';
+
 export class StatusBar {
   private static instance: StatusBar;
   private statusBar: HTMLDivElement = document.createElement('div');
@@ -18,8 +20,15 @@ export class StatusBar {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.statusBar.appendChild((this as any)[el]);
     });
+
+    this.setLocation();
     document.body.appendChild(this.statusBar);
   }
+
+  setLocation = async () => {
+    const { statusBar } = await new SettingsStorage().getSettings();
+    this.statusBar.className = statusBar;
+  };
 
   public wait(type: string, text: number, name: string | number): void {
     this.timer.textContent = '';
