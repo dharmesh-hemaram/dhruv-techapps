@@ -1,4 +1,7 @@
 {
   "cSpell.words": ["checki"],
-  "eslint.validate": ["json"]
+  "eslint.validate": ["json"],
+  "[html]": {
+    "editor.formatOnSave": false
+  }
 }
