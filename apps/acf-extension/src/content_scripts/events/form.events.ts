@@ -2,7 +2,7 @@ import { Logger } from '@dhruv-techapps/core-common';
 import { ConfigError, SystemError } from '../error';
 import CommonEvents from './common.events';
 
-const FORM_EVENTS = ['blur', 'click', 'focus', 'select', 'submit', 'remove', 'clear', 'reset', 'search'];
+const FORM_EVENTS = ['blur', 'click', 'click-once', 'focus', 'select', 'submit', 'remove', 'clear', 'reset', 'search'];
 
 export const FormEvents = (() => {
   const dispatchEvent = (element: HTMLElement, events: Array<string | Event>) => {
@@ -16,6 +16,11 @@ export const FormEvents = (() => {
           break;
         case 'click':
           element.click();
+          break;
+        case 'click-once':
+          if (element.getAttribute('acf-clicked') === 'true') return;
+          element.click();
+          element.setAttribute('acf-clicked', 'true');
           break;
         case 'focus':
           element.focus();
