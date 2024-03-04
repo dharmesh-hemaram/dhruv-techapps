@@ -30,6 +30,7 @@
     "react-redux": "^9.1.0",
     "react-reorder": "^3.0.0-alpha.7",
     "sitemap": "^7.1.1",
+    "translate-google": "^1.5.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

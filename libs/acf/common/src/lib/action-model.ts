@@ -60,6 +60,7 @@ export const defaultActionSettings = {};
 
 export type Action = {
   id: RANDOM_UUID;
+  disabled?: boolean;
   elementFinder: string;
   actionId?: number;
   name?: string;

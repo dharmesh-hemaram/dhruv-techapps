@@ -17,6 +17,8 @@ const arrayMove = (arr, oldIndex, newIndex) => {
   return arr; // for testing
 };
 
+type AddActionPayload = undefined | { actionId: RANDOM_UUID; position: 1 | 0 };
+
 export const actionActions = {
   reorderActions: (state: ConfigStore, action: PayloadAction<{ oldIndex: number; newIndex: number }>) => {
     const { configs, selectedConfigId } = state;
@@ -29,7 +31,7 @@ export const actionActions = {
     }
     selectedConfig.actions = [...arrayMove(selectedConfig.actions, oldIndex, newIndex)];
   },
-  addAction: (state: ConfigStore) => {
+  addAction: (state: ConfigStore, action: PayloadAction<AddActionPayload>) => {
     const { configs, selectedConfigId } = state;
 
     const selectedConfig = configs.find((config) => config.id === selectedConfigId);
@@ -37,7 +39,15 @@ export const actionActions = {
       state.error = 'Invalid Configuration';
       return;
     }
-    selectedConfig.actions.push(getDefaultAction());
+    if (action.payload?.actionId) {
+      const { actionId, position } = action.payload;
+      const index = selectedConfig.actions.findIndex((action) => action.id === actionId);
+      if (index !== -1) {
+        selectedConfig.actions.splice(index + position, 0, getDefaultAction());
+      }
+    } else {
+      selectedConfig.actions.push(getDefaultAction());
+    }
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateAction: (state: ConfigStore, action: PayloadAction<{ selectedActionId: RANDOM_UUID; name: string; value: any }>) => {

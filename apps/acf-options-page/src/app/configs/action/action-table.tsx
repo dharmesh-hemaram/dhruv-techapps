@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import { Button, Dropdown, Form, Table } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef, Row, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
-import { CaretDown, CaretUp, REGEX, ThreeDots, Trash } from '../../../util';
+import { Plus, REGEX, ThreeDots, Trash } from '../../../util';
 import { ElementFinderPopover, ValuePopover } from '../../../popover';
 import { DropdownToggle } from '../../../components';
 import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
-import { removeAction, reorderActions, updateAction, actionSelector, openActionAddonModalAPI, openActionStatementModalAPI, openActionSettingsModalAPI } from '@apps/acf-options-page/src/store/config';
+import { removeAction, updateAction, actionSelector, openActionAddonModalAPI, openActionStatementModalAPI, openActionSettingsModalAPI, addAction } from '@apps/acf-options-page/src/store/config';
 import { useConfirmationModalContext } from '@apps/acf-options-page/src/_providers/confirm.provider';
 import { Action, RANDOM_UUID } from '@dhruv-techapps/acf-common';
 import { defaultColumn } from './editable-cell';
@@ -29,7 +29,13 @@ const ActionTable = ({ actions }: ActionProps) => {
     if (!action) {
       return false;
     }
-    const name = action.name || action.elementFinder || index + 1;
+
+    if (Object.keys(action).length === 3 && action.elementFinder === '') {
+      dispatch(removeAction(actionId));
+      return;
+    }
+
+    const name = action.name || `#${index + 1}`;
     const result = await modalContext.showConfirmation({
       title: t('confirm.action.remove.title'),
       message: t('confirm.action.remove.message', { name }),
@@ -139,7 +145,7 @@ const ActionTable = ({ actions }: ActionProps) => {
     dispatch(openActionSettingsModalAPI(row.original.id));
   };
 
-  const moveUp = (e, rowId) => {
+  /*const moveUp = (e, rowId) => {
     if (e.currentTarget.getAttribute('disabled') === null) {
       dispatch(reorderActions({ oldIndex: +rowId, newIndex: rowId - 1 }));
     }
@@ -149,6 +155,14 @@ const ActionTable = ({ actions }: ActionProps) => {
     if (e.currentTarget.getAttribute('disabled') === null) {
       dispatch(reorderActions({ oldIndex: +rowId, newIndex: +rowId + 1 }));
     }
+  };*/
+
+  const onDisableClick = (row: Row<Action>, disabled: boolean) => {
+    dispatch(updateAction({ selectedActionId: row.original.id, name: 'disabled', value: !disabled }));
+  };
+
+  const onAddClick = (row: Row<Action>, position: 1 | 0) => {
+    dispatch(addAction({ actionId: row.original.id, position }));
   };
 
   return (
@@ -157,7 +171,7 @@ const ActionTable = ({ actions }: ActionProps) => {
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              <th style={{ width: '30px' }}>&nbsp;</th>
+              {/*<th style={{ width: '30px' }}>&nbsp;</th>*/}
               <th style={{ width: '22px' }}>#</th>
               {headerGroup.headers.map((header) => (
                 <th key={header.id} style={{ width: header.getSize() }}>
@@ -170,13 +184,13 @@ const ActionTable = ({ actions }: ActionProps) => {
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row, index) => (
-            <tr key={row.id}>
-              <td align='center'>
+            <tr key={row.id} className={actions[row.id].disabled ? 'table-secondary' : ''}>
+              {/*<td align='center'>
                 <div className='d-flex flex-column align-items-center text-secondary'>
                   <CaretUp width='20' height='20' onClick={(e) => moveUp(e, row.id)} />
                   <CaretDown width='20' height='20' onClick={(e) => moveDown(e, row.id)} />
                 </div>
-              </td>
+          </td>*/}
               <td className='align-middle'>{index + 1}</td>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
@@ -209,6 +223,17 @@ const ActionTable = ({ actions }: ActionProps) => {
                           {t('modal.actionCondition.title')}
                         </Dropdown.Item>
                       )}
+                      <Dropdown.Divider />
+                      <Dropdown.Item data-testid='action-add' onClick={() => onAddClick(row, 0)}>
+                        <Plus className='me-2' /> {t('action.addBefore')}
+                      </Dropdown.Item>
+                      <Dropdown.Item data-testid='action-add' onClick={() => onAddClick(row, 1)}>
+                        <Plus className='me-2' /> {t('action.addAfter')}
+                      </Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item data-testid='action-disable' onClick={() => onDisableClick(row, actions[row.id].disabled)}>
+                        {t(`action.${actions[row.id].disabled ? 'enable' : 'disable'}`)}
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 )}

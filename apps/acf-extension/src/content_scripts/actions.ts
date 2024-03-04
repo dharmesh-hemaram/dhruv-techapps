@@ -7,7 +7,7 @@ import AddonProcessor from './addon';
 import Common from './common';
 import { ConfigError } from './error';
 import SettingsStorage from './store/settings-storage';
-import { Logger } from '@dhruv-techapps/core-common';
+import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
 import { StatusBar } from './status';
 
 const LOGGER_LETTER = 'Action';
@@ -36,6 +36,11 @@ const Actions = (() => {
     let i = 0;
     while (i < actions.length) {
       const action = actions[i];
+      if (action.disabled) {
+        i += 1;
+        Logger.color(' Disabled ', 'debug', LoggerColor.BLACK, `${LOGGER_LETTER} #${i + 1} [${action.name || 'no-name'}]`);
+        continue;
+      }
       StatusBar.getInstance().actionUpdate(i + 1, action.name);
       console.group(`${LOGGER_LETTER} #${i + 1} [${action.name || 'no-name'}]`);
       if (!action.elementFinder) {

@@ -267,9 +267,13 @@
   "action": {
     "title": "Action",
     "add": "Add Action",
+    "addBefore": "Add Action Above",
+    "addAfter": "Add Action Below",
     "addon": "Addon",
     "remove": "Remove Action",
     "settings": "Action Settings",
+    "disable": "Disable Action",
+    "enable": "Enable Action",
     "initWait": "Init Wait",
     "name": "Name",
     "elementFinder": "Element Finder",
