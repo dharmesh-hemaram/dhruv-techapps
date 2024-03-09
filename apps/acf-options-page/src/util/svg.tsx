@@ -8,7 +8,6 @@ export { ReactComponent as CaretDown } from 'bootstrap-icons/icons/caret-down.sv
 export { ReactComponent as InfoCircle } from 'bootstrap-icons/icons/info-circle.svg';
 export { ReactComponent as VolumeUp } from 'bootstrap-icons/icons/volume-up.svg';
 export { ReactComponent as VolumeMute } from 'bootstrap-icons/icons/volume-mute.svg';
-export { ReactComponent as PatchQuestionFill } from 'bootstrap-icons/icons/patch-question-fill.svg';
 export { ReactComponent as FilterRight } from 'bootstrap-icons/icons/filter.svg';
 export { ReactComponent as ChevronDown } from 'bootstrap-icons/icons/chevron-down.svg';
 export { ReactComponent as ChevronUp } from 'bootstrap-icons/icons/chevron-up.svg';

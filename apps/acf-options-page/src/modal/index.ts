@@ -2,7 +2,6 @@ export * from './action-settings.modal';
 export * from './action-statement.modal';
 export * from './addon.modal';
 export * from './config-settings.modal';
-export * from './ads-blocker.modal';
 export * from './confirm.modal';
 export * from './reorder-configs.modal';
 export * from './remove-configs.modal';
