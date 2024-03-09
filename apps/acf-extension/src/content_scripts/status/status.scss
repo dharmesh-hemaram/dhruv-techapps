@@ -4,14 +4,33 @@ $gray-colors: #212529, #343a40, #495057, #6c757d, #adb5bd, #ced4da, #dee2e6, #e9
 
 #auto-clicker-auto-fill-status {
   position: fixed;
-  bottom: 0;
-  right: 0;
   font-size: 14px;
   color: #fff;
   display: flex;
   margin-right: 16px;
   gap: 4px;
   z-index: 1000000000;
+
+  &.hide {
+    display: none;
+  }
+  &.top-left {
+    top: 0;
+    left: 0;
+  }
+  &.top-right {
+    top: 0;
+    right: 0;
+  }
+  &.bottom-left {
+    bottom: 0;
+    left: 0;
+  }
+  &.bottom-right {
+    bottom: 0;
+    right: 0;
+  }
+
   span:not(:empty) {
     padding: 5px;
 

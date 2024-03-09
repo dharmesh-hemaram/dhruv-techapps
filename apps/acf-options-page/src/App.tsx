@@ -1,7 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import Header from './app/header';
 import { ToastHandler, DataList, Loading } from './components';
-import { AdsBlockerModal, BlogModal, ExtensionNotFoundModal } from './modal';
+import { BlogModal, ExtensionNotFoundModal } from './modal';
 import { APP_NAME } from './constants';
 import { useAppDispatch, useAppSelector } from './hooks';
 import { appSelector, getManifest } from './store/app.slice';
@@ -35,7 +35,6 @@ function App() {
         <ToastHandler />
         <BlogModal />
         <ExtensionNotFoundModal />
-        <AdsBlockerModal />
       </ConfirmationModalContextProvider>
       <DataList />
     </Suspense>

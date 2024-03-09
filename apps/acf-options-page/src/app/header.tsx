@@ -73,11 +73,6 @@ function Header() {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link target='_blank' rel='noopener noreferrer' title='blog' href={APP_LINK.BLOG}>
-                  {t('footer.blog')}
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item as='li' className='col-6 col-lg-auto'>
                 <Nav.Link target='_blank' rel='noopener noreferrer' title='issues' href={APP_LINK.ISSUES}>
                   {t('footer.issues')}
                 </Nav.Link>
@@ -120,13 +115,13 @@ function Header() {
                 </>
               )}
               <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link target='_blank' rel='noopener noreferrer' title={t('footer.youtube')} href={SOCIAL_LINKS.YOUTUBE}>
+                <Nav.Link target='_blank' rel='noopener noreferrer' title='youtube' href={SOCIAL_LINKS.YOUTUBE}>
                   <Youtube />
                   <small className='d-lg-none ms-2'>{t('footer.youtube')}</small>
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link target='_blank' rel='noopener noreferrer' title={t('footer.github')} href={SOCIAL_LINKS.GITHUB}>
+                <Nav.Link target='_blank' rel='noopener noreferrer' title='github' href={SOCIAL_LINKS.GITHUB}>
                   <Github />
                   <small className='d-lg-none ms-2'>{t('footer.github')}</small>
                 </Nav.Link>
@@ -150,7 +145,7 @@ function Header() {
                       </NavDropdown.Item>
                     ))}
                     <NavDropdown.Divider />
-                    <NavDropdown.Item title={'Add your Language'} href='https://github.com/Dhruv-Techapps/acf-i18n/discussions/4' target='_blank' rel='noopener noreferrer'>
+                    <NavDropdown.Item title='Add your Language' href='https://github.com/Dhruv-Techapps/acf-i18n/discussions/4' target='_blank' rel='noopener noreferrer'>
                       Add your Language
                     </NavDropdown.Item>
                   </NavDropdown>

@@ -121,6 +121,15 @@
           "info": "这目前还在开发中,未来版本中此功能可能会移动到<b>动作</b>特定的通知中"
         }
       },
+      "statusBar": {
+        "title": "状态栏",
+        "hint": "在页面底部显示状态栏",
+        "hide": "隐藏",
+        "top-left": "左上角",
+        "top-right": "右上角",
+        "bottom-left": "左下角",
+        "bottom-right": "右下角"
+      },
       "retry": {
         "title": "重试",
         "interval": "重试间隔",
