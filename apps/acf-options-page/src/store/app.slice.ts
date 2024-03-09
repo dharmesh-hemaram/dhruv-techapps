@@ -16,12 +16,10 @@ type AppStore = {
   error?: string;
   loading: boolean;
   extensionNotFound: boolean;
-  adsBlocker: boolean;
 };
 
 const initialState: AppStore = {
   loading: true,
-  adsBlocker: false,
   extensionNotFound: false,
 };
 
@@ -45,12 +43,6 @@ const slice = createSlice({
         state.error = action.payload;
       }
     },
-    switchAdsBlocker: (state) => {
-      if (!state.extensionNotFound) {
-        window.dataLayer.push({ event: 'modal', name: 'ads_blocker', visibility: !state.adsBlocker });
-        state.adsBlocker = !state.adsBlocker;
-      }
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getManifest.fulfilled, (state, action) => {
@@ -71,7 +63,7 @@ const slice = createSlice({
   },
 });
 
-export const { switchExtensionNotFound, switchAdsBlocker, setAppError, setManifest } = slice.actions;
+export const { switchExtensionNotFound, setAppError, setManifest } = slice.actions;
 
 export const appSelector = (state: RootState) => state.app;
 
