@@ -33,7 +33,7 @@
     }
   ],
   "navigationFallback": {
-    "rewrite": "index.html",
+    "rewrite": "/index.html",
     "exclude": ["/api/*", "*.{css,js}", "*.{png}", "*.{c,h,wasm,clr,pdb,dat,txt}"]
   }
 }
