@@ -1,6 +1,8 @@
 {
   "globalHeaders": {
-    "Document-Policy": "js-profiling"
+    "Access-Control-Allow-Origin": "*",
+    "Document-Policy": "js-profiling",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
   },
   "responseOverrides": {
     "400": {
@@ -16,8 +18,22 @@
       "rewrite": "/"
     }
   },
+  "routes": [
+    {
+      "route": "/*.svg",
+      "headers": {
+        "cache-control": "public, immutable, max-age=31536000"
+      }
+    },
+    {
+      "route": "/*",
+      "headers": {
+        "cache-control": "must-revalidate, max-age=3600"
+      }
+    }
+  ],
   "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/assets/*.{png,jpg,gif}"]
+    "rewrite": "index.html",
+    "exclude": ["/api/*", "*.{css,js}", "*.{png}", "*.{c,h,wasm,clr,pdb,dat,txt}"]
   }
 }
