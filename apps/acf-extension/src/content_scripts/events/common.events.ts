@@ -124,6 +124,7 @@ export const EVENTS = {
   REPLACE: 'replace',
   APPEND: 'append',
   PREPEND: 'prepend',
+  CLIPBOARD: 'clipboard',
 };
 
 export default CommonEvents;

@@ -2,7 +2,7 @@ import { Logger } from '@dhruv-techapps/core-common';
 import { ConfigError, SystemError } from '../error';
 import CommonEvents from './common.events';
 
-const FORM_EVENTS = ['blur', 'click', 'click-once', 'focus', 'select', 'submit', 'remove', 'clear', 'reset', 'search'];
+const FORM_EVENTS = ['blur', 'click', 'click-once', 'focus', 'select', 'submit', 'remove', 'clear'];
 
 export const FormEvents = (() => {
   const dispatchEvent = (element: HTMLElement, events: Array<string | Event>) => {

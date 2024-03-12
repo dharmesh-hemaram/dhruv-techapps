@@ -19,6 +19,7 @@ import { PlainEvents } from './plain.events';
 import { KeyboardEvents } from './keyboard.events';
 import { TabsEvents } from './tabs.events';
 import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { ClipboardEvents } from './clipboard.events';
 
 const DEFAULT_EVENT = ['mouseover', 'mousedown', 'mouseup', 'click'];
 
@@ -83,6 +84,9 @@ const Events = (() => {
           break;
         case EVENTS.KEYBOARD_EVENTS:
           KeyboardEvents.start(elements, value);
+          break;
+        case EVENTS.CLIPBOARD:
+          await ClipboardEvents.start(elements, value);
           break;
         default:
           PlainEvents.start(elements, value);
