@@ -12,7 +12,7 @@ export const APP_LINK = {
   DISCUSSIONS: 'https://github.com/Dhruv-Techapps/auto-clicker-auto-fill/discussions',
 };
 // Application Languages
-export const APP_LANGUAGES = ['en', 'kr', 'fr', 'cn'];
+export const APP_LANGUAGES = ['en', 'ko', 'fr', 'zh-cn'];
 
 export const SPONSORS = [
   {

@@ -26,6 +26,8 @@
     "blog": "블로그",
     "configuration": "구성",
     "issues": "문제",
+    "rate-us": "우리를 평가하십시오",
+    "discussion": "논의",
     "test": "실습 양식",
     "about": "에 대한",
     "contact": "연락하다",
@@ -36,6 +38,8 @@
     "social": "사회의",
     "discord": "Discord",
     "youtube": "Youtube",
+    "facebook": "페이스 북",
+    "whatsapp": "whatsapp",
     "instagram": "Instagram",
     "twitter": "Twitter",
     "github": "Github"
@@ -242,8 +246,10 @@
   "batch": {
     "title": "일괄",
     "repeat": "반복하다",
+    "repeatHint": "<b> 반복 </b>는 주어진 간격으로 페이지를 다시로드하지 않고 모든 작업을 다시 실행합니다.",
     "repeatInterval": "R 간격",
-    "refresh": "새로 고치다"
+    "refresh": "새로 고치다",
+    "refreshHint": "<b> 새로 고침 </b> 모든 작업이 완료되면 페이지를 다시로드합니다."
   },
   "error": {
     "number": "유효한 숫자 만 허용됩니다",
@@ -261,9 +267,13 @@
   "action": {
     "title": "동작",
     "add": "조치를 추가하십시오",
+    "addBefore": "위에 액션을 추가하십시오",
+    "addAfter": "아래에 조치를 추가하십시오",
     "addon": "첨가본",
     "remove": "조치를 제거하십시오",
     "settings": "조치 설정",
+    "disable": "조치를 비활성화합니다",
+    "enable": "행동 활성화",
     "initWait": "기다려",
     "name": "이름",
     "elementFinder": "요소 파인더",
@@ -298,16 +308,14 @@
     "local": "현지의",
     "dev": "개구",
     "stable": "안정적인",
-    "examples": "예",
-    "translate": "Auto Clicker 의 공식 번역 작업을 시작합니다. 귀하의 언어에 대한 사용자 인터페이스 번역을 제공하여 Auto Clicker 를 돕는 방법에 대해 알아보려면 공지를 확인하십시오.",
-    "clickHere": "여기를 클릭"
+    "examples": "예"
   },
   "language": {
     "en": "영어",
     "fr": "프랑스",
-    "kr": "한국인",
+    "ko": "한국인",
     "ca": "캐나다",
     "hi": "힌디 어",
-    "cn": "언어 중국어"
+    "zh-cn": "언어 중국어"
   }
 }

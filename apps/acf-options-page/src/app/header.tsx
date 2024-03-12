@@ -32,8 +32,13 @@ function Header() {
     }
   });
 
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
   const changeLanguage = async (lng) => {
     await i18n.changeLanguage(lng);
+    document.documentElement.lang = lng;
     localStorage.setItem('language', lng);
   };
 

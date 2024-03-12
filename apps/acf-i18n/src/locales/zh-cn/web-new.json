@@ -26,6 +26,8 @@
     "blog": "博客",
     "configuration": "配置",
     "issues": "问题",
+    "rate-us": "评价我们",
+    "discussion": "讨论",
     "test": "练习表格",
     "about": "关于",
     "contact": "联系我们",
@@ -36,6 +38,8 @@
     "social": "社交",
     "discord": "Discord",
     "youtube": "Youtube",
+    "facebook": "Facebook",
+    "whatsapp": "WhatsApp",
     "instagram": "Instagram",
     "twitter": "Twitter",
     "github": "Github"
@@ -263,9 +267,13 @@
   "action": {
     "title": "动作",
     "add": "添加动作",
+    "addBefore": "在上面添加动作",
+    "addAfter": "在下面添加动作",
     "addon": "附加组件",
     "remove": "移除动作",
     "settings": "动作设置",
+    "disable": "禁用动作",
+    "enable": "启用行动",
     "initWait": "初始化等待",
     "name": "名称",
     "elementFinder": "元素查找器",
@@ -300,15 +308,14 @@
     "local": "本地",
     "dev": "开发",
     "stable": "稳定",
-    "examples": "例子",
-    "translate": ""
+    "examples": "例子"
   },
   "language": {
     "en": "英语",
     "fr": "法语",
-    "kr": "韩语",
+    "ko": "韩语",
     "ca": "加拿大语",
     "hi": "印地语",
-    "cn": "中文"
+    "zh-cn": "中文"
   }
 }

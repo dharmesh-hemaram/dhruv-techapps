@@ -26,6 +26,8 @@
     "blog": "Blog",
     "configuration": "Configuration",
     "issues": "Problèmes",
+    "rate-us": "Évaluez nous",
+    "discussion": "Discussion",
     "test": "Formulaire de pratique",
     "about": "Sur",
     "contact": "Contact",
@@ -36,6 +38,8 @@
     "social": "Sociale",
     "discord": "Discord",
     "youtube": "Youtube",
+    "facebook": "Facebook",
+    "whatsapp": "Whatsapp",
     "instagram": "Instagram",
     "twitter": "Twitter",
     "github": "Github"
@@ -263,9 +267,13 @@
   "action": {
     "title": "action",
     "add": "Ajouter une action",
+    "addBefore": "Ajouter l'action ci-dessus",
+    "addAfter": "Ajouter l'action ci-dessous",
     "addon": "Ajouter",
     "remove": "Supprimer l'action",
     "settings": "Paramètres d'action",
+    "disable": "Désactiver l'action",
+    "enable": "Permettre l'action",
     "initWait": "Initive attend",
     "name": "Nom",
     "elementFinder": "Élévateur",
@@ -300,16 +308,14 @@
     "local": "LOCALE",
     "dev": "Faire devenir",
     "stable": "stable",
-    "examples": "Exemples",
-    "translate": "Nous lançons l'effort de traduction officielle pour Auto Clicker. Veuillez consulter l'annonce pour savoir comment aider Auto Clicker en fournissant des traductions d'interface utilisateur pour votre langue.",
-    "clickHere": "Cliquez ici"
+    "examples": "Exemples"
   },
   "language": {
     "en": "Anglaise",
     "fr": "La France",
-    "kr": "Coréenne",
+    "ko": "Coréenne",
     "ca": "canada",
     "hi": "hindi",
-    "cn": "Chinois"
+    "zh-cn": "Chinois"
   }
 }

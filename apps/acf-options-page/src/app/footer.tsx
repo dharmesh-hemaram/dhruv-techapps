@@ -1,6 +1,6 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { Discord, Twitter, ChatFill, ShieldCheck, Facebook, Whatsapp, Star } from '../util';
+import { Twitter, ChatFill, ShieldCheck, Facebook, Whatsapp, Star } from '../util';
 import { APP_NAME, SOCIAL_LINKS } from '../constants';
 import { useAppSelector } from '../hooks';
 import { appSelector } from '../store/app.slice';
@@ -41,12 +41,6 @@ function Footer() {
                 <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='google group' href={SOCIAL_LINKS.GOOGLE_GROUP}>
                   <ChatFill className='me-2' />
                   {t('footer.google-group')}
-                </a>
-              </li>
-              <li>
-                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' href={SOCIAL_LINKS.DISCORD} title='discord'>
-                  <Discord className='me-2' />
-                  {t('footer.discord')}
                 </a>
               </li>
             </ul>
