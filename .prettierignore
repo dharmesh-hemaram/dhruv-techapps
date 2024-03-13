@@ -3,3 +3,4 @@
 /coverage
 /.nx/cache
 /apps/acf-options-page/src/index.html
+/apps/acf-options-page/src/theme/_doc.css
