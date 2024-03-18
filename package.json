@@ -38,7 +38,7 @@
     "@babel/preset-react": "^7.14.5",
     "@nx/cypress": "17.2.8",
     "@nx/esbuild": "18.0.1",
-    "@nx/eslint": "17.2.8",
+    "@nx/eslint": "18.1.1",
     "@nx/eslint-plugin": "17.2.8",
     "@nx/express": "17.2.8",
     "@nx/jest": "18.0.4",
