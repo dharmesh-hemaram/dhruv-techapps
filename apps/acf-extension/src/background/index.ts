@@ -30,7 +30,7 @@ try {
   chrome.runtime.onInstalled.addListener((details) => {
     if (VARIANT !== 'LOCAL') {
       if (details.reason === 'update') {
-        TabsMessenger.optionsTab({ url: `${OPTIONS_PAGE_URL}?version=${chrome.runtime.getManifest().version}` });
+        TabsMessenger.optionsTab({ url: `https://www.extensions-hub.com/partners/updated?name=Auto-Clicker` });
       } else if (details.reason === 'install') {
         TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });
       }
