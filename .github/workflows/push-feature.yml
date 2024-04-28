@@ -15,7 +15,7 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
     with:
       environment-variables: |
-        NX_CLOUD_DISTRIBUTED_EXECUTION=false
+        NX_NO_CLOUD=true
       parallel-commands: |
         npx nx format:check
       parallel-commands-on-agents: |
