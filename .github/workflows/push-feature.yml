@@ -15,10 +15,10 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
     with:
       parallel-commands: |
-        npx nx format:check --no-cloud flag
+        npx nx format:check --no-cloud
       parallel-commands-on-agents: |
-        npx nx affected --target=lint --parallel=3 --no-cloud flag
-        npx nx affected --target=test --parallel=3 --exclude='tag:puppeteer' --ci --code-coverage --no-cloud flag
+        npx nx affected --target=lint --parallel=3 --no-cloud
+        npx nx affected --target=test --parallel=3 --exclude='tag:puppeteer' --ci --code-coverage --no-cloud
 
   agents:
     name: Nx Cloud - Agents
