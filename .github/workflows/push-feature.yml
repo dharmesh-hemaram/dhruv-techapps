@@ -4,28 +4,39 @@ on:
   push:
     branches:
       - 'feature/**'
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
-  cancel-in-progress: true
+  pull_request:
 
 jobs:
   main:
-    name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
-    with:
-      environment-variables: |
-        NX_NO_CLOUD=true
-      parallel-commands: |
-        npx nx format:check --no-cloud NX_NO_CLOUD=true,
-      parallel-commands-on-agents: |
-        npx nx affected --target=lint --parallel=3 --no-cloud NX_NO_CLOUD=true,
-        npx nx affected --target=test --parallel=3 --exclude='tag:puppeteer' --ci --code-coverage --no-cloud NX_NO_CLOUD=true
-
-  agents:
-    name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.14.0
-    with:
-      number-of-agents: 3
-      environment-variables: |
-        NX_NO_CLOUD=true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Restore cached npm dependencies
+        id: cache-dependencies-restore
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress # needed for the Cypress binary
+          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: pnpm install --frozen-lockfile
+      - name: Cache npm dependencies
+        id: cache-dependencies-save
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress # needed for the Cypress binary
+          key: ${{ steps.cache-dependencies-restore.outputs.cache-primary-key }}
+      - uses: nrwl/nx-set-shas@v3
+      # This line is needed for nx affected to work when CI is running on a PR
+      - run: git branch --track main origin/main
+        if: ${{ github.event_name == 'pull_request' }}
+      - run: pnpm nx format:check
+      - run: pnpm nx affected --target=lint --parallel=3
+      - run: pnpm nx affected --target=test --parallel=3 --exclude='tag:puppeteer' --ci --code-coverage

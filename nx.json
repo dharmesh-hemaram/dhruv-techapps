@@ -11,7 +11,7 @@
       "inputs": ["default", "^production"],
       "cache": true
     },
-    "lint": {
+    "@nx/eslint:lint": {
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
       "cache": false
     },
@@ -66,5 +66,6 @@
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     }
-  }
+  },
+  "useInferencePlugins": false
 }
