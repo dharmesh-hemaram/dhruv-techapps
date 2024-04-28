@@ -65,6 +65,5 @@
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     }
-  },
-  "nxCloudAccessToken": "MTAxZDBmYTUtOGFmNi00Y2Q2LWJmM2QtZTMzM2Y1OGE2ZjE2fHJlYWQtd3JpdGU="
+  }
 }
