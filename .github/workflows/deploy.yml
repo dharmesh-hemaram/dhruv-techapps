@@ -64,9 +64,10 @@ jobs:
         run: |
           mkdir bundle
           cd dist/apps
-          zip -r ../../bundle/acf-extension.zip acf-extension/
           zip -r ../../bundle/acf-options-page.zip acf-options-page/
           zip -r ../../bundle/acf-i18n.zip acf-i18n/
+          cd acf-extension
+          zip -r ../../../bundle/acf-extension.zip .
       - uses: actions/upload-artifact@v4
         with:
           name: nx-main-artifacts
@@ -89,7 +90,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: nx-main-artifacts
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         id: release
         with:
           prerelease: ${{ vars.NX_VARIANT == 'BETA' || vars.NX_VARIANT == 'DEV'}}
