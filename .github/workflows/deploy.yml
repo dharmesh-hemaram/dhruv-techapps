@@ -1,4 +1,4 @@
-name: mono-repo [release]
+name: mono-repo [deploy]
 run-name: Deploy to ${{ inputs.environment }} by @${{ github.actor }}
 
 on:
@@ -27,7 +27,8 @@ on:
 
 jobs:
   main:
-    name: Nx Main Job
+    name: Build & Bundle
+    environment: ${{inputs.environment}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -72,6 +73,7 @@ jobs:
 
   release:
     needs: [main]
+    environment: ${{inputs.environment}}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -158,6 +160,7 @@ jobs:
     needs: [extension, web]
     name: Create release tag
     runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
     permissions:
       contents: write
     steps:
