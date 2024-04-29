@@ -75,7 +75,9 @@ jobs:
 
   release:
     needs: [main]
-    environment: ${{inputs.environment}}
+    environment:
+      name: ${{inputs.environment}}
+      url: ${{steps.release.outputs.url}}
     runs-on: ubuntu-latest
     permissions:
       contents: write
