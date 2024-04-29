@@ -31,7 +31,6 @@
         ],
         "styles": ["apps/acf-extension/src/wizard/popup/wizard-popup.scss", "apps/acf-extension/src/content_scripts/status/status.scss"],
         "tsConfig": "apps/acf-extension/tsconfig.app.json",
-        "isolatedConfig": true,
         "webpackConfig": "apps/acf-extension/webpack.config.js"
       },
       "configurations": {
@@ -79,7 +78,6 @@
         ],
         "styles": ["apps/acf-extension/src/wizard/popup/wizard-popup.scss", "apps/acf-extension/src/content_scripts/status/status.scss"],
         "tsConfig": "apps/acf-extension/tsconfig.app.json",
-        "isolatedConfig": true,
         "webpackConfig": "apps/acf-extension/webpack.config.js"
       },
       "configurations": {

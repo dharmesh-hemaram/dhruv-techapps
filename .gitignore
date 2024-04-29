@@ -39,11 +39,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Sentry Config File
-.sentryclirc
-
-# Sentry Config File
-.env.sentry-build-plugin
 apps/acf-extension/assets/LOCAL/icons/*
 
 .nx/cache

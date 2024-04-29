@@ -27,12 +27,19 @@ const ConfigProcessor = (() => {
     if (config.batch) {
       events['batch'] = config.batch.refresh || config.batch.repeat;
     }
-    events.actions = config.actions.length;
+    if (config.spreadsheetId) {
+      events.sheets = true;
+    }
+    if (config.actions.some((a) => a.addon)) {
+      events.addon = true;
+    }
+    if (config.actions.some((a) => a.statement)) {
+      events.statement = true;
+    }
     return events;
   };
 
   const start = async (config: Configuration) => {
-    GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_started', getEvents(config));
     await new GoogleSheets().getValues(config);
     try {
       await BatchProcessor.start(config.actions, config.batch);
@@ -53,7 +60,7 @@ const ConfigProcessor = (() => {
         StatusBar.getInstance().error(e.message);
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
         const { notifications } = await new SettingsStorage().getSettings();
-        if (notifications && notifications.onError) {
+        if (notifications?.onError) {
           const { sound, discord } = notifications;
           NotificationsService.create(chrome.runtime.id, { type: 'basic', ...error, silent: !sound, iconUrl: Common.getNotificationIcon() }, 'error');
           if (discord) {

@@ -8,8 +8,8 @@ export const APP_LINK = {
   BLOG: 'https://blog.getautoclicker.com/',
   CONFIGS: 'https://gist.github.com/dharmesh-hemaram',
   TEST: 'https://test.getautoclicker.com/',
-  ISSUES: 'https://github.com/Dhruv-Techapps/auto-clicker-auto-fill/issues',
-  DISCUSSIONS: 'https://github.com/Dhruv-Techapps/auto-clicker-auto-fill/discussions',
+  ISSUES: 'https://github.com/Dhruv-Techapps/acf-docs/issues',
+  DISCUSSIONS: 'https://github.com/Dhruv-Techapps/acf-docs/discussions',
 };
 // Application Languages
 export const APP_LANGUAGES = ['en', 'ko', 'fr', 'zh-cn'];
@@ -39,7 +39,7 @@ export const SOCIAL_LINKS = {
   DISCORD: 'https://discord.gg/ubMBeX3',
   GOOGLE_GROUP: 'https://groups.google.com/g/auto-clicker-autofill',
   TWITTER: `https://twitter.com/intent/tweet?text=${message}&url=${url}`,
-  GITHUB: 'https://github.com/Dhruv-Techapps/auto-clicker-auto-fill',
+  GITHUB: 'https://github.com/Dhruv-Techapps/acf-docs',
   FACEBOOK: `https://www.facebook.com/sharer.php?u=${url}&quote=${message}`,
   WHATSAPP: `https://wa.me/?text=${message}%5Cn%20${url}`,
   RATE_US: `https://chromewebstore.google.com/detail/${extensionId}/reviews`,
