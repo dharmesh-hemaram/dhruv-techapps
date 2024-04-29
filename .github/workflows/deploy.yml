@@ -62,14 +62,14 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{vars.SENTRY_AUTH_TOKEN}}
       - name: bundle
         run: |
-          npx web-ext build --sourceDir="./dist/apps/acf-extension" --artifactsDir="./dist/apps"
-          cd dist/apps
-          zip -r acf-options-page.zip acf-options-page/
-          zip -r acf-i18n.zip acf-i18n/
+          npx web-ext build --sourceDir="./dist/apps/acf-extension" --artifactsDir="./build"
+          cd 
+          zip -r ./build/acf-options-page.zip ./dist/apps/acf-options-page/
+          zip -r ./build/acf-i18n.zip ./dist/apps/acf-i18n/
       - uses: actions/upload-artifact@v4
         with:
           name: nx-main-artifacts
-          path: dist/apps/*
+          path: build/*
 
   release:
     needs: [main]
@@ -85,7 +85,7 @@ jobs:
       release-upload_url: ${{ steps.release.outputs.upload_url }}
       release-assets: ${{ steps.release.outputs.assets }}
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: nx-main-artifacts
       - uses: softprops/action-gh-release@v1
