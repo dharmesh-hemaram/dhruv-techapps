@@ -74,6 +74,7 @@ jobs:
           path: bundle/*
 
   release:
+    name: Release
     needs: [main]
     environment:
       name: ${{inputs.environment}}
@@ -82,7 +83,6 @@ jobs:
     permissions:
       contents: write
       discussions: write
-    name: Release
     outputs:
       release-url: ${{ steps.release.outputs.url }}
       release-id: ${{ steps.release.outputs.id }}
@@ -108,12 +108,12 @@ jobs:
     if: ${{ inputs.upload_extension }}
     name: Upload Extension
     needs: [main, release]
-    runs-on: ubuntu-latest
     environment:
       name: ${{inputs.environment}}
       url: ${{needs.release.outputs.release-url}}
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: nx-main-artifacts
       - name: Upload & release
@@ -139,7 +139,7 @@ jobs:
       name: ${{inputs.environment}}
       url: ${{vars.PUBLIC_URL}}
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: nx-main-artifacts
       - name: Build And Deploy
