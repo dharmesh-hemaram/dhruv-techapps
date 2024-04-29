@@ -1,0 +1,169 @@
+name: mono-repo [release]
+run-name: Deploy to ${{ inputs.environment }} by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment of release'
+        type: environment
+        default: Development
+        required: true
+      deploy_web:
+        description: 'Deploy web to azure static'
+        type: boolean
+        default: false
+        required: true
+      upload_extension:
+        description: 'Upload extension to chrome webstore'
+        type: boolean
+        default: false
+        required: true
+      publish:
+        description: 'Publish extension'
+        type: boolean
+        default: false
+        required: true
+
+jobs:
+  main:
+    name: Nx Main Job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: build
+        run: npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer' --prod --base-href ${{vars.PUBLIC_URL}}
+        env:
+          NX_NAME: ${{vars.NX_NAME}}
+          NX_VARIANT: ${{vars.NX_VARIANT}}
+          NX_CHROME_EXTENSION_ID: ${{vars.NX_CHROME_EXTENSION_ID}}
+          NX_EDGE_EXTENSION_ID: ${{vars.NX_EDGE_EXTENSION_ID  || 'DEV'}}
+          NX_I18N: ${{vars.NX_I18N}}
+          NX_GOOGLE_ANALYTICS_ID: ${{vars.NX_GOOGLE_ANALYTICS_ID}}
+          NX_GOOGLE_ADS_SLOT: ${{vars.NX_GOOGLE_ADS_SLOT}}
+          NX_GOOGLE_ADS_CLIENT: ${{vars.NX_GOOGLE_ADS_CLIENT}}
+          UNINSTALL_URL: ${{vars.UNINSTALL_URL}}
+          TRACKING_ID: ${{vars.TRACKING_ID}}
+          FUNCTION_URL: ${{vars.FUNCTION_URL}}
+          DISCORD_CLIENT_ID: ${{vars.DISCORD_CLIENT_ID}}
+          OAUTH_CLIENT_ID: ${{vars.OAUTH_CLIENT_ID}}
+          PUBLIC_URL: ${{vars.PUBLIC_URL}}
+          NX_RELEASE_VERSION: ${{github.ref_name}}
+          API_SECRET: ${{vars.API_SECRET}}
+          MEASUREMENT_ID: ${{vars.MEASUREMENT_ID}}
+          SENTRY_AUTH_TOKEN: ${{vars.SENTRY_AUTH_TOKEN}}
+      - name: bundle
+        run: |
+          npx web-ext build --sourceDir="./dist/apps/acf-extension" --artifactsDir="./dist/apps"
+          cd dist/apps
+          zip -r acf-options-page.zip acf-options-page/
+          zip -r acf-i18n.zip acf-i18n/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nx-main-artifacts
+          path: dist/apps/*
+
+  release:
+    needs: [main]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      discussions: write
+    name: Release
+    outputs:
+      release-url: ${{ steps.release.outputs.url }}
+      release-id: ${{ steps.release.outputs.id }}
+      release-upload_url: ${{ steps.release.outputs.upload_url }}
+      release-assets: ${{ steps.release.outputs.assets }}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: nx-main-artifacts
+      - uses: softprops/action-gh-release@v1
+        if: ${{ hashFiles('auto_clicker_-_autofill*.zip') }}
+        id: release
+        with:
+          prerelease: ${{ vars.NX_VARIANT == 'BETA' || vars.NX_VARIANT == 'DEV'}}
+          generate_release_notes: true
+          discussion_category_name: 'Release'
+          files: |
+            auto_clicker_-_autofill*.zip
+            acf-i18n.zip
+            acf-options-page.zip
+          fail_on_unmatched_files: true
+
+  extension:
+    if: ${{ inputs.upload_extension }}
+    name: Upload Extension
+    needs: [release]
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{inputs.environment}}
+      url: ${{needs.release.outputs.release-url}}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: nx-main-artifacts
+      - name: Upload & release
+        uses: mnao305/chrome-extension-upload@v4.0.1
+        with:
+          file-path: auto_clicker_-_autofill*.zip
+          extension-id: ${{ vars.NX_CHROME_EXTENSION_ID }}
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          refresh-token: ${{ secrets.REFRESH_TOKEN }}
+          publish: ${{inputs.publish}}
+          glob: true
+
+  web:
+    if: ${{ inputs.deploy_web }}
+    name: Deploy Web
+    needs: [release]
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{inputs.environment}}
+      url: ${{vars.PUBLIC_URL}}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: nx-main-artifacts
+      - name: Build And Deploy
+        if: ${{ hashFiles('acf-options-page/') != '' }}
+        id: deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          action: 'upload'
+          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
+          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
+          app_location: 'acf-options-page' # App source code path
+          api_location: '' # Api source code path - optional
+          skip_app_build: true
+          skip_api_build: true
+          output_location: '' # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
+
+  tag:
+    needs: [extension, web]
+    name: Create release tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set ${{vars.NX_VARIANT}} Tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          force_push_tag: true
+          tag: '${{vars.NX_VARIANT}}'
