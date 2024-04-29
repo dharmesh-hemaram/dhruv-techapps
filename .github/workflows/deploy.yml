@@ -107,7 +107,7 @@ jobs:
   extension:
     if: ${{ inputs.upload_extension }}
     name: Upload Extension
-    needs: [release]
+    needs: [main, release]
     runs-on: ubuntu-latest
     environment:
       name: ${{inputs.environment}}
@@ -130,7 +130,7 @@ jobs:
   web:
     if: ${{ inputs.deploy_web }}
     name: Deploy Web
-    needs: [release]
+    needs: [main, release]
     permissions:
       contents: read
       pull-requests: write
