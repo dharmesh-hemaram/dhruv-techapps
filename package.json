@@ -51,7 +51,7 @@
     "@nx/webpack": "18.3.4",
     "@nx/workspace": "18.3.4",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
-    "@sentry/webpack-plugin": "^2.10.3",
+    "@sentry/webpack-plugin": "^2.16.1",
     "@svgr/webpack": "^8.1.0",
     "@swc-node/register": "1.8.0",
     "@swc/cli": "~0.3.10",
