@@ -73,41 +73,10 @@ jobs:
           name: nx-main-artifacts
           path: bundle/*
 
-  release:
-    name: Release
-    needs: [main]
-    environment:
-      name: ${{inputs.environment}}
-      url: ${{steps.release.outputs.url}}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      discussions: write
-    outputs:
-      release-url: ${{ steps.release.outputs.url }}
-      release-id: ${{ steps.release.outputs.id }}
-      release-upload_url: ${{ steps.release.outputs.upload_url }}
-      release-assets: ${{ steps.release.outputs.assets }}
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: nx-main-artifacts
-      - uses: softprops/action-gh-release@v2
-        id: release
-        with:
-          prerelease: ${{ vars.NX_VARIANT == 'BETA' || vars.NX_VARIANT == 'DEV'}}
-          generate_release_notes: true
-          discussion_category_name: 'Release'
-          files: |
-            acf-extension.zip
-            acf-i18n.zip
-            acf-options-page.zip
-          fail_on_unmatched_files: true
-
   extension:
     if: ${{ inputs.upload_extension }}
     name: Upload Extension
-    needs: [main, release]
+    needs: [main]
     environment:
       name: ${{inputs.environment}}
       url: ${{needs.release.outputs.release-url}}
@@ -130,7 +99,7 @@ jobs:
   web:
     if: ${{ inputs.deploy_web }}
     name: Deploy Web
-    needs: [main, release]
+    needs: [main]
     permissions:
       contents: read
       pull-requests: write
@@ -159,9 +128,34 @@ jobs:
           output_location: '' # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
+  release:
+    name: Release
+    needs: [extension, web]
+    environment:
+      name: ${{inputs.environment}}
+      url: ${{steps.release.outputs.url}}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      discussions: write
+    outputs:
+      release-url: ${{ steps.release.outputs.url }}
+      release-id: ${{ steps.release.outputs.id }}
+      release-upload_url: ${{ steps.release.outputs.upload_url }}
+      release-assets: ${{ steps.release.outputs.assets }}
+    steps:
+      - uses: softprops/action-gh-release@v2
+        id: release
+        with:
+          prerelease: ${{ vars.NX_VARIANT == 'BETA' || vars.NX_VARIANT == 'DEV'}}
+          repository: Dhruv-Techapps/acf-docs
+          generate_release_notes: true
+          discussion_category_name: 'Release'
+          fail_on_unmatched_files: true
+
   tag:
     needs: [extension, web]
-    name: Create release tag
+    name: Create tag
     runs-on: ubuntu-latest
     environment: ${{inputs.environment}}
     permissions:
