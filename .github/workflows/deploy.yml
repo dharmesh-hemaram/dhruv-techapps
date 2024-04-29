@@ -62,15 +62,15 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{vars.SENTRY_AUTH_TOKEN}}
       - name: bundle
         run: |
-          mkdir build
+          mkdir bundle
           cd dist/apps
-          zip -r ../../build/acf-extension.zip acf-extension/
-          zip -r ../../build/acf-options-page.zip acf-options-page/
-          zip -r ../../build/acf-i18n.zip acf-i18n/
+          zip -r ../../bundle/acf-extension.zip acf-extension/
+          zip -r ../../bundle/acf-options-page.zip acf-options-page/
+          zip -r ../../bundle/acf-i18n.zip acf-i18n/
       - uses: actions/upload-artifact@v4
         with:
           name: nx-main-artifacts
-          path: build/*
+          path: bundle/*
 
   release:
     needs: [main]
