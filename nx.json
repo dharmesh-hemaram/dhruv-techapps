@@ -1,24 +1,25 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "neverConnectToCloud": true,
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"],
-      "cache": true
+      "cache": false
     },
     "e2e": {
       "inputs": ["default", "^production"],
       "cache": true
     },
-    "lint": {
+    "@nx/eslint:lint": {
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
-      "cache": true
+      "cache": false
     },
     "package": {
       "cache": true
     },
     "@nx/jest:jest": {
-      "cache": true,
+      "cache": false,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "options": {
         "passWithNoTests": true
@@ -66,5 +67,5 @@
       "e2eTestRunner": "cypress"
     }
   },
-  "nxCloudAccessToken": "MTAxZDBmYTUtOGFmNi00Y2Q2LWJmM2QtZTMzM2Y1OGE2ZjE2fHJlYWQtd3JpdGU="
+  "useInferencePlugins": false
 }

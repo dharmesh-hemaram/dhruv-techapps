@@ -1,33 +1,31 @@
 name: feature [push]
 
 on:
-  push:
-    branches:
-      - 'feature/**'
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
-  cancel-in-progress: true
+  pull_request:
 
 jobs:
   main:
-    name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
-    secrets:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      NX_CLOUD_AUTH_TOKEN: ${{ secrets.NX_CLOUD_AUTH_TOKEN }}
-    with:
-      parallel-commands: |
-        npx nx-cloud record -- npx nx format:check
-      parallel-commands-on-agents: |
-        npx nx affected --target=lint --parallel=3
-        npx nx affected --target=test --parallel=3 --exclude='tag:puppeteer' --ci --code-coverage
-
-  agents:
-    name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.14.0
-    secrets:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      NX_CLOUD_AUTH_TOKEN: ${{ secrets.NX_CLOUD_AUTH_TOKEN }}
-    with:
-      number-of-agents: 3
+    name: Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      actions: 'read'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - uses: nrwl/nx-set-shas@v3
+      - run: |
+          echo "BASE: ${{ env.NX_BASE }}"
+          echo "HEAD: ${{ env.NX_HEAD }}"
+      # This line is needed for nx affected to work when CI is running on a PR
+      - run: git branch --track main origin/main
+        if: ${{ github.event_name == 'pull_request' }}
+      - run: npm ci
+      - run: npx nx format:check
+      - run: npx nx affected --target=lint --parallel=3
+      - run: npx nx affected --target=test --parallel=3 --exclude='tag:puppeteer' --ci --code-coverage

@@ -15,7 +15,6 @@
         "main": "apps/acf-i18n/src/main.ts",
         "tsConfig": "apps/acf-i18n/tsconfig.app.json",
         "assets": ["apps/acf-i18n/src/locales"],
-        "isolatedConfig": true,
         "webpackConfig": "apps/acf-i18n/webpack.config.js"
       },
       "configurations": {

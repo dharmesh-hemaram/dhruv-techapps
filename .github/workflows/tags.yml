@@ -1,4 +1,4 @@
-name: mono-repo [release]
+name: mono-repo [release] [tags]
 run-name: Deploy to ${{ inputs.environment }} by @${{ github.actor }}
 
 on:

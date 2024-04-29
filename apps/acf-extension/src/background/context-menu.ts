@@ -1,11 +1,12 @@
 import { LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
 import { ACTION_POPUP, CONTEXT_MENU_CONFIG_PAGE_ID, CONTEXT_MENU_ELEMENT_ID } from '../common/constant';
 import { GoogleAnalytics } from './google-analytics';
+
 export default function registerContextMenus(optionsPageUrl?: string, googleAnalytics?: GoogleAnalytics) {
   chrome.contextMenus.removeAll();
-  chrome.contextMenus.create({ id: CONTEXT_MENU_ELEMENT_ID, title: '★ Configure for this Field', contexts: ['page'] });
-  chrome.contextMenus.create({ id: ACTION_POPUP, title: '☉ Auto Clicker (Record)', contexts: ['page'] });
-  chrome.contextMenus.create({ id: 'CONFIG-SEPARATOR', type: 'separator', contexts: ['page'] });
+  chrome.contextMenus.create({ id: CONTEXT_MENU_ELEMENT_ID, title: '★ Configure for this Field', contexts: ['page', 'frame', 'selection', 'link', 'editable', 'image', 'video', 'audio', 'video'] });
+  chrome.contextMenus.create({ id: ACTION_POPUP, title: '☉ Auto Clicker (Record)', contexts: ['page', 'frame', 'selection', 'link', 'editable', 'image', 'video', 'audio', 'video'] });
+  chrome.contextMenus.create({ id: 'CONFIG-SEPARATOR', type: 'separator', contexts: ['page', 'frame', 'selection', 'link', 'editable', 'image', 'video', 'audio', 'video'] });
   chrome.contextMenus.create({ id: CONTEXT_MENU_CONFIG_PAGE_ID, title: '↗ Open Configuration Page', contexts: ['all'] });
 
   if (optionsPageUrl) {

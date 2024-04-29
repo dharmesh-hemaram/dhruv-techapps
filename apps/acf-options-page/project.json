@@ -19,7 +19,6 @@
         "assets": ["apps/acf-options-page/src/favicon.ico", "apps/acf-options-page/src/manifest.json", "apps/acf-options-page/src/assets", "apps/acf-options-page/src/staticwebapp.config.json"],
         "styles": ["apps/acf-options-page/src/styles.scss"],
         "scripts": [],
-        "isolatedConfig": true,
         "webpackConfig": "apps/acf-options-page/webpack.config.js"
       },
       "configurations": {
