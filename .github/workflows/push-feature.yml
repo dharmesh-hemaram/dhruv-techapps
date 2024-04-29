@@ -1,14 +1,14 @@
 name: feature [push]
 
 on:
-  push:
-    branches:
-      - 'feature/**'
   pull_request:
 
 jobs:
   main:
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      actions: 'read'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -18,6 +18,9 @@ jobs:
           node-version: 20
           cache: 'npm'
       - uses: nrwl/nx-set-shas@v3
+      - run: |
+          echo "BASE: ${{ env.NX_BASE }}"
+          echo "HEAD: ${{ env.NX_HEAD }}"
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track main origin/main
         if: ${{ github.event_name == 'pull_request' }}
