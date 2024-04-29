@@ -11,7 +11,6 @@
     }
   ],
   "compilerOptions": {
-    "composite": true,
     "esModuleInterop": true,
     "allowJs": false,
     "resolveJsonModule": true,
