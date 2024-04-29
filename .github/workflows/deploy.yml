@@ -62,10 +62,11 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{vars.SENTRY_AUTH_TOKEN}}
       - name: bundle
         run: |
-          npx web-ext build --sourceDir="./dist/apps/acf-extension" --artifactsDir="./build"
-          cd 
-          zip -r ./build/acf-options-page.zip ./dist/apps/acf-options-page/
-          zip -r ./build/acf-i18n.zip ./dist/apps/acf-i18n/
+          mkdir build
+          cd dist/apps
+          zip -r ../../build/acf-extension.zip acf-extension/
+          zip -r ../../build/acf-options-page.zip acf-options-page/
+          zip -r ../../build/acf-i18n.zip acf-i18n/
       - uses: actions/upload-artifact@v4
         with:
           name: nx-main-artifacts
@@ -89,14 +90,13 @@ jobs:
         with:
           name: nx-main-artifacts
       - uses: softprops/action-gh-release@v1
-        if: ${{ hashFiles('auto_clicker_-_autofill*.zip') }}
         id: release
         with:
           prerelease: ${{ vars.NX_VARIANT == 'BETA' || vars.NX_VARIANT == 'DEV'}}
           generate_release_notes: true
           discussion_category_name: 'Release'
           files: |
-            auto_clicker_-_autofill*.zip
+            acf-extension.zip
             acf-i18n.zip
             acf-options-page.zip
           fail_on_unmatched_files: true
@@ -116,7 +116,7 @@ jobs:
       - name: Upload & release
         uses: mnao305/chrome-extension-upload@v4.0.1
         with:
-          file-path: auto_clicker_-_autofill*.zip
+          file-path: acf-extension.zip
           extension-id: ${{ vars.NX_CHROME_EXTENSION_ID }}
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
