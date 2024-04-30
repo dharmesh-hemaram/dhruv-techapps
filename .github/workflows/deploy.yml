@@ -19,8 +19,13 @@ on:
         type: boolean
         default: false
         required: true
-      publish:
+      publish_extension:
         description: 'Publish extension'
+        type: boolean
+        default: false
+        required: true
+      publish_packages:
+        description: 'Publish packages'
         type: boolean
         default: false
         required: true
@@ -73,6 +78,32 @@ jobs:
           name: nx-main-artifacts
           path: bundle/*
 
+  publish-packages:
+    if: ${{ inputs.publish_packages }}
+    name: Publish Packages
+    needs: [main]
+    runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: nx-main-artifacts
+      - uses: actions/setup-node@v3
+        with:
+          always-auth: true
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@dhruv-techapps'
+          cache: 'npm'
+      - name: Publish Packages
+        run: |
+          nx run-many -t=publish --ver=0.0.0
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   extension:
     if: ${{ inputs.upload_extension }}
     name: Upload Extension
@@ -93,7 +124,7 @@ jobs:
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
-          publish: ${{inputs.publish}}
+          publish: ${{inputs.publish_extension}}
           glob: true
 
   web:
