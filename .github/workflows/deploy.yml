@@ -42,6 +42,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: ${{github.repository_owner}}
           cache: 'npm'
       - run: npm ci
       - name: build
@@ -65,6 +67,12 @@ jobs:
           API_SECRET: ${{vars.API_SECRET}}
           MEASUREMENT_ID: ${{vars.MEASUREMENT_ID}}
           SENTRY_AUTH_TOKEN: ${{vars.SENTRY_AUTH_TOKEN}}
+      - name: Publish Packages
+        if: ${{ inputs.publish_packages }}
+        run: |
+          nx publish core-common --ver=0.0.0
+        env:
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: bundle
         run: |
           mkdir bundle
@@ -77,32 +85,6 @@ jobs:
         with:
           name: nx-main-artifacts
           path: bundle/*
-
-  publish-packages:
-    if: ${{ inputs.publish_packages }}
-    name: Publish Packages
-    needs: [main]
-    runs-on: ubuntu-latest
-    environment: ${{inputs.environment}}
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: nx-main-artifacts
-      - uses: actions/setup-node@v3
-        with:
-          always-auth: true
-          node-version: 20
-          registry-url: https://npm.pkg.github.com
-          scope: '@dhruv-techapps'
-          cache: 'npm'
-      - name: Publish Packages
-        run: |
-          nx run-many -t=publish --ver=0.0.0
-        env:
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   extension:
     if: ${{ inputs.upload_extension }}
