@@ -47,7 +47,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: build
-        run: npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer' --prod --base-href ${{vars.PUBLIC_URL}}
+        run: npx nx build core-common --prod --base-href ${{vars.PUBLIC_URL}}
         env:
           NX_NAME: ${{vars.NX_NAME}}
           NX_VARIANT: ${{vars.NX_VARIANT}}
@@ -70,7 +70,7 @@ jobs:
       - name: Publish Packages
         if: ${{ inputs.publish_packages }}
         run: |
-          nx publish core-common --ver=0.0.0
+          npx nx publish core-common --ver=0.0.0
         env:
           NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: bundle
