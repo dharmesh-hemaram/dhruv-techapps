@@ -67,5 +67,16 @@
       "e2eTestRunner": "cypress"
     }
   },
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "release": {
+    "projects": ["core-common", "core-extension", "core-service", "acf-common", "acf-service"],
+    "version": {
+      "conventionalCommits": true
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github"
+      }
+    }
+  }
 }

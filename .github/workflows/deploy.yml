@@ -33,7 +33,9 @@ on:
 jobs:
   main:
     name: Build & Bundle
-    environment: ${{inputs.environment}}
+    environment:
+      name: ${{inputs.environment}}
+      url: ${{ steps.artifact-upload-step.outputs.artifact-id }}
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -49,8 +51,8 @@ jobs:
           scope: ${{github.repository_owner}}
           cache: 'npm'
       - run: npm ci
-      - name: build
-        run: npx nx build core-common --prod --base-href ${{vars.PUBLIC_URL}}
+      - name: Build Projects and Library
+        run: npx nx affected -t=build --parallel=3 --prod --base-href ${{vars.PUBLIC_URL}}
         env:
           NX_NAME: ${{vars.NX_NAME}}
           NX_VARIANT: ${{vars.NX_VARIANT}}
@@ -73,10 +75,10 @@ jobs:
       - name: Publish Packages
         if: ${{ inputs.publish_packages }}
         run: |
-          npx nx publish core-common --ver=0.0.0
+          npx nx affected -t=publish --ver=${{github.ref_name}}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: bundle
+      - name: Bundle Projects
         run: |
           mkdir bundle
           cd dist/apps
@@ -85,6 +87,7 @@ jobs:
           cd acf-extension
           zip -r ../../../bundle/acf-extension.zip .
       - uses: actions/upload-artifact@v4
+        id: artifact-upload-step
         with:
           name: nx-main-artifacts
           path: bundle/*
