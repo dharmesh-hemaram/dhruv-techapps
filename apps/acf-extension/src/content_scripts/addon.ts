@@ -1,12 +1,12 @@
 import { ADDON_CONDITIONS, ActionSettings, Addon, RECHECK_OPTIONS, ValueExtractorFlags } from '@dhruv-techapps/acf-common';
-import { Logger } from '@dhruv-techapps/core-common';
-import { wait } from './util';
-import { ConfigError, SystemError } from './error';
-import Common from './common';
-import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
-import Value from './util/value';
-import { StatusBar } from './status';
 import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { ConfigError, Logger, SystemError } from '@dhruv-techapps/core-common';
+import { Sandbox } from '@dhruv-techapps/sandbox';
+import { wait } from '@dhruv-techapps/shared-util';
+import { StatusBar } from '@dhruv-techapps/status-bar';
+import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
+import Common from './common';
+import Value from './util/value';
 
 const LOGGER_LETTER = 'Addon';
 
@@ -118,7 +118,7 @@ const AddonProcessor = (() => {
       StatusBar.getInstance().addonUpdate();
       let nodeValue;
       if (/^Func::/gi.test(elementFinder)) {
-        nodeValue = await Common.sandboxEval(elementFinder.replace(/^Func::/gi, ''));
+        nodeValue = await Sandbox.sandboxEval(elementFinder.replace(/^Func::/gi, ''));
       } else {
         elementFinder = await Value.getValue(elementFinder);
         const elements = await Common.start(elementFinder, settings);

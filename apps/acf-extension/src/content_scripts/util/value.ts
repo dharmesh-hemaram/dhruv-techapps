@@ -1,6 +1,6 @@
 import RandExp from 'randexp';
-import { ConfigError } from '../error';
-import Common from '../common';
+import { ConfigError } from '@dhruv-techapps/core-common';
+import { Sandbox } from '@dhruv-techapps/sandbox';
 
 export const VALUE_MATCHER = {
   GOOGLE_SHEETS: /^GoogleSheets::/i,
@@ -74,7 +74,7 @@ const Value = (() => {
   };
 
   const getFuncValue = async (value: string) => {
-    const result = await Common.sandboxEval(value.replace(/^Func::/gi, ''));
+    const result = await Sandbox.sandboxEval(value.replace(/^Func::/gi, ''));
     return result;
   };
 

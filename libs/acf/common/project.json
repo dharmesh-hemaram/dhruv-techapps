@@ -23,5 +23,5 @@
       "outputs": ["{options.outputFile}"]
     }
   },
-  "tags": ["type:lib", "scope:acf"]
+  "tags": ["scope:acf", "lib:acf-common"]
 }

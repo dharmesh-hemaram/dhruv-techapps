@@ -4,7 +4,7 @@ import ConfigProcessor from './config';
 import Session from './util/session';
 import ConfigStorage, { GetConfigResult } from './store/config-storage';
 import { Sheets } from './util/google-sheets';
-import { StatusBar } from './status';
+import { StatusBar } from '@dhruv-techapps/status-bar';
 import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 
 declare global {

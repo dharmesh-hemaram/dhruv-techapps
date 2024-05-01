@@ -29,7 +29,7 @@
             "entryPath": "apps/acf-extension/src/wizard/popup/wizard-popup.ts"
           }
         ],
-        "styles": ["apps/acf-extension/src/wizard/popup/wizard-popup.scss", "apps/acf-extension/src/content_scripts/status/status.scss"],
+        "styles": ["apps/acf-extension/src/wizard/popup/wizard-popup.scss", "libs/shared/status-bar/src/lib/status-bar.scss"],
         "tsConfig": "apps/acf-extension/tsconfig.app.json",
         "webpackConfig": "apps/acf-extension/webpack.config.js"
       },
@@ -76,7 +76,7 @@
             "entryPath": "apps/acf-extension/src/wizard/popup/wizard-popup.ts"
           }
         ],
-        "styles": ["apps/acf-extension/src/wizard/popup/wizard-popup.scss", "apps/acf-extension/src/content_scripts/status/status.scss"],
+        "styles": ["apps/acf-extension/src/wizard/popup/wizard-popup.scss", "libs/shared/status-bar/src/lib/status-bar.scss"],
         "tsConfig": "apps/acf-extension/tsconfig.app.json",
         "webpackConfig": "apps/acf-extension/webpack.config.js"
       },
@@ -118,5 +118,5 @@
       }
     }
   },
-  "tags": ["extension"]
+  "tags": ["scope:app", "app:acf-extension"]
 }

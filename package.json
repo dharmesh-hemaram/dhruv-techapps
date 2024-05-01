@@ -78,9 +78,11 @@
     "jest-environment-node": "^29.4.1",
     "nx": "18.3.4",
     "prettier": "^3.2.5",
+    "react-refresh": "^0.14.2",
     "ts-jest": "^29.1.2",
     "ts-node": "10.9.2",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "verdaccio": "^5.0.4"
   },
   "nx": {
     "includedScripts": []
