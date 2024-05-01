@@ -20,7 +20,7 @@ export const VALUE_MATCHER = {
   ACTION_REPEAT: /<actionRepeat>/,
 };
 
-const Value = (() => {
+export const Value = (() => {
   const getRandomValue = (value: string) =>
     value.replace(VALUE_MATCHER.RANDOM, (_, regex) => {
       const result = new RandExp(regex).gen();
@@ -116,5 +116,3 @@ const Value = (() => {
 
   return { getValue };
 })();
-
-export default Value;
