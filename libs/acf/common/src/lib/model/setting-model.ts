@@ -1,3 +1,5 @@
+import { STATUS_BAR_LOCATION } from '@dhruv-techapps/status-bar';
+
 export enum RETRY_OPTIONS {
   STOP = 'stop',
   SKIP = 'skip',
@@ -10,14 +12,6 @@ export enum AUTO_BACKUP {
   WEEKLY = 'weekly',
   MONTHLY = 'monthly',
   OFF = 'off',
-}
-
-export enum STATUS_BAR_LOCATION {
-  HIDE = 'hide',
-  TOP_LEFT = 'top-left',
-  TOP_RIGHT = 'top-right',
-  BOTTOM_LEFT = 'bottom-left',
-  BOTTOM_RIGHT = 'bottom-right',
 }
 
 export type SettingsNotifications = {

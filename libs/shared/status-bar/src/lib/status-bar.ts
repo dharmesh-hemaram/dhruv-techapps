@@ -1,3 +1,5 @@
+import { STATUS_BAR_LOCATION } from './status-bar.types';
+
 export class StatusBar {
   private static instance: StatusBar;
   private statusBar: HTMLDivElement = document.createElement('div');
@@ -21,7 +23,7 @@ export class StatusBar {
     document.body.appendChild(this.statusBar);
   }
 
-  setLocation = async (location: string) => {
+  public setLocation = async (location: STATUS_BAR_LOCATION) => {
     this.statusBar.className = location;
   };
 

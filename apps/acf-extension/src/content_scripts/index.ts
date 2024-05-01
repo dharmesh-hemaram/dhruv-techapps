@@ -4,7 +4,7 @@ import { ConfigStorage, GetConfigResult } from '@dhruv-techapps/acf-store';
 import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
 import { StatusBar } from '@dhruv-techapps/status-bar';
 import ConfigProcessor from './config';
-import { Sheets } from './util/google-sheets';
+import { Sheets } from '@dhruv-techapps/google-sheets';
 import { Session } from '@dhruv-techapps/acf-util';
 
 declare global {

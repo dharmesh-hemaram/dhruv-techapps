@@ -9,7 +9,6 @@ import BatchProcessor from './batch';
 import Common from './common';
 import { Hotkey } from './hotkey';
 import { GoogleSheetsCS } from '@dhruv-techapps/google-sheets';
-import { Session } from '@dhruv-techapps/acf-util';
 import GoogleSheets from './util/google-sheets';
 
 const LOGGER_LETTER = 'Config';
@@ -105,7 +104,13 @@ const ConfigProcessor = (() => {
     }
   };
 
+  const setupStatusBar = async () => {
+    const { statusBar } = await new SettingsStorage().getSettings();
+    StatusBar.getInstance().setLocation(statusBar);
+  };
+
   const checkStartType = async (configs: Array<Configuration>, config?: Configuration) => {
+    setupStatusBar();
     configs.forEach((c) => {
       Hotkey.setup(start.bind(this, c), c.hotkey);
     });
