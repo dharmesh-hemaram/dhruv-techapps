@@ -6,5 +6,5 @@
     "types": ["node", "@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts"]
   },
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "../../libs/acf/acf-util/src/lib/value.ts", "../../libs/acf/acf-util/src/lib/session.ts", "../../libs/shared/google-sheets/src/lib/google-sheets-background.ts", "../../libs/core/common/src/lib/utilities/browser.ts"]
 }

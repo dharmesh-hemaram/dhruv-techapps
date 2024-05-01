@@ -89,7 +89,10 @@
       "discord-oauth",
       "discord-messaging",
       "shared-util",
-      "status-bar"
+      "status-bar",
+      "acf-store",
+      "acf-util",
+      "notifications"
     ],
     "version": {
       "preVersionCommand": "npx nx run-many -t build",

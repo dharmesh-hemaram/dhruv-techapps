@@ -20,11 +20,11 @@
             "depConstraints": [
               {
                 "sourceTag": "scope:core",
-                "onlyDependOnLibsWithTags": [""]
+                "onlyDependOnLibsWithTags": ["scope:core"]
               },
               {
                 "sourceTag": "scope:shared",
-                "onlyDependOnLibsWithTags": ["scope:core"]
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:shared"]
               },
               {
                 "sourceTag": "scope:acf",

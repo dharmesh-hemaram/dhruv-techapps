@@ -1,7 +1,7 @@
 import { ActionSettings, RETRY_OPTIONS } from '@dhruv-techapps/acf-common';
+import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { ConfigError, Logger } from '@dhruv-techapps/core-common';
 import { wait } from '@dhruv-techapps/shared-util';
-import SettingsStorage from './store/settings-storage';
 
 const LOGGER_LETTER = 'Common';
 const Common = (() => {

@@ -6,7 +6,7 @@ import { wait } from '@dhruv-techapps/shared-util';
 import { StatusBar } from '@dhruv-techapps/status-bar';
 import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import Common from './common';
-import Value from './util/value';
+import Value from '../../../../libs/acf/acf-util/src/lib/value';
 
 const LOGGER_LETTER = 'Addon';
 

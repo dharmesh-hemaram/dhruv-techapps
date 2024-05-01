@@ -1,10 +1,10 @@
 import { Action, Batch } from '@dhruv-techapps/acf-common';
+import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { NotificationsService } from '@dhruv-techapps/core-service';
 import { wait } from '@dhruv-techapps/shared-util';
 import { StatusBar } from '@dhruv-techapps/status-bar';
 import Actions from './actions';
 import Common from './common';
-import SettingsStorage from './store/settings-storage';
 
 const LOGGER_LETTER = 'Batch';
 

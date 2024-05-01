@@ -1,4 +1,4 @@
-type ManifestResult = {
+export type ManifestResult = {
   [key: string]: string | ManifestResult;
 };
 

@@ -1,5 +1,6 @@
 import { Configuration } from '@dhruv-techapps/acf-common';
 import { DiscordMessagingService, GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { ConfigError, Logger } from '@dhruv-techapps/core-common';
 import { NotificationsService } from '@dhruv-techapps/core-service';
 import { wait } from '@dhruv-techapps/shared-util';
@@ -7,7 +8,8 @@ import { StatusBar } from '@dhruv-techapps/status-bar';
 import BatchProcessor from './batch';
 import Common from './common';
 import { Hotkey } from './hotkey';
-import SettingsStorage from './store/settings-storage';
+import { GoogleSheetsCS } from '@dhruv-techapps/google-sheets';
+import { Session } from '@dhruv-techapps/acf-util';
 import GoogleSheets from './util/google-sheets';
 
 const LOGGER_LETTER = 'Config';
@@ -39,7 +41,8 @@ const ConfigProcessor = (() => {
   };
 
   const start = async (config: Configuration) => {
-    await new GoogleSheets().getValues(config);
+    const { sheets, sessionCount } = GoogleSheets.getSheets(config);
+    window.__sheets = await new GoogleSheetsCS().getValues(sheets, sessionCount, config.spreadsheetId);
     try {
       await BatchProcessor.start(config.actions, config.batch);
       const { notifications } = await new SettingsStorage().getSettings();

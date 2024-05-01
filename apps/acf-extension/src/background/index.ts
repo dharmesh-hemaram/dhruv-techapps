@@ -3,16 +3,17 @@ import { RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
 import { Runtime } from '@dhruv-techapps/core-extension';
 
 import registerContextMenus from './context-menu';
-import registerNotifications from './notifications';
 import DiscordOauth2 from './discord-oauth2';
-import GoogleSheets from './google-sheets';
 import GoogleBackup from './google-backup';
 import { TabsMessenger } from './tab';
 import { ACTION_POPUP } from '../common/constant';
 import { OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
-import GoogleOauth2 from './google-oauth2';
+
 import DiscordMessaging from './discord-messaging';
 import { GoogleAnalytics } from './google-analytics';
+import { registerNotifications } from '@dhruv-techapps/notifications';
+import { GoogleOauth2Background, RUNTIME_MESSAGE_GOOGLE_OAUTH2 } from '@dhruv-techapps/google-oauth';
+import { GoogleSheetsBackground, RUNTIME_MESSAGE_GOOGLE_SHEETS } from '@dhruv-techapps/google-sheets';
 
 let googleAnalytics: GoogleAnalytics | undefined;
 try {
@@ -61,9 +62,9 @@ try {
   const onMessageListener = {
     [RUNTIME_MESSAGE_ACF.DISCORD_OAUTH2]: new DiscordOauth2(),
     [RUNTIME_MESSAGE_ACF.DISCORD_MESSAGING]: new DiscordMessaging(),
-    [RUNTIME_MESSAGE_ACF.GOOGLE_OAUTH2]: new GoogleOauth2(),
+    [RUNTIME_MESSAGE_GOOGLE_OAUTH2]: new GoogleOauth2Background(),
     [RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP]: new GoogleBackup(),
-    [RUNTIME_MESSAGE_ACF.GOOGLE_SHEETS]: new GoogleSheets(),
+    [RUNTIME_MESSAGE_GOOGLE_SHEETS]: new GoogleSheetsBackground(),
     [RUNTIME_MESSAGE_ACF.TABS]: new TabsMessenger(),
     [RUNTIME_MESSAGE_ACF.GOOGLE_ANALYTICS]: googleAnalytics,
   };

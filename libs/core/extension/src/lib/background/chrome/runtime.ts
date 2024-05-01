@@ -1,11 +1,9 @@
-import { ActionMessenger, ActionRequest, ManifestMessenger, ManifestRequest, NotificationsMessenger, NotificationsRequest, StorageMessenger, StorageRequest } from './messenger';
+import { ActionMessenger, ManifestMessenger, NotificationsMessenger, StorageMessenger } from './messenger';
 
 export type MessengerConfigObject = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 };
-
-export type RuntimeMessageRequest = ActionRequest | ManifestRequest | NotificationsRequest | StorageRequest;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const messageListener = async (request: any, sender: chrome.runtime.MessageSender, configs: MessengerConfigObject): Promise<any> => {
