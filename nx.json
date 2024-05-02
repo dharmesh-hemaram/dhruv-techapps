@@ -95,8 +95,7 @@
       "notifications"
     ],
     "version": {
-      "preVersionCommand": "npx nx run-many -t=build --verbose",
-      "conventionalCommits": true
+      "preVersionCommand": "npx nx run-many -t=build --verbose"
     },
     "changelog": {
       "workspaceChangelog": {
