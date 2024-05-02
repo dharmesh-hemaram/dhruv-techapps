@@ -6,6 +6,9 @@
     "start": ""
   },
   "private": true,
+  "publishConfig": {
+    "@dhruv-techapps:registry": "https://npm.pkg.github.com"
+  },
   "dependencies": {
     "@nx/devkit": "18.3.4",
     "@reactour/tour": "^3.6.1",
