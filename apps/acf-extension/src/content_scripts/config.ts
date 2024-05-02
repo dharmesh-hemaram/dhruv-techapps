@@ -1,14 +1,15 @@
 import { Configuration } from '@dhruv-techapps/acf-common';
-import { DiscordMessagingService, GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { ConfigError, Logger } from '@dhruv-techapps/core-common';
 import { NotificationsService } from '@dhruv-techapps/core-service';
+import { DiscordMessagingService } from '@dhruv-techapps/discord-messaging';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
+import { GoogleSheetsCS } from '@dhruv-techapps/google-sheets';
 import BatchProcessor from './batch';
 import Common from './common';
 import { Hotkey } from './hotkey';
-import { GoogleSheetsCS } from '@dhruv-techapps/google-sheets';
-import GoogleSheets from './util/google-sheets';
 import { statusBar } from './status-bar';
+import GoogleSheets from './util/google-sheets';
 
 const LOGGER_LETTER = 'Config';
 const ConfigProcessor = (() => {

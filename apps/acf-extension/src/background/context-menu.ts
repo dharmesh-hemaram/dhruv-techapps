@@ -1,6 +1,9 @@
 import { LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
-import { ACTION_POPUP, CONTEXT_MENU_CONFIG_PAGE_ID, CONTEXT_MENU_ELEMENT_ID } from '../common/constant';
-import { GoogleAnalytics } from './google-analytics';
+import { ACTION_POPUP } from '../common/constant';
+import { GoogleAnalytics } from '@dhruv-techapps/google-analytics';
+
+const CONTEXT_MENU_ELEMENT_ID = 'element-mode';
+const CONTEXT_MENU_CONFIG_PAGE_ID = 'config-page-mode';
 
 export default function registerContextMenus(optionsPageUrl?: string, googleAnalytics?: GoogleAnalytics) {
   chrome.contextMenus.removeAll();

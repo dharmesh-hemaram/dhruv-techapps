@@ -1,20 +1,22 @@
-import { Discord, LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
-import { DISCORD_CLIENT_ID } from '../common/environments';
 import { RESPONSE_CODE, getRandomValues } from '@dhruv-techapps/core-common';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
+import { LOCAL_STORAGE_KEY_DISCORD, NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './discord-oauth.constant';
+import { Discord } from './discord-oauth.types';
 
-export const NOTIFICATIONS_TITLE = 'Discord Authentication';
-export const NOTIFICATIONS_ID = 'discord';
+export class DiscordOauth2 {
+  clientId;
+  constructor(clientId = '') {
+    this.clientId = clientId;
+  }
 
-export default class DiscordOauth2 {
   async remove() {
-    await chrome.storage.local.remove(LOCAL_STORAGE_KEY.DISCORD);
+    await chrome.storage.local.remove(LOCAL_STORAGE_KEY_DISCORD);
     return RESPONSE_CODE.REMOVED;
   }
 
   async login() {
     try {
-      const regexResult = /\d+/.exec(DISCORD_CLIENT_ID || '');
+      const regexResult = /\d+/.exec(this.clientId);
       if (!regexResult) {
         NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'Discord Client ID Missing');
         return;
@@ -33,7 +35,7 @@ export default class DiscordOauth2 {
       const responseUrl = await chrome.identity.launchWebAuthFlow({ url, interactive: true });
       if (responseUrl) {
         if (chrome.runtime.lastError || responseUrl.includes('access_denied')) {
-          NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, chrome.runtime.lastError?.message || responseUrl);
+          NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, chrome.runtime.lastError?.message ?? responseUrl);
           return RESPONSE_CODE.ERROR;
         }
         const responseUrlRegExpMatchArray = responseUrl.match(/token=(.+?)&/);
@@ -47,6 +49,7 @@ export default class DiscordOauth2 {
       }
       return RESPONSE_CODE.ERROR;
     }
+    return undefined;
   }
 
   async getCurrentUser(token: string): Promise<Discord> {
@@ -56,7 +59,7 @@ export default class DiscordOauth2 {
       },
     });
     const discordResponse: Discord = await response.json();
-    chrome.storage.local.set({ [LOCAL_STORAGE_KEY.DISCORD]: discordResponse });
+    chrome.storage.local.set({ [LOCAL_STORAGE_KEY_DISCORD]: discordResponse });
     return discordResponse;
   }
 }

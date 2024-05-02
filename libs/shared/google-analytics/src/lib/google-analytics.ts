@@ -1,32 +1,15 @@
-import { API_SECRET, MEASUREMENT_ID } from '../common/environments';
-
-const GA_ENDPOINT = 'https://www.google-analytics.com/mp/collect';
-
-const GA_DEBUG_ENDPOINT = 'https://www.google-analytics.com/debug/mp/collect';
-
-const DEFAULT_ENGAGEMENT_TIME_MSEC = 100;
-
-// Duration of inactivity after which a new session is created
-const SESSION_EXPIRATION_IN_MIN = 30;
-
-type FirePageViewEventParams = {
-  name?: string;
-  pageTitle: string;
-  pageLocation: string;
-  additionalParams?: Record<string, unknown>;
-};
-
-type FireErrorEventParams = {
-  error: string;
-  name?: string;
-  additionalParams?: Record<string, unknown>;
-};
-
-type FireEventParams = { name: string; params?: Record<string, unknown> };
+import { DEFAULT_ENGAGEMENT_TIME_MSEC, GA_DEBUG_ENDPOINT, GA_ENDPOINT, SESSION_EXPIRATION_IN_MIN } from './google-analytics.constant';
+import { FireErrorEventParams, FireEventParams, FirePageViewEventParams } from './google-analytics.types';
 
 export class GoogleAnalytics {
   debug: boolean;
-  constructor(debug = false) {
+  constructor(
+    private MEASUREMENT_ID?: string,
+    private API_SECRET?: string,
+    debug = false
+  ) {
+    this.MEASUREMENT_ID = MEASUREMENT_ID;
+    this.API_SECRET = API_SECRET;
     this.debug = debug;
   }
 
@@ -84,7 +67,7 @@ export class GoogleAnalytics {
     params.user_id = await this.getOrCreateClientId();
     params.version = chrome.runtime.getManifest().version;
     try {
-      await fetch(`${this.debug ? GA_DEBUG_ENDPOINT : GA_ENDPOINT}?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`, {
+      await fetch(`${this.debug ? GA_DEBUG_ENDPOINT : GA_ENDPOINT}?measurement_id=${this.MEASUREMENT_ID}&api_secret=${this.API_SECRET}`, {
         method: 'POST',
         body: JSON.stringify({
           client_id: await this.getOrCreateClientId(),
