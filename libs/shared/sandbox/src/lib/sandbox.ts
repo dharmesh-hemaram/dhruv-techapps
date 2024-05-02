@@ -39,7 +39,7 @@ export const Sandbox = (() => {
           remove();
           window.removeEventListener('message', listener);
           if (error) {
-            reject(error);
+            reject(new Error(error));
           } else {
             resolve(result);
           }

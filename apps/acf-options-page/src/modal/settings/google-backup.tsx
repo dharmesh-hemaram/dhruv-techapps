@@ -1,6 +1,6 @@
 import { Accordion, Button, Card, Image, ListGroup, NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { AUTO_BACKUP, DriveFile } from '@dhruv-techapps/acf-common';
+import { AUTO_BACKUP, DriveFile, GoogleDriveService } from '@dhruv-techapps/google-drive';
 import { CloudArrowDownFill, CloudArrowUpFill, Trash } from '../../util';
 import { GoogleBackupService } from '@dhruv-techapps/acf-service';
 import GoogleSignInLight from '../../assets/btn_google_signin_light_normal_web.png';
@@ -31,7 +31,7 @@ export function SettingsGoogleBackup() {
 
   useEffect(() => {
     setFilesLoading(true);
-    GoogleBackupService.listWithContent(window.EXTENSION_ID).then((files) => {
+    GoogleDriveService.listWithContent(window.EXTENSION_ID).then((files) => {
       setFiles(files);
       setFilesLoading(false);
     });
@@ -39,7 +39,7 @@ export function SettingsGoogleBackup() {
 
   const onBackup = async (autoBackup?: AUTO_BACKUP) => {
     if (autoBackup) {
-      GoogleBackupService.autoBackup(window.EXTENSION_ID, autoBackup).then(() => {
+      GoogleDriveService.autoBackup(window.EXTENSION_ID, autoBackup).then(() => {
         dispatch(updateSettingsBackup(autoBackup));
       });
     } else {
@@ -57,7 +57,7 @@ export function SettingsGoogleBackup() {
   };
 
   const deleteFile = async (id: string, name: string) => {
-    GoogleBackupService.delete(window.EXTENSION_ID, id, name)
+    GoogleDriveService.delete(window.EXTENSION_ID, id, name)
       .then(() => {
         setFiles(files?.filter((file) => file.id !== id));
       })
