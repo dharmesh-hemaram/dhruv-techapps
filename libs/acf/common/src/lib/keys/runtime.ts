@@ -6,5 +6,3 @@ export enum RUNTIME_MESSAGE_ACF {
   TABS = 'tabs',
   GOOGLE_ANALYTICS = 'google-analytics',
 }
-
-
