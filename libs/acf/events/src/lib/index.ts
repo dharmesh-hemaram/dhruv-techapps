@@ -18,8 +18,9 @@ import { LocationCommandEvents } from './location-command.events';
 import { PlainEvents } from './plain.events';
 import { KeyboardEvents } from './keyboard.events';
 import { TabsEvents } from './tabs.events';
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+
 import { ClipboardEvents } from './clipboard.events';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 
 const DEFAULT_EVENT = ['mouseover', 'mousedown', 'mouseup', 'click'];
 

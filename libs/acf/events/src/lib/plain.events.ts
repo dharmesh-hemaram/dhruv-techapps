@@ -1,7 +1,7 @@
 import { Logger } from '@dhruv-techapps/core-common';
 import { RADIO_CHECKBOX_NODE_NAME } from '@dhruv-techapps/acf-common';
 import CommonEvents from './common.events';
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 
 const DEFAULT_EVENT = ['mouseover', 'mousedown', 'mouseup', 'click'];
 const CHANGE_EVENT = ['input', 'change'];

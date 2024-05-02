@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"],
-      "cache": false
+      "cache": true
     },
     "e2e": {
       "inputs": ["default", "^production"],
@@ -13,13 +13,13 @@
     },
     "@nx/eslint:lint": {
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
-      "cache": false
+      "cache": true
     },
     "package": {
       "cache": true
     },
     "@nx/jest:jest": {
-      "cache": false,
+      "cache": true,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "options": {
         "passWithNoTests": true
@@ -95,7 +95,7 @@
       "notifications"
     ],
     "version": {
-      "preVersionCommand": "npx nx run-many -t build",
+      "preVersionCommand": "npx nx run-many -t=build --verbose",
       "conventionalCommits": true
     },
     "changelog": {

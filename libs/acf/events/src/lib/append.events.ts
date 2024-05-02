@@ -1,7 +1,7 @@
 import { Logger, ConfigError } from '@dhruv-techapps/core-common';
 import { RADIO_CHECKBOX_NODE_NAME } from '@dhruv-techapps/acf-common';
 import CommonEvents, { UNKNOWN_ELEMENT_TYPE_ERROR } from './common.events';
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 
 const CHANGE_EVENT = ['input', 'change'];
 export const AppendEvents = (() => {

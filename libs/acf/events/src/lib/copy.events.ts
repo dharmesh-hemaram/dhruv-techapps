@@ -1,6 +1,6 @@
 import { Logger } from '@dhruv-techapps/core-common';
 import { RADIO_CHECKBOX_NODE_NAME } from '@dhruv-techapps/acf-common';
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 
 const LOCAL_STORAGE_COPY = 'auto-clicker-copy';
 const LOGGER_LETTER = 'CopyEvents';
