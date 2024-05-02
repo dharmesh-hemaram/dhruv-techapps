@@ -1,8 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { AUTO_BACKUP, LOCAL_STORAGE_KEY, Settings, defaultSettings, defaultSettingsNotifications } from '@dhruv-techapps/acf-common';
+import { LOCAL_STORAGE_KEY, Settings, defaultSettings, defaultSettingsNotifications } from '@dhruv-techapps/acf-common';
 import { googleGetAPI, googleLoginAPI, settingsGetAPI } from './settings.api';
 import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
+import { AUTO_BACKUP } from '@dhruv-techapps/google-drive';
 
 type SettingsStore = {
   visible: boolean;

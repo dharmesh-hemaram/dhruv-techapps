@@ -1,7 +1,6 @@
 import { Discord, LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
 import { DISCORD_CLIENT_ID } from '../common/environments';
-import { getRandomValues } from './util';
-import { RESPONSE_CODE } from '@dhruv-techapps/core-common';
+import { RESPONSE_CODE, getRandomValues } from '@dhruv-techapps/core-common';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
 
 export const NOTIFICATIONS_TITLE = 'Discord Authentication';

@@ -4,7 +4,6 @@ import { Runtime } from '@dhruv-techapps/core-extension';
 
 import registerContextMenus from './context-menu';
 import DiscordOauth2 from './discord-oauth2';
-import GoogleBackup from './google-backup';
 import { TabsMessenger } from './tab';
 import { ACTION_POPUP } from '../common/constant';
 import { OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
@@ -14,6 +13,8 @@ import { GoogleAnalytics } from './google-analytics';
 import { registerNotifications } from '@dhruv-techapps/notifications';
 import { GoogleOauth2Background, RUNTIME_MESSAGE_GOOGLE_OAUTH2 } from '@dhruv-techapps/google-oauth';
 import { GoogleSheetsBackground, RUNTIME_MESSAGE_GOOGLE_SHEETS } from '@dhruv-techapps/google-sheets';
+import { GoogleDriveBackground, RUNTIME_MESSAGE_GOOGLE_DRIVE } from '@dhruv-techapps/google-drive';
+import AcfBackup from './acf-backup';
 
 let googleAnalytics: GoogleAnalytics | undefined;
 try {
@@ -63,8 +64,9 @@ try {
     [RUNTIME_MESSAGE_ACF.DISCORD_OAUTH2]: new DiscordOauth2(),
     [RUNTIME_MESSAGE_ACF.DISCORD_MESSAGING]: new DiscordMessaging(),
     [RUNTIME_MESSAGE_GOOGLE_OAUTH2]: new GoogleOauth2Background(),
-    [RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP]: new GoogleBackup(),
+    [RUNTIME_MESSAGE_GOOGLE_DRIVE]: new GoogleDriveBackground(),
     [RUNTIME_MESSAGE_GOOGLE_SHEETS]: new GoogleSheetsBackground(),
+    [RUNTIME_MESSAGE_ACF.ACF_BACKUP]: new AcfBackup(),
     [RUNTIME_MESSAGE_ACF.TABS]: new TabsMessenger(),
     [RUNTIME_MESSAGE_ACF.GOOGLE_ANALYTICS]: googleAnalytics,
   };

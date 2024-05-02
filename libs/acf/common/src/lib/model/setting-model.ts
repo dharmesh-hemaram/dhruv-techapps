@@ -1,3 +1,4 @@
+import { AUTO_BACKUP } from '@dhruv-techapps/google-drive';
 import { STATUS_BAR_LOCATION } from '@dhruv-techapps/status-bar';
 
 export enum RETRY_OPTIONS {
@@ -5,13 +6,6 @@ export enum RETRY_OPTIONS {
   SKIP = 'skip',
   RELOAD = 'reload',
   GOTO = 'goto',
-}
-
-export enum AUTO_BACKUP {
-  DAILY = 'daily',
-  WEEKLY = 'weekly',
-  MONTHLY = 'monthly',
-  OFF = 'off',
 }
 
 export type SettingsNotifications = {
@@ -83,11 +77,4 @@ export type Google = {
   name: string;
   picture: string;
   sub: string;
-};
-
-export type DriveFile = {
-  id: string;
-  name: string;
-  modifiedTime: string;
-  content?: string;
 };

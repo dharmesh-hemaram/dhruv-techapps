@@ -52,5 +52,6 @@ export class GoogleSheetsBackground extends GoogleOauth2Background {
       }
       await this.removeCachedAuthToken();
     }
+    return;
   }
 }
