@@ -27,15 +27,11 @@ export const Value = (() => {
       return result;
     });
 
-  const getBatchRepeat = (value: string) => {
-    value = value.replaceAll('<batchRepeat>', String(window.__batchRepeat));
-    return value;
-  };
+  const getBatchRepeat = (value: string) => value.replaceAll('<batchRepeat>', String(window.__batchRepeat));
 
-  const getActionRepeat = (value: string) => {
-    value = value.replaceAll('<actionRepeat>', String(window.__actionRepeat));
-    return value;
-  };
+  const getActionRepeat = (value: string) => value.replaceAll('<actionRepeat>', String(window.__actionRepeat));
+
+  const getSessionCount = (value: string, sessionCount: number | undefined) => value.replaceAll('<sessionCount>', String(sessionCount));
 
   const getSheetValue = (value: string) => {
     const sheets = window.__sheets;
@@ -50,7 +46,11 @@ export const Value = (() => {
     if (!values) {
       throw new ConfigError(`Sheet "${sheetName}" do not have value in ${startRange}`, 'Sheet values not found');
     }
-    const currentRange = range.replaceAll('<batchRepeat>', String(window.__batchRepeat + 1)).replaceAll('<sessionCount>', String(sessionCount));
+
+    let currentRange = getBatchRepeat(range);
+    currentRange = getActionRepeat(currentRange);
+    currentRange = getSessionCount(currentRange, sessionCount);
+
     if (!/(\D+)(\d+)/.test(currentRange)) {
       throw new ConfigError(`Sheet range is not valid${range}`, 'Sheet range invalid');
     }
