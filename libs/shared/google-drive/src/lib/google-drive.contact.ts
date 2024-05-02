@@ -6,8 +6,3 @@ export const NOTIFICATIONS_TITLE = 'Google Drive Backup';
 export const NOTIFICATIONS_ID = 'sheets';
 
 export const RUNTIME_MESSAGE_GOOGLE_DRIVE = 'google-drive';
-
-export const BACKUP_FILE_NAMES = {
-  CONFIGS: `configs.txt`,
-  SETTINGS: `settings.txt`,
-};
