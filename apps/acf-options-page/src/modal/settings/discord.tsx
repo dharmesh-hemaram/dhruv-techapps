@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { StorageService } from '@dhruv-techapps/core-service';
-import { Button, Form, Image } from 'react-bootstrap';
 import { Discord, LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
-import PropTypes from 'prop-types';
-import { DiscordOauthService } from '@dhruv-techapps/acf-service';
 import { RESPONSE_CODE } from '@dhruv-techapps/core-common';
+import { StorageService } from '@dhruv-techapps/core-service';
+import { DiscordOauthService } from '@dhruv-techapps/discord-oauth';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { Button, Form, Image } from 'react-bootstrap';
 
 function SettingDiscord({ onChange, label, checked }) {
   const [discord, setDiscord] = useState<Discord>();

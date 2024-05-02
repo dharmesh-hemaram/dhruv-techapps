@@ -1,11 +1,11 @@
 import { ADDON_CONDITIONS, ActionSettings, Addon, RECHECK_OPTIONS, ValueExtractorFlags } from '@dhruv-techapps/acf-common';
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { Value } from '@dhruv-techapps/acf-util';
 import { ConfigError, Logger, SystemError } from '@dhruv-techapps/core-common';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 import { Sandbox } from '@dhruv-techapps/sandbox';
 import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import Common from './common';
 import { statusBar } from './status-bar';
-import { Value } from '@dhruv-techapps/acf-util';
 
 const LOGGER_LETTER = 'Addon';
 

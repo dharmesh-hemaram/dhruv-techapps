@@ -1,20 +1,19 @@
 /* eslint-disable no-new */
 import { RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
 import { Runtime } from '@dhruv-techapps/core-extension';
-
-import registerContextMenus from './context-menu';
-import DiscordOauth2 from './discord-oauth2';
-import { TabsMessenger } from './tab';
-import { ACTION_POPUP } from '../common/constant';
-import { OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
-
-import DiscordMessaging from './discord-messaging';
-import { GoogleAnalytics } from './google-analytics';
-import { registerNotifications } from '@dhruv-techapps/notifications';
+import { DiscordMessaging, RUNTIME_MESSAGE_DISCORD_MESSAGING } from '@dhruv-techapps/discord-messaging';
+import { DiscordOauth2, RUNTIME_MESSAGE_DISCORD_OAUTH2 } from '@dhruv-techapps/discord-oauth';
+import { GoogleAnalytics, RUNTIME_MESSAGE_GOOGLE_ANALYTICS } from '@dhruv-techapps/google-analytics';
+import { GoogleDriveBackground, RUNTIME_MESSAGE_GOOGLE_DRIVE } from '@dhruv-techapps/google-drive';
 import { GoogleOauth2Background, RUNTIME_MESSAGE_GOOGLE_OAUTH2 } from '@dhruv-techapps/google-oauth';
 import { GoogleSheetsBackground, RUNTIME_MESSAGE_GOOGLE_SHEETS } from '@dhruv-techapps/google-sheets';
-import { GoogleDriveBackground, RUNTIME_MESSAGE_GOOGLE_DRIVE } from '@dhruv-techapps/google-drive';
+import { registerNotifications } from '@dhruv-techapps/notifications';
+
+import { ACTION_POPUP } from '../common/constant';
+import { API_SECRET, DISCORD_CLIENT_ID, FUNCTION_URL, MEASUREMENT_ID, OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
 import AcfBackup from './acf-backup';
+import registerContextMenus from './context-menu';
+import { TabsMessenger } from './tab';
 
 let googleAnalytics: GoogleAnalytics | undefined;
 try {
@@ -56,19 +55,19 @@ try {
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
   }
 
-  googleAnalytics = new GoogleAnalytics(VARIANT === 'LOCAL');
+  googleAnalytics = new GoogleAnalytics(MEASUREMENT_ID, API_SECRET, VARIANT === 'LOCAL');
   /**
    * Setup on Message Listener
    */
   const onMessageListener = {
-    [RUNTIME_MESSAGE_ACF.DISCORD_OAUTH2]: new DiscordOauth2(),
-    [RUNTIME_MESSAGE_ACF.DISCORD_MESSAGING]: new DiscordMessaging(),
+    [RUNTIME_MESSAGE_DISCORD_OAUTH2]: new DiscordOauth2(DISCORD_CLIENT_ID),
+    [RUNTIME_MESSAGE_DISCORD_MESSAGING]: new DiscordMessaging(VARIANT, FUNCTION_URL),
     [RUNTIME_MESSAGE_GOOGLE_OAUTH2]: new GoogleOauth2Background(),
     [RUNTIME_MESSAGE_GOOGLE_DRIVE]: new GoogleDriveBackground(),
     [RUNTIME_MESSAGE_GOOGLE_SHEETS]: new GoogleSheetsBackground(),
+    [RUNTIME_MESSAGE_GOOGLE_ANALYTICS]: googleAnalytics,
     [RUNTIME_MESSAGE_ACF.ACF_BACKUP]: new AcfBackup(),
     [RUNTIME_MESSAGE_ACF.TABS]: new TabsMessenger(),
-    [RUNTIME_MESSAGE_ACF.GOOGLE_ANALYTICS]: googleAnalytics,
   };
   Runtime.onMessageExternal(onMessageListener);
   Runtime.onMessage(onMessageListener);

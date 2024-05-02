@@ -5,7 +5,7 @@ import { Discord } from './discord-oauth.types';
 
 export class DiscordOauth2 {
   clientId;
-  constructor(clientId: string) {
+  constructor(clientId = '') {
     this.clientId = clientId;
   }
 
@@ -16,7 +16,7 @@ export class DiscordOauth2 {
 
   async login() {
     try {
-      const regexResult = /\d+/.exec(this.clientId || '');
+      const regexResult = /\d+/.exec(this.clientId);
       if (!regexResult) {
         NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'Discord Client ID Missing');
         return;
@@ -35,7 +35,7 @@ export class DiscordOauth2 {
       const responseUrl = await chrome.identity.launchWebAuthFlow({ url, interactive: true });
       if (responseUrl) {
         if (chrome.runtime.lastError || responseUrl.includes('access_denied')) {
-          NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, chrome.runtime.lastError?.message || responseUrl);
+          NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, chrome.runtime.lastError?.message ?? responseUrl);
           return RESPONSE_CODE.ERROR;
         }
         const responseUrlRegExpMatchArray = responseUrl.match(/token=(.+?)&/);
@@ -49,6 +49,7 @@ export class DiscordOauth2 {
       }
       return RESPONSE_CODE.ERROR;
     }
+    return undefined;
   }
 
   async getCurrentUser(token: string): Promise<Discord> {

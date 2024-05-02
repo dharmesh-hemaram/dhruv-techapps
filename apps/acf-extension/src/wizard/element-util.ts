@@ -1,4 +1,4 @@
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 import { BUTTON_FILE_SUBMIT_NODE_NAME, RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import { xPath } from './dom-path';
 import { WizardAction } from './type';
