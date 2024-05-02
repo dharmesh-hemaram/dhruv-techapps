@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import { StorageService } from '@dhruv-techapps/core-service';
 import { Button, Form, Image } from 'react-bootstrap';
-import { Discord, LOCAL_STORAGE_KEY, RESPONSE_CODE } from '@dhruv-techapps/acf-common';
+import { Discord, LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
 import PropTypes from 'prop-types';
 import { DiscordOauthService } from '@dhruv-techapps/acf-service';
+import { RESPONSE_CODE } from '@dhruv-techapps/core-common';
 
 function SettingDiscord({ onChange, label, checked }) {
   const [discord, setDiscord] = useState<Discord>();
 
   useEffect(() => {
-    StorageService.get<{ discord: Discord }>(window.EXTENSION_ID, LOCAL_STORAGE_KEY.DISCORD)
+    StorageService.get<LOCAL_STORAGE_KEY.DISCORD, Discord>(window.EXTENSION_ID, LOCAL_STORAGE_KEY.DISCORD)
       .then(({ discord: result }) => {
         if (result) {
           setDiscord(result);
@@ -20,7 +21,7 @@ function SettingDiscord({ onChange, label, checked }) {
 
   const connect = async () => {
     const response = await DiscordOauthService.login(window.EXTENSION_ID);
-    if (response !== RESPONSE_CODE.ERROR) {
+    if (response !== undefined && response !== RESPONSE_CODE.ERROR) {
       setDiscord(response);
     }
   };

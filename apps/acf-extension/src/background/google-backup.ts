@@ -1,8 +1,8 @@
 /*global chrome*/
 
-import { AUTO_BACKUP, DriveFile, GOOGLE_SCOPES, LOCAL_STORAGE_KEY, getDefaultConfig, defaultSettings } from '@dhruv-techapps/acf-common';
-import GoogleOauth2 from './google-oauth2';
-import { NotificationHandler } from './notifications';
+import { AUTO_BACKUP, DriveFile, LOCAL_STORAGE_KEY, getDefaultConfig, defaultSettings } from '@dhruv-techapps/acf-common';
+import { GOOGLE_SCOPES, GoogleOauth2Background } from '@dhruv-techapps/google-oauth';
+import { NotificationHandler } from '@dhruv-techapps/notifications';
 
 const BACKUP_ALARM = 'backupAlarm';
 const BACKUP_FILE_NAMES = {
@@ -22,7 +22,7 @@ type GoogleDriveFile = {
   files: Array<DriveFile>;
 };
 
-export default class GoogleBackup extends GoogleOauth2 {
+export default class GoogleBackup extends GoogleOauth2Background {
   scopes = [GOOGLE_SCOPES.DRIVE, GOOGLE_SCOPES.PROFILE];
   async setAlarm(autoBackup: AUTO_BACKUP) {
     const alarmInfo: chrome.alarms.AlarmCreateInfo = { when: Date.now() + 500 };

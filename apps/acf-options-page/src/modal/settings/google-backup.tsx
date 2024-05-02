@@ -1,6 +1,6 @@
 import { Accordion, Button, Card, Image, ListGroup, NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { AUTO_BACKUP, DriveFile, GOOGLE_SCOPES } from '@dhruv-techapps/acf-common';
+import { AUTO_BACKUP, DriveFile } from '@dhruv-techapps/acf-common';
 import { CloudArrowDownFill, CloudArrowUpFill, Trash } from '../../util';
 import { GoogleBackupService } from '@dhruv-techapps/acf-service';
 import GoogleSignInLight from '../../assets/btn_google_signin_light_normal_web.png';
@@ -11,6 +11,7 @@ import { useConfirmationModalContext } from '../../_providers/confirm.provider';
 import { themeSelector } from '../../store/theme.slice';
 import { googleLoginAPI } from '../../store/settings/settings.api';
 import { useEffect, useState } from 'react';
+import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
 
 export function SettingsGoogleBackup() {
   const { t } = useTranslation();

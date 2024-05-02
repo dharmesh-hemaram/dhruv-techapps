@@ -12,7 +12,7 @@ export const getManifest = createAsyncThunk('app/getManifest', async () => {
 });
 
 type AppStore = {
-  manifest?: chrome.runtime.Manifest;
+  manifest?: Partial<chrome.runtime.Manifest>;
   error?: string;
   loading: boolean;
   extensionNotFound: boolean;

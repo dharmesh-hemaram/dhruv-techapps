@@ -3,8 +3,8 @@ import { StorageMessengerGetProps, StorageMessengerRemoveProps, StorageMessenger
 
 export class StorageService extends CoreService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static async get(extensionId: string, keys: StorageMessengerGetProps) {
-    return await this.message<StorageRequest, StorageMessengerSetProps>(extensionId, { messenger: 'storage', methodName: 'get', message: keys });
+  static async get<T extends string | number | symbol = string, K = any>(extensionId: string, keys: StorageMessengerGetProps) {
+    return await this.message<StorageRequest, StorageMessengerSetProps<T, K>>(extensionId, { messenger: 'storage', methodName: 'get', message: keys });
   }
 
   static async set(extensionId: string, items: StorageMessengerSetProps) {

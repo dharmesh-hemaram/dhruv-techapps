@@ -1,7 +1,8 @@
-import { LOCAL_STORAGE_KEY, RESPONSE_CODE } from '@dhruv-techapps/acf-common';
+import { Discord, LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
 import { DISCORD_CLIENT_ID } from '../common/environments';
-import { NotificationHandler } from './notifications';
 import { getRandomValues } from './util';
+import { RESPONSE_CODE } from '@dhruv-techapps/core-common';
+import { NotificationHandler } from '@dhruv-techapps/notifications';
 
 export const NOTIFICATIONS_TITLE = 'Discord Authentication';
 export const NOTIFICATIONS_ID = 'discord';
@@ -49,14 +50,14 @@ export default class DiscordOauth2 {
     }
   }
 
-  async getCurrentUser(token: string) {
-    let response = await fetch('https://discord.com/api/users/@me', {
+  async getCurrentUser(token: string): Promise<Discord> {
+    const response = await fetch('https://discord.com/api/users/@me', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    response = await response.json();
-    chrome.storage.local.set({ [LOCAL_STORAGE_KEY.DISCORD]: response });
-    return response;
+    const discordResponse: Discord = await response.json();
+    chrome.storage.local.set({ [LOCAL_STORAGE_KEY.DISCORD]: discordResponse });
+    return discordResponse;
   }
 }

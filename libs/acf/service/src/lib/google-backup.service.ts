@@ -1,4 +1,5 @@
-import { AUTO_BACKUP, RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
+import { AUTO_BACKUP, DriveFile, RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
+import { RuntimeMessageRequest } from '@dhruv-techapps/core-common';
 import { CoreService } from '@dhruv-techapps/core-service';
 
 export class GoogleBackupService extends CoreService {
@@ -15,7 +16,7 @@ export class GoogleBackupService extends CoreService {
   }
 
   static async listWithContent(extensionId: string) {
-    return await this.message(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'listWithContent', message: true });
+    return await this.message<RuntimeMessageRequest<boolean>, Array<DriveFile>>(extensionId, { messenger: RUNTIME_MESSAGE_ACF.GOOGLE_BACKUP, methodName: 'listWithContent', message: true });
   }
 
   static async restore(extensionId: string, id: string, name: string) {

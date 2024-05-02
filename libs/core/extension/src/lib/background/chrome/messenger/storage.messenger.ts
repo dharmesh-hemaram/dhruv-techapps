@@ -1,5 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type StorageMessengerSetProps = { [key: string]: any };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type StorageMessengerSetProps<T extends string | number | symbol = string, K = any> = {
+  [key in T]: K;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type StorageMessengerGetProps = string | string[] | StorageMessengerSetProps | null | undefined;

@@ -1,7 +1,7 @@
+import { Timer } from '@dhruv-techapps/shared-util';
 import { STATUS_BAR_LOCATION } from './status-bar.types';
 
 export class StatusBar {
-  private static instance: StatusBar;
   private statusBar: HTMLDivElement = document.createElement('div');
   private icon: HTMLSpanElement = document.createElement('span');
   private batch: HTMLSpanElement = document.createElement('span');
@@ -10,25 +10,28 @@ export class StatusBar {
   private timer: HTMLSpanElement = document.createElement('span');
   private text: HTMLSpanElement = document.createElement('span');
 
-  private constructor() {
+  constructor() {
     this.statusBar = document.createElement('div');
     this.statusBar.id = 'auto-clicker-auto-fill-status';
-
     ['icon', 'text', 'batch', 'action', 'addon', 'timer'].forEach((el) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (this as any)[el].className = el;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.statusBar.appendChild((this as any)[el]);
     });
-    document.body.appendChild(this.statusBar);
   }
 
   public setLocation = async (location: STATUS_BAR_LOCATION) => {
     this.statusBar.className = location;
+    document.body.appendChild(this.statusBar);
   };
 
-  public wait(type: string, text: number, name: string | number): void {
+  public async wait(text?: number | string, type?: string, name?: string | number): Promise<void> {
     this.timer.textContent = '';
+    const waitTime = Timer.getWaitTime(text);
+    if (!waitTime) {
+      return;
+    }
     switch (type) {
       case 'Config wait':
         this.text.textContent = 'Config';
@@ -48,7 +51,8 @@ export class StatusBar {
         break;
     }
 
-    this.timer.textContent += '🕒' + text / 1000 + ' sec';
+    this.timer.textContent += '🕒' + waitTime / 1000 + ' sec';
+    await Timer.sleep(waitTime);
   }
 
   public addonUpdate(): void {
@@ -88,13 +92,6 @@ export class StatusBar {
     this.timer.textContent = '';
     this.text.textContent = 'Done';
   };
-
-  public static getInstance(): StatusBar {
-    if (!StatusBar.instance) {
-      StatusBar.instance = new StatusBar();
-    }
-    return StatusBar.instance;
-  }
 }
 
 export class ManualStatusBar {

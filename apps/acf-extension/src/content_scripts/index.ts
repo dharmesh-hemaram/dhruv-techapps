@@ -2,10 +2,10 @@ import { LOAD_TYPES } from '@dhruv-techapps/acf-common';
 import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 import { ConfigStorage, GetConfigResult } from '@dhruv-techapps/acf-store';
 import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
-import { StatusBar } from '@dhruv-techapps/status-bar';
 import ConfigProcessor from './config';
 import { Sheets } from '@dhruv-techapps/google-sheets';
 import { Session } from '@dhruv-techapps/acf-util';
+import { statusBar } from './status-bar';
 
 declare global {
   interface Window {
@@ -33,7 +33,7 @@ async function loadConfig(loadType: LOAD_TYPES) {
     });
   } catch (e) {
     if (e instanceof Error) {
-      StatusBar.getInstance().error(e.message);
+      statusBar.error(e.message);
       GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, e.name, e.message, { page: 'content_scripts' });
     }
   }

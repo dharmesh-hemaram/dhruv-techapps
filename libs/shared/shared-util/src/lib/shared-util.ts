@@ -1,28 +1,38 @@
-import { Logger } from '@dhruv-techapps/core-common';
-
-export const sleep = async (msec: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, msec);
-  });
-
-export const wait = async (time?: number | string, type = '', ...args: Array<string | number>) => {
-  if (time) {
+export const Timer = (function () {
+  const getWaitTime = (time?: number | string) => {
     let waitTime;
-    if (typeof time === 'string') {
-      if (/^\d+(\.\d+)?e\d+(\.\d+)?$/.test(time)) {
-        const [start, end] = time
-          .toString()
-          .split('e')
-          .map((n) => Number(n));
-        waitTime = (Math.floor(Math.random() * (end - start)) + start) * 1000;
+    if (time) {
+      if (typeof time === 'string') {
+        if (/^\d+(\.\d+)?e\d+(\.\d+)?$/.test(time)) {
+          const [start, end] = time
+            .toString()
+            .split('e')
+            .map((n) => Number(n));
+          waitTime = (Math.floor(Math.random() * (end - start)) + start) * 1000;
+        }
+      } else {
+        waitTime = Number(time) * 1000;
       }
-    } else {
-      waitTime = Number(time) * 1000;
     }
+    return waitTime;
+  };
+
+  const sleep = async (waitTime?: number) => {
     if (waitTime) {
-      // StatusBar.getInstance().wait(type, waitTime, args[0]);
-      Logger.colorDebug(type, ...args, `${waitTime / 1000} sec`);
-      await sleep(waitTime);
+      await new Promise((resolve) => {
+        setTimeout(resolve, waitTime);
+      });
     }
-  }
-};
+  };
+
+  const getTimeAndSleep = async (time?: number | string) => {
+    const waitTime = getWaitTime(time);
+    await sleep(waitTime);
+  };
+
+  return {
+    getWaitTime,
+    getTimeAndSleep,
+    sleep,
+  };
+})();

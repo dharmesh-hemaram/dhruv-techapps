@@ -2,11 +2,10 @@ import { ADDON_CONDITIONS, ActionSettings, Addon, RECHECK_OPTIONS, ValueExtracto
 import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
 import { ConfigError, Logger, SystemError } from '@dhruv-techapps/core-common';
 import { Sandbox } from '@dhruv-techapps/sandbox';
-import { wait } from '@dhruv-techapps/shared-util';
-import { StatusBar } from '@dhruv-techapps/status-bar';
 import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import Common from './common';
-import Value from '../../../../libs/acf/acf-util/src/lib/value';
+import { statusBar } from './status-bar';
+import { Value } from '@dhruv-techapps/acf-util';
 
 const LOGGER_LETTER = 'Addon';
 
@@ -17,7 +16,7 @@ const AddonProcessor = (() => {
     if (recheck !== undefined) {
       if (recheck > 0 || recheck < -1) {
         recheck -= 1;
-        await wait(props.recheckInterval, `${LOGGER_LETTER} recheck`, recheck + 1, '<interval>');
+        await statusBar.wait(props.recheckInterval, `${LOGGER_LETTER} recheck`, recheck + 1);
         // eslint-disable-next-line no-use-before-define
         return await start({ elementFinder, value, condition, recheck, recheckOption, ...props }, settings);
       }
@@ -115,7 +114,7 @@ const AddonProcessor = (() => {
 
   const start = async ({ elementFinder, value, condition, valueExtractor, valueExtractorFlags, ...props }: Addon, settings?: ActionSettings) => {
     try {
-      StatusBar.getInstance().addonUpdate();
+      statusBar.addonUpdate();
       let nodeValue;
       if (/^Func::/gi.test(elementFinder)) {
         nodeValue = await Sandbox.sandboxEval(elementFinder.replace(/^Func::/gi, ''));

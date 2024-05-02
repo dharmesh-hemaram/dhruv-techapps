@@ -1,7 +1,7 @@
 import { Logger, ConfigError, SystemError } from '@dhruv-techapps/core-common';
 import {} from '@dhruv-techapps/acf-common';
-import { wait } from '@dhruv-techapps/shared-util';
 import CommonEvents, { UNKNOWN_ELEMENT_TYPE_ERROR } from './common.events';
+import { Timer } from '@dhruv-techapps/shared-util';
 
 // KeyEvents::{value:'Example text',delay:300}
 // KeyEvents::Example text
@@ -51,8 +51,9 @@ export const KeyEvents = (() => {
         element.dispatchEvent(new KeyboardEvent(KEYBOARD_EVENT_KEYDOWN, event));
         element.value += event.key;
         element.dispatchEvent(new KeyboardEvent(KEYBOARD_EVENT_KEYUP, event));
+
         if (event.delay) {
-          await wait(event.delay, 'Key Event');
+          await Timer.getTimeAndSleep(event.delay);
         }
       }
     } else {

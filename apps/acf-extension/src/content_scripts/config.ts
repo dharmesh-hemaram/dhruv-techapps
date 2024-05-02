@@ -3,19 +3,19 @@ import { DiscordMessagingService, GoogleAnalyticsService } from '@dhruv-techapps
 import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { ConfigError, Logger } from '@dhruv-techapps/core-common';
 import { NotificationsService } from '@dhruv-techapps/core-service';
-import { wait } from '@dhruv-techapps/shared-util';
-import { StatusBar } from '@dhruv-techapps/status-bar';
 import BatchProcessor from './batch';
 import Common from './common';
 import { Hotkey } from './hotkey';
 import { GoogleSheetsCS } from '@dhruv-techapps/google-sheets';
 import GoogleSheets from './util/google-sheets';
+import { statusBar } from './status-bar';
 
 const LOGGER_LETTER = 'Config';
 const ConfigProcessor = (() => {
   const getFields = (config: Configuration) => {
     Logger.colorDebug('GetFields', { url: config.url, name: config.name });
     const fields = [{ name: 'URL', value: config.url }];
+
     if (config.name) {
       fields.unshift({ name: 'name', value: config.name });
     }
@@ -54,11 +54,11 @@ const ConfigProcessor = (() => {
           }
         }
       }
-      StatusBar.getInstance().done();
+      statusBar.done();
       GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_completed', getEvents(config));
     } catch (e) {
       if (e instanceof ConfigError) {
-        StatusBar.getInstance().error(e.message);
+        statusBar.error(e.message);
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
         const { notifications } = await new SettingsStorage().getSettings();
         if (notifications?.onError) {
@@ -100,13 +100,13 @@ const ConfigProcessor = (() => {
     if (config.startTime?.match(/^\d{2}:\d{2}:\d{2}:\d{3}$/)) {
       await schedule(config.startTime);
     } else {
-      await wait(config.initWait, `${LOGGER_LETTER} wait`);
+      await statusBar.wait(config.initWait, `${LOGGER_LETTER} wait`);
     }
   };
 
   const setupStatusBar = async () => {
-    const { statusBar } = await new SettingsStorage().getSettings();
-    StatusBar.getInstance().setLocation(statusBar);
+    const { statusBar: statusBarLocation } = await new SettingsStorage().getSettings();
+    statusBar.setLocation(statusBarLocation);
   };
 
   const checkStartType = async (configs: Array<Configuration>, config?: Configuration) => {
