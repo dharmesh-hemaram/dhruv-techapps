@@ -1,3 +1,7 @@
+## 3.7.0 (2024-05-02)
+
+This was a version bump only, there were no code changes.
+
 ## 3.6.0 (2024-04-30)
 
 ### 🚀 Features
