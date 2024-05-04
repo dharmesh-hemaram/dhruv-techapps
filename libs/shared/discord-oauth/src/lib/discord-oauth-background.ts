@@ -1,25 +1,24 @@
-import { RESPONSE_CODE, getRandomValues } from '@dhruv-techapps/core-common';
+import { getParameterByName, getRandomValues } from '@dhruv-techapps/core-common';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
 import { LOCAL_STORAGE_KEY_DISCORD, NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './discord-oauth.constant';
 import { Discord } from './discord-oauth.types';
 
-export class DiscordOauth2 {
+export class DiscordOauth2Background {
   clientId;
   constructor(clientId = '') {
     this.clientId = clientId;
   }
 
-  async remove() {
-    await chrome.storage.local.remove(LOCAL_STORAGE_KEY_DISCORD);
-    return RESPONSE_CODE.REMOVED;
+  async remove(): Promise<void> {
+    return await chrome.storage.local.remove(LOCAL_STORAGE_KEY_DISCORD);
   }
 
-  async login() {
+  async login(): Promise<Discord> {
     try {
       const regexResult = /\d+/.exec(this.clientId);
       if (!regexResult) {
         NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'Discord Client ID Missing');
-        return;
+        throw new Error('Discord Client ID Missing');
       }
 
       const redirectURL = chrome.identity.getRedirectURL();
@@ -35,21 +34,23 @@ export class DiscordOauth2 {
       const responseUrl = await chrome.identity.launchWebAuthFlow({ url, interactive: true });
       if (responseUrl) {
         if (chrome.runtime.lastError || responseUrl.includes('access_denied')) {
-          NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, chrome.runtime.lastError?.message ?? responseUrl);
-          return RESPONSE_CODE.ERROR;
+          const error = chrome.runtime.lastError?.message || getParameterByName('error_description', responseUrl);
+          NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, error);
+          throw new Error(error);
         }
-        const responseUrlRegExpMatchArray = responseUrl.match(/token=(.+?)&/);
-        if (responseUrlRegExpMatchArray) {
-          return await this.getCurrentUser(responseUrlRegExpMatchArray[1]);
+        const access_token = getParameterByName('access_token', responseUrl);
+        if (access_token) {
+          return await this.getCurrentUser(access_token);
         }
       }
+      NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'No response from Discord');
+      throw new Error('No response from Discord');
     } catch (error) {
       if (error instanceof Error) {
         NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, error.message);
       }
-      return RESPONSE_CODE.ERROR;
+      throw error;
     }
-    return undefined;
   }
 
   async getCurrentUser(token: string): Promise<Discord> {

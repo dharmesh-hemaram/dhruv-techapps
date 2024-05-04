@@ -2,10 +2,10 @@
 import { RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
 import { Runtime } from '@dhruv-techapps/core-extension';
 import { DiscordMessaging, RUNTIME_MESSAGE_DISCORD_MESSAGING } from '@dhruv-techapps/discord-messaging';
-import { DiscordOauth2, RUNTIME_MESSAGE_DISCORD_OAUTH2 } from '@dhruv-techapps/discord-oauth';
+import { DiscordOauth2, RUNTIME_MESSAGE_DISCORD_OAUTH } from '@dhruv-techapps/discord-oauth';
 import { GoogleAnalytics, RUNTIME_MESSAGE_GOOGLE_ANALYTICS } from '@dhruv-techapps/google-analytics';
 import { GoogleDriveBackground, RUNTIME_MESSAGE_GOOGLE_DRIVE } from '@dhruv-techapps/google-drive';
-import { GoogleOauth2Background, RUNTIME_MESSAGE_GOOGLE_OAUTH2 } from '@dhruv-techapps/google-oauth';
+import { GoogleOauth2Background, RUNTIME_MESSAGE_GOOGLE_OAUTH } from '@dhruv-techapps/google-oauth';
 import { GoogleSheetsBackground, RUNTIME_MESSAGE_GOOGLE_SHEETS } from '@dhruv-techapps/google-sheets';
 import { registerNotifications } from '@dhruv-techapps/notifications';
 
@@ -60,9 +60,9 @@ try {
    * Setup on Message Listener
    */
   const onMessageListener = {
-    [RUNTIME_MESSAGE_DISCORD_OAUTH2]: new DiscordOauth2(DISCORD_CLIENT_ID),
+    [RUNTIME_MESSAGE_DISCORD_OAUTH]: new DiscordOauth2(DISCORD_CLIENT_ID),
     [RUNTIME_MESSAGE_DISCORD_MESSAGING]: new DiscordMessaging(VARIANT, FUNCTION_URL),
-    [RUNTIME_MESSAGE_GOOGLE_OAUTH2]: new GoogleOauth2Background(),
+    [RUNTIME_MESSAGE_GOOGLE_OAUTH]: new GoogleOauth2Background(),
     [RUNTIME_MESSAGE_GOOGLE_DRIVE]: new GoogleDriveBackground(),
     [RUNTIME_MESSAGE_GOOGLE_SHEETS]: new GoogleSheetsBackground(),
     [RUNTIME_MESSAGE_GOOGLE_ANALYTICS]: googleAnalytics,
