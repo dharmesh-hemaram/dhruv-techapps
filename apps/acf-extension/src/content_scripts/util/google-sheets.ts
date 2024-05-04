@@ -1,13 +1,10 @@
 import { Configuration } from '@dhruv-techapps/acf-common';
-import { Session } from '@dhruv-techapps/acf-util';
-
 const GOOGLE_SHEETS_REGEX = /^googlesheets::/i;
 
 export default class GoogleSheets {
   static getSheets(config: Configuration) {
     const sheets = new Map<string, Set<string>>();
-    const batchHighestRepeat: number = config.batch?.repeat ?? 0;
-    const sessionCount: number = Session.getCount();
+    const batchHighestRepeat: number = config.batch?.repeat || 0;
     config.actions
       .map(({ elementFinder, value, addon }) => {
         const result = [];
@@ -36,13 +33,13 @@ export default class GoogleSheets {
             ranges.add(range.replace('<batchRepeat>', '1'));
             ranges.add(range.replace('<batchRepeat>', String(batchHighestRepeat + 1)));
           } else if (value.includes('<sessionCount>')) {
-            ranges.add(range.replace('<sessionCount>', String(sessionCount)));
+            ranges.add(range.replace('<sessionCount>', String(window.__sessionCount)));
           } else {
             ranges.add(range);
           }
           sheets.set(sheetName, ranges);
         });
       });
-    return { sheets, sessionCount };
+    return sheets;
   }
 }

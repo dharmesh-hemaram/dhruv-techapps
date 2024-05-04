@@ -36,17 +36,17 @@ export class GoogleSheetsCS {
     });
   }
 
-  transformResult(result: Array<ValueRange>, sessionCount?: number): Sheets {
+  transformResult(result: Array<ValueRange>): Sheets {
     return result.reduce((a: Sheets, c: ValueRange) => {
       const { range, values } = c;
       const [sheetName, ranges] = range.split('!');
       const [startRange, endRange] = ranges.split(':');
-      a[sheetName] = { startRange, endRange, values, sessionCount };
+      a[sheetName] = { startRange, endRange, values };
       return a;
     }, {});
   }
 
-  async getValues(sheets: Map<string, Set<string> | string>, sessionCount: number, spreadsheetId?: string): Promise<Sheets | undefined> {
+  async getValues(sheets: Map<string, Set<string> | string>, spreadsheetId?: string): Promise<Sheets | undefined> {
     if (spreadsheetId) {
       this.transformSheets(sheets);
       const result = await GoogleSheetsService.getSheets(
@@ -55,7 +55,7 @@ export class GoogleSheetsCS {
         Array.from(sheets, ([sheetName, range]) => `${sheetName}!${range}`)
       );
       if (result) {
-        return this.transformResult(result, sessionCount);
+        return this.transformResult(result);
       }
       Logger.colorDebug('Google Sheets', result);
       return result;

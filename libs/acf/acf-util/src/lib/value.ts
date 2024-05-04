@@ -7,6 +7,7 @@ declare global {
   interface Window {
     __batchRepeat: number;
     __actionRepeat: number;
+    __sessionCount: number;
     __sheets?: Sheets;
   }
 }
@@ -31,7 +32,7 @@ export const Value = (() => {
 
   const getActionRepeat = (value: string) => value.replaceAll('<actionRepeat>', String(window.__actionRepeat));
 
-  const getSessionCount = (value: string, sessionCount: number | undefined) => value.replaceAll('<sessionCount>', String(sessionCount));
+  const getSessionCount = (value: string) => value.replaceAll('<sessionCount>', String(window.__sessionCount));
 
   const getSheetValue = (value: string) => {
     const sheets = window.__sheets;
@@ -39,17 +40,17 @@ export const Value = (() => {
       return value;
     }
     const [sheetName, range] = value.split('::')[1].split('!');
-    if (!sheets || !sheets[sheetName]) {
+    if (!sheets?.[sheetName]) {
       throw new ConfigError(`Sheet: "${sheetName}" not found!`, 'Sheet not found');
     }
-    const { startRange, values, sessionCount } = sheets[sheetName];
+    const { startRange, values } = sheets[sheetName];
     if (!values) {
       throw new ConfigError(`Sheet "${sheetName}" do not have value in ${startRange}`, 'Sheet values not found');
     }
 
     let currentRange = getBatchRepeat(range);
     currentRange = getActionRepeat(currentRange);
-    currentRange = getSessionCount(currentRange, sessionCount);
+    currentRange = getSessionCount(currentRange);
 
     if (!/(\D+)(\d+)/.test(currentRange)) {
       throw new ConfigError(`Sheet range is not valid${range}`, 'Sheet range invalid');
@@ -62,7 +63,7 @@ export const Value = (() => {
         const [, columnStart, rowStart] = startRangeRegExp;
         const colIndex = column.split('').reduce((a, c, i) => a + c.charCodeAt(0) - columnStart.charCodeAt(0) + i * 26, 0);
         const rowIndex = Number(row) - Number(rowStart);
-        if (!values[rowIndex] || !values[rowIndex][colIndex]) {
+        if (!values[rowIndex]?.[colIndex]) {
           console.warn(`Sheet "${sheetName}" do not have value in ${column}${row}`, 'Sheet cell not found');
           return '::empty';
         }

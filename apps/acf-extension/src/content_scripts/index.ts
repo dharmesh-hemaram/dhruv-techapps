@@ -11,6 +11,7 @@ declare global {
   interface Window {
     __batchRepeat: number;
     __actionRepeat: number;
+    __sessionCount: number;
     __sheets?: Sheets;
   }
 }
@@ -40,7 +41,7 @@ async function loadConfig(loadType: LOAD_TYPES) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  Session.check();
+  window.__sessionCount = Session.getCount();
   loadConfig(LOAD_TYPES.DOCUMENT);
 });
 

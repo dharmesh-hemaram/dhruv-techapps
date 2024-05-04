@@ -3,6 +3,7 @@ export const Session = (() => {
   const SESSION_CLEAR = 'clear-acf-session';
 
   const getCount = (): number => {
+    check();
     const sessionCount = sessionStorage.getItem(SESSION_COUNT);
     const count = sessionCount ? Number(sessionCount) : 1;
     sessionStorage.setItem(SESSION_COUNT, String(count + 1));
