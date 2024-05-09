@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0",
-    "@dhruv-techapps/core-common": "3.7.0"
+    "@dhruv-techapps/core-common": "3.7.2"
   },
   "type": "commonjs",
   "main": "./src/index.js",

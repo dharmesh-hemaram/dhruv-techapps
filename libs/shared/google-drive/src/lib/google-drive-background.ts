@@ -2,7 +2,7 @@
 
 import { GOOGLE_SCOPES, GoogleOauth2Background } from '@dhruv-techapps/google-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
-import { BACKUP_ALARM, MINUTES_IN_DAY, NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './google-drive.contact';
+import { BACKUP_ALARM, MINUTES_IN_DAY, NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './google-drive.constant';
 import { DriveFile, AUTO_BACKUP, GoogleDriveFile } from './google-drive.types';
 
 export class GoogleDriveBackground extends GoogleOauth2Background {

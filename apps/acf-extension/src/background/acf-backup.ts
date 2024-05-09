@@ -1,9 +1,12 @@
 /*global chrome*/
 
 import { LOCAL_STORAGE_KEY, getDefaultConfig, defaultSettings } from '@dhruv-techapps/acf-common';
-import { BACKUP_ALARM, DriveFile, GoogleDriveBackground, NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from '@dhruv-techapps/google-drive';
+import { BACKUP_ALARM, DriveFile, GoogleDriveBackground } from '@dhruv-techapps/google-drive';
 import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
+
+export const NOTIFICATIONS_TITLE = 'ACF Backup';
+export const NOTIFICATIONS_ID = 'sheets';
 
 const BACKUP_FILE_NAMES = {
   CONFIGS: `${LOCAL_STORAGE_KEY.CONFIGS}.txt`,

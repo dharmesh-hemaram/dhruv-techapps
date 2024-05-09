@@ -1,6 +1,6 @@
 import { RuntimeMessageRequest } from '@dhruv-techapps/core-common';
 import { CoreService } from '@dhruv-techapps/core-service';
-import { RUNTIME_MESSAGE_GOOGLE_DRIVE } from './google-drive.contact';
+import { RUNTIME_MESSAGE_GOOGLE_DRIVE } from './google-drive.constant';
 import { DriveFile, AUTO_BACKUP } from './google-drive.types';
 
 export class GoogleDriveService extends CoreService {

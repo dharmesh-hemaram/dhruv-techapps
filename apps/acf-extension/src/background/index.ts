@@ -3,7 +3,7 @@ import { RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
 import { Runtime } from '@dhruv-techapps/core-extension';
 import { DiscordMessagingBackground, RUNTIME_MESSAGE_DISCORD_MESSAGING } from '@dhruv-techapps/discord-messaging';
 import { DiscordOauth2Background, RUNTIME_MESSAGE_DISCORD_OAUTH } from '@dhruv-techapps/discord-oauth';
-import { GoogleAnalytics, RUNTIME_MESSAGE_GOOGLE_ANALYTICS } from '@dhruv-techapps/google-analytics';
+import { GoogleAnalyticsBackground, RUNTIME_MESSAGE_GOOGLE_ANALYTICS } from '@dhruv-techapps/google-analytics';
 import { GoogleDriveBackground, RUNTIME_MESSAGE_GOOGLE_DRIVE } from '@dhruv-techapps/google-drive';
 import { GoogleOauth2Background, RUNTIME_MESSAGE_GOOGLE_OAUTH } from '@dhruv-techapps/google-oauth';
 import { GoogleSheetsBackground, RUNTIME_MESSAGE_GOOGLE_SHEETS } from '@dhruv-techapps/google-sheets';
@@ -15,7 +15,7 @@ import AcfBackup from './acf-backup';
 import registerContextMenus from './context-menu';
 import { TabsMessenger } from './tab';
 
-let googleAnalytics: GoogleAnalytics | undefined;
+let googleAnalytics: GoogleAnalyticsBackground | undefined;
 try {
   /**
    * Browser Action set to open option page / configuration page
@@ -55,7 +55,7 @@ try {
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
   }
 
-  googleAnalytics = new GoogleAnalytics(MEASUREMENT_ID, API_SECRET, VARIANT === 'LOCAL');
+  googleAnalytics = new GoogleAnalyticsBackground(MEASUREMENT_ID, API_SECRET, VARIANT === 'LOCAL');
   /**
    * Setup on Message Listener
    */

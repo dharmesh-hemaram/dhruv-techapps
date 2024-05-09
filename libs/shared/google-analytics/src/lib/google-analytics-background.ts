@@ -1,7 +1,7 @@
 import { DEFAULT_ENGAGEMENT_TIME_MSEC, GA_DEBUG_ENDPOINT, GA_ENDPOINT, SESSION_EXPIRATION_IN_MIN } from './google-analytics.constant';
 import { FireErrorEventParams, FireEventParams, FirePageViewEventParams } from './google-analytics.types';
 
-export class GoogleAnalytics {
+export class GoogleAnalyticsBackground {
   debug: boolean;
   constructor(
     private MEASUREMENT_ID?: string,

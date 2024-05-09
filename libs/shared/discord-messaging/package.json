@@ -4,7 +4,7 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "@dhruv-techapps/discord-oauth": "0.0.1",
-    "@dhruv-techapps/core-service": "3.7.0"
+    "@dhruv-techapps/core-service": "3.7.2"
   },
   "type": "commonjs",
   "main": "./src/index.js",
