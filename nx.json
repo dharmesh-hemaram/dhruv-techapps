@@ -94,9 +94,7 @@
       "acf-util",
       "notifications"
     ],
-    "version": {
-      "preVersionCommand": "npx nx run-many -t=build --verbose"
-    },
+    "version": {},
     "changelog": {
       "workspaceChangelog": {
         "createRelease": "github"

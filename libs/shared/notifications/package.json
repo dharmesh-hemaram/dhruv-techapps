@@ -1,9 +1,9 @@
 {
   "name": "@dhruv-techapps/notifications",
-  "version": "0.0.1",
+  "version": "3.8.0",
   "dependencies": {
     "tslib": "^2.3.0",
-    "@dhruv-techapps/core-common": "3.7.2"
+    "@dhruv-techapps/core-common": "3.10.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",
