@@ -5,8 +5,8 @@
     "tslib": "^2.3.0",
     "@dhruv-techapps/google-oauth": "3.8.0",
     "@dhruv-techapps/notifications": "3.8.0",
-    "@dhruv-techapps/core-common": "3.10.0",
-    "@dhruv-techapps/core-service": "3.10.0"
+    "@dhruv-techapps/core-common": "3.11.0",
+    "@dhruv-techapps/core-service": "3.11.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",

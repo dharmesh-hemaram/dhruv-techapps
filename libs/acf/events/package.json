@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0",
-    "@dhruv-techapps/core-common": "3.10.0",
-    "@dhruv-techapps/acf-common": "3.10.0",
-    "@dhruv-techapps/acf-service": "3.10.0",
+    "@dhruv-techapps/core-common": "3.11.0",
+    "@dhruv-techapps/acf-common": "3.11.0",
+    "@dhruv-techapps/acf-service": "3.11.0",
     "@dhruv-techapps/sandbox": "0.0.1",
     "@dhruv-techapps/shared-util": "0.0.1",
     "@dhruv-techapps/google-analytics": "0.0.1"

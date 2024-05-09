@@ -4,7 +4,7 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "randexp": "^0.5.3",
-    "@dhruv-techapps/core-common": "3.10.0",
+    "@dhruv-techapps/core-common": "3.11.0",
     "@dhruv-techapps/sandbox": "0.0.1",
     "@dhruv-techapps/google-sheets": "0.0.1"
   },
