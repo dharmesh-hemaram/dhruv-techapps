@@ -1,7 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { AUTO_BACKUP, GOOGLE_SCOPES, LOCAL_STORAGE_KEY, RESPONSE_CODE, Settings, defaultSettings, defaultSettingsNotifications } from '@dhruv-techapps/acf-common';
+import { LOCAL_STORAGE_KEY, Settings, defaultSettings, defaultSettingsNotifications } from '@dhruv-techapps/acf-common';
 import { googleGetAPI, googleLoginAPI, settingsGetAPI } from './settings.api';
+import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
+import { AUTO_BACKUP } from '@dhruv-techapps/google-drive';
 
 type SettingsStore = {
   visible: boolean;
@@ -74,7 +76,7 @@ const slice = createSlice({
       state.googleScopes = action.payload[LOCAL_STORAGE_KEY.GOOGLE_SCOPES] || [];
     });
     builder.addCase(googleLoginAPI.fulfilled, (state, action) => {
-      if (action.payload !== RESPONSE_CODE.ERROR) {
+      if (action.payload) {
         state.google = action.payload[LOCAL_STORAGE_KEY.GOOGLE];
         state.googleScopes = action.payload[LOCAL_STORAGE_KEY.GOOGLE_SCOPES];
       }

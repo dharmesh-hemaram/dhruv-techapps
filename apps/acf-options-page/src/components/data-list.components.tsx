@@ -157,6 +157,7 @@ export function DataList() {
         <option value='GoogleSheets::Sheet1!A2'>GoogleSheets::Sheet1!A2</option>
         <option value='GoogleSheets::Sheet1!Z99'>GoogleSheets::Sheet1!Z99</option>
         <option value='GoogleSheets::Sheet1!A<batchRepeat>'>GoogleSheets::Sheet1!A&lt;batchRepeat&gt;</option>
+        <option value='GoogleSheets::Sheet1!A<actionRepeat>'>GoogleSheets::Sheet1!A&lt;actionRepeat&gt;</option>
         <option value='GoogleSheets::Sheet1!A<sessionCount>'>GoogleSheets::Sheet1!A&lt;sessionCount&gt;</option>
       </datalist>
       <datalist id='valueExtractor'>

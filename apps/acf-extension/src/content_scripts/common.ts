@@ -1,36 +1,18 @@
-import { Logger } from '@dhruv-techapps/core-common';
 import { ActionSettings, RETRY_OPTIONS } from '@dhruv-techapps/acf-common';
-import { ConfigError } from './error/config-error';
-import { wait } from './util';
-import Sandbox from './sandbox';
-import SettingsStorage from './store/settings-storage';
+import { SettingsStorage } from '@dhruv-techapps/acf-store';
+import { ConfigError, Logger } from '@dhruv-techapps/core-common';
+import { statusBar } from './status-bar';
 
 const LOGGER_LETTER = 'Common';
 const Common = (() => {
   const retryFunc = async (retry?: number, retryInterval?: number | string) => {
     if (retry !== undefined) {
       if (retry > 0 || retry < -1) {
-        await wait(retryInterval, 'retry', retry, '<interval>');
+        await statusBar.wait(retryInterval, 'retry', retry);
         return true;
       }
     }
     return false;
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sandboxEval = async (code: string, context?: any): Promise<string> => {
-    if (!code) {
-      return context;
-    }
-    const name = crypto.randomUUID();
-    try {
-      return await Sandbox.sendMessage({ command: 'eval', name, context: context ? `'${context}'.${code}` : code });
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new ConfigError(error.message, `Invalid ${code}`);
-      }
-      throw new ConfigError(JSON.stringify(error), `Invalid ${code}`);
-    }
   };
 
   const getElements = async (document: Document, elementFinder: string, retry: number, retryInterval: number | string): Promise<Array<HTMLElement> | undefined> => {
@@ -152,7 +134,7 @@ const Common = (() => {
 
   const getNotificationIcon = () => chrome.runtime.getManifest().action.default_icon;
 
-  return { start, getElements, sandboxEval, getNotificationIcon };
+  return { start, getElements, getNotificationIcon };
 })();
 
 export default Common;

@@ -19,7 +19,19 @@
             "allow": ["@apps"],
             "depConstraints": [
               {
-                "sourceTag": "*",
+                "sourceTag": "scope:core",
+                "onlyDependOnLibsWithTags": ["scope:core"]
+              },
+              {
+                "sourceTag": "scope:shared",
+                "onlyDependOnLibsWithTags": ["scope:core", "scope:shared"]
+              },
+              {
+                "sourceTag": "scope:acf",
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:core", "scope:acf"]
+              },
+              {
+                "sourceTag": "scope:app",
                 "onlyDependOnLibsWithTags": ["*"]
               }
             ]

@@ -1,10 +1,9 @@
 import { Action, Batch } from '@dhruv-techapps/acf-common';
+import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { NotificationsService } from '@dhruv-techapps/core-service';
 import Actions from './actions';
-import { wait } from './util';
 import Common from './common';
-import SettingsStorage from './store/settings-storage';
-import { StatusBar } from './status';
+import { statusBar } from './status-bar';
 
 const LOGGER_LETTER = 'Batch';
 
@@ -23,10 +22,10 @@ const BatchProcessor = (() => {
     if (batch.repeat) {
       if (batch.repeat > 0) {
         for (let i = 0; i < batch.repeat; i += 1) {
-          StatusBar.getInstance().batchUpdate(i + 2);
+          statusBar.batchUpdate(i + 2);
           console.groupCollapsed(`${LOGGER_LETTER} #${i + 2} [repeat]`);
           if (batch?.repeatInterval) {
-            await wait(batch?.repeatInterval, `${LOGGER_LETTER} repeat`, i + 2, '<interval>');
+            await statusBar.wait(batch?.repeatInterval, `${LOGGER_LETTER} repeat`, i + 2);
           }
           await Actions.start(actions, i + 2);
           const { notifications } = await new SettingsStorage().getSettings();
@@ -46,8 +45,8 @@ const BatchProcessor = (() => {
         // eslint-disable-next-line no-constant-condition
         while (true) {
           if (batch?.repeatInterval) {
-            StatusBar.getInstance().batchUpdate('∞');
-            await wait(batch?.repeatInterval, `${LOGGER_LETTER} repeat`, '∞', '<interval>');
+            statusBar.batchUpdate('∞');
+            await statusBar.wait(batch?.repeatInterval, `${LOGGER_LETTER} repeat`, '∞');
           }
           await Actions.start(actions, i);
           i += 1;
@@ -58,7 +57,7 @@ const BatchProcessor = (() => {
 
   const start = async (actions: Array<Action>, batch?: Batch) => {
     try {
-      StatusBar.getInstance().batchUpdate(1);
+      statusBar.batchUpdate(1);
       console.groupCollapsed(`${LOGGER_LETTER} #1 (default)`);
       await Actions.start(actions, 1);
       console.groupEnd();

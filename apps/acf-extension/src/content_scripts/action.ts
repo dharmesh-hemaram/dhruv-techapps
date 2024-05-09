@@ -1,8 +1,8 @@
 import { ACTION_STATUS, Action } from '@dhruv-techapps/acf-common';
+import { Events } from '@dhruv-techapps/acf-events';
+import { Value } from '@dhruv-techapps/acf-util';
 import Common from './common';
-import Value from './util/value';
-import Events from './events';
-import { wait } from './util';
+import { statusBar } from './status-bar';
 
 const LOGGER_LETTER = 'Action';
 
@@ -10,7 +10,7 @@ const ActionProcessor = (() => {
   const repeatFunc = async (action: Action, repeat?: number, repeatInterval?: number | string): Promise<ACTION_STATUS | number> => {
     if (repeat !== undefined) {
       if (repeat > 0 || repeat < -1) {
-        await wait(repeatInterval, `${LOGGER_LETTER} repeat`, repeat, '<interval>');
+        await statusBar.wait(repeatInterval, `${LOGGER_LETTER} repeat`, repeat);
         repeat -= 1;
         window.__actionRepeat = window.__actionRepeat + 1;
         const result = await process(action);

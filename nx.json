@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"],
-      "cache": false
+      "cache": true
     },
     "e2e": {
       "inputs": ["default", "^production"],
@@ -13,13 +13,13 @@
     },
     "@nx/eslint:lint": {
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
-      "cache": false
+      "cache": true
     },
     "package": {
       "cache": true
     },
     "@nx/jest:jest": {
-      "cache": false,
+      "cache": true,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
       "options": {
         "passWithNoTests": true
@@ -30,6 +30,11 @@
           "codeCoverage": true
         }
       }
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "namedInputs": {
@@ -67,5 +72,33 @@
       "e2eTestRunner": "cypress"
     }
   },
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "release": {
+    "projects": [
+      "core-common",
+      "core-extension",
+      "core-service",
+      "acf-common",
+      "acf-service",
+      "acf-events",
+      "sandbox",
+      "google-sheets",
+      "google-oauth",
+      "google-analytics",
+      "google-drive",
+      "discord-oauth",
+      "discord-messaging",
+      "shared-util",
+      "status-bar",
+      "acf-store",
+      "acf-util",
+      "notifications"
+    ],
+    "version": {},
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github"
+      }
+    }
+  }
 }

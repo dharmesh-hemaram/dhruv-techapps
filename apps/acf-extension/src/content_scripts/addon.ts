@@ -1,12 +1,11 @@
 import { ADDON_CONDITIONS, ActionSettings, Addon, RECHECK_OPTIONS, ValueExtractorFlags } from '@dhruv-techapps/acf-common';
-import { Logger } from '@dhruv-techapps/core-common';
-import { wait } from './util';
-import { ConfigError, SystemError } from './error';
-import Common from './common';
+import { Value } from '@dhruv-techapps/acf-util';
+import { ConfigError, Logger, SystemError } from '@dhruv-techapps/core-common';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
+import { Sandbox } from '@dhruv-techapps/sandbox';
 import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
-import Value from './util/value';
-import { StatusBar } from './status';
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import Common from './common';
+import { statusBar } from './status-bar';
 
 const LOGGER_LETTER = 'Addon';
 
@@ -17,7 +16,7 @@ const AddonProcessor = (() => {
     if (recheck !== undefined) {
       if (recheck > 0 || recheck < -1) {
         recheck -= 1;
-        await wait(props.recheckInterval, `${LOGGER_LETTER} recheck`, recheck + 1, '<interval>');
+        await statusBar.wait(props.recheckInterval, `${LOGGER_LETTER} recheck`, recheck + 1);
         // eslint-disable-next-line no-use-before-define
         return await start({ elementFinder, value, condition, recheck, recheckOption, ...props }, settings);
       }
@@ -115,10 +114,10 @@ const AddonProcessor = (() => {
 
   const start = async ({ elementFinder, value, condition, valueExtractor, valueExtractorFlags, ...props }: Addon, settings?: ActionSettings) => {
     try {
-      StatusBar.getInstance().addonUpdate();
+      statusBar.addonUpdate();
       let nodeValue;
       if (/^Func::/gi.test(elementFinder)) {
-        nodeValue = await Common.sandboxEval(elementFinder.replace(/^Func::/gi, ''));
+        nodeValue = await Sandbox.sandboxEval(elementFinder.replace(/^Func::/gi, ''));
       } else {
         elementFinder = await Value.getValue(elementFinder);
         const elements = await Common.start(elementFinder, settings);

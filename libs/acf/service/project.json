@@ -30,5 +30,5 @@
       }
     }
   },
-  "tags": ["scope:acf"]
+  "tags": ["scope:acf", "lib:acf-service"]
 }

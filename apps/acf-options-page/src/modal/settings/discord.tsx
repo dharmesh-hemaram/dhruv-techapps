@@ -1,36 +1,43 @@
-import { useEffect, useState } from 'react';
+import { Discord, LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
 import { StorageService } from '@dhruv-techapps/core-service';
-import { Button, Form, Image } from 'react-bootstrap';
-import { Discord, LOCAL_STORAGE_KEY, RESPONSE_CODE } from '@dhruv-techapps/acf-common';
+import { DiscordOauthService } from '@dhruv-techapps/discord-oauth';
 import PropTypes from 'prop-types';
-import { DiscordOauthService } from '@dhruv-techapps/acf-service';
+import { useEffect, useState } from 'react';
+import { Badge, Button, Form, Image } from 'react-bootstrap';
 
 function SettingDiscord({ onChange, label, checked }) {
   const [discord, setDiscord] = useState<Discord>();
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
-    StorageService.get<{ discord: Discord }>(window.EXTENSION_ID, LOCAL_STORAGE_KEY.DISCORD)
+    StorageService.get<LOCAL_STORAGE_KEY.DISCORD, Discord>(window.EXTENSION_ID, LOCAL_STORAGE_KEY.DISCORD)
       .then(({ discord: result }) => {
         if (result) {
           setDiscord(result);
         }
       })
-      .catch(console.error);
+      .catch(setError);
   }, []);
 
-  const connect = async () => {
-    const response = await DiscordOauthService.login(window.EXTENSION_ID);
-    if (response !== RESPONSE_CODE.ERROR) {
-      setDiscord(response);
-    }
+  const connect = () => {
+    DiscordOauthService.login(window.EXTENSION_ID)
+      .then((response) => {
+        if (response) {
+          setDiscord(response);
+        }
+      })
+      .catch(setError);
   };
 
-  const remove = async () => {
-    const response = await DiscordOauthService.remove(window.EXTENSION_ID);
-    if (response === RESPONSE_CODE.REMOVED) {
-      setDiscord(undefined);
-    }
+  const remove = () => {
+    DiscordOauthService.remove(window.EXTENSION_ID)
+      .then(() => {
+        setDiscord(undefined);
+      })
+      .catch(setError);
   };
+
+  console.log(error?.name, error?.message, error?.stack);
 
   if (discord) {
     return (
@@ -59,9 +66,12 @@ function SettingDiscord({ onChange, label, checked }) {
   }
 
   return (
-    <Button variant='link' onClick={connect} data-testid='discord-connect'>
-      Connect with discord
-    </Button>
+    <div>
+      <Button variant='link' onClick={connect} data-testid='discord-connect'>
+        Connect with discord
+      </Button>
+      {error?.message && <Badge bg='danger'>{error?.message}</Badge>}
+    </div>
   );
 }
 

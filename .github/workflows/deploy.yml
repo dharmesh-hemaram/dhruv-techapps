@@ -19,8 +19,13 @@ on:
         type: boolean
         default: false
         required: true
-      publish:
+      publish_extension:
         description: 'Publish extension'
+        type: boolean
+        default: false
+        required: true
+      publish_packages:
+        description: 'Publish packages'
         type: boolean
         default: false
         required: true
@@ -28,8 +33,14 @@ on:
 jobs:
   main:
     name: Build & Bundle
-    environment: ${{inputs.environment}}
+    environment:
+      name: ${{inputs.environment}}
+      url: ${{ steps.artifact-upload-step.outputs.artifact-id }}
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      actions: 'read'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -37,10 +48,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: ${{github.repository_owner}}
           cache: 'npm'
+      - uses: nrwl/nx-set-shas@v3
+      - run: |
+          echo "BASE: ${{ env.NX_BASE }}"
+          echo "HEAD: ${{ env.NX_HEAD }}"
       - run: npm ci
-      - name: build
-        run: npx nx run-many --target=build --parallel=3 --exclude='tag:puppeteer' --prod --base-href ${{vars.PUBLIC_URL}}
+      - name: Build Projects and Library
+        run: npx nx affected -t=build --parallel=3 --prod --base-href ${{vars.PUBLIC_URL}}
         env:
           NX_NAME: ${{vars.NX_NAME}}
           NX_VARIANT: ${{vars.NX_VARIANT}}
@@ -60,7 +77,13 @@ jobs:
           API_SECRET: ${{vars.API_SECRET}}
           MEASUREMENT_ID: ${{vars.MEASUREMENT_ID}}
           SENTRY_AUTH_TOKEN: ${{vars.SENTRY_AUTH_TOKEN}}
-      - name: bundle
+      - name: Publish Packages
+        if: ${{ inputs.publish_packages }}
+        run: |
+          npx nx affected -t=publish --ver=${{github.ref_name}}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Bundle Projects
         run: |
           mkdir bundle
           cd dist/apps
@@ -69,6 +92,7 @@ jobs:
           cd acf-extension
           zip -r ../../../bundle/acf-extension.zip .
       - uses: actions/upload-artifact@v4
+        id: artifact-upload-step
         with:
           name: nx-main-artifacts
           path: bundle/*
@@ -93,7 +117,7 @@ jobs:
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
           refresh-token: ${{ secrets.REFRESH_TOKEN }}
-          publish: ${{inputs.publish}}
+          publish: ${{inputs.publish_extension}}
           glob: true
 
   web:

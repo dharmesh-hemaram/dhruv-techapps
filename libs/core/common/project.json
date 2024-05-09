@@ -15,8 +15,7 @@
       }
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs core-common {args.ver} {args.tag}",
-      "dependsOn": ["build"]
+      "command": "node tools/scripts/publish.mjs core-common {args.ver} {args.tag}"
     },
     "lint": {
       "executor": "@nx/eslint:lint",

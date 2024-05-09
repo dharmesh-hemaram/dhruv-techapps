@@ -1,6 +1,4 @@
-type ManifestResult = {
-  [key: string]: string | ManifestResult;
-};
+export type ManifestResult = Partial<chrome.runtime.Manifest>;
 
 type ManifestValuesProps = string[];
 
@@ -32,7 +30,7 @@ export class ManifestMessenger {
   }
 
   #process = (key: string): string | ManifestResult => {
-    let manifest: chrome.runtime.Manifest = chrome.runtime.getManifest();
+    let manifest: ManifestResult = chrome.runtime.getManifest();
     const keys = key.split('.');
     keys.forEach((prop) => {
       if (manifest) {

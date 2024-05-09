@@ -13,7 +13,7 @@ import { settingsSelector, switchSettingsModal, updateSettings } from '../store/
 import { googleGetAPI, settingsGetAPI } from '../store/settings/settings.api';
 import { SettingGoogleSheets } from './settings/google-sheets';
 import { themeSelector } from '../store/theme.slice';
-import { STATUS_BAR_LOCATION } from '@dhruv-techapps/acf-common';
+import { STATUS_BAR_LOCATION } from '@dhruv-techapps/status-bar';
 
 enum SETTINGS_PAGE {
   NOTIFICATION = 'Show Notification',

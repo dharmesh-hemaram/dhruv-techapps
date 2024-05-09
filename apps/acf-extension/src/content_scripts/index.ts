@@ -1,16 +1,17 @@
 import { LOAD_TYPES } from '@dhruv-techapps/acf-common';
+import { ConfigStorage, GetConfigResult } from '@dhruv-techapps/acf-store';
+import { Session } from '@dhruv-techapps/acf-util';
 import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
+import { Sheets } from '@dhruv-techapps/google-sheets';
 import ConfigProcessor from './config';
-import Session from './util/session';
-import ConfigStorage, { GetConfigResult } from './store/config-storage';
-import { Sheets } from './util/google-sheets';
-import { StatusBar } from './status';
-import { GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
+import { statusBar } from './status-bar';
 
 declare global {
   interface Window {
     __batchRepeat: number;
     __actionRepeat: number;
+    __sessionCount: number;
     __sheets?: Sheets;
   }
 }
@@ -33,14 +34,14 @@ async function loadConfig(loadType: LOAD_TYPES) {
     });
   } catch (e) {
     if (e instanceof Error) {
-      StatusBar.getInstance().error(e.message);
+      statusBar.error(e.message);
       GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, e.name, e.message, { page: 'content_scripts' });
     }
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  Session.check();
+  window.__sessionCount = Session.getCount();
   loadConfig(LOAD_TYPES.DOCUMENT);
 });
 

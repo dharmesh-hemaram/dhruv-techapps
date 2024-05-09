@@ -17,10 +17,23 @@
     "paths": {
       "@apps/*": ["apps/*"],
       "@dhruv-techapps/acf-common": ["libs/acf/common/src/index.ts"],
+      "@dhruv-techapps/acf-events": ["libs/acf/events/src/index.ts"],
       "@dhruv-techapps/acf-service": ["libs/acf/service/src/index.ts"],
+      "@dhruv-techapps/acf-store": ["libs/acf/store/src/index.ts"],
+      "@dhruv-techapps/acf-util": ["libs/acf/acf-util/src/index.ts"],
       "@dhruv-techapps/core-common": ["libs/core/common/src/index.ts"],
       "@dhruv-techapps/core-extension": ["libs/core/extension/src/index.ts"],
-      "@dhruv-techapps/core-service": ["libs/core/service/src/index.ts"]
+      "@dhruv-techapps/core-service": ["libs/core/service/src/index.ts"],
+      "@dhruv-techapps/discord-messaging": ["libs/shared/discord-messaging/src/index.ts"],
+      "@dhruv-techapps/discord-oauth": ["libs/shared/discord-oauth/src/index.ts"],
+      "@dhruv-techapps/google-analytics": ["libs/shared/google-analytics/src/index.ts"],
+      "@dhruv-techapps/google-drive": ["libs/shared/google-drive/src/index.ts"],
+      "@dhruv-techapps/google-oauth": ["libs/shared/google-oauth/src/index.ts"],
+      "@dhruv-techapps/google-sheets": ["libs/shared/google-sheets/src/index.ts"],
+      "@dhruv-techapps/notifications": ["libs/shared/notifications/src/index.ts"],
+      "@dhruv-techapps/sandbox": ["libs/shared/sandbox/src/index.ts"],
+      "@dhruv-techapps/shared-util": ["libs/shared/shared-util/src/index.ts"],
+      "@dhruv-techapps/status-bar": ["libs/shared/status-bar/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,5 +1,4 @@
 import { Alert, Button, Image } from 'react-bootstrap';
-import { GOOGLE_SCOPES } from '@dhruv-techapps/acf-common';
 
 import GoogleSignInLight from '../../assets/btn_google_signin_light_normal_web.png';
 import GoogleSignInDark from '../../assets/btn_google_signin_dark_normal_web.png';
@@ -7,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { themeSelector } from '../../store/theme.slice';
 import { googleLoginAPI } from '../../store/settings/settings.api';
 import { settingsSelector } from '../../store/settings';
+import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
 
 function SettingGoogleSheets() {
   const theme = useAppSelector(themeSelector);

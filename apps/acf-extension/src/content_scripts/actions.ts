@@ -1,14 +1,12 @@
 import { ACTION_STATUS, Action } from '@dhruv-techapps/acf-common';
+import { SettingsStorage } from '@dhruv-techapps/acf-store';
+import { ConfigError, Logger, LoggerColor } from '@dhruv-techapps/core-common';
 import { NotificationsService } from '@dhruv-techapps/core-service';
 import ActionProcessor from './action';
-import Statement from './statement';
-import { wait } from './util';
 import AddonProcessor from './addon';
 import Common from './common';
-import { ConfigError } from './error';
-import SettingsStorage from './store/settings-storage';
-import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
-import { StatusBar } from './status';
+import Statement from './statement';
+import { statusBar } from './status-bar';
 
 const LOGGER_LETTER = 'Action';
 
@@ -41,14 +39,14 @@ const Actions = (() => {
         Logger.color(' Disabled ', 'debug', LoggerColor.BLACK, `${LOGGER_LETTER} #${i + 1} [${action.name || 'no-name'}]`);
         continue;
       }
-      StatusBar.getInstance().actionUpdate(i + 1, action.name);
+      statusBar.actionUpdate(i + 1, action.name);
       console.group(`${LOGGER_LETTER} #${i + 1} [${action.name || 'no-name'}]`);
       if (!action.elementFinder) {
         throw new ConfigError('Element Finder is blank', 'Configuration Action');
       }
       const statementResult = await checkStatement(actions, action);
       if (statementResult === true) {
-        await wait(action.initWait, `${LOGGER_LETTER} wait`);
+        await statusBar.wait(action.initWait, `${LOGGER_LETTER} wait`);
         const addonResult = await AddonProcessor.check(action.addon, action.settings);
         if (typeof addonResult === 'number') {
           i = Number(addonResult) - 1;

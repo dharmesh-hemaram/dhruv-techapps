@@ -49,7 +49,7 @@ const slice = createSlice({
 
       if (state.timer) {
         const initWait = (new Date().getTime() - state.timer) / 1000;
-        action.payload.initWait = initWait < 1 ? 1 : initWait < 5 ? initWait : 5; // 1s < initWait < 5s
+        action.payload.initWait = initWait < 5 ? 0 : 5;
       }
       state.timer = new Date().getTime();
 

@@ -1,8 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type StorageMessengerSetProps = { [key: string]: any };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type StorageMessengerSetProps<T extends string | number | symbol = string, K = any> = {
+  [key in T]: K;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type StorageMessengerGetProps = string | string[] | { [key: string]: any } | null | undefined;
+export type StorageMessengerGetProps = string | string[] | StorageMessengerSetProps | null | undefined;
 
 export type StorageMessengerRemoveProps = string | string[];
 
@@ -14,7 +17,7 @@ export type StorageRequest = {
 
 export class StorageMessenger {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async get(keys: StorageMessengerGetProps): Promise<{ [key: string]: any }> {
+  async get(keys: StorageMessengerGetProps): Promise<StorageMessengerSetProps> {
     return chrome.storage.local.get(keys);
   }
 

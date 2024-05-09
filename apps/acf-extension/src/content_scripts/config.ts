@@ -1,21 +1,22 @@
-import { NotificationsService } from '@dhruv-techapps/core-service';
-import { Logger } from '@dhruv-techapps/core-common';
 import { Configuration } from '@dhruv-techapps/acf-common';
-import { wait } from './util';
+import { SettingsStorage } from '@dhruv-techapps/acf-store';
+import { ConfigError, Logger } from '@dhruv-techapps/core-common';
+import { NotificationsService } from '@dhruv-techapps/core-service';
+import { DiscordMessagingService } from '@dhruv-techapps/discord-messaging';
+import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
+import { GoogleSheetsCS } from '@dhruv-techapps/google-sheets';
 import BatchProcessor from './batch';
-import { ConfigError } from './error';
-import { Hotkey } from './hotkey';
-import GoogleSheets from './util/google-sheets';
 import Common from './common';
-import { DiscordMessagingService, GoogleAnalyticsService } from '@dhruv-techapps/acf-service';
-import SettingsStorage from './store/settings-storage';
-import { StatusBar } from './status';
+import { Hotkey } from './hotkey';
+import { statusBar } from './status-bar';
+import GoogleSheets from './util/google-sheets';
 
 const LOGGER_LETTER = 'Config';
 const ConfigProcessor = (() => {
   const getFields = (config: Configuration) => {
     Logger.colorDebug('GetFields', { url: config.url, name: config.name });
     const fields = [{ name: 'URL', value: config.url }];
+
     if (config.name) {
       fields.unshift({ name: 'name', value: config.name });
     }
@@ -40,7 +41,8 @@ const ConfigProcessor = (() => {
   };
 
   const start = async (config: Configuration) => {
-    await new GoogleSheets().getValues(config);
+    const sheets = GoogleSheets.getSheets(config);
+    window.__sheets = await new GoogleSheetsCS().getValues(sheets, config.spreadsheetId);
     try {
       await BatchProcessor.start(config.actions, config.batch);
       const { notifications } = await new SettingsStorage().getSettings();
@@ -53,11 +55,11 @@ const ConfigProcessor = (() => {
           }
         }
       }
-      StatusBar.getInstance().done();
+      statusBar.done();
       GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'configuration_completed', getEvents(config));
     } catch (e) {
       if (e instanceof ConfigError) {
-        StatusBar.getInstance().error(e.message);
+        statusBar.error(e.message);
         const error = { title: e.title, message: `url : ${config.url}\n${e.message}` };
         const { notifications } = await new SettingsStorage().getSettings();
         if (notifications?.onError) {
@@ -99,11 +101,17 @@ const ConfigProcessor = (() => {
     if (config.startTime?.match(/^\d{2}:\d{2}:\d{2}:\d{3}$/)) {
       await schedule(config.startTime);
     } else {
-      await wait(config.initWait, `${LOGGER_LETTER} wait`);
+      await statusBar.wait(config.initWait, `${LOGGER_LETTER} wait`);
     }
   };
 
+  const setupStatusBar = async () => {
+    const { statusBar: statusBarLocation } = await new SettingsStorage().getSettings();
+    statusBar.setLocation(statusBarLocation);
+  };
+
   const checkStartType = async (configs: Array<Configuration>, config?: Configuration) => {
+    setupStatusBar();
     configs.forEach((c) => {
       Hotkey.setup(start.bind(this, c), c.hotkey);
     });
