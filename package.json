@@ -18,7 +18,7 @@
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "axios": "^1.6.7",
     "bootstrap-icons": "^1.11.3",
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.15.2",
     "express": "^4.18.1",
     "i18next": "^23.9.0",
     "i18next-http-backend": "^2.5.0",
