@@ -15,19 +15,23 @@ export const WizardElementUtil = (() => {
     if (option.index === 0) {
       return null;
     }
-    return { elementValue: option.innerText, optionValue: `/option[${option.index + 1}]` };
+    return { elementValue: option.innerText, optionValue: `//option[text()="${option.text}"]` };
   };
 
   const inputListener = async (element: HTMLInputElement | HTMLTextAreaElement | HTMLElement): Promise<string | null> =>
     new Promise((resolve) => {
-      element.addEventListener('blur', (e) => {
-        const input = e.target;
-        if (input) {
-          resolve((e.target as HTMLInputElement).value), { once: true, passive: true };
-        } else {
-          resolve(input);
-        }
-      });
+      element.addEventListener(
+        'blur',
+        (e) => {
+          const input = e.target;
+          if (input) {
+            resolve((e.target as HTMLInputElement).value);
+          } else {
+            resolve(input);
+          }
+        },
+        { once: true, passive: true }
+      );
     });
 
   const optionListener = async (element: HTMLSelectElement | HTMLOptionElement) =>

@@ -25,20 +25,21 @@ export const getConfigName = (url?: string) => {
  */
 export const checkQueryParams = (configs: Array<Configuration>, thunkAPI): RANDOM_UUID | undefined => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const object: any = {};
+
   if (window.location.search) {
-    const params = window.location.search.replace('?', '').split('&');
-    Object.values(params).forEach((param) => {
-      const [name, value] = param.split('=');
-      object[name] = decodeURIComponent(value);
-    });
-    if (object.configId) {
-      const selectedConfig = configs.find((config) => config.id === object.id);
+    const { searchParams } = new URL(window.location.href);
+    const configId = searchParams.get('configId');
+    const url = searchParams.get('url');
+    const elementFinder = searchParams.get('elementFinder');
+    const version = searchParams.get('version');
+    if (configId) {
+      const selectedConfig = configs.find((config) => config.id === configId);
       if (selectedConfig) {
-        const action = selectedConfig.actions.find((action) => action.id === object.actionId);
+        const actionId = searchParams.get('actionId');
+        const action = selectedConfig.actions.find((action) => action.id === actionId);
         if (action) {
           const { error } = action;
-          if (object.error) {
+          if (searchParams.has('error')) {
             if (error) {
               error.push('elementFinder');
             } else {
@@ -48,26 +49,26 @@ export const checkQueryParams = (configs: Array<Configuration>, thunkAPI): RANDO
         }
         return selectedConfig.id;
       }
-    } else if (object.url && object.elementFinder) {
-      const selectedConfig = configs.find((config) => config.url === object.url);
+    } else if (url && elementFinder) {
+      const selectedConfig = configs.find((config) => config.url === url);
       if (selectedConfig) {
-        const selectedAction = selectedConfig.actions.find((action) => action.elementFinder === object.elementFinder);
+        const selectedAction = selectedConfig.actions.find((action) => action.elementFinder === elementFinder);
         if (!selectedAction) {
-          const action: Action = { ...getDefaultAction(), elementFinder: object.elementFinder, error: [] };
+          const action: Action = { ...getDefaultAction(), elementFinder: elementFinder, error: [] };
           selectedConfig.actions.push(action);
         }
         return selectedConfig.id;
       } else {
         const newConfig = getDefaultConfig(CONFIG_SOURCE.WEB);
-        newConfig.url = object.url;
-        newConfig.name = getConfigName(object.url);
-        newConfig.actions[0].elementFinder = object.elementFinder;
+        newConfig.url = url;
+        newConfig.name = getConfigName(url);
+        newConfig.actions[0].elementFinder = elementFinder;
         newConfig.actions[0].error = [];
         configs.unshift(newConfig);
         return newConfig.id;
       }
-    } else if (object.version) {
-      thunkAPI.dispatch(blogCheckAPI(object.version));
+    } else if (version) {
+      thunkAPI.dispatch(blogCheckAPI(version));
     }
   }
 };
