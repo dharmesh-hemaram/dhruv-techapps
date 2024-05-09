@@ -13,7 +13,7 @@ const BACKUP_FILE_NAMES = {
 export default class AcfBackup extends GoogleDriveBackground {
   scopes = [GOOGLE_SCOPES.DRIVE, GOOGLE_SCOPES.PROFILE];
 
-  async backup(now?: boolean) {
+  async backup(now?: boolean): Promise<string> {
     try {
       const { configs = [getDefaultConfig()] } = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
       if (configs) {
@@ -32,6 +32,7 @@ export default class AcfBackup extends GoogleDriveBackground {
         }
         return lastBackup;
       }
+      throw new Error('No configurations found to backup');
     } catch (error) {
       if (error instanceof Error) {
         const retry = await this.checkInvalidCredentials(error.message);
@@ -39,10 +40,11 @@ export default class AcfBackup extends GoogleDriveBackground {
           this.backup(now);
         }
       }
+      throw error;
     }
   }
 
-  async restore(file: DriveFile) {
+  async restore(file: DriveFile): Promise<void> {
     try {
       const fileContent = await this.get(file);
       if (fileContent) {
@@ -53,7 +55,9 @@ export default class AcfBackup extends GoogleDriveBackground {
           chrome.storage.local.set({ [LOCAL_STORAGE_KEY.CONFIGS]: fileContent });
         }
         NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, 'Configurations are restored from Google Drive. Refresh configurations page to load content.');
+        return;
       }
+      throw new Error('No content found in the file');
     } catch (error) {
       if (error instanceof Error) {
         const retry = await this.checkInvalidCredentials(error.message);
@@ -61,6 +65,7 @@ export default class AcfBackup extends GoogleDriveBackground {
           this.restore(file);
         }
       }
+      throw error;
     }
   }
 }

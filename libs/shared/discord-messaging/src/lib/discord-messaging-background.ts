@@ -1,4 +1,6 @@
 import { LOCAL_STORAGE_KEY_DISCORD } from '@dhruv-techapps/discord-oauth';
+import { NotificationHandler } from '@dhruv-techapps/notifications';
+import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './discord-messaging.constant';
 
 type DiscordMessagingType = {
   title: string;
@@ -7,7 +9,7 @@ type DiscordMessagingType = {
   color: string;
 };
 
-export class DiscordMessaging {
+export class DiscordMessagingBackground {
   constructor(
     private VARIANT?: string,
     private FUNCTION_URL?: string
@@ -18,7 +20,7 @@ export class DiscordMessaging {
 
   async push({ title, fields, color }: DiscordMessagingType) {
     if (!this.FUNCTION_URL) {
-      return {};
+      throw new Error('Discord Messaging Function URL Missing');
     }
     try {
       const url = new URL(this.FUNCTION_URL);
@@ -38,12 +40,10 @@ export class DiscordMessaging {
         body: JSON.stringify(data),
       });
     } catch (error) {
-      // TODO
-      // if (error instanceof Error) {
-      //   new GoogleAnalytics().fireErrorEvent({ name: 'discord-messaging', error: error.message });
-      // }
-      return error;
+      if (error instanceof Error) {
+        NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, error.message);
+      }
+      throw error;
     }
-    return {};
   }
 }
