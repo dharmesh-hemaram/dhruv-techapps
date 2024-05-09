@@ -15,6 +15,10 @@ export const Session = (() => {
     if (urlParams.get(SESSION_CLEAR)) {
       sessionStorage.removeItem(SESSION_COUNT);
     }
+    const sessionCount = urlParams.get(SESSION_COUNT);
+    if (sessionCount && !isNaN(Number(sessionCount))) {
+      sessionStorage.setItem(SESSION_COUNT, sessionCount);
+    }
   };
 
   return {
