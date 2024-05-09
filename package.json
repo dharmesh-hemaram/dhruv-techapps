@@ -18,7 +18,7 @@
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "axios": "^1.6.7",
     "bootstrap-icons": "^1.11.3",
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.15.2",
     "express": "^4.18.1",
     "i18next": "^23.9.0",
     "i18next-http-backend": "^2.5.0",
@@ -35,7 +35,7 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
+    "@babel/core": "^7.24.5",
     "@babel/preset-react": "^7.14.5",
     "@nx/cypress": "18.3.4",
     "@nx/esbuild": "18.3.4",
