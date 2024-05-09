@@ -74,6 +74,10 @@
   },
   "useInferencePlugins": false,
   "release": {
+    "git": {
+      "commitMessage": "chore(release): release ${version}",
+      "push": true
+    },
     "projects": [
       "core-common",
       "core-extension",
@@ -92,9 +96,9 @@
       "status-bar",
       "acf-store",
       "acf-util",
-      "notifications"
+      "notifications",
+      "test"
     ],
-    "version": {},
     "changelog": {
       "workspaceChangelog": {
         "createRelease": "github"
