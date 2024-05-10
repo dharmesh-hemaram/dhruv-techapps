@@ -1,0 +1,106 @@
+{
+  "name": "ispy-funding-extension",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ispy-funding-extension/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "compiler": "babel",
+        "outputPath": "dist/apps/ispy-funding-extension",
+        "extractCss": true,
+        "main": "apps/ispy-funding-extension/src/background/index.ts",
+        "outputFileName": "background.js",
+        "additionalEntryPoints": [
+          {
+            "entryName": "content_scripts",
+            "entryPath": "apps/ispy-funding-extension/src/content_scripts/index.ts"
+          }
+        ],
+        "styles": ["libs/shared/status-bar/src/lib/status-bar.scss"],
+        "tsConfig": "apps/ispy-funding-extension/tsconfig.app.json",
+        "webpackConfig": "apps/ispy-funding-extension/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "watch": true,
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "optimization": true,
+          "outputHashing": "none",
+          "sourceMap": true,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "development",
+      "options": {
+        "target": "web",
+        "compiler": "babel",
+        "outputPath": "dist/apps/ispy-funding-extension",
+        "extractCss": true,
+        "main": "apps/ispy-funding-extension/src/background/index.ts",
+        "outputFileName": "background.js",
+        "additionalEntryPoints": [
+          {
+            "entryName": "content_scripts",
+            "entryPath": "apps/ispy-funding-extension/src/content_scripts/index.ts"
+          }
+        ],
+        "styles": ["libs/shared/status-bar/src/lib/status-bar.scss"],
+        "tsConfig": "apps/ispy-funding-extension/tsconfig.app.json",
+        "webpackConfig": "apps/ispy-funding-extension/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "watch": true,
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "optimization": true,
+          "outputHashing": "none",
+          "sourceMap": true,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/ispy-funding-extension/jest.config.ts"
+      }
+    },
+    "package": {
+      "executor": "@dhruv-techapps/extension:package",
+      "dependsOn": ["build"],
+      "options": {
+        "sourceDir": "dist/apps/ispy-funding-extension",
+        "artifactsDir": "{workspaceRoot}/dist/apps"
+      }
+    }
+  },
+  "tags": ["scope:app", "app:ispy-funding-extension"]
+}
