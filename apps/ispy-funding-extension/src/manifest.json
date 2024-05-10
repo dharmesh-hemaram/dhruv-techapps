@@ -1,7 +1,7 @@
 {
-  "name": "Ispy Funding",
-  "short_name": "Ispy Funding",
-  "description": "Ispy Funding",
+  "name": "iSpyFunding Auto",
+  "short_name": "iSpyFunding Auto",
+  "description": "iSpyFunding Auto",
   "version": "1.0.0",
   "manifest_version": 3,
   "permissions": ["storage", "notifications", "contextMenus", "activeTab", "identity", "alarms", "unlimitedStorage"],

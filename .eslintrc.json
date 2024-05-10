@@ -31,6 +31,10 @@
                 "onlyDependOnLibsWithTags": ["scope:shared", "scope:core", "scope:acf"]
               },
               {
+                "sourceTag": "scope:ispy",
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:core", "scope:ispy"]
+              },
+              {
                 "sourceTag": "scope:app",
                 "onlyDependOnLibsWithTags": ["*"]
               }
