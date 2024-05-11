@@ -29,6 +29,11 @@ on:
         type: boolean
         default: false
         required: true
+      release:
+        description: 'Release'
+        type: boolean
+        default: false
+        required: true
 
 jobs:
   main:
@@ -153,6 +158,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
 
   release:
+    if: ${{ inputs.release }}
     name: Release
     needs: [extension, web]
     environment:
