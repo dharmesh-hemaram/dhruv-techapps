@@ -1,13 +1,15 @@
+import { IspyExtraQuestionType, IspyServiceResponseType } from './ispy-service.types';
 import response from './response.json';
 
 export class IspyService {
-  static async getIspyUser() {
+  static async getUser() {
     return Promise.resolve(response);
   }
 
-  static async getIspyQuestions(data: any) {
-    data.forEach((item: any) => {
-      response[item.name as keyof typeof response] = item.value;
+  static async getExtraAnswers(data: IspyExtraQuestionType[]) {
+    const response: IspyServiceResponseType = {};
+    data.forEach((item: IspyExtraQuestionType) => {
+      response[item.id] = item.question;
     });
     return Promise.resolve(response);
   }

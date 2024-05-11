@@ -7,6 +7,7 @@ import BatchProcessor from './batch';
 import Common from './common';
 import { statusBar } from './status-bar';
 import { IspyService } from '@dhruv-techapps/ispy-service';
+import IspyExtraQuestions from './ispy-extra-questions';
 
 const LOGGER_LETTER = 'Config';
 const ConfigProcessor = (() => {
@@ -28,10 +29,10 @@ const ConfigProcessor = (() => {
   };
 
   const start = async (config: Configuration) => {
-    window.__api = await IspyService.getIspyUser();
-    console.log('API', window.__api);
+    window.__api = await IspyService.getUser();
     try {
       await BatchProcessor.start(config.actions, config.batch);
+      await IspyExtraQuestions.process();
       const { notifications } = await new SettingsStorage().getSettings();
       if (notifications) {
         const { onConfig, sound } = notifications;
