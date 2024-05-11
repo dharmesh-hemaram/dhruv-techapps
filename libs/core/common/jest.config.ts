@@ -8,4 +8,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../../coverage/libs/core/common',
+  setupFiles: ['./jest.setup.js'], // Optional: if you need a setup file
 };

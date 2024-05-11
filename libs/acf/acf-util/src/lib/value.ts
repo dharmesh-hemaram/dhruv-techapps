@@ -21,12 +21,15 @@ export const VALUE_MATCHER = {
   RANDOM: /<random(.+)>/gi,
   BATCH_REPEAT: /<batchRepeat>/,
   ACTION_REPEAT: /<actionRepeat>/,
+  SESSION_COUNT: /<sessionCount>/,
 };
 
 export const Value = (() => {
   const getRandomValue = (value: string) =>
     value.replace(VALUE_MATCHER.RANDOM, (_, regex) => {
-      const result = new RandExp(regex).gen();
+      const randexp = new RandExp(regex, 'i');
+      randexp.defaultRange.add(0, 65535);
+      const result = randexp.gen();
       return result;
     });
 
@@ -119,6 +122,9 @@ export const Value = (() => {
     }
     if (VALUE_MATCHER.API.test(value)) {
       value = getApiValue(value);
+    }
+    if (VALUE_MATCHER.SESSION_COUNT.test(value)) {
+      value = getSessionCount(value);
     }
     if (VALUE_MATCHER.RANDOM.test(value)) {
       value = getRandomValue(value);
