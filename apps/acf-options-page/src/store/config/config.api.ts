@@ -8,7 +8,9 @@ export const configGetAllAPI = createAsyncThunk('config/getAll', async (_, thunk
   let configurations = result.configs;
   if (configurations) {
     configurations = updateConfigIds(configurations);
-    const selectedConfigId = checkQueryParams(configurations, thunkAPI);
-    return { configurations, selectedConfigId };
+  } else {
+    configurations = [];
   }
+  const selectedConfigId = checkQueryParams(configurations, thunkAPI);
+  return { configurations, selectedConfigId };
 });
