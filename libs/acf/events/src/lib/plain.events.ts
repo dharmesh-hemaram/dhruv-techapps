@@ -11,7 +11,12 @@ export const PlainEvents = (() => {
   const checkEmptyValue = (value: string) => (value === '::empty' ? '' : value);
 
   const dispatchEvent = (element: HTMLElement, value: string) => {
-    if (element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement || (element instanceof HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
+    if (element instanceof HTMLSelectElement) {
+      const nodes = document.evaluate(`//option[text()="${value}" or @value="${value}" or @id="${value}"]`, element, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+      if (nodes.snapshotLength !== 0) {
+        (nodes.snapshotItem(0) as HTMLOptionElement).selected = true;
+      }
+    } else if (element instanceof HTMLTextAreaElement || (element instanceof HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
       element.value = value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element instanceof HTMLOptionElement) {

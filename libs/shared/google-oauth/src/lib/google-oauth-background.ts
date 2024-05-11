@@ -14,7 +14,7 @@ export class GoogleOauth2Background {
     return true;
   }
 
-  async login(scope: GOOGLE_SCOPES): Promise<GoogleOauth2LoginResponse | null> {
+  async login(scope: GOOGLE_SCOPES): Promise<GoogleOauth2LoginResponse> {
     if (!scope) {
       throw new Error('Scopes not defined');
     }
@@ -28,7 +28,7 @@ export class GoogleOauth2Background {
         NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, error.message);
       }
       await this.removeCachedAuthToken();
-      return null;
+      throw error;
     }
   }
 

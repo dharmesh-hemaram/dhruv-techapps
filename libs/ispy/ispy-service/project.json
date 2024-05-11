@@ -1,7 +1,7 @@
 {
-  "name": "ispy-oauth",
+  "name": "ispy-service",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/ispy/ispy-oauth/src",
+  "sourceRoot": "libs/ispy/ispy-service/src",
   "projectType": "library",
   "release": {
     "version": {
@@ -11,16 +11,16 @@
       }
     }
   },
-  "tags": ["scope:ispy"],
+  "tags": ["scope:sipy"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/ispy/ispy-oauth",
-        "main": "libs/ispy/ispy-oauth/src/index.ts",
-        "tsConfig": "libs/ispy/ispy-oauth/tsconfig.lib.json",
-        "assets": ["libs/ispy/ispy-oauth/*.md"]
+        "outputPath": "dist/libs/ispy/ispy-service",
+        "main": "libs/ispy/ispy-service/src/index.ts",
+        "tsConfig": "libs/ispy/ispy-service/tsconfig.lib.json",
+        "assets": ["libs/ispy/ispy-service/*.md"]
       }
     },
     "nx-release-publish": {

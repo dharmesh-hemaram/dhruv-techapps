@@ -98,7 +98,8 @@
       "acf-util",
       "notifications",
       "test",
-      "ispy-oauth"
+      "ispy-oauth",
+      "ispy-service"
     ],
     "changelog": {
       "workspaceChangelog": {

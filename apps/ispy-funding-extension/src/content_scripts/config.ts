@@ -6,6 +6,7 @@ import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 import BatchProcessor from './batch';
 import Common from './common';
 import { statusBar } from './status-bar';
+import { IspyService } from '@dhruv-techapps/ispy-service';
 
 const LOGGER_LETTER = 'Config';
 const ConfigProcessor = (() => {
@@ -27,6 +28,8 @@ const ConfigProcessor = (() => {
   };
 
   const start = async (config: Configuration) => {
+    window.__api = await IspyService.getIspyUser();
+    console.log('API', window.__api);
     try {
       await BatchProcessor.start(config.actions, config.batch);
       const { notifications } = await new SettingsStorage().getSettings();

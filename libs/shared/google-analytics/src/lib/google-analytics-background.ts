@@ -33,7 +33,7 @@ export class GoogleAnalyticsBackground {
     let { sessionData } = await chrome.storage.session.get('sessionData');
     const currentTimeInMs = Date.now();
     // Check if session exists and is still valid
-    if (sessionData && sessionData.timestamp) {
+    if (sessionData?.timestamp) {
       // Calculate how long ago the session was last updated
       const durationInMin = (currentTimeInMs - sessionData.timestamp) / 60000;
       // Check if last update lays past the session expiration threshold
@@ -58,6 +58,9 @@ export class GoogleAnalyticsBackground {
   }
 
   async fireEvent({ name, params = {} }: FireEventParams) {
+    if (!this.MEASUREMENT_ID || !this.API_SECRET) {
+      return;
+    }
     if (!params.session_id) {
       params.session_id = await this.getOrCreateSessionId();
     }

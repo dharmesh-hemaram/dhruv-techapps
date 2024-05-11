@@ -30,7 +30,7 @@
       "@dhruv-techapps/google-drive": ["libs/shared/google-drive/src/index.ts"],
       "@dhruv-techapps/google-oauth": ["libs/shared/google-oauth/src/index.ts"],
       "@dhruv-techapps/google-sheets": ["libs/shared/google-sheets/src/index.ts"],
-      "@dhruv-techapps/ispy-oauth": ["libs/ispy/ispy-oauth/src/index.ts"],
+      "@dhruv-techapps/ispy-service": ["libs/ispy/ispy-service/src/index.ts"],
       "@dhruv-techapps/notifications": ["libs/shared/notifications/src/index.ts"],
       "@dhruv-techapps/sandbox": ["libs/shared/sandbox/src/index.ts"],
       "@dhruv-techapps/shared-util": ["libs/shared/shared-util/src/index.ts"],

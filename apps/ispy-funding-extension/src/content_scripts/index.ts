@@ -9,6 +9,7 @@ declare global {
   interface Window {
     __batchRepeat: number;
     __actionRepeat: number;
+__api?: any;
   }
 }
 
