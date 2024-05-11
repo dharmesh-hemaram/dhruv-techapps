@@ -96,13 +96,15 @@
       "status-bar",
       "acf-store",
       "acf-util",
-      "notifications",
-      "test"
+      "notifications"
     ],
     "changelog": {
       "workspaceChangelog": {
         "createRelease": "github"
       }
+    },
+    "version": {
+      "preVersionCommand": "npx nx run-many -t build"
     }
   }
 }

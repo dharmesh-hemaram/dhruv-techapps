@@ -7,7 +7,7 @@ import { Popup } from './popup';
 chrome.runtime.onMessage.addListener(async (msg) => {
   if (msg.action === ACTION_POPUP) {
     const autoClicker = document.querySelector('auto-clicker-autofill-popup');
-    if (autoClicker && autoClicker.shadowRoot) {
+    if (autoClicker?.shadowRoot) {
       (autoClicker.shadowRoot.querySelector('button[aria-label="collapse"]') as HTMLButtonElement).click();
     } else {
       await Config.setup();

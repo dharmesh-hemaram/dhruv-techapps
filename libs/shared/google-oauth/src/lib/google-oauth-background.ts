@@ -28,7 +28,7 @@ export class GoogleOauth2Background {
         NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, error.message);
       }
       await this.removeCachedAuthToken();
-      return null;
+      throw error;
     }
   }
 

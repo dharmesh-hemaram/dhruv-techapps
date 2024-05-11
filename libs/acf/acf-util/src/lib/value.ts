@@ -9,6 +9,7 @@ declare global {
     __actionRepeat: number;
     __sessionCount: number;
     __sheets?: Sheets;
+    __api?: any;
   }
 }
 
@@ -16,6 +17,7 @@ export const VALUE_MATCHER = {
   GOOGLE_SHEETS: /^GoogleSheets::/i,
   QUERY_PARAM: /^Query::/i,
   FUNC: /^Func::/i,
+  API: /^Api::/i,
   RANDOM: /<random(.+)>/gi,
   BATCH_REPEAT: /<batchRepeat>/,
   ACTION_REPEAT: /<actionRepeat>/,
@@ -88,6 +90,15 @@ export const Value = (() => {
     return result;
   };
 
+  const getApiValue = (value: string): string => {
+    const [, key] = value.split('::');
+    const apiValue = window.__api[key];
+    if (apiValue) {
+      return apiValue;
+    }
+    return value;
+  };
+
   const getValue = async (value: string): Promise<string> => {
     /// For select box value is boolean true
     if (typeof value !== 'string') {
@@ -106,8 +117,14 @@ export const Value = (() => {
     if (VALUE_MATCHER.ACTION_REPEAT.test(value)) {
       value = getActionRepeat(value);
     }
+    if (VALUE_MATCHER.API.test(value)) {
+      value = getApiValue(value);
+    }
     if (VALUE_MATCHER.RANDOM.test(value)) {
       value = getRandomValue(value);
+    }
+    if (VALUE_MATCHER.API.test(value)) {
+      value = getApiValue(value);
     }
     if (VALUE_MATCHER.FUNC.test(value)) {
       value = await getFuncValue(value);
