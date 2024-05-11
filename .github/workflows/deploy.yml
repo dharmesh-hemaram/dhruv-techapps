@@ -62,7 +62,7 @@ jobs:
           echo "HEAD: ${{ env.NX_HEAD }}"
       - run: npm ci
       - name: Build Projects and Library
-        run: npx nx affected -t=build --parallel=3 --prod --base-href ${{vars.PUBLIC_URL}}
+        run: npx nx run-many -t=build --parallel=3 --prod --base-href ${{vars.PUBLIC_URL}}
         env:
           NX_NAME: ${{vars.NX_NAME}}
           NX_VARIANT: ${{vars.NX_VARIANT}}
