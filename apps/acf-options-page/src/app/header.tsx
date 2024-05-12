@@ -24,7 +24,8 @@ function Header() {
 
   useEffect(() => {
     const tour = localStorage.getItem('tour');
-    if (!tour) {
+    const version = new URLSearchParams(window.location.search).get('version');
+    if (!tour && !version) {
       localStorage.setItem('tour', 'true');
       setTimeout(() => {
         setIsOpen(true);
