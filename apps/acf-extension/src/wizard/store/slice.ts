@@ -35,11 +35,6 @@ const slice = createSlice({
     updateWizardAction: (state, action: PayloadAction<WizardAction>) => {
       const { elementFinder, elementType, name, checked } = action.payload;
       const index = state.actions.findIndex((_action) => {
-        // Select
-        const selectXpath = WizardElementUtil.clearXpath(elementFinder);
-        if (selectXpath !== elementFinder) {
-          return WizardElementUtil.clearXpath(_action.elementFinder) === selectXpath;
-        }
         // Radio && Checkbox
         if (checked !== undefined) {
           return _action.elementType === elementType && _action.name === name;

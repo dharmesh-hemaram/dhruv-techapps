@@ -80,7 +80,7 @@ export const WizardElementUtil = (() => {
       // Select Dropdown
       const selectType = listener ? await optionListener(element) : select(element);
       if (selectType) {
-        return { name: getName(element), id: crypto.randomUUID(), xpath: elementFinder, elementFinder: elementFinder + selectType.optionValue, value: 'true', elementValue: selectType.elementValue };
+        return { name: getName(element), id: crypto.randomUUID(), elementFinder: elementFinder, value: selectType.elementValue, elementValue: selectType.elementValue };
       }
     } else if (element instanceof HTMLTextAreaElement) {
       // Textarea && Editable Content
