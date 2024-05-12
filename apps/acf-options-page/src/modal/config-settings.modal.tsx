@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Card, Col, Form, FormControl, Modal, Row } from 'react-bootstrap';
-import { LOAD_TYPES, START_TYPES, defaultHotkey } from '@dhruv-techapps/acf-common';
+import { LOAD_TYPES, START_TYPES, URL_MATCH, defaultHotkey } from '@dhruv-techapps/acf-common';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { HotkeyPopover } from '../popover';
@@ -15,7 +15,7 @@ import { REGEX } from '../util';
 const ConfigSettingsModal = () => {
   const { t } = useTranslation();
 
-  const { visible, message, dev } = useAppSelector(configSettingsSelector);
+  const { visible, message } = useAppSelector(configSettingsSelector);
   const config = useAppSelector(selectedConfigSelector);
   const dispatch = useAppDispatch();
 
@@ -71,7 +71,7 @@ const ConfigSettingsModal = () => {
           <Modal.Title as='h6'>{t('modal.configSettings.title')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Card className='mb-3'>
+          <Card className='mb-2'>
             <Card.Body>
               <Row>
                 <Col md={12} sm={12}>
@@ -172,26 +172,30 @@ const ConfigSettingsModal = () => {
             <Card.Body>
               <Row>
                 <Col md='12' sm='12'>
-                  {dev ? (
-                    <Form.Group controlId='config-start-time'>
-                      <FormControl name='startTime' pattern={REGEX.START_TIME} autoComplete='off' defaultValue={config.startTime} onBlur={onUpdate} placeholder='HH:mm:ss:fff' list='start-time' />
-                      <Form.Label>{t('configuration.startTime')}&nbsp;</Form.Label>
-                      <StartTimePopover />
-                      <Form.Control.Feedback type='invalid'>{t('error.startTime')}</Form.Control.Feedback>
-                    </Form.Group>
-                  ) : (
-                    <>
-                      <b className='me-2'>Start Time :</b>
-                      <Trans i18nKey='popover.startTime.content'>
-                        Try
-                        <a href='https://scheduleurl.com/docs/1.0/getting-started/download/' target='_blank' rel='noopener noreferrer'>
-                          Schedule URL
-                        </a>
-                        our new browser extension.
-                        <br /> it&apos;s used to schedule webpage / URL at particular day and time.
-                      </Trans>
-                    </>
-                  )}
+                  <Form.Group controlId='config-start-time'>
+                    <FormControl name='startTime' pattern={REGEX.START_TIME} autoComplete='off' defaultValue={config.startTime} onBlur={onUpdate} placeholder='HH:mm:ss:fff' list='start-time' />
+                    <Form.Label>{t('configuration.startTime')}&nbsp;</Form.Label>
+                    <StartTimePopover />
+                    <Form.Control.Feedback type='invalid'>{t('error.startTime')}</Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+          <Card className='mb-2'>
+            <Card.Body>
+              <Row>
+                <Col md='12' sm='12'>
+                  <Form.Group controlId='config-url-match'>
+                    <Form.Select value={config.url_match} onChange={onUpdate} name='url_match' required>
+                      {Object.entries(URL_MATCH).map((condition) => (
+                        <option key={condition[1]} value={condition[1]}>
+                          {condition[0]}
+                        </option>
+                      ))}
+                    </Form.Select>
+                    <Form.Label>URL Match</Form.Label>
+                  </Form.Group>
                 </Col>
               </Row>
             </Card.Body>

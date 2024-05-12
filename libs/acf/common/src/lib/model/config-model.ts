@@ -19,6 +19,11 @@ export enum CONFIG_SOURCE {
   WEB = 'web',
 }
 
+export enum URL_MATCH {
+  REGEX = 'regex',
+  EXACT = 'exact',
+}
+
 export type Configuration = {
   url: string;
   enable: boolean;
@@ -35,6 +40,7 @@ export type Configuration = {
   batch?: Batch;
   source?: CONFIG_SOURCE;
   new?: boolean;
+  url_match?: URL_MATCH;
 };
 
 export const getDefaultConfig = (source?: CONFIG_SOURCE, actions?: Array<Action>): Configuration => ({

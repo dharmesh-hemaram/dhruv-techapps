@@ -1,4 +1,4 @@
-import { Configuration, LOCAL_STORAGE_KEY, START_TYPES } from '@dhruv-techapps/acf-common';
+import { Configuration, LOCAL_STORAGE_KEY, START_TYPES, URL_MATCH } from '@dhruv-techapps/acf-common';
 
 export type GetConfigResult = {
   autoConfig: Configuration | undefined;
@@ -17,7 +17,7 @@ export class ConfigStorage {
       configs
         .filter((config) => config.enable && config.url)
         .forEach((config) => {
-          if (this.urlMatcher(config.url, href)) {
+          if (config.url_match !== URL_MATCH.EXACT && this.urlMatcher(config.url, href)) {
             manualConfigs.push(config);
             if (!autoConfig && config.startType === START_TYPES.AUTO) {
               autoConfig = config;
