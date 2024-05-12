@@ -178,6 +178,7 @@ jobs:
       - uses: softprops/action-gh-release@v2
         id: release
         with:
+          token: ${{ secrets.REPO_PAT }} # Use the PAT here
           prerelease: ${{ vars.NX_VARIANT == 'BETA' || vars.NX_VARIANT == 'DEV'}}
           repository: Dhruv-Techapps/acf-docs
           generate_release_notes: true
