@@ -108,7 +108,7 @@ jobs:
     needs: [main]
     environment:
       name: ${{inputs.environment}}
-      url: ${{steps.chrome-extension-upload.outputs.upload_url}}
+      url: 'https://chrome.google.com/webstore/devconsole/98df2dba-c751-4acf-a79a-af687cb603df'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
