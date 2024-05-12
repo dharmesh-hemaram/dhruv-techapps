@@ -40,7 +40,7 @@ jobs:
     name: Build & Bundle
     environment:
       name: ${{inputs.environment}}
-      url: ${{ steps.artifact-upload-step.outputs.artifact-id }}
+      url: ${{ steps.artifact-upload-step.outputs.artifact-url }}
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -108,7 +108,7 @@ jobs:
     needs: [main]
     environment:
       name: ${{inputs.environment}}
-      url: ${{needs.release.outputs.release-url}}
+      url: ${{steps.chrome-extension-upload.outputs.upload_url}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -116,6 +116,7 @@ jobs:
           name: nx-main-artifacts
       - name: Upload & release
         uses: mnao305/chrome-extension-upload@v5.0.0
+        id: chrome-extension-upload
         with:
           file-path: acf-extension.zip
           extension-id: ${{ vars.NX_CHROME_EXTENSION_ID }}
