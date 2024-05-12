@@ -110,6 +110,8 @@
       "title": "全局设置",
       "checkIFrames": "检查IFrames",
       "checkIFramesHint": "这将检查IFrames中的元素",
+      "reloadOnError": "重新加载错误",
+      "reloadOnErrorHint": "此重新加载页面如果发生任何错误",
       "advance": "高级",
       "advanceHint": "启用高级模式以获得更多功能",
       "notification": {

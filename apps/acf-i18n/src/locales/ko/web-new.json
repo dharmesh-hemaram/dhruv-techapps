@@ -110,6 +110,8 @@
       "title": "전역 설정",
       "checkIFrames": "확인을 확인하십시오",
       "checkIFramesHint": "이것은 iframe 내의 요소를 검사합니다",
+      "reloadOnError": "오류를 다시로드하십시오",
+      "reloadOnErrorHint": "이 오류가 발생하면 페이지를 다시로드합니다",
       "advance": "전진",
       "advanceHint": "더 많은 기능을 위해 고급 모드 활성화",
       "notification": {

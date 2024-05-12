@@ -110,6 +110,8 @@
       "title": "Global Settings",
       "checkIFrames": "Check IFrames",
       "checkIFramesHint": "This checks element within iFrames",
+      "reloadOnError": "Reload on Errors",
+      "reloadOnErrorHint": "This reloads page if any error occurs",
       "advance": "Advance",
       "advanceHint": "Enable advance mode for more features",
       "notification": {

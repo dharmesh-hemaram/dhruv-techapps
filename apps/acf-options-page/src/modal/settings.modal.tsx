@@ -111,6 +111,14 @@ export const SettingsModal = () => {
                 <Form.Check type='switch' name='checkiFrames' onChange={onUpdate} id='settings-checkiFrames' checked={settings.checkiFrames || false} />
               </li>
               <li className='list-group-item d-flex justify-content-between align-items-center'>
+                <Form.Label className='ms-2 me-auto' htmlFor='settings-reload-onerror'>
+                  <div className='fw-bold'>{t('modal.settings.reloadOnError')}</div>
+                  {t('modal.settings.reloadOnErrorHint')} <br />
+                  <small className='text-danger'>Extension context invalidated.</small>
+                </Form.Label>
+                <Form.Check type='switch' name='reloadOnError' onChange={onUpdate} id='settings-reloadOnError' checked={settings.reloadOnError || false} />
+              </li>
+              <li className='list-group-item d-flex justify-content-between align-items-center'>
                 <Form.Label className='ms-2' htmlFor='settings-statusBar'>
                   <div className='fw-bold'>{t('modal.settings.statusBar.title')}</div>
                   {t('modal.settings.statusBar.hint')}

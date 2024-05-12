@@ -110,6 +110,8 @@
       "title": "Paramètres globaux",
       "checkIFrames": "Vérifiez les iframes",
       "checkIFramesHint": "Cet élément de contrôle dans les iframes",
+      "reloadOnError": "Recharger les erreurs",
+      "reloadOnErrorHint": "Cette page de rechargement si une erreur se produit",
       "advance": "Avance",
       "advanceHint": "Activer le mode avancé pour plus de fonctionnalités",
       "notification": {

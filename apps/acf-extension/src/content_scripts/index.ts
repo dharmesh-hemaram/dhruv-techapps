@@ -1,5 +1,5 @@
 import { LOAD_TYPES } from '@dhruv-techapps/acf-common';
-import { ConfigStorage, GetConfigResult } from '@dhruv-techapps/acf-store';
+import { ConfigStorage, GetConfigResult, SettingsStorage } from '@dhruv-techapps/acf-store';
 import { Session } from '@dhruv-techapps/acf-util';
 import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
 import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
@@ -15,6 +15,13 @@ declare global {
     __sheets?: Sheets;
   }
 }
+
+let reloadOnError = false;
+new SettingsStorage().getSettings().then((settings) => {
+  if (settings.reloadOnError !== undefined) {
+    reloadOnError = settings.reloadOnError;
+  }
+});
 
 async function loadConfig(loadType: LOAD_TYPES) {
   try {
@@ -50,5 +57,9 @@ window.addEventListener('load', () => {
 });
 
 addEventListener('unhandledrejection', (event) => {
+  if (reloadOnError && event.reason.message === 'Extension context invalidated.') {
+    window.location.reload();
+    return;
+  }
   GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, 'unhandledrejection', event.reason, { page: 'content_scripts' });
 });

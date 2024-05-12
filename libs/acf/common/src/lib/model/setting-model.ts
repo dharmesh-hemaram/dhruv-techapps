@@ -42,6 +42,7 @@ export type Settings = {
   checkiFrames: boolean;
   statusBar: STATUS_BAR_LOCATION;
   backup?: SettingsBackup;
+  reloadOnError?: boolean;
   notifications?: SettingsNotifications;
 };
 
