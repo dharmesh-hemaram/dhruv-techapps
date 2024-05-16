@@ -112,6 +112,8 @@
       "checkIFramesHint": "This checks element within iFrames",
       "reloadOnError": "Reload on Errors",
       "reloadOnErrorHint": "This reloads page if any error occurs",
+      "suppressWhatsNew": "Suppress What's New",
+      "suppressWhatsNewHint": "This suppresses What's New popup",
       "advance": "Advance",
       "advanceHint": "Enable advance mode for more features",
       "notification": {

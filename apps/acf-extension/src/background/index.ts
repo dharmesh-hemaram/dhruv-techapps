@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import { RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
+import { LOCAL_STORAGE_KEY, RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
 import { Runtime } from '@dhruv-techapps/core-extension';
 import { DiscordMessagingBackground, RUNTIME_MESSAGE_DISCORD_MESSAGING } from '@dhruv-techapps/discord-messaging';
 import { DiscordOauth2Background, RUNTIME_MESSAGE_DISCORD_OAUTH } from '@dhruv-techapps/discord-oauth';
@@ -28,9 +28,10 @@ try {
   /**
    *  On initial install setup basic configuration
    */
-  chrome.runtime.onInstalled.addListener((details) => {
+  chrome.runtime.onInstalled.addListener(async (details) => {
     if (VARIANT !== 'LOCAL') {
-      if (details.reason === 'update') {
+      const { settings } = await chrome.storage.local.get(LOCAL_STORAGE_KEY.SETTINGS);
+      if (details.reason === 'update' && settings?.suppressWhatsNew !== true) {
         TabsMessenger.optionsTab({ url: `${OPTIONS_PAGE_URL}?version=${chrome.runtime.getManifest().version}` });
       } else if (details.reason === 'install') {
         TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });

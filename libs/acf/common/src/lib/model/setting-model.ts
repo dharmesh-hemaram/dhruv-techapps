@@ -44,6 +44,7 @@ export type Settings = {
   backup?: SettingsBackup;
   reloadOnError?: boolean;
   notifications?: SettingsNotifications;
+  suppressWhatsNew?: boolean;
 };
 
 export const defaultSettings: Settings = {

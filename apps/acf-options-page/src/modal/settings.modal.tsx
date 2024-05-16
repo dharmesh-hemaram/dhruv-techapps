@@ -1,19 +1,19 @@
+import { STATUS_BAR_LOCATION } from '@dhruv-techapps/status-bar';
 import { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { getFieldNameValue } from '../util/element';
-import { SettingNotifications } from './settings/notifications';
-import { SettingRetry } from './settings/retry';
-import { SettingMessage } from './settings/message';
-import { ArrowRepeat, BellFill, ChevronLeft, ChevronRight, CloudArrowUpFill, FileSpreadsheetFill } from '../util';
-import { SettingsGoogleBackup } from './settings/google-backup';
 import { ErrorAlert } from '../components';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { settingsSelector, switchSettingsModal, updateSettings } from '../store/settings/settings.slice';
 import { googleGetAPI, settingsGetAPI } from '../store/settings/settings.api';
-import { SettingGoogleSheets } from './settings/google-sheets';
+import { settingsSelector, switchSettingsModal, updateSettings } from '../store/settings/settings.slice';
 import { themeSelector } from '../store/theme.slice';
-import { STATUS_BAR_LOCATION } from '@dhruv-techapps/status-bar';
+import { ArrowRepeat, BellFill, ChevronLeft, ChevronRight, CloudArrowUpFill, FileSpreadsheetFill } from '../util';
+import { getFieldNameValue } from '../util/element';
+import { SettingsGoogleBackup } from './settings/google-backup';
+import { SettingGoogleSheets } from './settings/google-sheets';
+import { SettingMessage } from './settings/message';
+import { SettingNotifications } from './settings/notifications';
+import { SettingRetry } from './settings/retry';
 
 enum SETTINGS_PAGE {
   NOTIFICATION = 'Show Notification',
@@ -118,6 +118,15 @@ export const SettingsModal = () => {
                 </Form.Label>
                 <Form.Check type='switch' name='reloadOnError' onChange={onUpdate} id='settings-reloadOnError' checked={settings.reloadOnError || false} />
               </li>
+              {localStorage.getItem('DEV') === 'true' && (
+                <li className='list-group-item d-flex justify-content-between align-items-center'>
+                  <Form.Label className='ms-2 me-auto' htmlFor='settings-suppress-whats-new'>
+                    <div className='fw-bold'>{t('modal.settings.suppressWhatsNew')}</div>
+                    {t('modal.settings.suppressWhatsNewHint')} <br />
+                  </Form.Label>
+                  <Form.Check type='switch' name='suppressWhatsNew' onChange={onUpdate} id='settings-suppressWhatsNew' checked={settings.suppressWhatsNew || false} />
+                </li>
+              )}
               <li className='list-group-item d-flex justify-content-between align-items-center'>
                 <Form.Label className='ms-2' htmlFor='settings-statusBar'>
                   <div className='fw-bold'>{t('modal.settings.statusBar.title')}</div>
