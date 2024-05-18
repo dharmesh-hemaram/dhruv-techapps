@@ -14,7 +14,7 @@
     "@reactour/tour": "^3.6.1",
     "@reduxjs/toolkit": "^2.2.4",
     "@swc/helpers": "0.5.3",
-    "@tanstack/react-table": "^8.16.0",
+    "@tanstack/react-table": "^8.17.3",
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "axios": "^1.6.8",
     "bootstrap-icons": "^1.11.3",
