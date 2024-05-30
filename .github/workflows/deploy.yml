@@ -94,8 +94,10 @@ jobs:
         run: |
           mkdir bundle
           cd dist/apps
-          zip -r ../../bundle/acf-options-page.zip acf-options-page/
           zip -r ../../bundle/acf-i18n.zip acf-i18n/
+          cd acf-options-page
+          zip -r ../../../bundle/acf-options-page.zip .
+          cd ..
           cd acf-extension
           zip -r ../../../bundle/acf-extension.zip .
       - uses: actions/upload-artifact@v4
@@ -143,8 +145,9 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: nx-main-artifacts
+      - name: unzip
+        run: unzip acf-options-page.zip -d acf-options-page
       - name: Build And Deploy
-        if: ${{ hashFiles('acf-options-page/') != '' }}
         id: deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
