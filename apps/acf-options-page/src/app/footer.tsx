@@ -1,9 +1,9 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { Twitter, ChatFill, ShieldCheck, Facebook, Whatsapp, Star } from '../util';
 import { SOCIAL_LINKS } from '../constants';
 import { useAppSelector } from '../hooks';
 import { appSelector } from '../store/app.slice';
+import { ChatFill, Facebook, ShieldCheck, Star, Twitter, Whatsapp } from '../util';
 
 function Footer() {
   const { manifest } = useAppSelector(appSelector);
@@ -30,7 +30,7 @@ function Footer() {
                 <br />
                 <small id='extension-version'>☘ v{manifest?.version}</small>
                 <br />
-                <small id='web-version'>☯ v{process.env.NX_RELEASE_VERSION}</small>
+                <small id='web-version'>☯ {process.env.NX_RELEASE_VERSION}</small>
               </div>
             </div>
           </Col>
