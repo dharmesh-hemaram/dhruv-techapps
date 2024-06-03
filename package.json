@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nx/devkit": "18.3.4",
-    "@reactour/tour": "^3.6.1",
+    "@reactour/tour": "^3.6.2",
     "@reduxjs/toolkit": "^2.2.4",
     "@swc/helpers": "0.5.3",
     "@tanstack/react-table": "^8.17.3",
