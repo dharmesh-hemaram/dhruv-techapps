@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nx/devkit": "18.3.4",
-    "@reactour/tour": "^3.6.1",
+    "@reactour/tour": "^3.6.2",
     "@reduxjs/toolkit": "^2.2.4",
     "@swc/helpers": "0.5.3",
     "@tanstack/react-table": "^8.17.3",
@@ -24,7 +24,7 @@
     "i18next-http-backend": "^2.5.0",
     "randexp": "^0.5.3",
     "react": "18.3.1",
-    "react-bootstrap": "^2.10.0",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "18.2.0",
     "react-i18next": "^14.0.1",
     "react-markdown": "^9.0.1",
