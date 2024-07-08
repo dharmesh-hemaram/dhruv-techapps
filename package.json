@@ -47,7 +47,7 @@
     "@nx/node": "19.1.0",
     "@nx/plugin": "18.3.4",
     "@nx/react": "19.0.4",
-    "@nx/rollup": "18.3.4",
+    "@nx/rollup": "19.4.1",
     "@nx/web": "19.1.1",
     "@nx/webpack": "18.3.4",
     "@nx/workspace": "19.1.0",
