@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/acf-extension/src",
   "projectType": "application",
+  "tags": ["scope:app", "app:acf-extension"],
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
@@ -117,6 +118,5 @@
         "artifactsDir": "{workspaceRoot}/dist/apps"
       }
     }
-  },
-  "tags": ["scope:app", "app:acf-extension"]
+  }
 }

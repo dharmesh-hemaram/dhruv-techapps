@@ -33,6 +33,10 @@
               {
                 "sourceTag": "scope:app",
                 "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "puppeteer",
+                "onlyDependOnLibsWithTags": ["*"]
               }
             ]
           }

@@ -3,11 +3,12 @@ export class CoreService {
   static messageChrome<K, T = void>(extensionId: string, message: K): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       try {
-        if (!chrome.runtime?.sendMessage) {
+        if (!chrome?.runtime?.sendMessage) {
+          console.error('Extension context invalidated');
           reject(new Error('Extension context invalidated'));
           return;
         }
-
+        console.log('messageChrome', extensionId, message);
         chrome.runtime.sendMessage(extensionId, message, (response) => {
           if (chrome.runtime.lastError || response?.error) {
             reject(new Error(chrome.runtime.lastError?.message || response?.error));

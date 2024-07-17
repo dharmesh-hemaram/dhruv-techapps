@@ -1,0 +1,17 @@
+{
+  "extends": ["plugin:playwright/recommended", "../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
+  "env": {
+    "webextensions": true,
+    "jest": true
+  },
+  "globals": {
+    "globalThis": "writable"
+  },
+  "overrides": [
+    {
+      "files": ["e2e/**/*.{ts,js,tsx,jsx}"],
+      "rules": {}
+    }
+  ]
+}

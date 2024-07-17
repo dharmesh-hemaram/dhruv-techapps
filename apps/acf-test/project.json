@@ -1,0 +1,16 @@
+{
+  "name": "acf-test",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/acf-test/src",
+  "projectType": "application",
+  "tags": ["test"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/acf-extension"],
+      "options": {
+        "config": "apps/acf-test/playwright.config.ts"
+      }
+    }
+  }
+}
