@@ -5,8 +5,6 @@
   },
   "peerDependencies": {
     "tslib": "^2.3.0",
-    "@dhruv-techapps/core-common": "^4.0.x",
-    "@dhruv-techapps/sandbox": "^4.0.x",
     "@dhruv-techapps/google-sheets": "^4.0.x"
   },
   "type": "commonjs",

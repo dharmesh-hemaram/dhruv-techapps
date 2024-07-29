@@ -2,13 +2,13 @@ import { ACTION_STATUS, Action } from '@dhruv-techapps/acf-common';
 import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { ConfigError, Logger, LoggerColor } from '@dhruv-techapps/core-common';
 import { NotificationsService } from '@dhruv-techapps/core-service';
+import { STATUS_BAR_TYPE } from '@dhruv-techapps/status-bar';
 import ActionProcessor from './action';
 import AddonProcessor from './addon';
 import Common from './common';
+import { I18N_COMMON, I18N_ERROR } from './i18n';
 import Statement from './statement';
 import { statusBar } from './status-bar';
-import { I18N_COMMON, I18N_ERROR } from './i18n';
-import { STATUS_BAR_TYPE } from '@dhruv-techapps/status-bar';
 
 const ACTION_I18N = {
   TITLE: chrome.i18n.getMessage('@ACTION__TITLE'),
@@ -25,7 +25,7 @@ const Actions = (() => {
   const notify = async (action: Action) => {
     const settings = await new SettingsStorage().getSettings();
     if (settings.notifications?.onAction) {
-      NotificationsService.create(chrome.runtime.id, {
+      NotificationsService.create({
         type: 'basic',
         title: `${ACTION_I18N.TITLE} ${I18N_COMMON.COMPLETED}`,
         message: action.elementFinder,

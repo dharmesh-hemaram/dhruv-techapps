@@ -11,7 +11,7 @@ export const AppendEvents = (() => {
       element.value += value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'AppendEvents' });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'AppendEvents' });
       element.textContent += value;
     } else {
       throw new ConfigError(UNKNOWN_ELEMENT_TYPE_ERROR, 'Append Events');
