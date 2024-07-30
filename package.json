@@ -36,7 +36,7 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.5",
+    "@babel/core": "^7.25.2",
     "@babel/preset-react": "^7.24.6",
     "@google-cloud/translate": "^8.2.0",
     "@nx/esbuild": "18.3.4",
