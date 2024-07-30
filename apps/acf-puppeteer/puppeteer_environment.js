@@ -7,6 +7,10 @@ const NodeEnvironment = require('jest-environment-node').default;
 const DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup');
 
 class PuppeteerEnvironment extends NodeEnvironment {
+  constructor(config) {
+    super(config);
+  }
+
   async setup() {
     await super.setup();
     // get the wsEndpoint

@@ -9,7 +9,6 @@ export class CoreService {
     return new Promise<T>((resolve, reject) => {
       try {
         if (!chrome?.runtime?.sendMessage) {
-          console.error('Extension context invalidated');
           reject(new Error('Extension context invalidated'));
           return;
         }
