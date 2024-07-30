@@ -10,8 +10,8 @@ function Footer() {
   const { t } = useTranslation();
 
   let imageURL = 'https://getautoclicker.com/favicons/favicon48.png';
-  if (/(DEV|BETA)/.test(process.env.NX_VARIANT ?? '')) {
-    imageURL = `https://getautoclicker.com/favicons/${process.env.NX_VARIANT}/icon48.png`;
+  if (/(DEV|BETA)/.test(process.env.NX_PUBLIC_VARIANT ?? '')) {
+    imageURL = `https://getautoclicker.com/favicons/${process.env.NX_PUBLIC_VARIANT}/icon48.png`;
   }
 
   return (
@@ -23,14 +23,14 @@ function Footer() {
             <div className='d-inline-flex flex-column'>
               <h6 className='text-secondary mb-0'>
                 {t('common.appName')}
-                <span className={`${process.env.NX_VARIANT} ms-2`}>[{process.env.NX_VARIANT}]</span>
+                <span className={`${process.env.NX_PUBLIC_VARIANT} ms-2`}>[{process.env.NX_PUBLIC_VARIANT}]</span>
               </h6>
               <div className='text-muted'>
                 <small>© 2017 - 2024</small>
                 <br />
                 <small id='extension-version'>☘ v{manifest?.version}</small>
                 <br />
-                <small id='web-version'>☯ {process.env.NX_RELEASE_VERSION}</small>
+                <small id='web-version'>☯ {process.env.NX_PUBLIC_RELEASE_VERSION}</small>
               </div>
             </div>
           </Col>

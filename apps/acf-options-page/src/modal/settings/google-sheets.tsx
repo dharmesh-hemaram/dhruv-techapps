@@ -21,7 +21,7 @@ function SettingGoogleSheets() {
   if (!google || !googleScopes.includes(scope)) {
     return (
       <div className='d-flex flex-column align-items-start'>
-        {['DEV', 'BETA'].includes(process.env.NX_VARIANT || '') ? (
+        {['DEV', 'BETA'].includes(process.env.NX_PUBLIC_VARIANT || '') ? (
           <Alert>
             <Alert.Heading>Use Stable Versions for Google Sheets Features.</Alert.Heading>
             For optimal performance and reliability in Google Sheets, it's recommended to utilize <Alert.Link href={`https://stable.getautoclicker.com`}>stable</Alert.Link> versions of its features.
@@ -31,7 +31,7 @@ function SettingGoogleSheets() {
         ) : (
           <>
             <b className='mx-3 text-muted'>Connect with Google Sheets</b>
-            <Button variant='link' onClick={connect} data-testid='google-sheets-connect' disabled={['DEV', 'BETA'].includes(process.env.NX_VARIANT || '')}>
+            <Button variant='link' onClick={connect} data-testid='google-sheets-connect' disabled={['DEV', 'BETA'].includes(process.env.NX_PUBLIC_VARIANT || '')}>
               <img src={theme === 'light' ? GoogleSignInLight : GoogleSignInDark} alt='Logo' />
             </Button>
           </>
