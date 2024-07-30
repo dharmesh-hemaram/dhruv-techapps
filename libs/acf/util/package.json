@@ -1,8 +1,11 @@
 {
-  "name": "@dhruv-techapps/status-bar",
+  "name": "@dhruv-techapps/acf-util",
+  "dependencies": {
+    "randexp": "^0.5.3"
+  },
   "peerDependencies": {
     "tslib": "^2.3.0",
-    "@dhruv-techapps/shared-util": "^4.0.x"
+    "@dhruv-techapps/google-sheets": "^4.0.x"
   },
   "type": "commonjs",
   "main": "./src/index.js",

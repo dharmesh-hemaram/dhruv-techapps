@@ -21,6 +21,7 @@ export class StatusBar {
 
   constructor() {
     this.statusBar = document.createElement('div');
+    this.statusBar.className = 'hide';
     this.statusBar.id = 'auto-clicker-auto-fill-status';
     ['icon', 'text', 'batch', 'action', 'addon', 'timer'].forEach((el) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

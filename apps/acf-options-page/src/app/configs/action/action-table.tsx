@@ -1,14 +1,14 @@
+import { useConfirmationModalContext } from '@apps/acf-options-page/src/_providers/confirm.provider';
+import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
+import { actionSelector, addAction, openActionAddonModalAPI, openActionSettingsModalAPI, openActionStatementModalAPI, removeAction, updateAction } from '@apps/acf-options-page/src/store/config';
+import { Action, RANDOM_UUID } from '@dhruv-techapps/acf-common';
+import { ColumnDef, Row, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { Button, Dropdown, Form, Table } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { ColumnDef, Row, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
-import { Plus, REGEX, ThreeDots, Trash } from '../../../util';
-import { ElementFinderPopover, ValuePopover } from '../../../popover';
 import { DropdownToggle } from '../../../components';
-import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
-import { removeAction, updateAction, actionSelector, openActionAddonModalAPI, openActionStatementModalAPI, openActionSettingsModalAPI, addAction } from '@apps/acf-options-page/src/store/config';
-import { useConfirmationModalContext } from '@apps/acf-options-page/src/_providers/confirm.provider';
-import { Action, RANDOM_UUID } from '@dhruv-techapps/acf-common';
+import { ElementFinderPopover, ValuePopover } from '../../../popover';
+import { Plus, REGEX, ThreeDots, Trash } from '../../../util';
 import { defaultColumn } from './editable-cell';
 
 type ActionMeta = { dataType: string; list: string; pattern: string; required: boolean; width?: string };
@@ -90,6 +90,7 @@ const ActionTable = ({ actions }: ActionProps) => {
         accessorKey: 'value',
         meta: {
           list: 'value',
+          as: 'textarea',
         },
       },
       {
@@ -145,18 +146,6 @@ const ActionTable = ({ actions }: ActionProps) => {
     dispatch(openActionSettingsModalAPI(row.original.id));
   };
 
-  /*const moveUp = (e, rowId) => {
-    if (e.currentTarget.getAttribute('disabled') === null) {
-      dispatch(reorderActions({ oldIndex: +rowId, newIndex: rowId - 1 }));
-    }
-  };
-
-  const moveDown = (e, rowId) => {
-    if (e.currentTarget.getAttribute('disabled') === null) {
-      dispatch(reorderActions({ oldIndex: +rowId, newIndex: +rowId + 1 }));
-    }
-  };*/
-
   const onDisableClick = (row: Row<Action>, disabled: boolean) => {
     dispatch(updateAction({ selectedActionId: row.original.id, name: 'disabled', value: !disabled }));
   };
@@ -185,12 +174,6 @@ const ActionTable = ({ actions }: ActionProps) => {
         <tbody>
           {table.getRowModel().rows.map((row, index) => (
             <tr key={row.id} className={actions[row.id].disabled ? 'table-secondary' : ''}>
-              {/*<td align='center'>
-                <div className='d-flex flex-column align-items-center text-secondary'>
-                  <CaretUp width='20' height='20' onClick={(e) => moveUp(e, row.id)} />
-                  <CaretDown width='20' height='20' onClick={(e) => moveDown(e, row.id)} />
-                </div>
-          </td>*/}
               <td className='align-middle'>{index + 1}</td>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>

@@ -1,15 +1,15 @@
+import { useTimeout } from '@apps/acf-options-page/src/_hooks/message.hooks';
+import { addToast } from '@apps/acf-options-page/src/store/toast.slice';
+import { Configuration } from '@dhruv-techapps/acf-common';
 import { createRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Alert, Badge, Button, ButtonGroup, Card, Col, Form, Row } from 'react-bootstrap';
-import ConfigBody from './config-body';
-import { Copy, Download, Gear, Upload } from '../../../util';
-import { getFieldNameValue } from '../../../util/element';
+import { useTranslation } from 'react-i18next';
 import { download } from '../../../_helpers';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { configSelector, duplicateConfig, importAll, importConfig, selectedConfigSelector, setConfigMessage, switchConfigSettingsModal, updateConfig } from '../../../store/config';
-import { addToast } from '@apps/acf-options-page/src/store/toast.slice';
-import { Configuration } from '@dhruv-techapps/acf-common';
-import { useTimeout } from '@apps/acf-options-page/src/_hooks/message.hooks';
+import { Copy, Download, Gear, Upload } from '../../../util';
+import { getFieldNameValue } from '../../../util/element';
+import ConfigBody from './config-body';
 
 function Config() {
   const { message, error } = useAppSelector(configSelector);

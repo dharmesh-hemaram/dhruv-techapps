@@ -1,13 +1,13 @@
 import { ADDON_CONDITIONS, ActionSettings, Addon, RECHECK_OPTIONS, ValueExtractorFlags } from '@dhruv-techapps/acf-common';
-import { Value } from '@dhruv-techapps/acf-util';
-import { ConfigError, Logger, SystemError } from '@dhruv-techapps/core-common';
+import { ConfigError, SystemError } from '@dhruv-techapps/core-common';
 import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 import { Sandbox } from '@dhruv-techapps/sandbox';
+import { STATUS_BAR_TYPE } from '@dhruv-techapps/status-bar';
 import { RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import Common from './common';
-import { statusBar } from './status-bar';
 import { I18N_COMMON, I18N_ERROR } from './i18n';
-import { STATUS_BAR_TYPE } from '@dhruv-techapps/status-bar';
+import { statusBar } from './status-bar';
+import { ACFValue } from './util/acf-value';
 
 const ADDON_I18N = {
   TITLE: chrome.i18n.getMessage('@ADDON__TITLE'),
@@ -67,7 +67,7 @@ const AddonProcessor = (() => {
         value = element.value;
       }
     } else if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'Addon' });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'Addon' });
       value = element.textContent || element.innerText;
     } else {
       value = element.innerText;
@@ -123,7 +123,7 @@ const AddonProcessor = (() => {
       if (/^Func::/gi.test(elementFinder)) {
         nodeValue = await Sandbox.sandboxEval(elementFinder.replace(/^Func::/gi, ''));
       } else {
-        elementFinder = await Value.getValue(elementFinder);
+        elementFinder = await ACFValue.getValue(elementFinder);
         const elements = await Common.start(elementFinder, settings);
         if (typeof elements === 'number') {
           return elements;
@@ -154,7 +154,7 @@ const AddonProcessor = (() => {
       const { elementFinder, condition, ...props } = addon;
       if (elementFinder && value && condition) {
         console.groupCollapsed(ADDON_I18N.TITLE);
-        value = await Value.getValue(value);
+        value = await ACFValue.getValue(value);
         return await start({ ...props, elementFinder, value, condition }, actionSettings);
       }
     }

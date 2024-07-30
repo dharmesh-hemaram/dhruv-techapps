@@ -24,11 +24,6 @@ on:
         type: boolean
         default: false
         required: true
-      publish_packages:
-        description: 'Publish packages'
-        type: boolean
-        default: false
-        required: true
       release:
         description: 'Release'
         type: boolean
@@ -43,10 +38,8 @@ jobs:
       url: ${{ steps.artifact-upload-step.outputs.artifact-url }}
     runs-on: ubuntu-latest
     permissions:
-      packages: write
       contents: read
       actions: read
-      id-token: write # needed for provenance data generation
     steps:
       - uses: actions/checkout@v4
         with:
@@ -82,14 +75,8 @@ jobs:
           NX_RELEASE_VERSION: ${{github.ref_name}}
           API_SECRET: ${{vars.API_SECRET}}
           MEASUREMENT_ID: ${{vars.MEASUREMENT_ID}}
-          SENTRY_AUTH_TOKEN: ${{vars.SENTRY_AUTH_TOKEN}}
       - name: Print Environment Info
         run: npx nx report
-      - name: Publish Packages
-        if: ${{ inputs.publish_packages }}
-        run: npx nx release publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REPO_PAT }}
       - name: Bundle Projects
         run: |
           mkdir bundle

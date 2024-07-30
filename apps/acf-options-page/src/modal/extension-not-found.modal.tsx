@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Trans, useTranslation } from 'react-i18next';
-import { CHROME_WEB_STORE, EDGE_WEB_STORE } from '../constants';
 import { BROWSER } from '../_helpers';
+import { CHROME_WEB_STORE, EDGE_WEB_STORE } from '../constants';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { appSelector, switchExtensionNotFound } from '../store/app.slice';
 
@@ -15,7 +15,7 @@ const ExtensionNotFoundModal = () => {
 
   const downloadClick = () => {
     const webStore = BROWSER === 'EDGE' ? EDGE_WEB_STORE : CHROME_WEB_STORE;
-    const extensionId = process.env[`NX_${BROWSER}_EXTENSION_ID`];
+    const extensionId = process.env[`NX_PUBLIC_${BROWSER}_EXTENSION_ID`];
     window.open(`${webStore}${extensionId}`);
   };
 

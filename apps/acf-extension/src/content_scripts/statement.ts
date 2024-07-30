@@ -1,5 +1,4 @@
 import { ACTION_CONDITION_OPR, ACTION_RUNNING, ActionCondition, ActionStatement } from '@dhruv-techapps/acf-common';
-import { Logger } from '@dhruv-techapps/core-common';
 
 const Statement = (() => {
   const conditionResult = (conditions: Array<ActionCondition>, actions: Array<string>) => {
@@ -42,7 +41,7 @@ const Statement = (() => {
     return true;
   };
 
-  return { check, checkThen, conditionResult };
+  return { check };
 })();
 
 export default Statement;

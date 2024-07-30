@@ -1,6 +1,5 @@
 {
   "name": "@dhruv-techapps/acf-service",
-  "version": "3.11.0",
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts"

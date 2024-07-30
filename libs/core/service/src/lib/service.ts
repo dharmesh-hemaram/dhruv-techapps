@@ -1,6 +1,11 @@
+type CoreServiceRequest = {
+  messenger: string;
+  methodName: string;
+  message?: unknown;
+};
+
 export class CoreService {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static messageChrome<K, T = void>(extensionId: string, message: K): Promise<T> {
+  static messageChrome<K extends CoreServiceRequest, T = void>(message: K): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       try {
         if (!chrome?.runtime?.sendMessage) {
@@ -8,11 +13,19 @@ export class CoreService {
           reject(new Error('Extension context invalidated'));
           return;
         }
-        console.log('messageChrome', extensionId, message);
-        chrome.runtime.sendMessage(extensionId, message, (response) => {
+
+        const id = chrome.runtime.id || window.EXTENSION_ID;
+        if (!id || typeof id !== 'string') {
+          reject(new Error('extensionId is not undefined neither string'));
+          return;
+        }
+        // This line is kept for debugging purpose console.debug(`${message.messenger}.${message.methodName}`, message.message);
+        chrome.runtime.sendMessage(id, message, (response) => {
           if (chrome.runtime.lastError || response?.error) {
+            console.error(chrome.runtime.lastError?.message || response?.error);
             reject(new Error(chrome.runtime.lastError?.message || response?.error));
           } else {
+            // This line is kept for debugging purpose console.debug(response);
             resolve(response);
           }
         });
@@ -22,11 +35,7 @@ export class CoreService {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static async message<K, T = void>(extensionId: string, message: K): Promise<T> {
-    if (extensionId && typeof extensionId !== 'string') {
-      return Promise.reject(new Error('extensionId is not undefined neither string'));
-    }
-    return await this.messageChrome<K, T>(extensionId, message);
+  static async message<K extends CoreServiceRequest, T = void>(message: K): Promise<T> {
+    return await this.messageChrome<K, T>(message);
   }
 }

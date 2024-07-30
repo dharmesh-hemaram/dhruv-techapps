@@ -20,7 +20,7 @@
       "@dhruv-techapps/acf-events": ["libs/acf/events/src/index.ts"],
       "@dhruv-techapps/acf-service": ["libs/acf/service/src/index.ts"],
       "@dhruv-techapps/acf-store": ["libs/acf/store/src/index.ts"],
-      "@dhruv-techapps/acf-util": ["libs/acf/acf-util/src/index.ts"],
+      "@dhruv-techapps/acf-util": ["libs/acf/util/src/index.ts"],
       "@dhruv-techapps/core-common": ["libs/core/common/src/index.ts"],
       "@dhruv-techapps/core-extension": ["libs/core/extension/src/index.ts"],
       "@dhruv-techapps/core-service": ["libs/core/service/src/index.ts"],
