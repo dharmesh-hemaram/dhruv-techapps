@@ -1,5 +1,5 @@
-import { Page, WebWorker } from 'puppeteer';
-import { TestPage, TestWorker, containsInvalidClass, getPageAndWorker } from './util';
+import { Page, WebWorker } from 'puppeteer-core';
+import { TestPage, TestWorker, containsInvalidClass, getPageAndWorker } from '../../util';
 
 let worker: WebWorker;
 let page: Page;
@@ -11,21 +11,26 @@ beforeAll(async () => {
 
 describe('Action', () => {
   const actions = [
-    ['initWait', 1],
-    ['name', 'name'],
-    ['elementFinder', 'elementFinder'],
-    ['value', 'value'],
-    ['repeat', 1],
-    ['repeatInterval', 1],
+    ['initWait', 1, 'input[name=initWait]'],
+    ['name', 'name', 'input[name=name]'],
+    ['elementFinder', 'elementFinder', 'input[name=elementFinder]'],
+    ['value', 'value', 'textarea[name=value]'],
+    ['repeat', 1, 'input[name=repeat]'],
+    ['repeatInterval', 1, 'input[name=repeatInterval]'],
   ];
 
   const elementFinderSelector = '#actions input[name=elementFinder]';
-  const valueSelector = '#actions input[name=value]';
+  const valueSelector = '#actions textarea[name=value]';
   const initWaitSelector = '#actions input[name=initWait]';
   const nameSelector = '#actions input[name=name]';
   const repeatSelector = '#actions input[name=repeat]';
 
   const repeatIntervalSelector = '#actions input[name=repeatInterval]';
+
+  test('clear', async () => {
+    await page.evaluate(() => localStorage.removeItem('columnVisibility'));
+    await page.reload();
+  });
   test('default', async () => {
     const configs = await worker.evaluate(TestWorker.getConfigs);
     const columnVisibility = await page.evaluate(() => localStorage.getItem('columnVisibility'));
@@ -38,9 +43,9 @@ describe('Action', () => {
   });
   describe('columnVisibility', () => {
     test.each(['name', 'initWait', 'repeat', 'repeatInterval'])('%s Visible', async (column) => {
-      await page.click('#column-dropdown');
-      await page.waitForSelector(`.show.dropdown [aria-labelledBy="column-dropdown"] [data-column=${column}]`);
-      await page.click(`.show.dropdown [aria-labelledBy="column-dropdown"] [data-column=${column}]`);
+      await page.click('#acton-column-filter');
+      await page.waitForSelector(`.show.dropdown [aria-labelledBy="acton-column-filter"] [data-column=${column}]`);
+      await page.click(`.show.dropdown [aria-labelledBy="acton-column-filter"] [data-column=${column}]`);
       const columnVisibility = await page.evaluate(() => localStorage.getItem('columnVisibility'));
       expect(columnVisibility).not.toBeNull();
       const columnVisibilityJson = JSON.parse(columnVisibility);
@@ -49,10 +54,9 @@ describe('Action', () => {
       expect(element).not.toBeNull();
     });
     test.each(['name', 'initWait', 'repeat', 'repeatInterval'])('%s Invisible', async (column) => {
-      await page.click('#column-dropdown');
-      await page.waitForSelector(`.show.dropdown [aria-labelledBy="column-dropdown"] [data-column=${column}]`);
-      await page.click(`.show.dropdown [aria-labelledBy="column-dropdown"] [data-column=${column}]`);
-
+      await page.click('#acton-column-filter');
+      await page.waitForSelector(`.show.dropdown [aria-labelledBy="acton-column-filter"] [data-column=${column}]`);
+      await page.click(`.show.dropdown [aria-labelledBy="acton-column-filter"] [data-column=${column}]`);
       const columnVisibility = await page.evaluate(() => localStorage.getItem('columnVisibility'));
       expect(columnVisibility).not.toBeNull();
       const element = await page.$(`#actions input[name=${column}]`);
@@ -77,8 +81,8 @@ describe('Action', () => {
   });
   describe('initWait', () => {
     test('switch initWait', async () => {
-      await page.click('#column-dropdown');
-      await page.click(`.show.dropdown [aria-labelledBy="column-dropdown"] [data-column=initWait]`);
+      await page.click('#acton-column-filter');
+      await page.click(`.show.dropdown [aria-labelledBy="acton-column-filter"] [data-column=initWait]`);
     });
     test('-1', async () => {
       await testPage.fill(initWaitSelector, '-1');
@@ -126,8 +130,8 @@ describe('Action', () => {
     });
   });
   test('name', async () => {
-    await page.click('#column-dropdown');
-    await page.click(`.show.dropdown [aria-labelledBy="column-dropdown"] [data-column=name]`);
+    await page.click('#acton-column-filter');
+    await page.click(`.show.dropdown [aria-labelledBy="acton-column-filter"] [data-column=name]`);
     await testPage.fill(nameSelector, 'TEST');
     const configs = await worker.evaluate(TestWorker.getConfigs);
     expect(configs?.[0].actions[0].name).toEqual('TEST');
@@ -140,8 +144,8 @@ describe('Action', () => {
       }
     });
     test('switch repeat', async () => {
-      await page.click('#column-dropdown');
-      await page.click(`.show.dropdown [aria-labelledBy="column-dropdown"] [data-column=repeat]`);
+      await page.click('#acton-column-filter');
+      await page.click(`.show.dropdown [aria-labelledBy="acton-column-filter"] [data-column=repeat]`);
     });
     test('-2', async () => {
       await testPage.fill(repeatSelector, '-2');
@@ -192,8 +196,8 @@ describe('Action', () => {
       expect(configs[0].actions[0].repeatInterval).toBeUndefined();
     });
     test('switch repeatInterval', async () => {
-      await page.click('#column-dropdown');
-      await page.click(`.show.dropdown [aria-labelledBy="column-dropdown"] [data-column=repeatInterval]`);
+      await page.click('#acton-column-filter');
+      await page.click(`.show.dropdown [aria-labelledBy="acton-column-filter"] [data-column=repeatInterval]`);
     });
     test('-1', async () => {
       await testPage.fill(repeatIntervalSelector, '-1');
@@ -245,11 +249,11 @@ describe('Action', () => {
     test('trigger', async () => {
       await page.click('#add-action');
     });
-    test.each(actions)('%# %p second', async (action, value) => {
-      const selectorAll = `#actions input[name=${action}]`;
-      const selector = `#actions tr:nth-child(2) input[name=${action}]`;
+    test.each(actions)('%# %p %p second', async (action, value, selector) => {
+      const selectorAll = `#actions ${selector}`;
+      const element = `#actions tr:nth-child(2) ${selector}`;
       const elements = await page.$$(selectorAll);
-      await testPage.fill(selector, String(value));
+      await testPage.fill(element, String(value));
       const configs = await worker.evaluate(TestWorker.getConfigs);
       expect(elements.length).toEqual(2);
       expect(configs[0].actions[1][action]).toEqual(value);

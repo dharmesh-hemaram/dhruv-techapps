@@ -1,5 +1,5 @@
-import { TestPage, TestWorker, delay, getPageAndWorker } from './util';
-import { Page, WebWorker } from 'puppeteer';
+import { Page, WebWorker } from 'puppeteer-core';
+import { TestPage, TestWorker, delay, getPageAndWorker } from '../../util';
 
 const config1 = {
   url: 'https://developer.mozilla.org/',
@@ -19,14 +19,13 @@ beforeAll(async () => {
   ({ page, worker, testPage } = await getPageAndWorker());
 });
 
-test('No Configs', async () => {
-  const configs = await worker.evaluate(TestWorker.getConfigs);
-  expect(configs).toBeUndefined();
-});
-
-const CONFIGURATION_LIST = '#configuration-list';
+const CONFIGURATION_LIST = 'ul[data-testid=configuration-list]';
 
 describe('Configurations', () => {
+  test('No Configs', async () => {
+    const configs = await worker.evaluate(TestWorker.getConfigs);
+    expect(configs).toBeUndefined();
+  });
   test('updated Config 1', async () => {
     const selector = 'input[name=url]';
     await testPage.fill(selector, config1.url);
@@ -37,11 +36,11 @@ describe('Configurations', () => {
   });
 
   test('Add Configuration', async () => {
-    const beforeOptionsLength = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLSelectElement).options.length);
-    await page.click('#add-configuration');
+    const beforeOptionsLength = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLUListElement).querySelectorAll('li').length);
+    await page.click('[data-testid=add-configuration]');
     //Frontend
-    const optionsLength = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLSelectElement).options.length);
-    const selected = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLSelectElement).value);
+    const optionsLength = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLUListElement).querySelectorAll('li').length);
+    const selected = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLUListElement).querySelector('li.selected').getAttribute('data-index'));
     expect(optionsLength).toEqual(beforeOptionsLength + 1);
     expect(selected).toEqual('0');
     //Backend
@@ -69,8 +68,8 @@ describe('Configurations', () => {
   });
 
   test('switch Config', async () => {
-    await page.select(CONFIGURATION_LIST, '1');
-    const afterSelected = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLSelectElement).value);
+    await page.click(CONFIGURATION_LIST + ' li:nth-child(2)');
+    const afterSelected = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLUListElement).querySelector('li.selected').getAttribute('data-index'));
     expect(afterSelected).toEqual('1');
   });
 
@@ -122,7 +121,7 @@ describe('Configurations', () => {
         await delay(1000);
         const modal = await page.$(REMOVE_CONFIGS);
         const configs = await worker.evaluate(TestWorker.getConfigs);
-        const optionsLength = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLSelectElement).options.length);
+        const optionsLength = await page.$eval(CONFIGURATION_LIST, (e) => (e as HTMLUListElement).querySelectorAll('li').length);
         expect(modal).toBeNull();
         expect(configs.length).toEqual(1);
         expect(optionsLength).toEqual(1);

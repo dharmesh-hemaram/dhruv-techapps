@@ -1,5 +1,5 @@
-import { Page, WebWorker } from 'puppeteer';
-import { TestPage, TestWorker, containsInvalidClass, getPageAndWorker } from './util';
+import { Page, WebWorker } from 'puppeteer-core';
+import { TestPage, TestWorker, containsInvalidClass, getPageAndWorker } from '../../util';
 
 let worker: WebWorker;
 let page: Page;

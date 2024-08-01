@@ -1,6 +1,6 @@
 import { defaultSettings } from '@dhruv-techapps/acf-common';
-import { TestPage, TestWorker, containsInvalidClass, getPageAndWorker } from './util';
-import { Page, WebWorker } from 'puppeteer';
+import { Page, WebWorker } from 'puppeteer-core';
+import { TestPage, TestWorker, containsInvalidClass, getPageAndWorker } from '../../util';
 
 let worker: WebWorker;
 let page: Page;
@@ -11,7 +11,7 @@ beforeAll(async () => {
 });
 
 describe('Settings', () => {
-  const OPEN_SETTINGS = '[data-testid="open-settings"]';
+  const OPEN_SETTINGS = '[data-testid="open-global-settings"]';
   const SETTINGS_MODAL = '[data-testid="settings-modal"]';
   const SETTINGS_BACK_BUTTON = '[data-testid="settings-back-button"]';
   test('open', async () => {
@@ -191,6 +191,6 @@ describe('Settings', () => {
     });
   });
   test('close', async () => {
-    await page.click('.btn-close');
+    await page.click('[role=dialog] .btn-close');
   });
 });

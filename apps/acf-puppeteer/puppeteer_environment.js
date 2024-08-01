@@ -1,16 +1,12 @@
 const { readFile } = require('fs').promises;
 const os = require('os');
 const path = require('path');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const NodeEnvironment = require('jest-environment-node').default;
 
 const DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup');
 
 class PuppeteerEnvironment extends NodeEnvironment {
-  constructor(config) {
-    super(config);
-  }
-
   async setup() {
     await super.setup();
     // get the wsEndpoint
@@ -20,7 +16,7 @@ class PuppeteerEnvironment extends NodeEnvironment {
     }
 
     const browser = await puppeteer.connect({ browserWSEndpoint: wsEndpoint });
-    const backgroundPageTarget = await browser.waitForTarget((target) => target.type() === 'service_worker');
+    const backgroundPageTarget = await browser.waitForTarget((target) => target.type() === 'service_worker' && target.url().endsWith('background.js'));
     const worker = await backgroundPageTarget.worker();
     await worker.evaluate(async () => {
       await chrome.storage.local.clear();

@@ -58,21 +58,21 @@ jobs:
       - name: Build Projects and Library
         run: npx nx run-many -t=build --parallel=3 --prod --base-href ${{vars.PUBLIC_URL}}
         env:
-          NX_NAME: ${{vars.NX_NAME}}
-          NX_VARIANT: ${{vars.NX_VARIANT}}
-          NX_CHROME_EXTENSION_ID: ${{vars.NX_CHROME_EXTENSION_ID}}
-          NX_EDGE_EXTENSION_ID: ${{vars.NX_EDGE_EXTENSION_ID  || 'DEV'}}
-          NX_I18N: ${{vars.NX_I18N}}
-          NX_GOOGLE_ANALYTICS_ID: ${{vars.NX_GOOGLE_ANALYTICS_ID}}
-          NX_GOOGLE_ADS_SLOT: ${{vars.NX_GOOGLE_ADS_SLOT}}
-          NX_GOOGLE_ADS_CLIENT: ${{vars.NX_GOOGLE_ADS_CLIENT}}
+          NX_PUBLIC_NAME: ${{vars.NX_NAME}}
+          NX_PUBLIC_VARIANT: ${{vars.NX_VARIANT}}
+          NX_PUBLIC_CHROME_EXTENSION_ID: ${{vars.NX_CHROME_EXTENSION_ID}}
+          NX_PUBLIC_EDGE_EXTENSION_ID: ${{vars.NX_EDGE_EXTENSION_ID  || 'DEV'}}
+          NX_PUBLIC_I18N: ${{vars.NX_I18N}}
+          NX_PUBLIC_GOOGLE_ANALYTICS_ID: ${{vars.NX_GOOGLE_ANALYTICS_ID}}
+          NX_PUBLIC_GOOGLE_ADS_SLOT: ${{vars.NX_GOOGLE_ADS_SLOT}}
+          NX_PUBLIC_GOOGLE_ADS_CLIENT: ${{vars.NX_GOOGLE_ADS_CLIENT}}
           UNINSTALL_URL: ${{vars.UNINSTALL_URL}}
           TRACKING_ID: ${{vars.TRACKING_ID}}
           FUNCTION_URL: ${{vars.FUNCTION_URL}}
           DISCORD_CLIENT_ID: ${{vars.DISCORD_CLIENT_ID}}
           OAUTH_CLIENT_ID: ${{vars.OAUTH_CLIENT_ID}}
           PUBLIC_URL: ${{vars.PUBLIC_URL}}
-          NX_RELEASE_VERSION: ${{github.ref_name}}
+          NX_PUBLIC_RELEASE_VERSION: ${{github.ref_name}}
           API_SECRET: ${{vars.API_SECRET}}
           MEASUREMENT_ID: ${{vars.MEASUREMENT_ID}}
       - name: Print Environment Info
