@@ -1,14 +1,13 @@
+import { TourProvider } from '@reactour/tour';
 import * as ReactDOM from 'react-dom/client';
-import './index.scss';
+import { Provider } from 'react-redux';
 import App from './App';
 import './i18n';
-import { BROWSER } from './_helpers';
-import { Provider } from 'react-redux';
+import './index.scss';
 import { store } from './store';
-import { TourProvider } from '@reactour/tour';
 import { steps } from './tour';
 
-window.EXTENSION_ID = process.env[`NX_${BROWSER}_EXTENSION_ID`] ?? '';
+window.EXTENSION_ID = process.env[`NX_PUBLIC_CHROME_EXTENSION_ID`] ?? '';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

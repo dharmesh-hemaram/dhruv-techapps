@@ -1,8 +1,8 @@
+import { getFieldNameValue } from '@apps/acf-options-page/src/util/element';
+import { Action } from '@dhruv-techapps/acf-common';
+import { ColumnDef } from '@tanstack/react-table';
 import { useEffect, useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { ColumnDef } from '@tanstack/react-table';
-import { Action } from '@dhruv-techapps/acf-common';
-import { getFieldNameValue } from '@apps/acf-options-page/src/util/element';
 
 export const defaultColumn: Partial<ColumnDef<Action>> = {
   cell: Cell,
@@ -40,6 +40,8 @@ function Cell({ getValue, row: { original }, column: { id, columnDef }, table })
       type={meta?.type}
       value={value || ''}
       name={id}
+      as={meta?.as}
+      rows={1}
       onChange={onChange}
       onBlur={onBlur}
       pattern={meta?.pattern}

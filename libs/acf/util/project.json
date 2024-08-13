@@ -1,7 +1,7 @@
 {
   "name": "acf-util",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/acf/acf-util/src",
+  "sourceRoot": "libs/acf/util/src",
   "projectType": "library",
   "release": {
     "version": {
@@ -17,10 +17,10 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/acf/acf-util",
-        "main": "libs/acf/acf-util/src/index.ts",
-        "tsConfig": "libs/acf/acf-util/tsconfig.lib.json",
-        "assets": ["libs/acf/acf-util/*.md"]
+        "outputPath": "dist/libs/acf/util",
+        "main": "libs/acf/util/src/index.ts",
+        "tsConfig": "libs/acf/util/tsconfig.lib.json",
+        "assets": ["libs/acf/util/*.md"]
       }
     },
     "nx-release-publish": {
@@ -35,7 +35,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/acf/acf-util/jest.config.ts"
+        "jestConfig": "libs/acf/util/jest.config.ts"
       }
     }
   }

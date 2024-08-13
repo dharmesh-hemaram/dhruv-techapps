@@ -1,9 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { WizardAction } from '../type';
-import { WizardElementUtil } from '../element-util';
-import { RootState } from '../store';
 import { CONFIG_SOURCE, Configuration, getDefaultConfig } from '@dhruv-techapps/acf-common';
+import { RootState } from '../store';
+import { WizardAction } from '../type';
 
 type WizardConfiguration = Omit<Configuration, 'actions'> & {
   actions: Array<WizardAction>;

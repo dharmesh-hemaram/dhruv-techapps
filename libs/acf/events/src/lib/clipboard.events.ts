@@ -24,7 +24,7 @@ export const ClipboardEvents = (() => {
       return element.value;
     }
     if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: LOGGER_LETTER });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: LOGGER_LETTER });
       return element.textContent || element.innerText;
     }
     return element.innerText || element.innerHTML;
@@ -35,7 +35,7 @@ export const ClipboardEvents = (() => {
       element.value = value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: LOGGER_LETTER });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: LOGGER_LETTER });
       element.textContent = value;
     } else {
       throw new ConfigError(UNKNOWN_ELEMENT_TYPE_ERROR, LOGGER_LETTER);

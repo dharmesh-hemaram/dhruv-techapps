@@ -10,7 +10,7 @@ function SettingDiscord({ onChange, label, checked }) {
   const [error, setError] = useState<Error>();
 
   useEffect(() => {
-    StorageService.get<LOCAL_STORAGE_KEY.DISCORD, Discord>(window.EXTENSION_ID, LOCAL_STORAGE_KEY.DISCORD)
+    StorageService.get<LOCAL_STORAGE_KEY.DISCORD, Discord>(LOCAL_STORAGE_KEY.DISCORD)
       .then(({ discord: result }) => {
         if (result) {
           setDiscord(result);
@@ -20,7 +20,7 @@ function SettingDiscord({ onChange, label, checked }) {
   }, []);
 
   const connect = () => {
-    DiscordOauthService.login(window.EXTENSION_ID)
+    DiscordOauthService.login()
       .then((response) => {
         if (response) {
           setDiscord(response);
@@ -30,7 +30,7 @@ function SettingDiscord({ onChange, label, checked }) {
   };
 
   const remove = () => {
-    DiscordOauthService.remove(window.EXTENSION_ID)
+    DiscordOauthService.remove()
       .then(() => {
         setDiscord(undefined);
       })

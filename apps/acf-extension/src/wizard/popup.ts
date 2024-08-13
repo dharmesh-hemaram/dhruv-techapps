@@ -1,9 +1,9 @@
+import { NotificationsService } from '@dhruv-techapps/core-service';
+import { OPTIONS_PAGE_URL } from '../common/environments';
 import { Auto } from './auto';
 import { WizardElementUtil } from './element-util';
 import { store } from './store';
-import { OPTIONS_PAGE_URL } from '../common/environments';
 import { removeWizardAction, updateAllWizardAction } from './store/slice';
-import { NotificationsService } from '@dhruv-techapps/core-service';
 
 export const Popup = (() => {
   let popupContainer: HTMLElement;
@@ -22,7 +22,7 @@ export const Popup = (() => {
         }
       }
     } catch (error) {
-      NotificationsService.create(chrome.runtime.id, { type: 'basic', title: 'Invalid Xpath', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
+      NotificationsService.create({ type: 'basic', title: 'Invalid Xpath', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
     }
   };
 
@@ -53,11 +53,11 @@ export const Popup = (() => {
           if (result.singleNodeValue) {
             (<HTMLInputElement>result.singleNodeValue).focus();
           } else {
-            NotificationsService.create(chrome.runtime.id, { type: 'basic', title: 'Element not found', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
+            NotificationsService.create({ type: 'basic', title: 'Element not found', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
           }
         }
       } catch (error) {
-        NotificationsService.create(chrome.runtime.id, { type: 'basic', title: 'Invalid Xpath', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
+        NotificationsService.create({ type: 'basic', title: 'Invalid Xpath', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
       }
     }) as EventListener);
   };

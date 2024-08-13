@@ -12,7 +12,7 @@ export const PrependEvents = (() => {
       element.value = value + element.value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'PrependEvents' });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'PrependEvents' });
       element.textContent = value + element.textContent;
     } else {
       throw new ConfigError(UNKNOWN_ELEMENT_TYPE_ERROR, 'PrependEvents');

@@ -1,28 +1,9 @@
+import { LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
+import { StorageService } from '@dhruv-techapps/core-service';
 import { AnyAction, createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
-import {
-  addConfig,
-  duplicateConfig,
-  removeConfig,
-  setConfigError,
-  updateBatch,
-  updateConfig,
-  setConfigMessage,
-  updateConfigSettings,
-  importAll,
-  importConfig,
-  updateAction,
-  reorderActions,
-  removeAction,
-  syncActionStatement,
-  syncActionAddon,
-  syncActionSettings,
-} from './config.slice';
+import i18next from 'i18next';
 import { RootState } from '../../store';
 import { addToast } from '../toast.slice';
-import { StorageService } from '@dhruv-techapps/core-service';
-import { LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
-import { setConfigSettingsError, setConfigSettingsMessage } from './settings';
-import { setBatchError, setBatchMessage } from './batch';
 import {
   setActionAddonError,
   setActionAddonMessage,
@@ -33,7 +14,26 @@ import {
   setActionStatementError,
   setActionStatementMessage,
 } from './action';
-import i18next from 'i18next';
+import { setBatchError, setBatchMessage } from './batch';
+import {
+  addConfig,
+  duplicateConfig,
+  importAll,
+  importConfig,
+  removeAction,
+  removeConfig,
+  reorderActions,
+  setConfigError,
+  setConfigMessage,
+  syncActionAddon,
+  syncActionSettings,
+  syncActionStatement,
+  updateAction,
+  updateBatch,
+  updateConfig,
+  updateConfigSettings,
+} from './config.slice';
+import { setConfigSettingsError, setConfigSettingsMessage } from './settings';
 
 const configsToastListenerMiddleware = createListenerMiddleware();
 configsToastListenerMiddleware.startListening({
@@ -95,7 +95,7 @@ configsListenerMiddleware.startListening({
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-    StorageService.set(window.EXTENSION_ID, { [LOCAL_STORAGE_KEY.CONFIGS]: state.configuration.configs })
+    StorageService.set({ [LOCAL_STORAGE_KEY.CONFIGS]: state.configuration.configs })
       .then(() => {
         const { success, message } = getMessageFunc(action);
         if (success && message) {
@@ -117,4 +117,4 @@ configsListenerMiddleware.startListening({
   },
 });
 
-export { configsToastListenerMiddleware, configsListenerMiddleware };
+export { configsListenerMiddleware, configsToastListenerMiddleware };

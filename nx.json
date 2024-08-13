@@ -105,7 +105,7 @@
       }
     },
     "version": {
-      "preVersionCommand": "npx nx run-many -t build"
+      "preVersionCommand": "npm nx run-many -t lint && npx nx run-many -t build"
     }
   }
 }

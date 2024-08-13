@@ -41,7 +41,7 @@ async function loadConfig(loadType: LOAD_TYPES) {
   } catch (e) {
     if (e instanceof Error) {
       statusBar.error(e.message);
-      GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, e.name, e.message, { page: 'content_scripts' });
+      GoogleAnalyticsService.fireErrorEvent(e.name, e.message, { page: 'content_scripts' });
     }
   }
 }
@@ -60,5 +60,5 @@ addEventListener('unhandledrejection', (event) => {
     window.location.reload();
     return;
   }
-  GoogleAnalyticsService.fireErrorEvent(chrome.runtime.id, 'unhandledrejection', event.reason, { page: 'content_scripts' });
+  GoogleAnalyticsService.fireErrorEvent('unhandledrejection', event.reason, { page: 'content_scripts' });
 });
