@@ -1,0 +1,13 @@
+{
+  "name": "@dhruv-techapps/acf-util",
+  "dependencies": {
+    "randexp": "^0.5.3"
+  },
+  "peerDependencies": {
+    "tslib": "^2.3.0",
+    "@dhruv-techapps/google-sheets": "^4.0.x"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts"
+}

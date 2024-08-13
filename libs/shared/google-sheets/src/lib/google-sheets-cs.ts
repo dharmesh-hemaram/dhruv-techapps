@@ -1,4 +1,3 @@
-import { Logger } from '@dhruv-techapps/core-common';
 import { GoogleSheetsService } from './google-sheets.service';
 import { Sheets, ValueRange } from './google-sheets.types';
 
@@ -50,7 +49,6 @@ export class GoogleSheetsCS {
     if (spreadsheetId) {
       this.transformSheets(sheets);
       const result = await GoogleSheetsService.getSheets(
-        chrome.runtime.id,
         spreadsheetId,
         Array.from(sheets, ([sheetName, range]) => `${sheetName}!${range}`)
       );

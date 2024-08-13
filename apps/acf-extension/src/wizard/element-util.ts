@@ -89,7 +89,7 @@ export const WizardElementUtil = (() => {
         return { name: getName(element), id: crypto.randomUUID(), elementFinder, value };
       }
     } else if (element.isContentEditable && listener) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'Wizard' });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'Wizard' });
       const value = await inputListener(element);
       if (value) {
         return { elementFinder, id: crypto.randomUUID(), value };

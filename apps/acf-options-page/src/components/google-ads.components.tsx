@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
 
 export function GoogleAds({ client, slot, className }) {
@@ -18,8 +18,8 @@ export function GoogleAds({ client, slot, className }) {
 }
 GoogleAds.defaultProps = {
   className: 'mb-3',
-  client: process.env.NX_GOOGLE_ADS_CLIENT,
-  slot: process.env.NX_GOOGLE_ADS_SLOT,
+  client: process.env.NX_PUBLIC_GOOGLE_ADS_CLIENT,
+  slot: process.env.NX_PUBLIC_GOOGLE_ADS_SLOT,
 };
 GoogleAds.propTypes = {
   client: PropTypes.string,

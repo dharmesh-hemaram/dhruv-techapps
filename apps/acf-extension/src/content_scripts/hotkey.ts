@@ -1,5 +1,4 @@
 import { defaultHotkey } from '@dhruv-techapps/acf-common';
-import { Logger } from '@dhruv-techapps/core-common';
 
 const LOGGER_LETTER = 'Hotkey';
 

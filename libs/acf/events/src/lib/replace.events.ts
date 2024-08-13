@@ -13,7 +13,7 @@ export const ReplaceEvents = (() => {
       element.value = element.value.replace(new RegExp(target, 'g'), string);
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'ReplaceEvents' });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'ReplaceEvents' });
       element.textContent = element.textContent?.replace(new RegExp(target, 'g'), string) || null;
     } else {
       throw new ConfigError(UNKNOWN_ELEMENT_TYPE_ERROR, 'ReplaceEvents');

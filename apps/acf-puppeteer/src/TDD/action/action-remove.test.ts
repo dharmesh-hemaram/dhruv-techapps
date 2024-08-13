@@ -1,5 +1,5 @@
-import { Page, WebWorker } from 'puppeteer';
-import { TestPage, TestWorker, containsDisabledClass, delay, getPageAndWorker } from './util';
+import { Page, WebWorker } from 'puppeteer-core';
+import { TestPage, TestWorker, containsDisabledAttr, delay, getPageAndWorker } from '../../util';
 
 let worker: WebWorker;
 let page: Page;
@@ -10,11 +10,9 @@ beforeAll(async () => {
 });
 
 describe('Action Remove', () => {
-  const removeAction = '.show.dropdown [data-testid=action-remove]';
+  const removeAction = '[data-testid=action-remove]';
   test('default', async () => {
-    await page.click('#action-dropdown');
-    await page.waitForSelector(removeAction);
-    const disabled = await page.$eval(removeAction, containsDisabledClass);
+    const disabled = await page.$eval(removeAction, containsDisabledAttr);
     expect(disabled).toEqual(true);
   });
   test('Add Action', async () => {

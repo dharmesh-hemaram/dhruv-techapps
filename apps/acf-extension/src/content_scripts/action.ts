@@ -1,10 +1,9 @@
 import { ACTION_STATUS, Action } from '@dhruv-techapps/acf-common';
 import { Events } from '@dhruv-techapps/acf-events';
-import { Value } from '@dhruv-techapps/acf-util';
+import { STATUS_BAR_TYPE } from '@dhruv-techapps/status-bar';
 import Common from './common';
 import { statusBar } from './status-bar';
-
-import { STATUS_BAR_TYPE } from '@dhruv-techapps/status-bar';
+import { ACFValue } from './util/acf-value';
 
 const ActionProcessor = (() => {
   const repeatFunc = async (action: Action, repeat?: number, repeatInterval?: number | string): Promise<ACTION_STATUS | number> => {
@@ -24,7 +23,7 @@ const ActionProcessor = (() => {
   };
 
   const process = async (action: Action) => {
-    const elementFinder = await Value.getValue(action.elementFinder);
+    const elementFinder = await ACFValue.getValue(action.elementFinder);
     const elements = await Common.start(elementFinder, action.settings);
     if (typeof elements === 'number') {
       return elements;
@@ -32,7 +31,7 @@ const ActionProcessor = (() => {
     if (elements === undefined) {
       return ACTION_STATUS.SKIPPED;
     }
-    const value = action.value ? await Value.getValue(action.value) : action.value;
+    const value = action.value ? await ACFValue.getValue(action.value) : action.value;
     await Events.check(elements, value);
   };
 

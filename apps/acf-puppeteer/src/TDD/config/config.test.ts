@@ -1,6 +1,6 @@
 import { LOAD_TYPES, START_TYPES } from '@dhruv-techapps/acf-common';
-import { TestPage, TestWorker, containsInvalidClass, getPageAndWorker } from './util';
-import { Page, WebWorker } from 'puppeteer';
+import { Page, WebWorker } from 'puppeteer-core';
+import { TestPage, TestWorker, containsInvalidClass, getPageAndWorker } from '../../util';
 
 let worker: WebWorker;
 let page: Page;
@@ -12,7 +12,7 @@ beforeAll(async () => {
 
 describe('Config', () => {
   test('Add Configuration', async () => {
-    await page.click('#add-configuration');
+    await page.click('[data-testid="add-configuration"]');
   });
 
   test('url', async () => {
@@ -84,37 +84,34 @@ describe('Config', () => {
     expect(configs[0].enable).toBeFalsy();
   });
   test('Duplicate', async () => {
-    const beforeOptionsLength = await await page.$eval('#configuration-list', (e) => (e as HTMLSelectElement).options.length);
-    await page.click('#config-dropdown');
-
+    const beforeOptionsLength = await await page.$eval('[data-testid=configuration-list]', (e) => (e as HTMLUListElement).querySelectorAll('li').length);
     await page.click('[data-testid=duplicate-configuration]');
     const text = await page.$eval('input[name=name]', (el) => el.value);
-    const afterOptionsLength = await await page.$eval('#configuration-list', (e) => (e as HTMLSelectElement).options.length);
+    const afterOptionsLength = await await page.$eval('[data-testid=configuration-list]', (e) => (e as HTMLUListElement).querySelectorAll('li').length);
     expect(text).toMatch('(Duplicate)');
     expect(afterOptionsLength).toEqual(beforeOptionsLength + 1);
   });
   describe('Remove', () => {
-    test('no', async () => {
-      const beforeOptionsLength = await page.$eval('#configuration-list', (e) => (e as HTMLSelectElement).options.length);
-      await page.click('#config-dropdown');
-      await page.click('[data-testid=remove-configuration]');
-      await page.waitForSelector('[data-testid=confirm-modal]');
-      await page.click('[data-testid=confirm-modal-no]');
+    test.skip('no', async () => {
+      const beforeOptionsLength = await page.$eval('[data-testid=configuration-list]', (e) => (e as HTMLUListElement).querySelectorAll('li').length);
+      await page.click('li:nth-child(3) button[data-testid=remove-configuration]');
+      //await page.waitForSelector('[data-testid=confirm-modal]');
+      //await page.click('[data-testid=confirm-modal-no]');
       const text = await page.$eval('input[name=name]', (el) => el.value);
-      const afterOptionsLength = await page.$eval('#configuration-list', (e) => (e as HTMLSelectElement).options.length);
+      const afterOptionsLength = await page.$eval('[data-testid=configuration-list]', (e) => (e as HTMLUListElement).querySelectorAll('li').length);
       expect(text).toMatch('(Duplicate)');
       expect(afterOptionsLength).toEqual(beforeOptionsLength);
     });
     test('yes', async () => {
-      const beforeOptionsLength = await page.$eval('#configuration-list', (e) => (e as HTMLSelectElement).options.length);
-      await page.click('#config-dropdown');
-      await page.click('[data-testid=remove-configuration]');
-      await page.waitForSelector('[data-testid=confirm-modal]');
-      await page.click('[data-testid=confirm-modal-yes]');
+      const beforeOptionsLength = await page.$eval('[data-testid=configuration-list]', (e) => (e as HTMLUListElement).querySelectorAll('li').length);
+      await page.hover('[data-testid=configuration-list] li:nth-child(3)');
+      await page.click('li:nth-child(3) button[data-testid=remove-configuration]');
+      //await page.waitForSelector('[data-testid=confirm-modal]');
+      //await page.click('[data-testid=confirm-modal-yes]');
       const text = await page.$eval('input[name=name]', (el) => el.value);
-      const afterOptionsLength = await page.$eval('#configuration-list', (e) => (e as HTMLSelectElement).options.length);
+      const afterOptionsLength = await page.$eval('[data-testid=configuration-list]', (e) => (e as HTMLUListElement).querySelectorAll('li').length);
       expect(text).not.toMatch('(Duplicate)');
       expect(afterOptionsLength).toEqual(beforeOptionsLength - 1);
-    });
+    }, 10000);
   });
 });

@@ -32,7 +32,7 @@ export const Events = (() => {
       if (eventRegexArray) {
         event = eventRegexArray[1].toLowerCase();
       }
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, event || 'plain');
+      GoogleAnalyticsService.fireEvent(event || 'plain');
       switch (event) {
         case EVENTS.SCROLL_TO:
           ScrollToEvents.start(elements, value);

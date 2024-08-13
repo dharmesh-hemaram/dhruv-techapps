@@ -1,4 +1,4 @@
-import { STATUS_BAR_LOCATION } from '@dhruv-techapps/status-bar';
+import { STATUS_BAR_LOCATION_ENUM } from '@dhruv-techapps/status-bar';
 import { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -132,7 +132,7 @@ export const SettingsModal = () => {
                   <div className='fw-bold'>{t('modal.settings.statusBar.title')}</div>
                   {t('modal.settings.statusBar.hint')}
                 </Form.Label>
-                {Object.values(STATUS_BAR_LOCATION).map((location) => (
+                {Object.values(STATUS_BAR_LOCATION_ENUM).map((location) => (
                   <Form.Check
                     key={location}
                     type='radio'

@@ -13,7 +13,7 @@ export const FuncEvents = (() => {
       element.value = value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'FuncEvents' });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'FuncEvents' });
       element.textContent = value;
     } else {
       throw new ConfigError(UNKNOWN_ELEMENT_TYPE_ERROR, 'Append Events');

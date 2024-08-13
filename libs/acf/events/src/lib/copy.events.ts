@@ -20,7 +20,7 @@ export const CopyEvents = (() => {
       return element.value;
     }
     if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'CopyEvents' });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'CopyEvents' });
       return element.textContent || element.innerText;
     }
     return element.innerText || element.innerHTML;

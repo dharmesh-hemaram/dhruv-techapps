@@ -22,7 +22,7 @@ export const PlainEvents = (() => {
     } else if (element instanceof HTMLOptionElement) {
       element.selected = true;
     } else if (element.isContentEditable) {
-      GoogleAnalyticsService.fireEvent(chrome.runtime.id, 'isContentEditable', { event: 'PlainEvents' });
+      GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'PlainEvents' });
       element.textContent = value;
     } else {
       DEFAULT_EVENT.forEach((event) => {

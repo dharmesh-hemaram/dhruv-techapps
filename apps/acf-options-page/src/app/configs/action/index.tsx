@@ -1,13 +1,13 @@
-import { Button, Card, Col, Dropdown, Row } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import ActionTable from './action-table';
-import { DropdownToggle } from '../../../components';
-import { Filter, Plus, Repeat } from '../../../util';
-import { ActionSettingsModal, ActionStatementModal, AddonModal } from '../../../modal';
+import { useTimeout } from '@apps/acf-options-page/src/_hooks/message.hooks';
 import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
 import { addAction, selectedConfigSelector, switchBatchModal } from '@apps/acf-options-page/src/store/config';
 import { actionSelector, setActionMessage, setColumnVisibility } from '@apps/acf-options-page/src/store/config/action/action.slice';
-import { useTimeout } from '@apps/acf-options-page/src/_hooks/message.hooks';
+import { Button, Card, Col, Dropdown, Row } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { DropdownToggle } from '../../../components';
+import { ActionSettingsModal, ActionStatementModal, AddonModal } from '../../../modal';
+import { Filter, Plus, Repeat } from '../../../util';
+import ActionTable from './action-table';
 
 function Action() {
   const { t } = useTranslation();
@@ -51,8 +51,8 @@ function Action() {
               <Button size='sm' variant='outline-primary px-3 mx-3' onClick={onAddAction} id='add-action'>
                 <Plus className='me-2' /> {t('action.add')}
               </Button>
-              <Dropdown className='ml-2' id='acton-column-filter'>
-                <Dropdown.Toggle as={DropdownToggle} id='column-dropdown' className='pe-0' aria-label='Filter Action Column'>
+              <Dropdown className='ml-2' id='acton-column-filter-wrapper'>
+                <Dropdown.Toggle as={DropdownToggle} id='acton-column-filter' className='pe-0' aria-label='Filter Action Column'>
                   <Filter />
                 </Dropdown.Toggle>
                 <Dropdown.Menu>

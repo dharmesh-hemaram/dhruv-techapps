@@ -1,6 +1,3 @@
-import { AUTO_BACKUP } from '@dhruv-techapps/google-drive';
-import { STATUS_BAR_LOCATION } from '@dhruv-techapps/status-bar';
-
 export enum RETRY_OPTIONS {
   STOP = 'stop',
   SKIP = 'skip',
@@ -27,12 +24,12 @@ export const defaultSettingsNotifications = {
 };
 
 export type SettingsBackup = {
-  autoBackup: AUTO_BACKUP;
+  autoBackup: 'daily' | 'weekly' | 'monthly' | 'off';
   lastBackup?: string;
 };
 
 export const defaultSettingsBackup = {
-  autoBackup: AUTO_BACKUP.OFF,
+  autoBackup: 'off',
 };
 
 export type Settings = {
@@ -40,7 +37,7 @@ export type Settings = {
   retryInterval: number | string;
   retryOption: RETRY_OPTIONS;
   checkiFrames: boolean;
-  statusBar: STATUS_BAR_LOCATION;
+  statusBar: 'hide' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
   backup?: SettingsBackup;
   reloadOnError?: boolean;
   notifications?: SettingsNotifications;
@@ -50,7 +47,7 @@ export type Settings = {
 export const defaultSettings: Settings = {
   retry: 5,
   retryInterval: 1,
-  statusBar: STATUS_BAR_LOCATION.BOTTOM_RIGHT,
+  statusBar: 'bottom-right',
   retryOption: RETRY_OPTIONS.STOP,
   checkiFrames: false,
 };

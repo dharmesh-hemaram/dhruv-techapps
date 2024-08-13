@@ -1,9 +1,8 @@
 {
   "name": "@dhruv-techapps/status-bar",
-  "version": "0.0.1",
-  "dependencies": {
+  "peerDependencies": {
     "tslib": "^2.3.0",
-    "@dhruv-techapps/shared-util": "0.0.1"
+    "@dhruv-techapps/shared-util": "^4.0.x"
   },
   "type": "commonjs",
   "main": "./src/index.js",

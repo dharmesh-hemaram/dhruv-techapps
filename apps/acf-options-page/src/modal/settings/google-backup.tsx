@@ -1,17 +1,17 @@
+import { GoogleBackupService } from '@dhruv-techapps/acf-service';
+import { AUTO_BACKUP, DriveFile, GoogleDriveService } from '@dhruv-techapps/google-drive';
+import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
+import { useEffect, useState } from 'react';
 import { Accordion, Button, Card, Image, ListGroup, NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { AUTO_BACKUP, DriveFile, GoogleDriveService } from '@dhruv-techapps/google-drive';
-import { CloudArrowDownFill, CloudArrowUpFill, Trash } from '../../util';
-import { GoogleBackupService } from '@dhruv-techapps/acf-service';
-import GoogleSignInLight from '../../assets/btn_google_signin_light_normal_web.png';
-import GoogleSignInDark from '../../assets/btn_google_signin_dark_normal_web.png';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { settingsSelector, updateSettingsBackup } from '../../store/settings/settings.slice';
 import { useConfirmationModalContext } from '../../_providers/confirm.provider';
-import { themeSelector } from '../../store/theme.slice';
+import GoogleSignInDark from '../../assets/btn_google_signin_dark_normal_web.png';
+import GoogleSignInLight from '../../assets/btn_google_signin_light_normal_web.png';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { googleLoginAPI } from '../../store/settings/settings.api';
-import { useEffect, useState } from 'react';
-import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
+import { settingsSelector, updateSettingsBackup } from '../../store/settings/settings.slice';
+import { themeSelector } from '../../store/theme.slice';
+import { CloudArrowDownFill, CloudArrowUpFill, Trash } from '../../util';
 
 export function SettingsGoogleBackup() {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ export function SettingsGoogleBackup() {
 
   const loadFiles = async () => {
     setFilesLoading(true);
-    GoogleDriveService.listWithContent(window.EXTENSION_ID).then((files) => {
+    GoogleDriveService.listWithContent().then((files) => {
       setFiles(files);
       setFilesLoading(false);
     });
@@ -47,13 +47,13 @@ export function SettingsGoogleBackup() {
   const onBackup = async (autoBackup?: AUTO_BACKUP) => {
     setLoading(true);
     if (autoBackup) {
-      GoogleDriveService.autoBackup(window.EXTENSION_ID, autoBackup)
+      GoogleDriveService.autoBackup(autoBackup)
         .then(() => {
           dispatch(updateSettingsBackup(autoBackup));
         })
         .finally(() => setLoading(false));
     } else {
-      GoogleBackupService.backup(window.EXTENSION_ID)
+      GoogleBackupService.backup()
         .then(() => {
           loadFiles();
         })
@@ -68,11 +68,11 @@ export function SettingsGoogleBackup() {
       message: t('confirm.backup.restore.message'),
       headerClass: 'text-danger',
     });
-    result && GoogleBackupService.restore(window.EXTENSION_ID, id, name);
+    result && GoogleBackupService.restore(id, name);
   };
 
   const deleteFile = async (id: string, name: string) => {
-    GoogleDriveService.delete(window.EXTENSION_ID, id, name)
+    GoogleDriveService.delete(id, name)
       .then(() => {
         setFiles(files?.filter((file) => file.id !== id));
       })

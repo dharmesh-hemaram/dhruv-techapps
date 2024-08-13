@@ -1,6 +1,6 @@
-import { Page, WebWorker } from 'puppeteer';
-import { TestPage, TestWorker, containsInvalidClass, delay, getPageAndWorker } from './util';
 import { RECHECK_OPTIONS } from '@dhruv-techapps/acf-common';
+import { Page, WebWorker } from 'puppeteer-core';
+import { TestPage, TestWorker, containsInvalidClass, delay, getPageAndWorker } from '../../../util';
 
 let worker: WebWorker;
 let page: Page;
@@ -14,8 +14,7 @@ describe('Action Addon', () => {
   const addonAction = '.show.dropdown [data-testid=action-addon]';
   const elementFinderSelector = '#actions input[name=elementFinder]';
   test('default', async () => {
-    await page.click('#action-dropdown');
-    const addonButton = await page.$(addonAction);
+    const addonButton = await page.$('#action-dropdown');
     expect(addonButton).toBeNull();
   });
   test('update elementFinder', async () => {
