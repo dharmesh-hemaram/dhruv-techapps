@@ -7,7 +7,7 @@ import './index.scss';
 import { store } from './store';
 import { steps } from './tour';
 
-window.EXTENSION_ID = process.env[`NX_CHROME_EXTENSION_ID`] ?? '';
+window.EXTENSION_ID = process.env[`NX_PUBLIC_CHROME_EXTENSION_ID`] ?? '';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

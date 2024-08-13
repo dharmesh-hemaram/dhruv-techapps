@@ -5,13 +5,13 @@ const path = require('path');
 const { BannerPlugin } = require('webpack');
 const fs = require('fs');
 
-function modify(buffer, { KEY, NX_NAME, OAUTH_CLIENT_ID, NX_RELEASE_VERSION }) {
+function modify(buffer, { KEY, NX_PUBLIC_NAME, OAUTH_CLIENT_ID, NX_PUBLIC_RELEASE_VERSION }) {
   // copy-webpack-plugin passes a buffer
   const manifest = JSON.parse(buffer.toString());
 
   // make any modifications you like, such as
-  manifest.version = NX_RELEASE_VERSION.replace('v', '');
-  manifest.name = NX_NAME;
+  manifest.version = NX_PUBLIC_RELEASE_VERSION.replace('v', '');
+  manifest.name = NX_PUBLIC_NAME;
   if (OAUTH_CLIENT_ID) {
     manifest.oauth2.client_id = OAUTH_CLIENT_ID;
   }
@@ -40,7 +40,7 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
   config.plugins[1] = new CopyPlugin({
     patterns: [
       { from: `**/messages.json`, to: './_locales', context: `${ctx.options.root}/apps/acf-i18n/src/locales` },
-      { from: path.join(__dirname, 'assets', config.watch ? 'DEV' : process.env.NX_VARIANT), to: './assets' },
+      { from: path.join(__dirname, 'assets', config.watch ? 'DEV' : process.env.NX_PUBLIC_VARIANT), to: './assets' },
       { from: `./*.html`, to: './html', context: 'src/wizard/popup' },
       { from: `./*.html`, to: './html', context: '../../libs/shared/sandbox/src/lib' },
       { from: path.join(ctx.options.root, './node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js'), to: './webcomponents' },
