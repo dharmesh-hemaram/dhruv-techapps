@@ -24,7 +24,7 @@
     "firebase": "^10.12.5",
     "i18next": "^23.9.0",
     "i18next-http-backend": "^2.5.2",
-    "puppeteer-core": "^22.14.0",
+    "puppeteer-core": "^23.1.0",
     "randexp": "^0.5.3",
     "react": "18.3.1",
     "react-bootstrap": "^2.10.2",
