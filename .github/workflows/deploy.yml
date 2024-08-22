@@ -24,11 +24,11 @@ on:
         type: boolean
         default: false
         required: true
-      release:
-        description: 'Release'
-        type: boolean
-        default: false
-        required: true
+      version:
+        description: 'Version'
+        type: string
+        default: 'v4.0.0.0'
+        required: false
 
 jobs:
   main:
@@ -75,7 +75,7 @@ jobs:
           DISCORD_CLIENT_ID: ${{vars.DISCORD_CLIENT_ID}}
           OAUTH_CLIENT_ID: ${{vars.OAUTH_CLIENT_ID}}
           PUBLIC_URL: ${{vars.PUBLIC_URL}}
-          NX_PUBLIC_RELEASE_VERSION: ${{github.ref_name}}
+          NX_PUBLIC_RELEASE_VERSION: ${{inputs.version || github.ref_name}}
           API_SECRET: ${{vars.API_SECRET}}
           MEASUREMENT_ID: ${{vars.MEASUREMENT_ID}}
       - name: Print Environment Info
@@ -152,33 +152,6 @@ jobs:
           skip_api_build: true
           output_location: '' # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
-
-  release:
-    if: ${{ inputs.release }}
-    name: Release
-    needs: [extension, web]
-    environment:
-      name: ${{inputs.environment}}
-      url: ${{steps.release.outputs.url}}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      discussions: write
-    outputs:
-      release-url: ${{ steps.release.outputs.url }}
-      release-id: ${{ steps.release.outputs.id }}
-      release-upload_url: ${{ steps.release.outputs.upload_url }}
-      release-assets: ${{ steps.release.outputs.assets }}
-    steps:
-      - uses: softprops/action-gh-release@v2
-        id: release
-        with:
-          token: ${{ secrets.REPO_PAT }} # Use the PAT here
-          prerelease: ${{ vars.NX_PUBLIC_VARIANT == 'BETA' || vars.NX_PUBLIC_VARIANT == 'DEV'}}
-          repository: Dhruv-Techapps/acf-docs
-          generate_release_notes: true
-          discussion_category_name: 'Release'
-          fail_on_unmatched_files: true
 
   tag:
     needs: [extension, web]
