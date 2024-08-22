@@ -4,13 +4,12 @@ import { RootState } from '../../../store';
 import { googleDriveDeleteAPI, googleDriveListWithContentAPI } from './google-drive.api';
 
 type GoogleDriveStore = {
-  loading: boolean;
   files: Array<DriveFile>;
   filesLoading: boolean;
   error?: string;
 };
 
-const initialState: GoogleDriveStore = { loading: false, filesLoading: false, files: [] };
+const initialState: GoogleDriveStore = { filesLoading: false, files: [] };
 
 const slice = createSlice({
   name: 'googleDrive',

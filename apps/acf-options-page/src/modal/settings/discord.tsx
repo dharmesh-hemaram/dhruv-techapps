@@ -54,7 +54,7 @@ function SettingDiscord({ onChange, label, checked }) {
             />
             {discord.username}
             <Button variant='link' onClick={remove}>
-              (remove)
+              (disconnect)
             </Button>
           </Form.Label>
           <Form.Check type='switch' id='discord' onChange={onChange} checked={checked || false} name='discord' data-testid='discord-switch' />

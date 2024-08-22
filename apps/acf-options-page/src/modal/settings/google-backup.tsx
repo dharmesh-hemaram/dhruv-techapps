@@ -1,11 +1,9 @@
 import { AUTO_BACKUP } from '@dhruv-techapps/google-drive';
 import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
 import { useEffect } from 'react';
-import { Accordion, Button, Card, Image, ListGroup, NavDropdown } from 'react-bootstrap';
+import { Accordion, Button, Card, ListGroup, NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useConfirmationModalContext } from '../../_providers/confirm.provider';
-import GoogleSignInDark from '../../assets/btn_google_signin_dark_normal_web.png';
-import GoogleSignInLight from '../../assets/btn_google_signin_light_normal_web.png';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { ErrorAlert } from '../../components';
@@ -13,19 +11,17 @@ import { firebaseSelector, switchFirebaseLoginModal } from '../../store/firebase
 import { googleDriveSelector, googleHasAccessAPI, googleLoginAPI, googleSelector } from '../../store/google';
 import { googleDriveAutoBackupAPI, googleDriveBackupAPI, googleDriveDeleteAPI, googleDriveListWithContentAPI, googleDriveRestoreAPI } from '../../store/google/google-drive/google-drive.api';
 import { settingsSelector } from '../../store/settings/settings.slice';
-import { themeSelector } from '../../store/theme.slice';
 import { CloudArrowDownFill, CloudArrowUpFill, Trash } from '../../util';
 
 export function SettingsGoogleBackup() {
   const { t } = useTranslation();
-  const theme = useAppSelector(themeSelector);
   const modalContext = useConfirmationModalContext();
   const {
     settings: { backup },
   } = useAppSelector(settingsSelector);
   const { user } = useAppSelector(firebaseSelector);
-  const { grantedScopes } = useAppSelector(googleSelector);
-  const { files, loading, filesLoading, error } = useAppSelector(googleDriveSelector);
+  const { grantedScopes, googleLoading } = useAppSelector(googleSelector);
+  const { files, filesLoading, error } = useAppSelector(googleDriveSelector);
 
   const scope = GOOGLE_SCOPES.DRIVE;
   const dispatch = useAppDispatch();
@@ -77,12 +73,20 @@ export function SettingsGoogleBackup() {
     );
   }
 
+  if (googleLoading) {
+    return (
+      <div className='d-flex align-items-center justify-content-center'>
+        <span className='spinner-border me-3' aria-hidden='true'></span>
+        <span>Checking Google Drive access...</span>
+      </div>
+    );
+  }
+
   if (!grantedScopes?.includes(scope)) {
     return (
       <div className='d-flex flex-column align-items-start'>
-        <b className='mx-3 text-muted'>Connect with Google Drive</b>
         <Button variant='link' onClick={connect} data-testid='google-backup-connect'>
-          <img src={theme === 'light' ? GoogleSignInLight : GoogleSignInDark} alt='Logo' />
+          Connect with Google Drive
         </Button>
       </div>
     );
@@ -92,25 +96,12 @@ export function SettingsGoogleBackup() {
     <>
       <div>
         {error && <ErrorAlert error={error} />}
-        {loading && (
-          <span className='me-2'>
-            <span className='spinner-border spinner-border-sm' aria-hidden='true'></span>
-            <span className='visually-hidden' role='status'>
-              Loading...
-            </span>
-          </span>
-        )}
         <b className='text-muted d-block mb-2'>Google Drive {t('modal.settings.backup.title')}</b>
-
-        {user.photoURL && user.displayName && (
-          <Image alt={user.displayName} className='me-2' title={user.displayName} src={user.photoURL} roundedCircle width='30' height='30' referrerPolicy='no-referrer' />
-        )}
-        {user.displayName}
       </div>
       <hr />
       <ol className='list-group'>
         <ListGroup.Item as='li'>
-          <NavDropdown.Item href='#backup-now' disabled={loading} title={t('modal.settings.backup.now')} onClick={() => onBackup()}>
+          <NavDropdown.Item href='#backup-now' title={t('modal.settings.backup.now')} onClick={() => onBackup()}>
             <CloudArrowUpFill className='me-2' />
             {t('modal.settings.backup.now')}
           </NavDropdown.Item>
@@ -142,7 +133,10 @@ export function SettingsGoogleBackup() {
       <hr />
       <h6 className='mt-4'>{t('modal.settings.backup.restore')}</h6>
       {filesLoading ? (
-        <div>Loading...</div>
+        <div className='d-flex align-items-center '>
+          <span className='spinner-border me-3' aria-hidden='true'></span>
+          <span>Loading your files...</span>
+        </div>
       ) : (
         <div>
           {files?.length !== 0 ? (

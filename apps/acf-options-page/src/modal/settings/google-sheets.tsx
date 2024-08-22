@@ -1,17 +1,13 @@
-import { Alert, Button, Image } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 
 import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
-import GoogleSignInDark from '../../assets/btn_google_signin_dark_normal_web.png';
-import GoogleSignInLight from '../../assets/btn_google_signin_light_normal_web.png';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { useEffect } from 'react';
 import { firebaseSelector, switchFirebaseLoginModal } from '../../store/firebase';
 import { googleHasAccessAPI, googleLoginAPI, googleSelector } from '../../store/google';
-import { themeSelector } from '../../store/theme.slice';
 
 function SettingGoogleSheets() {
-  const theme = useAppSelector(themeSelector);
   const { user } = useAppSelector(firebaseSelector);
   const { grantedScopes } = useAppSelector(googleSelector);
   const scope = GOOGLE_SCOPES.SHEETS;
@@ -56,24 +52,13 @@ function SettingGoogleSheets() {
 
   if (!grantedScopes?.includes(scope)) {
     return (
-      <div className='d-flex flex-column align-items-start'>
-        <b className='mx-3 text-muted'>Connect with Google Sheets</b>
-        <Button variant='link' onClick={connect} data-testid='google-sheets-connect'>
-          <img src={theme === 'light' ? GoogleSignInLight : GoogleSignInDark} alt='Logo' />
-        </Button>
-      </div>
+      <Button variant='link' onClick={connect} data-testid='google-sheets-connect'>
+        Connect with Google Sheets
+      </Button>
     );
   }
 
-  return (
-    <div>
-      <b className='text-muted d-block mb-2'>Google Sheets</b>
-      {user.photoURL && user.displayName && (
-        <Image alt={user.displayName} className='me-2' title={user.displayName} src={user.photoURL} roundedCircle width='30' height='30' referrerPolicy='no-referrer' />
-      )}
-      {user.displayName}
-    </div>
-  );
+  return <b className='text-muted d-block mb-2'>Connected with Google Sheets</b>;
 }
 
 SettingGoogleSheets.displayName = 'SettingGoogleSheets';
