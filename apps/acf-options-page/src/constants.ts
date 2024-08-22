@@ -26,7 +26,7 @@ export const CHROME_WEB_STORE = 'https://chrome.google.com/webstore/detail/';
 
 const message = encodeURIComponent('Fill input field or click button or link anything anywhere. easy configure in few steps and work like PRO #AutoClickerAutoFill');
 const webStore = CHROME_WEB_STORE;
-const extensionId = process.env[`NX_CHROME_EXTENSION_ID`];
+const extensionId = process.env[`NX_PUBLIC_CHROME_EXTENSION_ID`];
 const url = encodeURIComponent(webStore + extensionId);
 // Social
 export const SOCIAL_LINKS = {
