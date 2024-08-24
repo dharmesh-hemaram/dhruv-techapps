@@ -22,11 +22,11 @@ import { Update } from './update';
 
 let googleAnalytics: GoogleAnalyticsBackground | undefined;
 let firebaseDatabaseBackground: FirebaseDatabaseBackground;
-let firebaseOauth2Background: FirebaseOauth2Background;
+
 try {
   googleAnalytics = new GoogleAnalyticsBackground(MEASUREMENT_ID, API_SECRET, VARIANT === 'LOCAL');
   firebaseDatabaseBackground = new FirebaseDatabaseBackground(auth, EDGE_OAUTH_CLIENT_ID);
-  firebaseOauth2Background = new FirebaseOauth2Background(auth, EDGE_OAUTH_CLIENT_ID);
+
   /**
    * Browser Action set to open option page / configuration page
    */
@@ -41,8 +41,11 @@ try {
   chrome.runtime.onInstalled.addListener(async (details) => {
     if (details.reason === 'install') {
       TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });
-    } else if (details.reason === 'update') {
-      await Update.login(firebaseOauth2Background);
+    }
+  });
+
+  auth.onAuthStateChanged((user) => {
+    if (user) {
       Update.discord(firebaseDatabaseBackground);
     }
   });
