@@ -19,7 +19,8 @@
       },
       "configurations": {
         "development": {},
-        "production": {}
+        "production": {},
+        "beta": {}
       }
     },
     "serve": {
@@ -31,6 +32,9 @@
       "configurations": {
         "development": {
           "buildTarget": "acf-i18n:build:development"
+        },
+        "beta": {
+          "buildTarget": "acf-i18n:build:beta"
         },
         "production": {
           "buildTarget": "acf-i18n:build:production"
