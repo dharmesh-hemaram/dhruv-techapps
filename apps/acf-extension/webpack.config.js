@@ -15,10 +15,6 @@ function modify(buffer, env) {
   if (OAUTH_CLIENT_ID) {
     manifest.oauth2.client_id = OAUTH_CLIENT_ID;
   }
-  console.log(env.KEY);
-  if (env.KEY) {
-    manifest.key = env.KEY;
-  }
 
   return JSON.stringify(manifest, null, 2);
 }
