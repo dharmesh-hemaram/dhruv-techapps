@@ -88,14 +88,6 @@
           "sourceMap": true,
           "vendorChunk": true
         },
-        "beta": {
-          "optimization": true,
-          "outputHashing": "none",
-          "sourceMap": true,
-          "namedChunks": false,
-          "extractLicenses": true,
-          "vendorChunk": false
-        },
         "production": {
           "optimization": true,
           "outputHashing": "none",
