@@ -100,7 +100,8 @@
       "firebase-oauth",
       "firebase-firestore",
       "firebase-functions",
-      "firebase-database"
+      "firebase-database",
+      "acf-main-world"
     ],
     "changelog": {
       "workspaceChangelog": {

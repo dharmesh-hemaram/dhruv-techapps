@@ -1,5 +1,6 @@
 /* eslint-disable no-new */
 import { RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
+import { MainWorldBackground, RUNTIME_MESSAGE_MAIN_WORLD_MESSAGING } from '@dhruv-techapps/acf-main-world';
 import { Runtime } from '@dhruv-techapps/core-extension';
 import { DiscordMessagingBackground, RUNTIME_MESSAGE_DISCORD_MESSAGING } from '@dhruv-techapps/discord-messaging';
 import { DiscordOauth2Background, RUNTIME_MESSAGE_DISCORD_OAUTH } from '@dhruv-techapps/discord-oauth';
@@ -84,6 +85,7 @@ try {
       [RUNTIME_MESSAGE_FIREBASE_OAUTH]: new FirebaseOauth2Background(auth, EDGE_OAUTH_CLIENT_ID),
       [RUNTIME_MESSAGE_FIREBASE_FIRESTORE]: new FirebaseFirestoreBackground(auth, EDGE_OAUTH_CLIENT_ID, OPTIONS_PAGE_URL),
       [RUNTIME_MESSAGE_FIREBASE_FUNCTIONS]: new FirebaseFunctionsBackground(auth, EDGE_OAUTH_CLIENT_ID),
+      [RUNTIME_MESSAGE_MAIN_WORLD_MESSAGING]: new MainWorldBackground(),
     };
     Runtime.onMessageExternal(onMessageListener);
     Runtime.onMessage(onMessageListener);

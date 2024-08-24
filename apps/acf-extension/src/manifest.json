@@ -5,8 +5,8 @@
   "version": "5.0.0",
   "manifest_version": 3,
   "default_locale": "en",
-  "permissions": ["storage", "notifications", "contextMenus", "activeTab", "identity", "alarms", "unlimitedStorage"],
-  "optional_host_permissions": ["http://*/*", "https://*/*"],
+  "permissions": ["storage", "notifications", "contextMenus", "activeTab", "identity", "alarms", "unlimitedStorage", "scripting"],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "icons": {
     "16": "assets/icons/icon16.png",
     "32": "assets/icons/icon32.png",
@@ -29,6 +29,13 @@
       "js": ["content_scripts.js"],
       "run_at": "document_start",
       "all_frames": true
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_scripts_main.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
     },
     {
       "matches": ["<all_urls>"],

@@ -1,8 +1,8 @@
 import { ACTION_STATUS, Action } from '@dhruv-techapps/acf-common';
-import { Events } from '@dhruv-techapps/acf-events';
 import { STATUS_BAR_TYPE } from '@dhruv-techapps/status-bar';
 import Common from './common';
 import { statusBar } from './status-bar';
+import { ACFEvents } from './util/acf-events';
 import { ACFValue } from './util/acf-value';
 
 const ActionProcessor = (() => {
@@ -32,7 +32,7 @@ const ActionProcessor = (() => {
       return ACTION_STATUS.SKIPPED;
     }
     const value = action.value ? await ACFValue.getValue(action.value) : action.value;
-    await Events.check(elements, value);
+    await ACFEvents.check(elementFinder, elements, value);
   };
 
   const start = async (action: Action) => {

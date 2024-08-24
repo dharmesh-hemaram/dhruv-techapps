@@ -6,8 +6,8 @@ import { DiscordMessagingColor, DiscordMessagingService } from '@dhruv-techapps/
 import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 import { GoogleSheetsCS } from '@dhruv-techapps/google-sheets';
 import { STATUS_BAR_TYPE } from '@dhruv-techapps/status-bar';
+import Common from '../common/common';
 import BatchProcessor from './batch';
-import Common from './common';
 import { Hotkey } from './hotkey';
 import { I18N_COMMON } from './i18n';
 import { statusBar } from './status-bar';

@@ -18,6 +18,7 @@
       "@apps/*": ["apps/*"],
       "@dhruv-techapps/acf-common": ["libs/acf/common/src/index.ts"],
       "@dhruv-techapps/acf-events": ["libs/acf/events/src/index.ts"],
+      "@dhruv-techapps/acf-main-world": ["libs/acf/main-world/src/index.ts"],
       "@dhruv-techapps/acf-service": ["libs/acf/service/src/index.ts"],
       "@dhruv-techapps/acf-store": ["libs/acf/store/src/index.ts"],
       "@dhruv-techapps/acf-util": ["libs/acf/util/src/index.ts"],
