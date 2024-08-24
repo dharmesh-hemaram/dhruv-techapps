@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { APP_LANGUAGES, APP_LINK, SOCIAL_LINKS } from '../constants';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { SettingsModal } from '../modal';
+import { appSelector } from '../store/app.slice';
 import { firebaseSelector } from '../store/firebase';
 import { switchSettingsModal } from '../store/settings/settings.slice';
 import { switchTheme, themeSelector } from '../store/theme.slice';
@@ -20,20 +21,20 @@ function Header() {
   const { setIsOpen } = useTour();
   const theme = useAppSelector(themeSelector);
   const { role } = useAppSelector(firebaseSelector);
-
+  const { extensionNotFound } = useAppSelector(appSelector);
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const tour = localStorage.getItem('tour');
     const version = new URLSearchParams(window.location.search).get('version');
-    if (!tour && !version) {
+    if (!tour && !version && !extensionNotFound) {
       localStorage.setItem('tour', 'true');
       setTimeout(() => {
         setIsOpen(true);
       }, 1000);
     }
-  }, [setIsOpen]);
+  }, [setIsOpen, extensionNotFound]);
 
   useEffect(() => {
     if (/(DEV|BETA|LOCAL)/.test(process.env.NX_PUBLIC_VARIANT || '')) {
