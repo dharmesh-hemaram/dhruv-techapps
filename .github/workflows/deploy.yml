@@ -25,9 +25,8 @@ on:
         default: false
         required: true
       version:
-        description: 'Version'
+        description: 'Version (v4.0.0.0)'
         type: string
-        default: 'v4.0.0.0'
         required: false
 
 jobs:
