@@ -5,15 +5,17 @@ const path = require('path');
 const { BannerPlugin } = require('webpack');
 const fs = require('fs');
 
-function modify(buffer, env) {
+function modify(buffer, { KEY, NX_PUBLIC_NAME, OAUTH_CLIENT_ID, NX_PUBLIC_RELEASE_VERSION }) {
   // copy-webpack-plugin passes a buffer
   const manifest = JSON.parse(buffer.toString());
-  const { NX_PUBLIC_NAME, OAUTH_CLIENT_ID, NX_PUBLIC_RELEASE_VERSION } = env;
   // make any modifications you like, such as
   manifest.version = NX_PUBLIC_RELEASE_VERSION.replace('v', '');
   manifest.name = NX_PUBLIC_NAME;
   if (OAUTH_CLIENT_ID) {
     manifest.oauth2.client_id = OAUTH_CLIENT_ID;
+  }
+  if (KEY) {
+    manifest.key = KEY;
   }
 
   return JSON.stringify(manifest, null, 2);
