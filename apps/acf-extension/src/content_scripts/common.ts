@@ -1,8 +1,8 @@
 import { ActionSettings, RETRY_OPTIONS } from '@dhruv-techapps/acf-common';
 import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { ConfigError, Logger } from '@dhruv-techapps/core-common';
-import { I18N_ERROR } from '../content_scripts/i18n';
-import { statusBar } from '../content_scripts/status-bar';
+import { I18N_ERROR } from './i18n';
+import { statusBar } from './status-bar';
 
 const Common = (() => {
   const retryFunc = async (retry?: number, retryInterval?: number | string) => {
