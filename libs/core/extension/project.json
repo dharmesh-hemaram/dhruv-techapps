@@ -11,6 +11,7 @@
       }
     }
   },
+  "tags": ["scope:acf", "lib:acf-main-world"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -42,6 +43,5 @@
         "jestConfig": "libs/core/extension/jest.config.ts"
       }
     }
-  },
-  "tags": ["scope:core"]
+  }
 }

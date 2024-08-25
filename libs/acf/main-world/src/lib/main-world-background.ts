@@ -12,7 +12,7 @@ export class MainWorldBackground {
       chrome.scripting.executeScript<[string], void>({
         world: 'MAIN',
         target: { tabId: sender.tab.id },
-        func: (message) => {
+        func: (message: string) => {
           window.ACFCommon.default.getElements(message).then((elements: Array<HTMLElement>) => {
             elements.forEach((element) => {
               element.click();
