@@ -90,7 +90,6 @@ const ActionTable = ({ actions }: ActionProps) => {
         accessorKey: 'value',
         meta: {
           list: 'value',
-          as: 'textarea',
         },
       },
       {
@@ -130,6 +129,9 @@ const ActionTable = ({ actions }: ActionProps) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       updateData: (selectedActionId: RANDOM_UUID, columnId: string, value: any) => {
         dispatch(updateAction({ selectedActionId, name: columnId, value }));
+      },
+      updateValueFieldTypes: (selectedActionId: RANDOM_UUID, valueFieldType: 'input' | 'textarea') => {
+        dispatch(updateAction({ selectedActionId, name: 'valueFieldType', value: valueFieldType }));
       },
     },
   });

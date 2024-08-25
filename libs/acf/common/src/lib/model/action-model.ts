@@ -1,5 +1,5 @@
-import { Addon } from './addon-model';
 import { RANDOM_UUID } from '../common';
+import { Addon } from './addon-model';
 import { RETRY_OPTIONS } from './setting-model';
 
 // Action Condition
@@ -73,6 +73,7 @@ export type Action = {
   settings?: ActionSettings;
   status?: string;
   error?: string[];
+  valueFieldType?: 'text' | 'textarea';
 };
 
 export const getDefaultAction = (): Action => ({
