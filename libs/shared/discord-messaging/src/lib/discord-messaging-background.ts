@@ -1,11 +1,12 @@
 import { FirebaseFunctionsBackground } from '@dhruv-techapps/firebase-functions';
+import { Auth } from '@dhruv-techapps/firebase-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
 import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './discord-messaging.constant';
 import { DiscordMessagingType } from './discord-messaging.types';
 
 export class DiscordMessagingBackground extends FirebaseFunctionsBackground {
   constructor(
-    auth: unknown,
+    auth: Auth,
     edgeClientId?: string,
     private VARIANT?: string
   ) {

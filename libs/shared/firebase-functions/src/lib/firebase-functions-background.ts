@@ -1,4 +1,4 @@
-import { FirebaseOauth2Background } from '@dhruv-techapps/firebase-oauth';
+import { Auth, FirebaseOauth2Background } from '@dhruv-techapps/firebase-oauth';
 import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
 import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './firebase-functions.constant';
@@ -6,7 +6,7 @@ import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './firebase-functions.cons
 export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
   cloudFunctionUrl: string;
 
-  constructor(auth: unknown, edgeClientId?: string | undefined) {
+  constructor(auth: Auth, edgeClientId?: string | undefined) {
     super(auth, edgeClientId);
     this.cloudFunctionUrl = 'https://us-central1-auto-clicker-autofill.cloudfunctions.net';
   }
