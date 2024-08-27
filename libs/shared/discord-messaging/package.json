@@ -4,8 +4,8 @@
     "@dhruv-techapps/core-service": "*",
     "@dhruv-techapps/notifications": "*",
     "@dhruv-techapps/firebase-functions": "*",
-    "tslib": "^2.3.0",
-    "firebase": "^10.12.5"
+    "@dhruv-techapps/firebase-oauth": "*",
+    "tslib": "^2.3.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",

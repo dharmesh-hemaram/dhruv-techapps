@@ -1,6 +1,13 @@
 import i18n from 'i18next';
 import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
+import { APP_LANGUAGES } from '../constants';
+let lng = window.localStorage.getItem('language') || navigator.language.replace('-', '_');
+
+if (!APP_LANGUAGES.includes(lng)) {
+  lng = 'en';
+  window.localStorage.setItem('language', lng);
+}
 
 i18n
   // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
@@ -18,7 +25,7 @@ i18n
     ns: 'web-new',
     debug: false,
     defaultNS: 'web-new',
-    lng: window.localStorage.getItem('language') || navigator.language.replace('-', '_'),
+    lng,
     backend: {
       loadPath: `${process.env.NX_PUBLIC_I18N}/{{lng}}/{{ns}}.json`,
       addPath: '/locales/add/{{lng}}/{{ns}}',
@@ -28,6 +35,9 @@ i18n
     },
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
+    },
+    react: {
+      useSuspense: false,
     },
   });
 

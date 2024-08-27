@@ -21,6 +21,10 @@
             "entryPath": "apps/acf-extension/src/content_scripts/index.ts"
           },
           {
+            "entryName": "content_scripts_main",
+            "entryPath": "apps/acf-extension/src/content_scripts_main/index.ts"
+          },
+          {
             "entryName": "wizard",
             "entryPath": "apps/acf-extension/src/wizard/index.ts"
           },

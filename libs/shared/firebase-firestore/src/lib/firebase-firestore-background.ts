@@ -1,5 +1,4 @@
-import { FirebaseOauth2Background } from '@dhruv-techapps/firebase-oauth';
-import { Auth, User } from 'firebase/auth';
+import { Auth, FirebaseOauth2Background, User } from '@dhruv-techapps/firebase-oauth';
 import { Firestore, addDoc, collection, getDoc, getDocs, getFirestore, orderBy, query, where } from 'firebase/firestore';
 
 export class FirebaseFirestoreBackground extends FirebaseOauth2Background {

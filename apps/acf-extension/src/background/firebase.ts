@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, indexedDBLocalPersistence } from 'firebase/auth';
+import { getAuth, indexedDBLocalPersistence } from 'firebase/auth/web-extension';
 import { FIREBASE_API_KEY, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID } from '../common/environments';
 
 const firebase = initializeApp({
