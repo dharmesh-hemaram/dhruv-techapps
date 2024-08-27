@@ -32,11 +32,11 @@
     "react-markdown": "^9.0.1",
     "react-redux": "^9.1.2",
     "react-reorder": "^3.0.0-alpha.7",
-    "tslib": "^2.6.3"
+    "tslib": "^2.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/preset-react": "^7.24.6",
+    "@babel/preset-react": "^7.24.7",
     "@google-cloud/translate": "^8.2.0",
     "@nx/esbuild": "19.6.1",
     "@nx/eslint": "19.6.1",
@@ -46,7 +46,7 @@
     "@nx/js": "19.6.1",
     "@nx/node": "19.6.1",
     "@nx/plugin": "19.6.1",
-    "@nx/react": "19.6.1",
+    "@nx/react": "19.6.2",
     "@nx/rollup": "19.6.1",
     "@nx/web": "19.6.1",
     "@nx/webpack": "19.6.1",

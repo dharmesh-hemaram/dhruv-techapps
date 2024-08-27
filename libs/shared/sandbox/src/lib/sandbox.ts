@@ -56,7 +56,7 @@ export const Sandbox = (() => {
     }
     const name = crypto.randomUUID();
     try {
-      return await Sandbox.sendMessage({ command: 'eval', name, context: context ? `'${context}'.${code}` : code });
+      return await Sandbox.sendMessage({ command: 'eval', name, context: context ? `\`${context}\`.${code}` : code });
     } catch (error) {
       if (error instanceof Error) {
         throw new ConfigError(error.message, `Invalid ${code}`);

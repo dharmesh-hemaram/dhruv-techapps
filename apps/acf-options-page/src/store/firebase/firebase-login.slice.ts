@@ -1,6 +1,5 @@
-import { FirebaseRole } from '@dhruv-techapps/firebase-oauth';
+import { FirebaseRole, User } from '@dhruv-techapps/firebase-oauth';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { User } from 'firebase/auth';
 import { RootState } from '../../store';
 import { firebaseIsLoginAPI, firebaseLoginAPI, firebaseLogoutAPI } from './firebase-login.api';
 

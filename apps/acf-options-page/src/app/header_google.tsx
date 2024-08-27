@@ -31,7 +31,6 @@ export const HeaderGoogle = () => {
     }
   };
   */
-  console.log(role);
   return (
     <div>
       {user ? (

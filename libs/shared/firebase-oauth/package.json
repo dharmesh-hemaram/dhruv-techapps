@@ -5,7 +5,9 @@
     "@dhruv-techapps/google-oauth": "*",
     "@dhruv-techapps/core-common": "*",
     "@dhruv-techapps/core-service": "*",
-    "firebase": "^10.12.0"
+    "firebase": "^10.12.0",
+    "@firebase/app": "0.10.8",
+    "@firebase/util": "1.9.7"
   },
   "type": "commonjs",
   "main": "./src/index.js",
