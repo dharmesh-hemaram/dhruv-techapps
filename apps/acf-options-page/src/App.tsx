@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import ConfirmationModalContextProvider from './_providers/confirm.provider';
 import Configs from './app/configs/configs';
@@ -28,7 +28,7 @@ function App() {
   };
 
   return (
-    <Suspense fallback={<Loading message='Loading localization...' className='m-5 p-5' />}>
+    <>
       <ConfirmationModalContextProvider>
         <Header />
         {show && !user && (
@@ -45,7 +45,7 @@ function App() {
         <ExtensionNotFoundModal />
       </ConfirmationModalContextProvider>
       <DataList />
-    </Suspense>
+    </>
   );
 }
 

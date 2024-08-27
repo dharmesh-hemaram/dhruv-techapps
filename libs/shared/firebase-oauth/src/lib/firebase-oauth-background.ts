@@ -1,6 +1,6 @@
 import { GoogleOauth2Background } from '@dhruv-techapps/google-oauth';
-import { Auth, GoogleAuthProvider, User, signInWithCredential } from 'firebase/auth';
-import { FirebaseLoginResponse, FirebaseRole } from './firebase-oauth.types';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth/web-extension';
+import { Auth, FirebaseLoginResponse, FirebaseRole, User } from './firebase-oauth.types';
 
 export class FirebaseOauth2Background extends GoogleOauth2Background {
   auth;

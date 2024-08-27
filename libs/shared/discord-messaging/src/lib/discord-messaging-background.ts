@@ -1,6 +1,6 @@
 import { FirebaseFunctionsBackground } from '@dhruv-techapps/firebase-functions';
+import { Auth } from '@dhruv-techapps/firebase-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
-import { Auth } from 'firebase/auth';
 import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './discord-messaging.constant';
 import { DiscordMessagingType } from './discord-messaging.types';
 

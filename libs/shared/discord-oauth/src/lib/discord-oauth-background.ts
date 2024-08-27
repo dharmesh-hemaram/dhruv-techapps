@@ -1,7 +1,7 @@
 import { getParameterByName, getRandomValues } from '@dhruv-techapps/core-common';
 import { FirebaseFunctionsBackground } from '@dhruv-techapps/firebase-functions';
+import { Auth } from '@dhruv-techapps/firebase-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
-import { Auth } from 'firebase/auth';
 import { LOCAL_STORAGE_KEY_DISCORD, NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './discord-oauth.constant';
 import { Discord } from './discord-oauth.types';
 

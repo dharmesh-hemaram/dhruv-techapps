@@ -1,7 +1,6 @@
-import { FirebaseOauth2Background } from '@dhruv-techapps/firebase-oauth';
+import { Auth, FirebaseOauth2Background } from '@dhruv-techapps/firebase-oauth';
 import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
-import { Auth } from 'firebase/auth';
 import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './firebase-functions.constant';
 
 export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
