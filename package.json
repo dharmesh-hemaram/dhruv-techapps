@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/preset-react": "^7.24.6",
+    "@babel/preset-react": "^7.24.7",
     "@google-cloud/translate": "^8.2.0",
     "@nx/esbuild": "19.6.1",
     "@nx/eslint": "19.6.1",
