@@ -35,6 +35,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "@nx/js:swc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "namedInputs": {
@@ -101,7 +106,8 @@
       "firebase-firestore",
       "firebase-functions",
       "firebase-database",
-      "acf-main-world"
+      "acf-main-world",
+      "firebase-storage"
     ],
     "changelog": {
       "workspaceChangelog": {

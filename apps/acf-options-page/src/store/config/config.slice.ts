@@ -1,11 +1,11 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../store';
 import { CONFIG_SOURCE, Configuration, RANDOM_UUID, START_TYPES, getDefaultConfig } from '@dhruv-techapps/acf-common';
-import { configGetAllAPI } from './config.api';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { LocalStorage } from '../../_helpers';
+import { RootState } from '../../store';
 import { actionActions, openActionAddonModalAPI, openActionSettingsModalAPI, openActionStatementModalAPI } from './action';
 import { batchActions } from './batch';
+import { configGetAllAPI } from './config.api';
 import { getConfigName, updateConfigId, updateConfigIds } from './config.slice.util';
-import { LocalStorage } from '../../_helpers';
 
 const HIDDEN_DETAIL_KEY = 'config-detail-visibility';
 const defaultDetailVisibility = { name: true, url: true };
@@ -70,6 +70,7 @@ const slice = createSlice({
       }
 
       selectedConfig[name] = value;
+      selectedConfig['updated'] = true;
       if (name === 'url' && !selectedConfig.name) {
         selectedConfig.name = getConfigName(value);
       }
@@ -85,6 +86,7 @@ const slice = createSlice({
       }
 
       selectedConfig[name] = value;
+      selectedConfig['updated'] = true;
       if (name === 'startType' && value === START_TYPES.AUTO) {
         delete selectedConfig.hotkey;
       }

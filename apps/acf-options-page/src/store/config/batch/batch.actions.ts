@@ -16,6 +16,7 @@ export const batchActions = {
     } else {
       config.batch = { [name]: value };
     }
+    config.updated = true;
   },
   updateBatchRefresh: (state: ConfigStore) => {
     const { configs, selectedConfigId } = state;
@@ -28,5 +29,6 @@ export const batchActions = {
     if (batch) {
       batch.refresh = !batch.refresh;
     }
+    config.updated = true;
   },
 };

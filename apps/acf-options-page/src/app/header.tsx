@@ -6,7 +6,7 @@ import { APP_LANGUAGES, APP_LINK, SOCIAL_LINKS } from '../constants';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { SettingsModal } from '../modal';
 import { appSelector } from '../store/app.slice';
-import { firebaseSelector } from '../store/firebase';
+import { firebaseDatabaseSelector, firebaseSelector } from '../store/firebase';
 import { switchSettingsModal } from '../store/settings/settings.slice';
 import { switchTheme, themeSelector } from '../store/theme.slice';
 import { GearFill, Github, Moon, Sun, ThreeDots, Youtube } from '../util';
@@ -14,12 +14,12 @@ import { HeaderGoogle } from './header_google';
 
 function Header() {
   const [show, setShow] = useState<boolean>(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const { setIsOpen } = useTour();
   const theme = useAppSelector(themeSelector);
+  const { profile } = useAppSelector(firebaseDatabaseSelector);
   const { role } = useAppSelector(firebaseSelector);
   const { extensionNotFound } = useAppSelector(appSelector);
   const dispatch = useAppDispatch();
@@ -81,6 +81,11 @@ function Header() {
           {role && (
             <Badge bg='danger' text='light' className='ms-2'>
               {role.toUpperCase()}
+            </Badge>
+          )}
+          {profile && (
+            <Badge bg='success' className='ms-2'>
+              PUBLIC
             </Badge>
           )}
         </Navbar.Brand>

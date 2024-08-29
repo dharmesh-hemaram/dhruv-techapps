@@ -36,10 +36,14 @@ export class FirebaseDatabaseBackground extends FirebaseOauth2Background {
   async setProfile(profile: boolean) {
     const dbRef = ref(this.db, `users/${this.auth.currentUser?.uid}/publicProfile`);
     const result = set(dbRef, profile);
-    const alarmInfo: chrome.alarms.AlarmCreateInfo = { when: Date.now() + 500 };
-    await chrome.alarms.clear(SYNC_CONFIG_ALARM);
-    alarmInfo.periodInMinutes = 1440 * 7;
-    chrome.alarms.create(SYNC_CONFIG_ALARM, alarmInfo);
+    if (profile) {
+      const alarmInfo: chrome.alarms.AlarmCreateInfo = { when: Date.now() + 500 };
+      await chrome.alarms.clear(SYNC_CONFIG_ALARM);
+      alarmInfo.periodInMinutes = 1440 * 7;
+      chrome.alarms.create(SYNC_CONFIG_ALARM, alarmInfo);
+    } else {
+      chrome.alarms.clear(SYNC_CONFIG_ALARM);
+    }
     return result;
   }
 

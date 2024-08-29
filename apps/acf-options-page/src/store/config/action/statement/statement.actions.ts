@@ -1,6 +1,6 @@
+import { ActionStatement } from '@dhruv-techapps/acf-common';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { ConfigStore } from '../../config.slice';
-import { ActionStatement } from '@dhruv-techapps/acf-common';
 
 export const actionStatementActions = {
   syncActionStatement: (state: ConfigStore, action: PayloadAction<ActionStatement | undefined>) => {
@@ -22,5 +22,6 @@ export const actionStatementActions = {
     } else {
       delete selectedAction.statement;
     }
+    selectedConfig.updated = true;
   },
 };

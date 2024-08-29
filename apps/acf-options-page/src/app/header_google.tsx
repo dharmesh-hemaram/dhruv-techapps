@@ -1,11 +1,14 @@
 import { Nav, NavDropdown } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { firebaseLogoutAPI, firebaseSelector, switchFirebaseLoginModal } from '../store/firebase';
+import { firebaseDatabaseSelector, firebaseLogoutAPI, firebaseSelector, switchFirebaseLoginModal } from '../store/firebase';
 import { switchSubscribeModal } from '../store/subscribe';
+import { LockFill } from '../util';
+import { HeaderProfile } from './header_porfile';
 
 export const HeaderGoogle = () => {
   const dispatch = useAppDispatch();
   const { user, role } = useAppSelector(firebaseSelector);
+  const { profile } = useAppSelector(firebaseDatabaseSelector);
 
   /*
   const onPortalLink = async () => {
@@ -31,16 +34,27 @@ export const HeaderGoogle = () => {
     }
   };
   */
+
   return (
     <div>
       {user ? (
-        <NavDropdown title={user.displayName} id='subscription-nav-dropdown' align='end'>
+        <NavDropdown
+          title={
+            <>
+              {!profile && <LockFill className='me-1' />}
+              {user.displayName}
+            </>
+          }
+          id='subscription-nav-dropdown'
+          align='end'
+        >
           {!role && (
             <>
               <NavDropdown.Item title='subscribe' onClick={() => dispatch(switchSubscribeModal())}>
                 Subscribe
               </NavDropdown.Item>
               <NavDropdown.Divider />
+              <HeaderProfile />
             </>
           )}
           <NavDropdown.Item title='logout' onClick={() => dispatch(firebaseLogoutAPI())}>

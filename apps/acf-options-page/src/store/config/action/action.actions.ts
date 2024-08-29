@@ -1,5 +1,5 @@
-import { PayloadAction } from '@reduxjs/toolkit';
 import { RANDOM_UUID, getDefaultAction } from '@dhruv-techapps/acf-common';
+import { PayloadAction } from '@reduxjs/toolkit';
 import { ConfigStore } from '../config.slice';
 import { actionAddonActions } from './addon';
 import { actionSettingsActions } from './settings';
@@ -48,6 +48,7 @@ export const actionActions = {
     } else {
       selectedConfig.actions.push(getDefaultAction());
     }
+    selectedConfig.updated = true;
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateAction: (state: ConfigStore, action: PayloadAction<{ selectedActionId: RANDOM_UUID; name: string; value: any }>) => {
@@ -74,6 +75,7 @@ export const actionActions = {
         error.splice(index, 1);
       }
     }
+    selectedConfig.updated = true;
   },
   removeAction: (state: ConfigStore, action: PayloadAction<RANDOM_UUID>) => {
     const { configs, selectedConfigId } = state;
@@ -92,6 +94,7 @@ export const actionActions = {
     }
 
     selectedConfig.actions.splice(selectedActionIndex, 1);
+    selectedConfig.updated = true;
   },
   ...actionAddonActions,
   ...actionSettingsActions,

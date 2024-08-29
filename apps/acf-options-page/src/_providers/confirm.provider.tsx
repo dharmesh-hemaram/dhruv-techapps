@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 import { ConfirmModal } from '../modal';
 
-type ModalRequestType = { title: string; message: string; headerClass: string };
+type ModalRequestType = { title: string; message: JSX.Element | string; headerClass: string };
 
 type ModalContextType = {
   showConfirmation: (request: ModalRequestType) => Promise<boolean>;

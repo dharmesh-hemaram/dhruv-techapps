@@ -8,24 +8,23 @@ import { FirebaseDatabaseBackground, RUNTIME_MESSAGE_FIREBASE_DATABASE } from '@
 import { FirebaseFirestoreBackground, RUNTIME_MESSAGE_FIREBASE_FIRESTORE } from '@dhruv-techapps/firebase-firestore';
 import { FirebaseFunctionsBackground, RUNTIME_MESSAGE_FIREBASE_FUNCTIONS } from '@dhruv-techapps/firebase-functions';
 import { FirebaseOauth2Background, RUNTIME_MESSAGE_FIREBASE_OAUTH } from '@dhruv-techapps/firebase-oauth';
-import { GoogleAnalyticsBackground, RUNTIME_MESSAGE_GOOGLE_ANALYTICS } from '@dhruv-techapps/google-analytics';
+import { RUNTIME_MESSAGE_GOOGLE_ANALYTICS } from '@dhruv-techapps/google-analytics';
 import { GoogleDriveBackground, RUNTIME_MESSAGE_GOOGLE_DRIVE } from '@dhruv-techapps/google-drive';
 import { GoogleOauth2Background, RUNTIME_MESSAGE_GOOGLE_OAUTH } from '@dhruv-techapps/google-oauth';
 import { GoogleSheetsBackground, RUNTIME_MESSAGE_GOOGLE_SHEETS } from '@dhruv-techapps/google-sheets';
 import { registerNotifications } from '@dhruv-techapps/notifications';
 import { ACTION_POPUP } from '../common/constant';
-import { API_SECRET, DISCORD_CLIENT_ID, EDGE_OAUTH_CLIENT_ID, MEASUREMENT_ID, OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
+import { DISCORD_CLIENT_ID, EDGE_OAUTH_CLIENT_ID, OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
 import AcfBackup from './acf-backup';
 import registerContextMenus from './context-menu';
 import { auth } from './firebase';
+import { googleAnalytics } from './google-analytics';
 import { TabsMessenger } from './tab';
 import { Update } from './update';
 
-let googleAnalytics: GoogleAnalyticsBackground | undefined;
 let firebaseDatabaseBackground: FirebaseDatabaseBackground;
 
 try {
-  googleAnalytics = new GoogleAnalyticsBackground(MEASUREMENT_ID, API_SECRET, VARIANT === 'LOCAL');
   firebaseDatabaseBackground = new FirebaseDatabaseBackground(auth, EDGE_OAUTH_CLIENT_ID);
 
   /**

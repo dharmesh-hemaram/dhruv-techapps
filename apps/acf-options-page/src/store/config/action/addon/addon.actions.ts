@@ -1,6 +1,6 @@
+import { Addon } from '@dhruv-techapps/acf-common';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { ConfigStore } from '../../config.slice';
-import { Addon } from '@dhruv-techapps/acf-common';
 
 export const actionAddonActions = {
   syncActionAddon: (state: ConfigStore, action: PayloadAction<Addon | undefined>) => {
@@ -22,5 +22,6 @@ export const actionAddonActions = {
     } else {
       delete selectedAction.addon;
     }
+    selectedConfig.updated = true;
   },
 };

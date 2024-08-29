@@ -29,6 +29,7 @@ export { ReactComponent as Gear } from 'bootstrap-icons/icons/gear.svg';
 export { ReactComponent as Github } from 'bootstrap-icons/icons/github.svg';
 export { ReactComponent as InfoCircle } from 'bootstrap-icons/icons/info-circle.svg';
 export { ReactComponent as Instagram } from 'bootstrap-icons/icons/instagram.svg';
+export { ReactComponent as LockFill } from 'bootstrap-icons/icons/lock-fill.svg';
 export { ReactComponent as Moon } from 'bootstrap-icons/icons/moon-stars-fill.svg';
 export { ReactComponent as Plus } from 'bootstrap-icons/icons/plus-lg.svg';
 export { ReactComponent as PlusSquare } from 'bootstrap-icons/icons/plus-square.svg';
@@ -40,6 +41,7 @@ export { ReactComponent as ThreeDotsVertical } from 'bootstrap-icons/icons/three
 export { ReactComponent as ThreeDots } from 'bootstrap-icons/icons/three-dots.svg';
 export { ReactComponent as Trash } from 'bootstrap-icons/icons/trash.svg';
 export { ReactComponent as Twitter } from 'bootstrap-icons/icons/twitter.svg';
+export { ReactComponent as UnLockFill } from 'bootstrap-icons/icons/unlock-fill.svg';
 export { ReactComponent as Upload } from 'bootstrap-icons/icons/upload.svg';
 export { ReactComponent as VolumeMute } from 'bootstrap-icons/icons/volume-mute.svg';
 export { ReactComponent as VolumeUp } from 'bootstrap-icons/icons/volume-up.svg';
