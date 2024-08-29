@@ -5,7 +5,8 @@
     "firebase": "^10.12.0",
     "@dhruv-techapps/core-common": "*",
     "@dhruv-techapps/core-service": "*",
-    "@dhruv-techapps/firebase-oauth": "*"
+    "@dhruv-techapps/firebase-oauth": "*",
+    "xhr-shim": "^0.1.3"
   },
   "type": "commonjs",
   "main": "./src/index.js",
