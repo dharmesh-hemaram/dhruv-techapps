@@ -6,6 +6,11 @@ import { EDGE_OAUTH_CLIENT_ID } from '../common/environments';
 import { auth } from './firebase';
 import { googleAnalytics } from './google-analytics';
 
+export const EVENTS_REGEX = new RegExp(
+  'scrollto|clickevents|mouseevents|touchevents|formevents|keyevents|tabs|keyboardevents|attr|class|copy|paste|windowcommand|locationcommand|func|replace|append|prepend|clipboard',
+  'i'
+);
+
 export class SyncConfig {
   constructor(private auth: Auth) {}
 
@@ -27,6 +32,24 @@ export class SyncConfig {
     await chrome.storage.local.set({ [LOCAL_STORAGE_KEY.CONFIGS]: updatedConfigs });
   }
 
+  getBlob(config: Configuration) {
+    config.download = true;
+    config.actions.forEach((action, index, actions) => {
+      const { value } = action;
+      if (value && !EVENTS_REGEX.test(value)) {
+        delete action.value;
+      }
+      if (action.addon) {
+        const { value } = action.addon;
+        if (value && !EVENTS_REGEX.test(value)) {
+          action.addon.value = '';
+        }
+      }
+      actions[index] = action;
+    });
+    return new Blob([JSON.stringify(config)], { type: 'application/json;charset=utf-8;' });
+  }
+
   async syncConfig(updated: boolean) {
     if (!this.auth.currentUser) {
       return;
@@ -44,8 +67,7 @@ export class SyncConfig {
           const db = { url: config.url, name: config.name, userId: uid };
           await new FirebaseDatabaseBackground(this.auth, EDGE_OAUTH_CLIENT_ID).setConfig(db, config.id);
           // Update Storage
-          config.download = true;
-          const blob = new Blob([JSON.stringify(config)], { type: 'application/json;charset=utf-8;' });
+          const blob = this.getBlob(config);
           await new FirebaseStorageBackground(this.auth).uploadFile(blob, `users/${uid}/${config.id}.json`);
         } catch (error) {
           if (error instanceof Error) {
