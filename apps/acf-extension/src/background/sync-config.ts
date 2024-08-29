@@ -30,17 +30,13 @@ export class SyncConfig {
       return;
     }
     try {
-      console.log('Starting Sync');
       const { uid } = this.auth.currentUser;
       const storageResult = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
       const configs: Array<Configuration> = this.filterConfig(storageResult[LOCAL_STORAGE_KEY.CONFIGS] || []);
       if (configs.length === 0) {
-        console.log('No config to sync');
         return;
       }
-      console.log(configs);
       for (const config of configs) {
-        console.log(config);
         try {
           const db = { url: config.url, name: config.name, userId: uid };
           await new FirebaseDatabaseBackground(this.auth, EDGE_OAUTH_CLIENT_ID).setConfig(db, config.id);
@@ -49,7 +45,6 @@ export class SyncConfig {
           const blob = new Blob([JSON.stringify(config)], { type: 'application/json;charset=utf-8;' });
           await new FirebaseStorageBackground(this.auth).uploadFile(blob, `users/${uid}/${config.id}.json`);
         } catch (error) {
-          console.error(error);
           if (error instanceof Error) {
             googleAnalytics?.fireErrorEvent({ error: error.message, additionalParams: { page: 'sync-config-upload' } });
           } else {
@@ -59,7 +54,6 @@ export class SyncConfig {
       }
       await this.reset();
     } catch (error) {
-      console.error(error);
       if (error instanceof Error) {
         googleAnalytics?.fireErrorEvent({ error: error.message, additionalParams: { page: 'sync-config' } });
       } else {
