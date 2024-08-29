@@ -1,17 +1,13 @@
-import { useEffect } from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import { useConfirmationModalContext } from '../_providers/confirm.provider';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { firebaseDatabaseSelector, profileGetAPI, profileSetAPI } from '../store/firebase';
+import { firebaseDatabaseSelector, profileSetAPI } from '../store/firebase';
 import { LockFill, UnLockFill } from '../util';
 
 export const HeaderProfile = () => {
   const dispatch = useAppDispatch();
   const modalContext = useConfirmationModalContext();
   const { profile } = useAppSelector(firebaseDatabaseSelector);
-  useEffect(() => {
-    dispatch(profileGetAPI());
-  }, [dispatch]);
 
   const onSwitchProfile = async () => {
     const result = await modalContext.showConfirmation({

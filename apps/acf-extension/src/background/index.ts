@@ -19,6 +19,7 @@ import AcfBackup from './acf-backup';
 import registerContextMenus from './context-menu';
 import { auth } from './firebase';
 import { googleAnalytics } from './google-analytics';
+import './sync-config';
 import { TabsMessenger } from './tab';
 import { Update } from './update';
 

@@ -10,7 +10,7 @@ import { LoginModal } from './modal/login.modal';
 import { SubscribeModal } from './modal/subscribe.modal';
 import { getManifest } from './store/app.api';
 import { appSelector } from './store/app.slice';
-import { firebaseIsLoginAPI, firebaseSelector } from './store/firebase';
+import { firebaseIsLoginAPI, firebaseSelector, profileGetAPI } from './store/firebase';
 
 function App() {
   const { loading, error } = useAppSelector(appSelector);
@@ -21,6 +21,12 @@ function App() {
     dispatch(getManifest());
     dispatch(firebaseIsLoginAPI());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(profileGetAPI());
+    }
+  }, [user, dispatch]);
 
   const onCloseAlert = () => {
     setShow(false);

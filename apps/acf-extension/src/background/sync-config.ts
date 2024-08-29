@@ -1,18 +1,20 @@
 import { Configuration, LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
-import { FirebaseDatabaseBackground } from '@dhruv-techapps/firebase-database';
+import { FirebaseDatabaseBackground, SYNC_ALL_CONFIG_ALARM, SYNC_CONFIG_ALARM } from '@dhruv-techapps/firebase-database';
 import { Auth } from '@dhruv-techapps/firebase-oauth';
 import { FirebaseStorageBackground } from '@dhruv-techapps/firebase-storage';
 import { EDGE_OAUTH_CLIENT_ID } from '../common/environments';
 import { auth } from './firebase';
 import { googleAnalytics } from './google-analytics';
 
-const SYNC_CONFIG_ALARM = 'sync-config';
-
 export class SyncConfig {
   constructor(private auth: Auth) {}
 
-  filterConfig(configs: Array<Configuration>): Array<Configuration> {
-    return configs.filter((config: Configuration) => config.url && config.updated && !config.download);
+  filterConfig(configs: Array<Configuration>, updated: boolean): Array<Configuration> {
+    if (updated) {
+      return configs.filter((config: Configuration) => config.url && config.updated && !config.download);
+    } else {
+      return configs.filter((config: Configuration) => config.url && !config.download);
+    }
   }
 
   async reset() {
@@ -25,22 +27,23 @@ export class SyncConfig {
     await chrome.storage.local.set({ [LOCAL_STORAGE_KEY.CONFIGS]: updatedConfigs });
   }
 
-  async syncConfig() {
+  async syncConfig(updated: boolean) {
     if (!this.auth.currentUser) {
       return;
     }
     try {
       const { uid } = this.auth.currentUser;
       const storageResult = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
-      const configs: Array<Configuration> = this.filterConfig(storageResult[LOCAL_STORAGE_KEY.CONFIGS] || []);
+      const configs: Array<Configuration> = this.filterConfig(storageResult[LOCAL_STORAGE_KEY.CONFIGS] || [], updated);
       if (configs.length === 0) {
         return;
       }
       for (const config of configs) {
         try {
+          // Update Database
           const db = { url: config.url, name: config.name, userId: uid };
           await new FirebaseDatabaseBackground(this.auth, EDGE_OAUTH_CLIENT_ID).setConfig(db, config.id);
-
+          // Update Storage
           config.download = true;
           const blob = new Blob([JSON.stringify(config)], { type: 'application/json;charset=utf-8;' });
           await new FirebaseStorageBackground(this.auth).uploadFile(blob, `users/${uid}/${config.id}.json`);
@@ -66,7 +69,9 @@ export class SyncConfig {
 auth.authStateReady().then(() => {
   chrome.alarms.onAlarm.addListener(({ name }) => {
     if (name === SYNC_CONFIG_ALARM) {
-      new SyncConfig(auth).syncConfig();
+      new SyncConfig(auth).syncConfig(true);
+    } else if (name === SYNC_ALL_CONFIG_ALARM) {
+      new SyncConfig(auth).syncConfig(false);
     }
   });
 });

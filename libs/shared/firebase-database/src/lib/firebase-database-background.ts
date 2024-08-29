@@ -1,7 +1,7 @@
 import { Auth, FirebaseOauth2Background } from '@dhruv-techapps/firebase-oauth';
 import { Database, child, get, getDatabase, ref, remove, set } from 'firebase/database';
 import XMLHttpRequest from 'xhr-shim';
-import { DBConfigRequest, SYNC_CONFIG_ALARM } from './firebase-database.constant';
+import { DBConfigRequest, SYNC_ALL_CONFIG_ALARM, SYNC_CONFIG_ALARM } from './firebase-database.constant';
 self['XMLHttpRequest'] = XMLHttpRequest;
 
 export class FirebaseDatabaseBackground extends FirebaseOauth2Background {
@@ -38,11 +38,11 @@ export class FirebaseDatabaseBackground extends FirebaseOauth2Background {
     const result = set(dbRef, profile);
     if (profile) {
       const alarmInfo: chrome.alarms.AlarmCreateInfo = { when: Date.now() + 500 };
-      await chrome.alarms.clear(SYNC_CONFIG_ALARM);
-      alarmInfo.periodInMinutes = 1440 * 7;
-      chrome.alarms.create(SYNC_CONFIG_ALARM, alarmInfo);
+      await chrome.alarms.create(SYNC_ALL_CONFIG_ALARM, { delayInMinutes: 1 });
+      await chrome.alarms.create(SYNC_CONFIG_ALARM, { ...alarmInfo, periodInMinutes: 1440 * 7 });
     } else {
       chrome.alarms.clear(SYNC_CONFIG_ALARM);
+      chrome.alarms.clear(SYNC_ALL_CONFIG_ALARM);
     }
     return result;
   }
