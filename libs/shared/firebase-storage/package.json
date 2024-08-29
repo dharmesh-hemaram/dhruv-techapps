@@ -1,0 +1,14 @@
+{
+  "name": "@dhruv-techapps/firebase-storage",
+  "version": "0.0.1",
+  "dependencies": {
+    "@swc/helpers": "~0.5.11",
+    "firebase": "^10.12.5",
+    "@dhruv-techapps/firebase-oauth": "*",
+    "@dhruv-techapps/core-common": "*",
+    "@dhruv-techapps/core-service": "*"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts"
+}
