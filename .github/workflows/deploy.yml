@@ -74,6 +74,7 @@ jobs:
           FUNCTION_URL: ${{vars.FUNCTION_URL}}
           DISCORD_CLIENT_ID: ${{vars.DISCORD_CLIENT_ID}}
           OAUTH_CLIENT_ID: ${{vars.OAUTH_CLIENT_ID}}
+          EDGE_OAUTH_CLIENT_ID: ${{vars.EDGE_OAUTH_CLIENT_ID}}
           PUBLIC_URL: ${{vars.PUBLIC_URL}}
           NX_PUBLIC_RELEASE_VERSION: ${{inputs.version || github.ref_name}}
           API_SECRET: ${{vars.API_SECRET}}
