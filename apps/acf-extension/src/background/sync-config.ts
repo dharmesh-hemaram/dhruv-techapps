@@ -34,8 +34,10 @@ export class SyncConfig {
 
   getBlob(config: Configuration) {
     config.download = true;
+    delete config.spreadsheetId;
     config.actions.forEach((action, index, actions) => {
       const { value } = action;
+
       if (value && !EVENTS_REGEX.test(value)) {
         delete action.value;
       }
