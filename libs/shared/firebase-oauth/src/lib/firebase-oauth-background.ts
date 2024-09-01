@@ -34,6 +34,7 @@ export class FirebaseOauth2Background extends GoogleOauth2Background {
   }
 
   async _getFirebaseHeaders(scopes?: string[], gToken?: string) {
+    await this.auth.authStateReady();
     const user = this.auth.currentUser;
     if (!user) {
       throw new Error('User not logged in');

@@ -5,7 +5,6 @@ import { Runtime } from '@dhruv-techapps/core-extension';
 import { DiscordMessagingBackground, RUNTIME_MESSAGE_DISCORD_MESSAGING } from '@dhruv-techapps/discord-messaging';
 import { DiscordOauth2Background, RUNTIME_MESSAGE_DISCORD_OAUTH } from '@dhruv-techapps/discord-oauth';
 import { FirebaseDatabaseBackground, RUNTIME_MESSAGE_FIREBASE_DATABASE } from '@dhruv-techapps/firebase-database';
-import { FirebaseFirestoreBackground, RUNTIME_MESSAGE_FIREBASE_FIRESTORE } from '@dhruv-techapps/firebase-firestore';
 import { FirebaseFunctionsBackground, RUNTIME_MESSAGE_FIREBASE_FUNCTIONS } from '@dhruv-techapps/firebase-functions';
 import { FirebaseOauth2Background, RUNTIME_MESSAGE_FIREBASE_OAUTH } from '@dhruv-techapps/firebase-oauth';
 import { RUNTIME_MESSAGE_GOOGLE_ANALYTICS } from '@dhruv-techapps/google-analytics';
@@ -68,28 +67,26 @@ try {
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
   }
 
-  auth.authStateReady().then(() => {
-    /**
-     * Setup on Message Listener
-     */
-    const onMessageListener = {
-      [RUNTIME_MESSAGE_ACF.TABS]: new TabsMessenger(),
-      [RUNTIME_MESSAGE_DISCORD_OAUTH]: new DiscordOauth2Background(auth, EDGE_OAUTH_CLIENT_ID, DISCORD_CLIENT_ID),
-      [RUNTIME_MESSAGE_DISCORD_MESSAGING]: new DiscordMessagingBackground(auth, EDGE_OAUTH_CLIENT_ID, VARIANT),
-      [RUNTIME_MESSAGE_GOOGLE_ANALYTICS]: googleAnalytics,
-      [RUNTIME_MESSAGE_GOOGLE_OAUTH]: new GoogleOauth2Background(EDGE_OAUTH_CLIENT_ID),
-      [RUNTIME_MESSAGE_GOOGLE_DRIVE]: new GoogleDriveBackground(auth, EDGE_OAUTH_CLIENT_ID),
-      [RUNTIME_MESSAGE_ACF.ACF_BACKUP]: new AcfBackup(auth, EDGE_OAUTH_CLIENT_ID),
-      [RUNTIME_MESSAGE_GOOGLE_SHEETS]: new GoogleSheetsBackground(auth, EDGE_OAUTH_CLIENT_ID),
-      [RUNTIME_MESSAGE_FIREBASE_DATABASE]: firebaseDatabaseBackground,
-      [RUNTIME_MESSAGE_FIREBASE_OAUTH]: new FirebaseOauth2Background(auth, EDGE_OAUTH_CLIENT_ID),
-      [RUNTIME_MESSAGE_FIREBASE_FIRESTORE]: new FirebaseFirestoreBackground(auth, EDGE_OAUTH_CLIENT_ID, OPTIONS_PAGE_URL),
-      [RUNTIME_MESSAGE_FIREBASE_FUNCTIONS]: new FirebaseFunctionsBackground(auth, EDGE_OAUTH_CLIENT_ID),
-      [RUNTIME_MESSAGE_MAIN_WORLD_MESSAGING]: new MainWorldBackground(),
-    };
-    Runtime.onMessageExternal(onMessageListener);
-    Runtime.onMessage(onMessageListener);
-  });
+  /**
+   * Setup on Message Listener
+   */
+  const onMessageListener = {
+    [RUNTIME_MESSAGE_ACF.TABS]: new TabsMessenger(),
+    [RUNTIME_MESSAGE_MAIN_WORLD_MESSAGING]: new MainWorldBackground(),
+    [RUNTIME_MESSAGE_DISCORD_OAUTH]: new DiscordOauth2Background(auth, EDGE_OAUTH_CLIENT_ID, DISCORD_CLIENT_ID),
+    [RUNTIME_MESSAGE_DISCORD_MESSAGING]: new DiscordMessagingBackground(auth, EDGE_OAUTH_CLIENT_ID, VARIANT),
+    [RUNTIME_MESSAGE_GOOGLE_ANALYTICS]: googleAnalytics,
+    [RUNTIME_MESSAGE_GOOGLE_OAUTH]: new GoogleOauth2Background(EDGE_OAUTH_CLIENT_ID),
+    [RUNTIME_MESSAGE_GOOGLE_DRIVE]: new GoogleDriveBackground(auth, EDGE_OAUTH_CLIENT_ID),
+    [RUNTIME_MESSAGE_ACF.ACF_BACKUP]: new AcfBackup(auth, EDGE_OAUTH_CLIENT_ID),
+    [RUNTIME_MESSAGE_GOOGLE_SHEETS]: new GoogleSheetsBackground(auth, EDGE_OAUTH_CLIENT_ID),
+    [RUNTIME_MESSAGE_FIREBASE_DATABASE]: firebaseDatabaseBackground,
+    [RUNTIME_MESSAGE_FIREBASE_OAUTH]: new FirebaseOauth2Background(auth, EDGE_OAUTH_CLIENT_ID),
+    //[RUNTIME_MESSAGE_FIREBASE_FIRESTORE]: new FirebaseFirestoreBackground(auth, EDGE_OAUTH_CLIENT_ID, OPTIONS_PAGE_URL),
+    [RUNTIME_MESSAGE_FIREBASE_FUNCTIONS]: new FirebaseFunctionsBackground(auth, EDGE_OAUTH_CLIENT_ID),
+  };
+  Runtime.onMessageExternal(onMessageListener);
+  Runtime.onMessage(onMessageListener);
 } catch (error) {
   if (error instanceof Error) {
     googleAnalytics?.fireErrorEvent({ name: error.name, error: error.message, additionalParams: { page: 'background' } });

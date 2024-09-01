@@ -13,11 +13,13 @@ export class FirebaseDatabaseBackground extends FirebaseOauth2Background {
   }
 
   async setDiscord(discord: any) {
+    await this.auth.authStateReady();
     const dbRef = ref(this.db, `users/${this.auth.currentUser?.uid}/discord`);
     return set(dbRef, discord);
   }
 
   async getDiscord() {
+    await this.auth.authStateReady();
     const dbRef = ref(this.db);
     return get(child(dbRef, `users/${this.auth.currentUser?.uid}/discord`)).then((snapshot) => {
       if (snapshot.exists()) {
@@ -29,11 +31,13 @@ export class FirebaseDatabaseBackground extends FirebaseOauth2Background {
   }
 
   async deleteDiscord() {
+    await this.auth.authStateReady();
     const dbRef = ref(this.db, `users/${this.auth.currentUser?.uid}/discord`);
     return remove(dbRef);
   }
 
   async setProfile(profile: boolean) {
+    await this.auth.authStateReady();
     const dbRef = ref(this.db, `users/${this.auth.currentUser?.uid}/publicProfile`);
     const result = set(dbRef, profile);
     if (profile) {
@@ -48,6 +52,7 @@ export class FirebaseDatabaseBackground extends FirebaseOauth2Background {
   }
 
   async getProfile() {
+    await this.auth.authStateReady();
     const dbRef = ref(this.db);
     return get(child(dbRef, `users/${this.auth.currentUser?.uid}/publicProfile`)).then((snapshot) => {
       if (snapshot.exists()) {
@@ -59,11 +64,13 @@ export class FirebaseDatabaseBackground extends FirebaseOauth2Background {
   }
 
   async deleteProfile() {
+    await this.auth.authStateReady();
     const dbRef = ref(this.db, `users/${this.auth.currentUser?.uid}/publicProfile`);
     return remove(dbRef);
   }
 
   async setConfig(config: DBConfigRequest, id: string) {
+    await this.auth.authStateReady();
     const dbRef = ref(this.db, `configurations/${id}`);
     return set(dbRef, config);
   }
