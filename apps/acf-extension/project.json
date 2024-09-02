@@ -82,6 +82,14 @@
           {
             "entryName": "wizard-popup",
             "entryPath": "apps/acf-extension/src/wizard/popup/wizard-popup.ts"
+          },
+          {
+            "entryName": "devtools",
+            "entryPath": "apps/acf-extension/src/devtools/index.ts"
+          },
+          {
+            "entryName": "recorder",
+            "entryPath": "apps/acf-extension/src/devtools/recorder/index.ts"
           }
         ],
         "styles": ["apps/acf-extension/src/wizard/popup/wizard-popup.scss", "libs/shared/status-bar/src/lib/status-bar.scss"],

@@ -41,6 +41,8 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
       { from: `**/messages.json`, to: './_locales', context: `${ctx.options.root}/apps/acf-i18n/src/locales` },
       { from: path.join(__dirname, 'assets', config.watch ? 'DEV' : process.env.NX_PUBLIC_VARIANT), to: './assets' },
       { from: `./*.html`, to: './html', context: 'src/wizard/popup' },
+      { from: `./*.html`, to: './', context: 'src/devtools' },
+      { from: `./*.html`, to: './', context: 'src/devtools/recorder' },
       { from: `./*.html`, to: './html', context: '../../libs/shared/sandbox/src/lib' },
       { from: path.join(ctx.options.root, './node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js'), to: './webcomponents' },
       {

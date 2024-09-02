@@ -54,6 +54,7 @@
   "sandbox": {
     "pages": ["html/sandbox.html"]
   },
+  "devtools_page": "devtools.html",
   "web_accessible_resources": [
     {
       "resources": ["assets/*", "css/*", "html/*", "*.js.map"],
