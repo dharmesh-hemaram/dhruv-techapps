@@ -41,7 +41,7 @@
     "@google-cloud/translate": "^8.5.0",
     "@nx/esbuild": "19.6.1",
     "@nx/eslint": "19.6.4",
-    "@nx/eslint-plugin": "19.6.1",
+    "@nx/eslint-plugin": "19.6.4",
     "@nx/express": "19.6.1",
     "@nx/jest": "19.6.1",
     "@nx/js": "19.6.1",
