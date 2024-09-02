@@ -131,7 +131,7 @@ export function DataList() {
         <option value='LocationCommand::assign::url'>LocationCommand::assign::url</option>
         <option value='LocationCommand::open::https://getautoclicker.com'>LocationCommand::open::https://getautoclicker.com</option>
         <option value='Tabs::reload'>Tabs::reload</option>
-        <option value='Tabs::update::{"url":"https://test.getautoclicker.com/"}'>Tabs::update::&#123;"url":"https://test.getautoclicker.com/"&#125;</option>
+        <option value='Tabs::update::{"url":"https://test.getautoclicker.com/"}'>Tabs::update::&#123;"url":"https://test.getautoclicker.com/"&#123;</option>
         <option value='WindowCommand::close'>WindowCommand::close</option>
         <option value='WindowCommand::open::https://getautoclicker.com'>WindowCommand::open::https://getautoclicker.com</option>
         <option value='WindowCommand::delete'>WindowCommand::delete</option>
@@ -159,6 +159,12 @@ export function DataList() {
         <option value='GoogleSheets::Sheet1!A<batchRepeat>'>GoogleSheets::Sheet1!A&lt;batchRepeat&gt;</option>
         <option value='GoogleSheets::Sheet1!A<actionRepeat>'>GoogleSheets::Sheet1!A&lt;actionRepeat&gt;</option>
         <option value='GoogleSheets::Sheet1!A<sessionCount>'>GoogleSheets::Sheet1!A&lt;sessionCount&gt;</option>
+        <option value='Element::remove'>Element::remove</option>
+        <option value='Element::scrollIntoView'>Element::scrollIntoView</option>
+        <option value='Element::scrollIntoView::true'>Element::scrollIntoView::true</option>
+        <option value='Element::scrollIntoView::{ "behavior": "smooth", "block": "end", "inline": "nearest" }'>
+          Element::scrollIntoView::&#123; "behavior": "smooth", "block": "end", "inline": "nearest" &#123;
+        </option>
       </datalist>
       <datalist id='valueExtractor'>
         <option value='@id'>To get id attribute of element</option>

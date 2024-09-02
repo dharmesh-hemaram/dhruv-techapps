@@ -4,6 +4,7 @@ import { ClassEvents } from './class-list.events';
 import { ClipboardEvents } from './clipboard.events';
 import CommonEvents, { EVENTS } from './common.events';
 import { CopyEvents } from './copy.events';
+import { ElementEvents } from './element.events';
 import { FormEvents } from './form.events';
 import { FuncEvents } from './func.events';
 import { KeyEvents } from './key.events';
@@ -86,6 +87,9 @@ export const Events = (() => {
           break;
         case EVENTS.CLIPBOARD:
           await ClipboardEvents.start(elements, value);
+          break;
+        case EVENTS.ELEMENT:
+          await ElementEvents.start(elements, value);
           break;
         default:
           PlainEvents.start(elements, value);

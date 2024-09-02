@@ -123,6 +123,7 @@ export const EVENTS = {
   APPEND: 'append',
   PREPEND: 'prepend',
   CLIPBOARD: 'clipboard',
+  ELEMENT: 'element',
 };
 
 export default CommonEvents;
