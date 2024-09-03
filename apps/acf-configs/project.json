@@ -1,0 +1,83 @@
+{
+  "name": "acf-configs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/acf-configs/src",
+  "projectType": "application",
+  "tags": ["scope:app"],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/acf-configs",
+        "index": "apps/acf-configs/src/index.html",
+        "baseHref": "/",
+        "main": "apps/acf-configs/src/main.tsx",
+        "tsConfig": "apps/acf-configs/tsconfig.app.json",
+        "assets": ["apps/acf-configs/src/favicon.ico", "apps/acf-configs/src/assets"],
+        "styles": ["apps/acf-configs/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "apps/acf-configs/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/acf-configs/src/environments/environment.ts",
+              "with": "apps/acf-configs/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "acf-configs:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "acf-configs:build:development"
+        },
+        "production": {
+          "buildTarget": "acf-configs:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "acf-configs:build",
+        "spa": true
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/acf-configs/jest.config.ts"
+      }
+    }
+  }
+}
