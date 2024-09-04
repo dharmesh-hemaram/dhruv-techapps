@@ -55,6 +55,15 @@ const ConfigSettingsModal = () => {
     }
   };
 
+  const onBypassUpdate = () => {
+    const bypass = {};
+    document.querySelectorAll("[id^='bypass.']").forEach((element) => {
+      const { name, checked } = element as HTMLInputElement;
+      bypass[name] = checked;
+    });
+    dispatch(updateConfigSettings({ name: 'bypass', value: bypass }));
+  };
+
   const onShow = () => {
     //:TODO
   };
@@ -195,6 +204,20 @@ const ConfigSettingsModal = () => {
                     </Form.Select>
                     <Form.Label>{t('modal.configSettings.urlMatch')}</Form.Label>
                   </Form.Group>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+          <Card className='mb-2'>
+            <Card.Body>
+              <Row>
+                <Col md='12' sm='12'>
+                  <Form.Label>Bypass browser default</Form.Label>
+                  <div className='d-flex'>
+                    <Form.Check inline type='switch' id='bypass.alert' value='alert' onChange={onBypassUpdate} checked={config.bypass?.alert || false} name='alert' label=' alert' />
+                    <Form.Check inline type='switch' id='bypass.confirm' value='confirm' onChange={onBypassUpdate} checked={config.bypass?.confirm || false} name='confirm' label='confirm' />
+                    <Form.Check inline type='switch' id='bypass.prompt' value='prompt' onChange={onBypassUpdate} checked={config.bypass?.prompt || false} name='prompt' label='prompt' />
+                  </div>
                 </Col>
               </Row>
             </Card.Body>
