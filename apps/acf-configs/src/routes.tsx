@@ -3,7 +3,7 @@ import { Dashboard } from './components/dashboard';
 import Login from './components/login';
 import { auth } from './firebase';
 import Layout from './layout';
-import { loginLoader, protectedLoader } from './util/protector';
+import { loginLoader, protectedLoader } from './util/loader';
 
 export const router = createBrowserRouter([
   {

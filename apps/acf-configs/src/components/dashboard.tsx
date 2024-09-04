@@ -1,4 +1,4 @@
-import { Footer } from '@dhruv-techapps/ui';
+import { Footer, Header } from '@dhruv-techapps/ui';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
@@ -13,6 +13,7 @@ export const Dashboard = () => {
 
   return (
     <div>
+      <Header />
       <Button onClick={onSignOut}>Logout</Button>
       <Footer />
     </div>
