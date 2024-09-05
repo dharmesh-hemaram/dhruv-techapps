@@ -9,13 +9,9 @@ const Home: React.FC = () => {
       <Header>
         <User />
       </Header>
-      <main className='container-fluid'>
-        <div className='row'>
-          <div className='col'>
-            <Outlet />
-          </div>
-        </div>
-      </main>
+
+      <Outlet />
+
       <Footer />
     </>
   );

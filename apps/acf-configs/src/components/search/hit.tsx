@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 export const Hit = ({ hit }: { hit: any }) => {
   const navigate = useNavigate();
   const onConfigClick = () => {
-    navigate(`/config/${hit.objectID}/${hit.userId}`);
+    navigate(`/config/${hit.objectID}`);
   };
   return (
     <article onClick={onConfigClick}>
-      <div className='hit-name'>
+      <b className='hit-name'>
         <Highlight attribute='name' hit={hit} />
-      </div>
+      </b>
       <div className='hit-url'>
         <Highlight attribute='url' hit={hit} />
       </div>

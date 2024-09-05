@@ -33,40 +33,42 @@ export function QueryRuleCustomData(props: QueryRuleCustomDataProps) {
 
 export const Search = () => {
   return (
-    <InstantSearch searchClient={searchClient} indexName='configurations' insights>
-      <Configure hitsPerPage={5} ruleContexts={[]} />
-      <div className='container mt-5'>
-        <div className='row'>
-          <div className='col-3'>
-            <DynamicWidgets>
-              <Panel header='Users'>
-                <RefinementList attribute='userId' searchablePlaceholder='My Configs' />
-              </Panel>
-              <Panel header='Hierarchy'>
-                <HierarchicalMenu attributes={['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1', 'hierarchicalCategories.lvl2']} showMore={true} />
-              </Panel>
-            </DynamicWidgets>
-          </div>
-          <div className='Search col'>
-            <Breadcrumb attributes={['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1', 'hierarchicalCategories.lvl2']} />
-            <SearchBox placeholder='Search' autoFocus />
-
-            <div className='d-flex justify-content-end'>
-              <HitsPerPage
-                items={[
-                  { label: '10 hits per page', value: 10, default: true },
-                  { label: '20 hits per page', value: 20 },
-                  { label: '40 hits per page', value: 40 },
-                ]}
-              />
-              <SortBy items={[{ label: 'Relevance', value: 'instant_search' }]} />
+    <main className='container-fluid'>
+      <InstantSearch searchClient={searchClient} indexName='configurations' insights>
+        <Configure hitsPerPage={5} ruleContexts={[]} />
+        <div className='container mt-5'>
+          <div className='row'>
+            <div className='col-3'>
+              <DynamicWidgets>
+                <Panel header='Users'>
+                  <RefinementList attribute='userId' searchablePlaceholder='My Configs' />
+                </Panel>
+                <Panel header='Hierarchy'>
+                  <HierarchicalMenu attributes={['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1', 'hierarchicalCategories.lvl2']} showMore={true} />
+                </Panel>
+              </DynamicWidgets>
             </div>
+            <div className='Search col'>
+              <Breadcrumb attributes={['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1', 'hierarchicalCategories.lvl2']} />
+              <SearchBox placeholder='Search' autoFocus />
 
-            <Hits hitComponent={Hit} />
-            <Pagination className='Pagination' />
+              <div className='d-flex justify-content-end'>
+                <HitsPerPage
+                  items={[
+                    { label: '10 hits per page', value: 10, default: true },
+                    { label: '20 hits per page', value: 20 },
+                    { label: '40 hits per page', value: 40 },
+                  ]}
+                />
+                <SortBy items={[{ label: 'Relevance', value: 'instant_search' }]} />
+              </div>
+
+              <Hits hitComponent={Hit} />
+              <Pagination className='Pagination' />
+            </div>
           </div>
         </div>
-      </div>
-    </InstantSearch>
+      </InstantSearch>
+    </main>
   );
 };

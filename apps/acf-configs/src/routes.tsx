@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
         Component: Search,
       },
       {
-        path: '/config/:configId/:id',
+        path: '/config/:id/',
         loader: protectedLoader,
         Component: Configuration,
       },
