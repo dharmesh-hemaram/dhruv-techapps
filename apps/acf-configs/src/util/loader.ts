@@ -12,7 +12,7 @@ export const protectedLoader = async ({ request }: LoaderFunctionArgs) => {
     params.set('from', new URL(request.url).pathname);
     return redirect('/login?' + params.toString());
   }
-  return null;
+  return auth.currentUser;
 };
 
 export const loginLoader = async () => {

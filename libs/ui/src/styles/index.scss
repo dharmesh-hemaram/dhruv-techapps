@@ -1,0 +1,9 @@
+@import '~bootstrap/scss/bootstrap';
+@import '_doc';
+/* You can add global styles to this file, and also import other style files */
+html,
+body,
+#root {
+  height: 100%;
+  font-size: 14px;
+}

@@ -49,11 +49,13 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "acf-configs:build",
-        "hmr": true
+        "hmr": true,
+        "proxyConfig": "apps/acf-configs/proxy.conf.json"
       },
       "configurations": {
         "development": {
-          "buildTarget": "acf-configs:build:development"
+          "buildTarget": "acf-configs:build:development",
+          "port": 3000
         },
         "production": {
           "buildTarget": "acf-configs:build:production",

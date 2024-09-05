@@ -1,23 +1,17 @@
 import { ThemeContext } from '@dhruv-techapps/context';
-import { useContext, useState } from 'react';
+import { FC, PropsWithChildren, useContext, useState } from 'react';
 import { Container, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Github, Moon, Sun, ThreeDots, Youtube } from './assets/svg';
 import { APP_LANGUAGES, APP_LINK, SOCIAL_LINKS } from './constants';
 
-export const Header = () => {
+export const Header: FC<PropsWithChildren> = ({ children }) => {
   const [show, setShow] = useState<boolean>(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const { t, i18n } = useTranslation();
 
   const { theme, toggleTheme } = useContext(ThemeContext);
-
-  let appName = t('common.appName');
-
-  if (/(DEV|BETA)/.test(process.env.NX_PUBLIC_VARIANT || '')) {
-    appName += ` [${process.env.NX_PUBLIC_VARIANT}]`;
-  }
 
   const changeLanguage = async (lng: string) => {
     await i18n.changeLanguage(lng);
@@ -29,7 +23,7 @@ export const Header = () => {
       <Container fluid className='bd-gutter flex-wrap flex-lg-nowrap' as='nav'>
         <div className='d-lg-none' style={{ width: '4.25rem' }}></div>
         <Navbar.Brand href='/' className='p-0 me-0 me-lg-2'>
-          {appName}
+          {t('common.appName')}
         </Navbar.Brand>
         <div className='d-flex'>
           <Navbar.Toggle aria-controls='basic-navbar-nav' onClick={handleShow}>
@@ -38,7 +32,7 @@ export const Header = () => {
         </div>
         <Offcanvas show={show} onHide={handleClose} responsive='lg' placement='end' className='flex-grow-1 bd-header'>
           <Offcanvas.Header closeButton className='px-4 pb-0' closeVariant='white'>
-            <Offcanvas.Title className='text-white'>{appName}</Offcanvas.Title>
+            <Offcanvas.Title className='text-white'>{t('common.appName')}</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body className='p-4 pt-0 p-lg-0'>
             <hr className='d-lg-none text-white-50'></hr>
@@ -57,11 +51,6 @@ export const Header = () => {
               <Nav.Item as='li' className='col-6 col-lg-auto'>
                 <Nav.Link target='_blank' rel='noopener noreferrer' title='discussion' href={APP_LINK.DISCUSSIONS}>
                   {t('footer.discussion')}
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link target='_blank' rel='noopener noreferrer' title='configuration' href={APP_LINK.CONFIGS}>
-                  {t('footer.configuration')}
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item as='li' className='col-6 col-lg-auto'>
@@ -109,11 +98,7 @@ export const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               </Nav.Item>
-
-              <Nav.Item as='li' className='py-2 py-lg-1 col-12 col-lg-auto'>
-                <div className='vr d-none d-lg-flex h-100 mx-lg-2 text-white'></div>
-                <hr className='d-lg-none my-2 text-white-50'></hr>
-              </Nav.Item>
+              {children}
             </Nav>
           </Offcanvas.Body>
         </Offcanvas>
