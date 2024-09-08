@@ -195,7 +195,9 @@ jobs:
         with:
           name: nx-main-artifacts
       - name: unzip
-        run: unzip acf-configs-${{vars.NX_PUBLIC_VARIANT}}.zip -d acf-configs
+        run: unzip bundle/acf-configs-${{vars.NX_PUBLIC_VARIANT}}.zip -d acf-configs
+      - name: Files
+        run: ls -la
       - name: Build And Deploy
         id: deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
