@@ -44,3 +44,4 @@ apps/acf-extension/assets/LOCAL/icons/*
 
 .nx/cache
 .nx/workspace-data
+.firebase

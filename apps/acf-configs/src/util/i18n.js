@@ -27,7 +27,7 @@ i18n
     defaultNS: 'web-new',
     lng,
     backend: {
-      loadPath: `${process.env.NX_PUBLIC_I18N}/{{lng}}/{{ns}}.json`,
+      loadPath: `https://static.getautoclicker.com/acf-i18n/{{lng}}/{{ns}}.json`,
       addPath: '/locales/add/{{lng}}/{{ns}}',
       allowMultiLoading: true,
       reloadInterval: false,
