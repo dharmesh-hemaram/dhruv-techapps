@@ -1,6 +1,6 @@
+import { ActionSettings, defaultActionSettings } from '@dhruv-techapps/acf-common';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
-import { ActionSettings, defaultActionSettings } from '@dhruv-techapps/acf-common';
 import { openActionSettingsModalAPI } from './action-settings.api';
 
 type ActionSettingsStore = {

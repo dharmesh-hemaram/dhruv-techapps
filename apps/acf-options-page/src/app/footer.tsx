@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { SOCIAL_LINKS } from '../constants';
 import { useAppSelector } from '../hooks';
 import { appSelector } from '../store/app.slice';
-import { ChatFill, Facebook, ShieldCheck, Star, Twitter, Whatsapp } from '../util';
+import { ChatFill, Facebook, Github, ShieldCheck, Star, Twitter, Whatsapp, Youtube } from '../util';
 
 function Footer() {
   const { manifest } = useAppSelector(appSelector);
@@ -41,6 +41,18 @@ function Footer() {
                 <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='discord' href={SOCIAL_LINKS.DISCORD}>
                   <ChatFill className='me-2' />
                   {t('footer.discord')}
+                </a>
+              </li>
+              <li>
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='youtube' href={SOCIAL_LINKS.YOUTUBE}>
+                  <Youtube className='me-2' />
+                  {t('footer.youtube')}
+                </a>
+              </li>
+              <li>
+                <a className='text-decoration-none' target='_blank' rel='noopener noreferrer' title='github' href={SOCIAL_LINKS.GITHUB}>
+                  <Github className='me-2' />
+                  {t('footer.github')}
                 </a>
               </li>
             </ul>

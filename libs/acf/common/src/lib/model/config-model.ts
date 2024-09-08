@@ -24,6 +24,12 @@ export enum URL_MATCH {
   EXACT = 'exact',
 }
 
+export type Bypass = {
+  alert?: boolean;
+  confirm?: boolean;
+  prompt?: boolean;
+};
+
 export type Configuration = {
   url: string;
   updated?: boolean;
@@ -43,6 +49,7 @@ export type Configuration = {
   new?: boolean;
   url_match?: URL_MATCH;
   download?: boolean;
+  bypass?: Bypass;
 };
 
 export const getDefaultConfig = (source?: CONFIG_SOURCE, actions?: Array<Action>): Configuration => ({

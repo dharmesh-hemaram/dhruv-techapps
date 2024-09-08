@@ -40,6 +40,10 @@ const ActionSettingsModal = () => {
     const update = getFieldNameValue(e, settings);
     if (update) {
       dispatch(updateActionSettings(update));
+      if (update.name === 'retryOption' && update.value === RETRY_OPTIONS.GOTO) {
+        const index = actions.findIndex((action) => action.id === selectedActionId);
+        dispatch(updateActionSettingsGoto(index === 0 ? 1 : 0));
+      }
     }
   };
 

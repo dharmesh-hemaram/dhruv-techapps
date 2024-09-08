@@ -1,4 +1,5 @@
 import { Configuration } from '@dhruv-techapps/acf-common';
+import { MainWorldService } from '@dhruv-techapps/acf-main-world';
 import { SettingsStorage } from '@dhruv-techapps/acf-store';
 import { ConfigError } from '@dhruv-techapps/core-common';
 import { NotificationsService } from '@dhruv-techapps/core-service';
@@ -44,6 +45,7 @@ const ConfigProcessor = (() => {
 
   const start = async (config: Configuration) => {
     try {
+      config.bypass && (await MainWorldService.bypass(config.bypass));
       const sheets = GoogleSheets.getSheets(config);
       window.__sheets = await new GoogleSheetsCS().getValues(sheets, config.spreadsheetId);
       await BatchProcessor.start(config.actions, config.batch);

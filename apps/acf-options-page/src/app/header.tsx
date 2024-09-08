@@ -1,40 +1,24 @@
-import { useTour } from '@reactour/tour';
 import { useEffect, useState } from 'react';
 import { Badge, Container, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { APP_LANGUAGES, APP_LINK, SOCIAL_LINKS } from '../constants';
+import { APP_LANGUAGES, APP_LINK } from '../constants';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { SettingsModal } from '../modal';
-import { appSelector } from '../store/app.slice';
 import { firebaseDatabaseSelector, firebaseSelector } from '../store/firebase';
 import { switchSettingsModal } from '../store/settings/settings.slice';
 import { switchTheme, themeSelector } from '../store/theme.slice';
-import { GearFill, Github, Moon, Sun, ThreeDots, Youtube } from '../util';
+import { GearFill, Moon, Sun, ThreeDots } from '../util';
 import { HeaderGoogle } from './header_google';
 
 function Header() {
   const [show, setShow] = useState<boolean>(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const { setIsOpen } = useTour();
   const theme = useAppSelector(themeSelector);
   const { profile } = useAppSelector(firebaseDatabaseSelector);
   const { role } = useAppSelector(firebaseSelector);
-  const { extensionNotFound } = useAppSelector(appSelector);
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
-
-  useEffect(() => {
-    const tour = localStorage.getItem('tour');
-    const version = new URLSearchParams(window.location.search).get('version');
-    if (!tour && !version && !extensionNotFound) {
-      localStorage.setItem('tour', 'true');
-      setTimeout(() => {
-        setIsOpen(true);
-      }, 1000);
-    }
-  }, [setIsOpen, extensionNotFound]);
 
   useEffect(() => {
     if (/(DEV|BETA|LOCAL)/.test(process.env.NX_PUBLIC_VARIANT || '')) {
@@ -127,25 +111,11 @@ function Header() {
                   {t('footer.test')}
                 </Nav.Link>
               </Nav.Item>
-              <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link onClick={() => setIsOpen(true)} id='tour' title='tour'>
-                  Tour
-                </Nav.Link>
-              </Nav.Item>
             </Nav>
             <hr className='d-lg-none text-white-50'></hr>
             <Nav className='flex-row flex-wrap ms-md-auto' as='ul'>
-              <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link target='_blank' rel='noopener noreferrer' title='youtube' href={SOCIAL_LINKS.YOUTUBE}>
-                  <Youtube />
-                  <small className='d-lg-none ms-2'>{t('footer.youtube')}</small>
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link target='_blank' rel='noopener noreferrer' title='github' href={SOCIAL_LINKS.GITHUB}>
-                  <Github />
-                  <small className='d-lg-none ms-2'>{t('footer.github')}</small>
-                </Nav.Link>
+              <Nav.Item as='li' className='col-6 col-lg-auto d-flex align-items-center'>
+                <iframe src='https://github.com/sponsors/Dhruv-Techapps/button' title='Sponsor Dhruv-Techapps' height='32' width='114' style={{ border: 0, borderRadius: '6px' }}></iframe>
               </Nav.Item>
               <Nav.Item as='li' className='py-2 py-lg-1 col-12 col-lg-auto'>
                 <div className='vr d-none d-lg-flex h-100 mx-lg-2 text-white'></div>
