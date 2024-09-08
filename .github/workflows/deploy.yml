@@ -127,7 +127,7 @@ jobs:
         uses: mnao305/chrome-extension-upload@v5.0.0
         id: chrome-extension-upload
         with:
-          file-path: bundle/acf-extension-${{vars.NX_PUBLIC_VARIANT}}.zip
+          file-path: acf-extension-${{vars.NX_PUBLIC_VARIANT}}.zip
           extension-id: ${{ vars.NX_PUBLIC_CHROME_EXTENSION_ID }}
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
