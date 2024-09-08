@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "auto-clicker-autofill-configs",
-    "public": "dist/apps/acf-configs",
+    "public": "acf-configs",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
