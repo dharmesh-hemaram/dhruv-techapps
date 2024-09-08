@@ -60,7 +60,7 @@ jobs:
       - name: Bundle Projects
         run: |
           mkdir bundle
-          cd acf-configs
+          cd dist/apps/acf-configs
           zip -r ../../../bundle/acf-configs-${{vars.NX_PUBLIC_VARIANT}}.zip .
           cd ..
       - uses: actions/upload-artifact@v4
