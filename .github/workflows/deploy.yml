@@ -14,11 +14,6 @@ on:
         type: boolean
         default: false
         required: true
-      deploy_config:
-        description: 'Deploy Config to azure static'
-        type: boolean
-        default: false
-        required: true
       upload_extension:
         description: 'Upload extension to chrome webstore'
         type: boolean
@@ -60,7 +55,7 @@ jobs:
           echo "HEAD: ${{ env.NX_HEAD }}"
       - run: npm ci
       - name: Build Projects and Library
-        run: npx nx run-many -t=build --parallel=3 --prod --base-href ${{vars.PUBLIC_URL}} --verbose
+        run: npx nx run-many -t=build --parallel=3 --prod --exclude=acf-configs --base-href ${{vars.PUBLIC_URL}} --verbose
         env:
           NX_PUBLIC_NAME: ${{vars.NX_PUBLIC_NAME}}
           NX_PUBLIC_VARIANT: ${{vars.NX_PUBLIC_VARIANT}}
@@ -95,9 +90,6 @@ jobs:
           cd acf-options-page
           zip -r ../../../bundle/acf-options-page-${{vars.NX_PUBLIC_VARIANT}}.zip .
           cd ..
-          cd acf-configs
-          zip -r ../../../bundle/acf-configs-${{vars.NX_PUBLIC_VARIANT}}.zip .
-          cd ..
           cd acf-extension
           zip -r ../../../bundle/acf-extension-${{vars.NX_PUBLIC_VARIANT}}.zip .
           cd ..
@@ -117,10 +109,7 @@ jobs:
         id: artifact-upload-step
         with:
           name: nx-main-artifacts
-          path: |
-            bundle/*
-            firebase.json
-            .firebaserc
+          path: bundle/*
 
   extension:
     if: ${{ inputs.upload_extension }}
@@ -138,7 +127,7 @@ jobs:
         uses: mnao305/chrome-extension-upload@v5.0.0
         id: chrome-extension-upload
         with:
-          file-path: acf-extension-${{vars.NX_PUBLIC_VARIANT}}.zip
+          file-path: bundle/acf-extension-${{vars.NX_PUBLIC_VARIANT}}.zip
           extension-id: ${{ vars.NX_PUBLIC_CHROME_EXTENSION_ID }}
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
@@ -178,33 +167,6 @@ jobs:
           skip_api_build: true
           output_location: '' # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
-
-  config:
-    if: ${{ inputs.deploy_config }}
-    name: Deploy Config
-    needs: [main]
-    permissions:
-      contents: read
-      pull-requests: write
-    runs-on: ubuntu-latest
-    environment:
-      name: ${{inputs.environment}}
-      url: ${{vars.PUBLIC_URL}}
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: nx-main-artifacts
-      - name: unzip
-        run: unzip bundle/acf-configs-${{vars.NX_PUBLIC_VARIANT}}.zip -d acf-configs
-      - name: Files
-        run: ls -la
-      - name: Build And Deploy
-        id: deploy
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: auto-clicker-autofill
-          channelId: live
 
   tag:
     needs: [extension, web]
