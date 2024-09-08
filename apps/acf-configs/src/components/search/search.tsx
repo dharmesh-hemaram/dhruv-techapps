@@ -1,14 +1,15 @@
 import { liteClient as algoliasearch } from 'algoliasearch/lite';
 import 'instantsearch.css/themes/satellite.css';
 import { useRef } from 'react';
-import { Breadcrumb, Configure, Hits, HitsPerPage, InstantSearch, Pagination, SearchBox, SortBy } from 'react-instantsearch';
+import { Breadcrumb, Configure, HitsPerPage, InstantSearch, Pagination, SearchBox, SortBy } from 'react-instantsearch';
+
 import { ConfigurationModal } from '../configurations/configuration-modal';
-import { Hit } from './hit';
+import { CustomHits } from './hits';
 
 const searchClient = algoliasearch('73MWYYE2GK', '922d418699b5b6fc7c86e8acfcc060f9');
 
 export const Search = () => {
-  const ref = useRef(null);
+  const modalRef = useRef(null);
 
   return (
     <main className='container-fluid'>
@@ -30,14 +31,13 @@ export const Search = () => {
                 />
                 <SortBy items={[{ label: 'Relevance', value: 'instant_search' }]} />
               </div>
-
-              <Hits hitComponent={Hit} />
+              <CustomHits modalRef={modalRef} />
               <Pagination className='Pagination' />
             </div>
           </div>
         </div>
       </InstantSearch>
-      <ConfigurationModal />
+      <ConfigurationModal ref={modalRef} />
     </main>
   );
 };

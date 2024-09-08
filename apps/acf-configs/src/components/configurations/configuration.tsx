@@ -1,4 +1,4 @@
-import { Configuration } from '@dhruv-techapps/acf-common';
+import { Configuration as ConfigurationType } from '@dhruv-techapps/acf-common';
 import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
@@ -6,11 +6,12 @@ import JsonView from 'react18-json-view';
 import 'react18-json-view/src/style.css';
 import { ConfigType, getConfig } from '../../database';
 import { downloadFile } from '../../storage';
+import { onDownloadClick } from '../../util/common';
 
-const Configuration: React.FC<{ configId: string }> = ({ configId }) => {
+export const Configuration: React.FC<{ configId?: string }> = ({ configId }) => {
   let { id } = useParams();
   const [config, setConfig] = React.useState<ConfigType>();
-  const [file, setFile] = React.useState<Configuration>();
+  const [file, setFile] = React.useState<ConfigurationType>();
   const [loading, setLoading] = React.useState(true);
 
   if (configId) {
@@ -29,23 +30,14 @@ const Configuration: React.FC<{ configId: string }> = ({ configId }) => {
     }
   }, [id]);
 
-  const onDownloadClick = () => {
-    if (file) {
-      const json = JSON.stringify(file);
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${id}.json`;
-      link.click();
-      URL.revokeObjectURL(url);
-    }
-  };
+  if (!id) {
+    return <h1>Configuration not found</h1>;
+  }
 
   return (
     <div>
       <main className='container-fluid m-auto'>
-        <div className='d-flex justify-content-center p-5 m-5'>
+        <div className='d-flex justify-content-center'>
           {loading ? (
             <h1>Loading Configuration...</h1>
           ) : config ? (
@@ -53,12 +45,16 @@ const Configuration: React.FC<{ configId: string }> = ({ configId }) => {
               <h1>{config.name}</h1>
               <p>{config.url}</p>
               <hr />
-              <div className='d-flex justify-content-end'>
-                <Button className='ms-2' onClick={onDownloadClick}>
-                  Download
-                </Button>
-              </div>
-              <JsonView src={file} enableClipboard={false} />
+              {file && (
+                <>
+                  <div className='d-flex justify-content-end'>
+                    <Button className='ms-2' onClick={() => onDownloadClick(file, id)}>
+                      Download
+                    </Button>
+                  </div>
+                  <JsonView src={file} enableClipboard={false} />
+                </>
+              )}
             </div>
           ) : (
             <h1>Configuration not found</h1>
@@ -68,5 +64,3 @@ const Configuration: React.FC<{ configId: string }> = ({ configId }) => {
     </div>
   );
 };
-
-export default Configuration;

@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Configuration from './components/configurations/configuration';
+import { Configuration } from './components/configurations/configuration';
 import Home from './components/home';
 import Login from './components/login';
 import { NotFound } from './components/not-found';
