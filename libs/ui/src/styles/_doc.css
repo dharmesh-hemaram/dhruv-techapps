@@ -612,7 +612,9 @@
 .bd-navbar {
   padding: 0.75rem 0;
   background-color: transparent;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 0.5rem 1rem rgba(0, 0, 0, 0.15),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .bd-navbar::after {
@@ -738,7 +740,9 @@
 }
 
 [data-bs-theme='dark'] .bd-navbar {
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 0.5rem 1rem rgba(0, 0, 0, 0.15),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
 }
 
 :root {
@@ -1023,7 +1027,9 @@
 
 .masthead-notice {
   background-color: var(--bd-accent);
-  box-shadow: inset 0 -1px 1px rgba(var(--bs-body-color-rgb), 0.15), 0 0.25rem 1.5rem rgba(var(--bs-body-bg-rgb), 0.75);
+  box-shadow:
+    inset 0 -1px 1px rgba(var(--bs-body-color-rgb), 0.15),
+    0 0.25rem 1.5rem rgba(var(--bs-body-bg-rgb), 0.75);
 }
 
 .animate-img > img {
@@ -2045,7 +2051,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '4.50' '\a''4.50' '\a''4.66';
+  content: '4.50' '\a' '4.50' '\a' '4.66';
   background-color: #0d6efd;
   background-image: linear-gradient(
     to bottom,
@@ -2074,7 +2080,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '7.18' '\a''7.18' '\a''2.92';
+  content: '7.18' '\a' '7.18' '\a' '2.92';
   background-color: #6610f2;
   background-image: linear-gradient(
     to bottom,
@@ -2103,7 +2109,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '6.51' '\a''6.51' '\a''3.22';
+  content: '6.51' '\a' '6.51' '\a' '3.22';
   background-color: #6f42c1;
   background-image: linear-gradient(
     to bottom,
@@ -2132,7 +2138,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '4.50' '\a''4.50' '\a''4.66';
+  content: '4.50' '\a' '4.50' '\a' '4.66';
   background-color: #d63384;
   background-image: linear-gradient(
     to bottom,
@@ -2161,7 +2167,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '4.52' '\a''4.52' '\a''4.63';
+  content: '4.52' '\a' '4.52' '\a' '4.63';
   background-color: #dc3545;
   background-image: linear-gradient(
     to bottom,
@@ -2190,7 +2196,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '8.17' '\a''2.57' '\a''8.17';
+  content: '8.17' '\a' '2.57' '\a' '8.17';
   background-color: #fd7e14;
   background-image: linear-gradient(
     to bottom,
@@ -2219,7 +2225,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '12.8' '\a''1.63' '\a''12.8';
+  content: '12.8' '\a' '1.63' '\a' '12.8';
   background-color: #ffc107;
   background-image: linear-gradient(
     to bottom,
@@ -2248,7 +2254,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '4.53' '\a''4.53' '\a''4.63';
+  content: '4.53' '\a' '4.53' '\a' '4.63';
   background-color: #198754;
   background-image: linear-gradient(
     to bottom,
@@ -2277,7 +2283,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '9.86' '\a''2.12' '\a''9.86';
+  content: '9.86' '\a' '2.12' '\a' '9.86';
   background-color: #20c997;
   background-image: linear-gradient(
     to bottom,
@@ -2306,7 +2312,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '10.7' '\a''1.95' '\a''10.7';
+  content: '10.7' '\a' '1.95' '\a' '10.7';
   background-color: #0dcaf0;
   background-image: linear-gradient(
     to bottom,
@@ -2335,7 +2341,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '21' '\a''21' '\a''1';
+  content: '21' '\a' '21' '\a' '1';
   background-color: #000;
   background-image: linear-gradient(
     to bottom,
@@ -2364,7 +2370,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '21' '\a''1' '\a''21';
+  content: '21' '\a' '1' '\a' '21';
   background-color: #fff;
   background-image: linear-gradient(
     to bottom,
@@ -2393,7 +2399,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '4.68' '\a''4.68' '\a''4.47';
+  content: '4.68' '\a' '4.68' '\a' '4.47';
   background-color: #6c757d;
   background-image: linear-gradient(
     to bottom,
@@ -2422,7 +2428,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '11.5' '\a''11.5' '\a''1.82';
+  content: '11.5' '\a' '11.5' '\a' '1.82';
   background-color: #343a40;
   background-image: linear-gradient(
     to bottom,
@@ -2451,7 +2457,7 @@ details[open] > .bd-summary-link {
   font-size: 0.75rem;
   line-height: 1.35;
   white-space: pre;
-  content: '10.1' '\a''2.07' '\a''10.1';
+  content: '10.1' '\a' '2.07' '\a' '10.1';
   background-color: #adb5bd;
   background-image: linear-gradient(
     to bottom,
@@ -3383,7 +3389,9 @@ main [tabindex='0'] {
   color: rgba(13, 110, 253, 0.5);
   text-decoration: none;
   opacity: 0;
-  transition: color 0.15s ease-in-out, opacity 0.15s ease-in-out;
+  transition:
+    color 0.15s ease-in-out,
+    opacity 0.15s ease-in-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
