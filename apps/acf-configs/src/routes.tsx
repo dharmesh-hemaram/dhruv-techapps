@@ -8,10 +8,14 @@ import { loginLoader, protectedLoader } from './util/loader';
 
 export const router = createBrowserRouter([
   {
+    path: 'login',
+    loader: loginLoader,
+    Component: Login,
+  },
+  {
     id: 'root',
     path: '/',
     Component: Home,
-    loader: protectedLoader,
     errorElement: <NotFound />,
     children: [
       {
@@ -23,11 +27,6 @@ export const router = createBrowserRouter([
         path: '/config/:id/',
         loader: protectedLoader,
         Component: Configuration,
-      },
-      {
-        path: 'login',
-        loader: loginLoader,
-        Component: Login,
       },
     ],
   },

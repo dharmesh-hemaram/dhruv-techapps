@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { Github, Moon, Sun, ThreeDots, Youtube } from './assets/svg';
 import { APP_LANGUAGES, APP_LINK, SOCIAL_LINKS } from './constants';
 
-export const Header: FC<PropsWithChildren> = ({ children }) => {
+type HeaderProps = {
+  onHomeClick?: (e: React.MouseEvent<HTMLLinkElement>) => void;
+} & PropsWithChildren;
+
+export const Header: FC<HeaderProps> = ({ children, onHomeClick }) => {
   const [show, setShow] = useState<boolean>(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -22,7 +26,7 @@ export const Header: FC<PropsWithChildren> = ({ children }) => {
     <Navbar expand='lg' as='header' className='bd-navbar' sticky='top'>
       <Container fluid className='bd-gutter flex-wrap flex-lg-nowrap' as='nav'>
         <div className='d-lg-none' style={{ width: '4.25rem' }}></div>
-        <Navbar.Brand href='/' className='p-0 me-0 me-lg-2'>
+        <Navbar.Brand onClick={onHomeClick} href='/' className='p-0 me-0 me-lg-2'>
           {t('common.appName')}
         </Navbar.Brand>
         <div className='d-flex'>
