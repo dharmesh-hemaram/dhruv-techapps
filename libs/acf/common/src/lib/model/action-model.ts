@@ -74,6 +74,7 @@ export type Action = {
   status?: string;
   error?: string[];
   valueFieldType?: 'text' | 'textarea';
+  selectors?: Array<Array<string>>;
 };
 
 export const getDefaultAction = (): Action => ({

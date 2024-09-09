@@ -16,6 +16,7 @@ export const defaultHotkey = 'Ctrl + Shift + A';
 
 export enum CONFIG_SOURCE {
   WIZARD = 'wizard',
+  RECORDER = 'recorder',
   WEB = 'web',
 }
 

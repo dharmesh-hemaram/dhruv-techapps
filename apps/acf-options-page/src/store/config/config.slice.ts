@@ -108,7 +108,7 @@ const slice = createSlice({
       state.selectedConfigId = state.configs[0].id;
     },
     importAll: (state, action: PayloadAction<Array<Configuration>>) => {
-      state.configs = { ...state.configs, ...updateConfigIds(action.payload) };
+      state.configs.push(...updateConfigIds(action.payload));
       state.selectedConfigId = state.configs[0].id;
     },
     importConfig: (state, action: PayloadAction<Configuration>) => {

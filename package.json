@@ -3,7 +3,7 @@
   "version": "3.4.37",
   "license": "MIT",
   "scripts": {
-    "start": "nx run-many -t serve",
+    "start": "nx run-many -t serve -p acf-extension acf-options-page acf-i18n",
     "release:publish": "nx release publish",
     "build": "nx run-many -t build",
     "lint": "nx run-many -t lint"
