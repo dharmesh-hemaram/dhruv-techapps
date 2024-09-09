@@ -55,7 +55,7 @@ jobs:
           echo "HEAD: ${{ env.NX_HEAD }}"
       - run: npm ci
       - name: Build Projects and Library
-        run: npx nx run-many -t=build --parallel=3 --prod --exclude=acf-configs --base-href ${{vars.PUBLIC_URL}} --verbose
+        run: npx nx run-many -t build  -p acf-options-page acf-extension --prod --base-href ${{vars.PUBLIC_URL}} --verbose
         env:
           NX_PUBLIC_NAME: ${{vars.NX_PUBLIC_NAME}}
           NX_PUBLIC_VARIANT: ${{vars.NX_PUBLIC_VARIANT}}
@@ -84,10 +84,7 @@ jobs:
       - name: Bundle Projects
         run: |
           mkdir bundle
-          cd dist/apps/acf-i18n
-          zip -r ../../../bundle/acf-i18n-${{vars.NX_PUBLIC_VARIANT}}.zip .
-          cd ..
-          cd acf-options-page
+          cd dist/apps/acf-options-page
           zip -r ../../../bundle/acf-options-page-${{vars.NX_PUBLIC_VARIANT}}.zip .
           cd ..
           cd acf-extension
@@ -103,8 +100,7 @@ jobs:
           generate_release_notes: true
           discussion_category_name: 'Release'
           fail_on_unmatched_files: true
-          files: |
-            bundle/*
+          files: bundle/*
       - uses: actions/upload-artifact@v4
         id: artifact-upload-step
         with:
