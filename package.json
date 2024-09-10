@@ -44,7 +44,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-react": "^7.24.7",
     "@google-cloud/translate": "^8.5.0",
-    "@nx/esbuild": "19.6.1",
+    "@nx/esbuild": "19.7.0",
     "@nx/eslint": "19.6.4",
     "@nx/eslint-plugin": "19.6.4",
     "@nx/express": "19.6.1",
