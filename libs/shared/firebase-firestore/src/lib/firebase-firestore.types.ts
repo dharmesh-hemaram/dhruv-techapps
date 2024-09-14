@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as FirebaseFirestore from 'firebase/firestore';
 
+export type ConfigRequest = {
+  url: string;
+  userId: string;
+  name?: string;
+};
+
 export interface CustomerData {
   metadata: {
     firebaseUID: string;

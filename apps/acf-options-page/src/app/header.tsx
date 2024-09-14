@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { APP_LANGUAGES, APP_LINK } from '../constants';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { SettingsModal } from '../modal';
-import { firebaseDatabaseSelector, firebaseSelector } from '../store/firebase';
+import { firebaseFirestoreSelector, firebaseSelector } from '../store/firebase';
 import { switchSettingsModal } from '../store/settings/settings.slice';
 import { switchTheme, themeSelector } from '../store/theme.slice';
 import { GearFill, Moon, Sun, ThreeDots } from '../util';
@@ -15,7 +15,7 @@ function Header() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const theme = useAppSelector(themeSelector);
-  const { profile } = useAppSelector(firebaseDatabaseSelector);
+  const { profile } = useAppSelector(firebaseFirestoreSelector);
   const { role } = useAppSelector(firebaseSelector);
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();

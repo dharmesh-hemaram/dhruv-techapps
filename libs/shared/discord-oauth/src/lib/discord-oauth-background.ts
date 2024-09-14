@@ -2,7 +2,7 @@ import { getParameterByName, getRandomValues } from '@dhruv-techapps/core-common
 import { FirebaseFunctionsBackground } from '@dhruv-techapps/firebase-functions';
 import { Auth } from '@dhruv-techapps/firebase-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
-import { LOCAL_STORAGE_KEY_DISCORD, NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './discord-oauth.constant';
+import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './discord-oauth.constant';
 import { Discord } from './discord-oauth.types';
 
 export class DiscordOauth2Background extends FirebaseFunctionsBackground {
@@ -13,10 +13,6 @@ export class DiscordOauth2Background extends FirebaseFunctionsBackground {
   ) {
     super(auth, edgeClientId);
     this.clientId = clientId;
-  }
-
-  check() {
-    return chrome.storage.local.remove(LOCAL_STORAGE_KEY_DISCORD);
   }
 
   async discordLogin(): Promise<Discord> {

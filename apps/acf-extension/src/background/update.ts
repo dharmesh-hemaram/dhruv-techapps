@@ -1,12 +1,12 @@
-import { FirebaseDatabaseBackground } from '@dhruv-techapps/firebase-database';
+import { FirebaseFirestoreBackground } from '@dhruv-techapps/firebase-firestore';
 export const NOTIFICATIONS_TITLE = 'Update';
 export const NOTIFICATIONS_ID = 'update';
 
 export class Update {
-  static async discord(firebaseDatabaseBackground: FirebaseDatabaseBackground) {
+  static async discord(firebaseFirestoreBackground: FirebaseFirestoreBackground) {
     const { discord } = await chrome.storage.local.get('discord');
     if (discord) {
-      firebaseDatabaseBackground.setDiscord(discord).then((response: any) => {
+      firebaseFirestoreBackground.setDiscord(discord).then((response: any) => {
         if (!response?.error) chrome.storage.local.remove('discord');
       });
     }

@@ -1,5 +1,7 @@
 import { Auth, FirebaseOauth2Background, User } from '@dhruv-techapps/firebase-oauth';
-import { Firestore, addDoc, collection, getDoc, getDocs, getFirestore, orderBy, query, where } from 'firebase/firestore';
+import { Firestore, addDoc, collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc, where } from 'firebase/firestore';
+import { SYNC_ALL_CONFIG_ALARM, SYNC_CONFIG_ALARM } from './firebase-firestore.constant';
+import { ConfigRequest } from './firebase-firestore.types';
 
 export class FirebaseFirestoreBackground extends FirebaseOauth2Background {
   db: Firestore;
@@ -89,5 +91,69 @@ export class FirebaseFirestoreBackground extends FirebaseOauth2Background {
       }
     }
     throw new Error('Something went wrong');
+  }
+
+  async setDiscord(discord: unknown) {
+    await this.auth.authStateReady();
+    const user = this.auth.currentUser;
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
+    const docRef = doc(this.db, `users/${user.uid}`);
+    await setDoc(docRef, { discord }, { merge: true });
+  }
+
+  async getDiscord() {
+    await this.auth.authStateReady();
+    const docRef = doc(this.db, `users/${this.auth.currentUser?.uid}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data['discord']) {
+        return data['discord'];
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
+  }
+
+  async setProfile(profile: boolean) {
+    await this.auth.authStateReady();
+    const docRef = doc(this.db, `users/${this.auth.currentUser?.uid}`);
+    const result = await setDoc(docRef, { publicProfile: profile }, { merge: true });
+    if (profile) {
+      const alarmInfo: chrome.alarms.AlarmCreateInfo = { when: Date.now() + 500 };
+      await chrome.alarms.create(SYNC_ALL_CONFIG_ALARM, { delayInMinutes: 1 });
+      await chrome.alarms.create(SYNC_CONFIG_ALARM, { ...alarmInfo, periodInMinutes: 1440 * 7 });
+    } else {
+      chrome.alarms.clear(SYNC_CONFIG_ALARM);
+      chrome.alarms.clear(SYNC_ALL_CONFIG_ALARM);
+    }
+    return result;
+  }
+
+  async getProfile() {
+    await this.auth.authStateReady();
+    const docRef = doc(this.db, `users/${this.auth.currentUser?.uid}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if (data?.['publicProfile']) {
+        return data['publicProfile'];
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  async setConfig(config: ConfigRequest, id: string) {
+    await this.auth.authStateReady();
+    const docRef = doc(this.db, `configurations/${id}`);
+    await setDoc(docRef, config, { merge: true });
   }
 }

@@ -38,8 +38,7 @@ export class GoogleDriveBackground extends FirebaseFunctionsBackground {
   }
 
   async delete(request: { id: string; name: string }) {
-    const date = JSON.stringify(request);
-    const response = await this.driveDelete<string, { error: string }>(date);
+    const response = await this.driveDelete<{ id: string; name: string }, { error: string }>(request);
     if (response.error) {
       throw new Error(response.error);
     }

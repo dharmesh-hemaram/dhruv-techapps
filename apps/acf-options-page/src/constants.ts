@@ -2,7 +2,7 @@
 export const APP_LINK = {
   DOCS: 'https://getautoclicker.com/docs/4.x/',
   BLOG: 'https://blog.getautoclicker.com/',
-  CONFIGS: 'https://gist.github.com/dharmesh-hemaram',
+  CONFIGS: 'https://configs.getautoclicker.com/',
   TEST: 'https://test.getautoclicker.com/',
   ISSUES: 'https://github.com/Dhruv-Techapps/acf-docs/issues',
   DISCUSSIONS: 'https://github.com/Dhruv-Techapps/acf-docs/discussions',

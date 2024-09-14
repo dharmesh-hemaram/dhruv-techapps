@@ -1,6 +1,6 @@
 import { Nav, NavDropdown } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { firebaseDatabaseSelector, firebaseLogoutAPI, firebaseSelector, switchFirebaseLoginModal } from '../store/firebase';
+import { firebaseFirestoreSelector, firebaseLogoutAPI, firebaseSelector, switchFirebaseLoginModal } from '../store/firebase';
 import { switchSubscribeModal } from '../store/subscribe';
 import { LockFill } from '../util';
 import { HeaderProfile } from './header_porfile';
@@ -8,7 +8,7 @@ import { HeaderProfile } from './header_porfile';
 export const HeaderGoogle = () => {
   const dispatch = useAppDispatch();
   const { user, role } = useAppSelector(firebaseSelector);
-  const { profile } = useAppSelector(firebaseDatabaseSelector);
+  const { profile } = useAppSelector(firebaseFirestoreSelector);
 
   /*
   const onPortalLink = async () => {
@@ -54,9 +54,9 @@ export const HeaderGoogle = () => {
                 Subscribe
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <HeaderProfile />
             </>
           )}
+          <HeaderProfile />
           <NavDropdown.Item title='logout' onClick={() => dispatch(firebaseLogoutAPI())}>
             Logout
           </NavDropdown.Item>

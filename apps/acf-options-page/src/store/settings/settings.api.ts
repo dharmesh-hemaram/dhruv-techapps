@@ -1,7 +1,7 @@
 import { Discord, LOCAL_STORAGE_KEY, Settings } from '@dhruv-techapps/acf-common';
 import { StorageService } from '@dhruv-techapps/core-service';
 import { DiscordOauthService } from '@dhruv-techapps/discord-oauth';
-import { FirebaseDatabaseService } from '@dhruv-techapps/firebase-database';
+import { FirebaseFirestoreService } from '@dhruv-techapps/firebase-firestore';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const settingsGetAPI = createAsyncThunk('settings/get', async () => {
@@ -10,7 +10,7 @@ export const settingsGetAPI = createAsyncThunk('settings/get', async () => {
 });
 
 export const discordGetAPI = createAsyncThunk('discord/get', async () => {
-  const result = await FirebaseDatabaseService.getDiscord<Discord>();
+  const result = await FirebaseFirestoreService.getDiscord<Discord>();
   return result;
 });
 
@@ -20,6 +20,6 @@ export const discordLoginAPI = createAsyncThunk('discord/login', async () => {
 });
 
 export const discordDeleteAPI = createAsyncThunk('discord/delete', async () => {
-  const result = await FirebaseDatabaseService.deleteDiscord();
+  const result = await FirebaseFirestoreService.setDiscord(null);
   return result;
 });

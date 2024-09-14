@@ -6,9 +6,9 @@ import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './firebase-functions.cons
 export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
   cloudFunctionUrl: string;
 
-  constructor(auth: Auth, edgeClientId?: string | undefined) {
+  constructor(auth: Auth, cloudFunctionUrl?: string, edgeClientId?: string | undefined) {
     super(auth, edgeClientId);
-    this.cloudFunctionUrl = 'https://us-central1-auto-clicker-autofill.cloudfunctions.net';
+    this.cloudFunctionUrl = cloudFunctionUrl || 'https://us-central1-auto-clicker-autofill.cloudfunctions.net';
   }
 
   async visionImagesAnnotate<Res>(content: string): Promise<Res> {
@@ -23,20 +23,20 @@ export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
 
   async getValues<Req, Res>(data: Req): Promise<Res> {
     const headers = await this._getFirebaseHeaders([GOOGLE_SCOPES.SHEETS]);
-    const url = new URL(this.cloudFunctionUrl + '/sheetValues');
+    const url = new URL(this.cloudFunctionUrl + '/sheetsValuesV2');
     const response = await this.#fetch(url, headers, data);
     return response;
   }
 
   async discordNotify<Req, Res>(data: Req): Promise<Res> {
     const headers = await this._getFirebaseHeaders();
-    const url = new URL(this.cloudFunctionUrl + '/discordNotify');
+    const url = new URL(this.cloudFunctionUrl + '/discordNotifyV2');
     const response = await this.#fetch(url, headers, data);
     return response;
   }
 
   async discordUser<Res>(token?: string): Promise<Res> {
-    const url = new URL(this.cloudFunctionUrl + '/discordUser');
+    const url = new URL(this.cloudFunctionUrl + '/discordUserV2');
     const headers = await this._getFirebaseHeaders(undefined, token); // Cast the token argument to string
     const response = await this.#fetch(url, headers);
     return response;
@@ -44,28 +44,28 @@ export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
 
   async driveList<Res>(): Promise<Res> {
     const headers = await this._getFirebaseHeaders([GOOGLE_SCOPES.DRIVE]);
-    const url = new URL(this.cloudFunctionUrl + '/driveList');
+    const url = new URL(this.cloudFunctionUrl + '/driveListV2');
     const response = await this.#fetch(url, headers);
     return response;
   }
 
   async driveGet<Req, Res>(data: Req): Promise<Res> {
     const headers = await this._getFirebaseHeaders([GOOGLE_SCOPES.DRIVE]);
-    const url = new URL(this.cloudFunctionUrl + '/driveGet');
+    const url = new URL(this.cloudFunctionUrl + '/driveGetV2');
     const response = await this.#fetch(url, headers, data);
     return response;
   }
 
   async driveDelete<Req, Res>(data: Req): Promise<Res> {
     const headers = await this._getFirebaseHeaders([GOOGLE_SCOPES.DRIVE]);
-    const url = new URL(this.cloudFunctionUrl + '/driveDelete');
+    const url = new URL(this.cloudFunctionUrl + '/driveDeleteV2');
     const response = await this.#fetch(url, headers, data);
     return response;
   }
 
   async driveCreateOrUpdate<Req, Res>(data: Req): Promise<Res> {
     const headers = await this._getFirebaseHeaders([GOOGLE_SCOPES.DRIVE]);
-    const url = new URL(this.cloudFunctionUrl + '/driveCreateOrUpdate');
+    const url = new URL(this.cloudFunctionUrl + '/driveCreateOrUpdateV2');
     const response = await this.#fetch(url, headers, data);
     return response;
   }

@@ -4,7 +4,7 @@ import { MainWorldBackground, RUNTIME_MESSAGE_MAIN_WORLD_MESSAGING } from '@dhru
 import { Runtime } from '@dhruv-techapps/core-extension';
 import { DiscordMessagingBackground, RUNTIME_MESSAGE_DISCORD_MESSAGING } from '@dhruv-techapps/discord-messaging';
 import { DiscordOauth2Background, RUNTIME_MESSAGE_DISCORD_OAUTH } from '@dhruv-techapps/discord-oauth';
-import { FirebaseDatabaseBackground, RUNTIME_MESSAGE_FIREBASE_DATABASE } from '@dhruv-techapps/firebase-database';
+import { FirebaseFirestoreBackground, RUNTIME_MESSAGE_FIREBASE_FIRESTORE } from '@dhruv-techapps/firebase-firestore';
 import { FirebaseFunctionsBackground, RUNTIME_MESSAGE_FIREBASE_FUNCTIONS } from '@dhruv-techapps/firebase-functions';
 import { FirebaseOauth2Background, RUNTIME_MESSAGE_FIREBASE_OAUTH } from '@dhruv-techapps/firebase-oauth';
 import { RUNTIME_MESSAGE_GOOGLE_ANALYTICS } from '@dhruv-techapps/google-analytics';
@@ -12,8 +12,9 @@ import { GoogleDriveBackground, RUNTIME_MESSAGE_GOOGLE_DRIVE } from '@dhruv-tech
 import { GoogleOauth2Background, RUNTIME_MESSAGE_GOOGLE_OAUTH } from '@dhruv-techapps/google-oauth';
 import { GoogleSheetsBackground, RUNTIME_MESSAGE_GOOGLE_SHEETS } from '@dhruv-techapps/google-sheets';
 import { registerNotifications } from '@dhruv-techapps/notifications';
+import XMLHttpRequest from 'xhr-shim';
 import { ACTION_POPUP } from '../common/constant';
-import { DISCORD_CLIENT_ID, EDGE_OAUTH_CLIENT_ID, OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
+import { DISCORD_CLIENT_ID, EDGE_OAUTH_CLIENT_ID, FIREBASE_FUNCTIONS_URL, OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
 import AcfBackup from './acf-backup';
 import registerContextMenus from './context-menu';
 import { auth } from './firebase';
@@ -21,11 +22,12 @@ import { googleAnalytics } from './google-analytics';
 import './sync-config';
 import { TabsMessenger } from './tab';
 import { Update } from './update';
+self['XMLHttpRequest'] = XMLHttpRequest;
 
-let firebaseDatabaseBackground: FirebaseDatabaseBackground;
+let firebaseFirestoreBackground: FirebaseFirestoreBackground;
 
 try {
-  firebaseDatabaseBackground = new FirebaseDatabaseBackground(auth, EDGE_OAUTH_CLIENT_ID);
+  firebaseFirestoreBackground = new FirebaseFirestoreBackground(auth, EDGE_OAUTH_CLIENT_ID, OPTIONS_PAGE_URL);
 
   /**
    * Browser Action set to open option page / configuration page
@@ -46,7 +48,7 @@ try {
 
   auth.onAuthStateChanged((user) => {
     if (user) {
-      Update.discord(firebaseDatabaseBackground);
+      Update.discord(firebaseFirestoreBackground);
     }
   });
 
@@ -77,13 +79,12 @@ try {
     [RUNTIME_MESSAGE_DISCORD_MESSAGING]: new DiscordMessagingBackground(auth, EDGE_OAUTH_CLIENT_ID, VARIANT),
     [RUNTIME_MESSAGE_GOOGLE_ANALYTICS]: googleAnalytics,
     [RUNTIME_MESSAGE_GOOGLE_OAUTH]: new GoogleOauth2Background(EDGE_OAUTH_CLIENT_ID),
-    [RUNTIME_MESSAGE_GOOGLE_DRIVE]: new GoogleDriveBackground(auth, EDGE_OAUTH_CLIENT_ID),
-    [RUNTIME_MESSAGE_ACF.ACF_BACKUP]: new AcfBackup(auth, EDGE_OAUTH_CLIENT_ID),
-    [RUNTIME_MESSAGE_GOOGLE_SHEETS]: new GoogleSheetsBackground(auth, EDGE_OAUTH_CLIENT_ID),
-    [RUNTIME_MESSAGE_FIREBASE_DATABASE]: firebaseDatabaseBackground,
+    [RUNTIME_MESSAGE_GOOGLE_DRIVE]: new GoogleDriveBackground(auth, FIREBASE_FUNCTIONS_URL, EDGE_OAUTH_CLIENT_ID),
+    [RUNTIME_MESSAGE_ACF.ACF_BACKUP]: new AcfBackup(auth, FIREBASE_FUNCTIONS_URL, EDGE_OAUTH_CLIENT_ID),
+    [RUNTIME_MESSAGE_GOOGLE_SHEETS]: new GoogleSheetsBackground(auth, FIREBASE_FUNCTIONS_URL, EDGE_OAUTH_CLIENT_ID),
     [RUNTIME_MESSAGE_FIREBASE_OAUTH]: new FirebaseOauth2Background(auth, EDGE_OAUTH_CLIENT_ID),
-    //[RUNTIME_MESSAGE_FIREBASE_FIRESTORE]: new FirebaseFirestoreBackground(auth, EDGE_OAUTH_CLIENT_ID, OPTIONS_PAGE_URL),
-    [RUNTIME_MESSAGE_FIREBASE_FUNCTIONS]: new FirebaseFunctionsBackground(auth, EDGE_OAUTH_CLIENT_ID),
+    [RUNTIME_MESSAGE_FIREBASE_FIRESTORE]: new FirebaseFirestoreBackground(auth, EDGE_OAUTH_CLIENT_ID, OPTIONS_PAGE_URL),
+    [RUNTIME_MESSAGE_FIREBASE_FUNCTIONS]: new FirebaseFunctionsBackground(auth, FIREBASE_FUNCTIONS_URL, EDGE_OAUTH_CLIENT_ID),
   };
   Runtime.onMessageExternal(onMessageListener);
   Runtime.onMessage(onMessageListener);

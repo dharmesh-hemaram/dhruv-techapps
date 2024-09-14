@@ -1,15 +1,15 @@
 import { RootState } from '@apps/acf-options-page/src/store';
 import { createSlice } from '@reduxjs/toolkit';
-import { profileGetAPI, profileSetAPI } from './firebase-database.api';
+import { profileGetAPI, profileSetAPI } from './firebase-firestore.api';
 
-type FirebaseDatabaseStore = {
+type FirebaseFirestoreStore = {
   profile: boolean;
 };
 
-const initialState: FirebaseDatabaseStore = { profile: false };
+const initialState: FirebaseFirestoreStore = { profile: false };
 
 const slice = createSlice({
-  name: 'firebaseDatabase',
+  name: 'firebaseFirestore',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -22,5 +22,5 @@ const slice = createSlice({
   },
 });
 
-export const firebaseDatabaseSelector = (state: RootState) => state.firebaseDatabase;
-export const firebaseDatabaseReducer = slice.reducer;
+export const firebaseFirestoreSelector = (state: RootState) => state.firebaseFirestore;
+export const firebaseFirestoreReducer = slice.reducer;
