@@ -7,9 +7,11 @@ import { auth } from './firebase';
 import { googleAnalytics } from './google-analytics';
 
 export const EVENTS_REGEX = new RegExp(
-  'scrollto|clickevents|mouseevents|touchevents|formevents|keyevents|tabs|keyboardevents|attr|class|copy|paste|windowcommand|locationcommand|func|replace|append|prepend|clipboard',
+  'scrollto|clickevents|mouseevents|touchevents|formevents|keyevents|tabs|keyboardevents|attr|class|copy|paste|windowcommand|locationcommand|func|replace|append|prepend|clipboard|GoogleSheets',
   'i'
 );
+
+export const VALUE_MATCHER = new RegExp('<batchRepeat>|<actionRepeat>|<sessionCount>|<random\\(([^)]+)\\)>|<queryParam::([^>]+)>|<api::([^>]+)>', 'i');
 
 export class SyncConfig {
   constructor(private auth: Auth) {}
@@ -29,6 +31,29 @@ export class SyncConfig {
       .join(' '); // Join words back with spaces
   }
 
+  maskString(input: string) {
+    let result = '';
+    let lastIndex = 0;
+
+    // Use the value matcher to find matches
+    let match;
+    while ((match = VALUE_MATCHER.exec(input)) !== null) {
+      // Add * for the non-matching part before the current match, but preserve non-alphanumeric characters
+      result += input.slice(lastIndex, match.index).replace(/[a-zA-Z0-9]/g, '*');
+
+      // Add the matching part as is
+      result += match[0];
+
+      // Move the index to after the current match
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Handle any part of the string after the last match
+    result += input.slice(lastIndex).replace(/[a-zA-Z0-9]/g, '*');
+
+    return result;
+  }
+
   async reset() {
     const storageResult = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
     const configs: Array<Configuration> = storageResult[LOCAL_STORAGE_KEY.CONFIGS] || [];
@@ -45,13 +70,25 @@ export class SyncConfig {
     config.actions.forEach((action, index, actions) => {
       const { value } = action;
 
-      if (value && !EVENTS_REGEX.test(value)) {
-        action.value = this.maskStringWithAsterisks(value);
+      if (value) {
+        if (!EVENTS_REGEX.test(value)) {
+          if (VALUE_MATCHER.test(value)) {
+            action.value = this.maskString(value);
+          } else {
+            action.value = this.maskStringWithAsterisks(value);
+          }
+        }
       }
       if (action.addon) {
         const { value } = action.addon;
-        if (value && !EVENTS_REGEX.test(value)) {
-          action.addon.value = this.maskStringWithAsterisks(value);
+        if (value) {
+          if (!EVENTS_REGEX.test(value)) {
+            if (VALUE_MATCHER.test(value)) {
+              action.addon.value = this.maskString(value);
+            } else {
+              action.addon.value = this.maskStringWithAsterisks(value);
+            }
+          }
         }
       }
       actions[index] = action;
