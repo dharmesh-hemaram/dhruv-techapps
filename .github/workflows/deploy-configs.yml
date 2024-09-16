@@ -1,5 +1,5 @@
 name: mono-repo [deploy - configs]
-run-name: Deploy to Production by @${{ github.actor }} on ${{github.ref_name }}
+run-name: Deploy to Development by @${{ github.actor }} on ${{github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
 jobs:
   main:
     name: Build & Bundle
-    environment: Production
+    environment: Development
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -31,28 +31,12 @@ jobs:
       - name: Build Projects and Library
         run: npx nx build acf-configs --prod --verbose
         env:
-          NX_PUBLIC_NAME: ${{vars.NX_PUBLIC_NAME}}
-          NX_PUBLIC_VARIANT: ${{vars.NX_PUBLIC_VARIANT}}
-          NX_PUBLIC_CHROME_EXTENSION_ID: ${{vars.NX_PUBLIC_CHROME_EXTENSION_ID}}
-          NX_PUBLIC_EDGE_EXTENSION_ID: ${{vars.NX_PUBLIC_EDGE_EXTENSION_ID  || 'DEV'}}
-          NX_PUBLIC_I18N: ${{vars.NX_PUBLIC_I18N}}
-          NX_PUBLIC_GOOGLE_ANALYTICS_ID: ${{vars.NX_PUBLIC_GOOGLE_ANALYTICS_ID}}
-          NX_PUBLIC_GOOGLE_ADS_SLOT: ${{vars.NX_PUBLIC_GOOGLE_ADS_SLOT}}
-          NX_PUBLIC_GOOGLE_ADS_CLIENT: ${{vars.NX_PUBLIC_GOOGLE_ADS_CLIENT}}
           NX_PUBLIC_FIREBASE_API_KEY: ${{vars.NX_PUBLIC_FIREBASE_API_KEY}}
           NX_PUBLIC_FIREBASE_DATABASE_URL: ${{vars.NX_PUBLIC_FIREBASE_DATABASE_URL}}
           NX_PUBLIC_FIREBASE_PROJECT_ID: ${{vars.NX_PUBLIC_FIREBASE_PROJECT_ID}}
           NX_PUBLIC_FIREBASE_BUCKET: ${{vars.NX_PUBLIC_FIREBASE_BUCKET}}
-          UNINSTALL_URL: ${{vars.UNINSTALL_URL}}
-          TRACKING_ID: ${{vars.TRACKING_ID}}
-          FUNCTION_URL: ${{vars.FUNCTION_URL}}
-          DISCORD_CLIENT_ID: ${{vars.DISCORD_CLIENT_ID}}
-          OAUTH_CLIENT_ID: ${{vars.OAUTH_CLIENT_ID}}
-          EDGE_OAUTH_CLIENT_ID: ${{vars.EDGE_OAUTH_CLIENT_ID}}
-          PUBLIC_URL: ${{vars.PUBLIC_URL}}
-          NX_PUBLIC_RELEASE_VERSION: ${{inputs.version || github.ref_name}}
-          API_SECRET: ${{vars.API_SECRET}}
-          MEASUREMENT_ID: ${{vars.MEASUREMENT_ID}}
+          NX_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{vars.NX_PUBLIC_FIREBASE_AUTH_DOMAIN}}
+
       - name: Print Environment Info
         run: npx nx report
       - name: Bundle Projects
@@ -78,8 +62,8 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     environment:
-      name: Production
-      url: ${{vars.PUBLIC_URL}}
+      name: Development
+      url: https://configs.getautoclicker.com
     steps:
       - uses: actions/download-artifact@v4
         with:
