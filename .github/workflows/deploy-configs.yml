@@ -1,5 +1,5 @@
 name: mono-repo [deploy - configs]
-run-name: Deploy to ${{ inputs.environment }} by @${{ github.actor }} on ${{ inputs.version || github.ref_name }}
+run-name: Deploy to Production by @${{ github.actor }} on ${{github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -7,9 +7,7 @@ on:
 jobs:
   main:
     name: Build & Bundle
-    environment:
-      name: ${{inputs.environment}}
-      url: ${{ steps.release.outputs.url || steps.artifact-upload-step.outputs.artifact-url}}
+    environment: Production
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -80,7 +78,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     environment:
-      name: ${{inputs.environment}}
+      name: Production
       url: ${{vars.PUBLIC_URL}}
     steps:
       - uses: actions/download-artifact@v4
