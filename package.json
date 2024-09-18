@@ -65,7 +65,7 @@
     "@swc/helpers": "~0.5.11",
     "@swc/jest": "~0.2.36",
     "@testing-library/react": "16.0.1",
-    "@types/chrome": "^0.0.270",
+    "@types/chrome": "^0.0.271",
     "@types/express": "4.17.21",
     "@types/jest": "29.5.12",
     "@types/node": "^20.12.11",
