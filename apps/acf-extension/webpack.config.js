@@ -56,7 +56,7 @@ module.exports = composePlugins(withNx(), (config, ctx) => {
 
   config.plugins.push(
     new Dotenv({
-      path: config.watch ? path.resolve(config.context, '.env') : './.env',
+      path: './.env',
       systemvars: true,
     }),
     new BannerPlugin(fs.readFileSync('./LICENSE', 'utf8'))

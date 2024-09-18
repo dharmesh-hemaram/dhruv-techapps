@@ -7,10 +7,11 @@ import { DiscordMessagingType } from './discord-messaging.types';
 export class DiscordMessagingBackground extends FirebaseFunctionsBackground {
   constructor(
     auth: Auth,
+    cloudFunctionUrl: string,
     edgeClientId?: string,
     private VARIANT?: string
   ) {
-    super(auth, edgeClientId);
+    super(auth, cloudFunctionUrl, edgeClientId);
     this.VARIANT = VARIANT;
   }
 

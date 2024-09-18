@@ -6,9 +6,9 @@ import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './firebase-functions.cons
 export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
   cloudFunctionUrl: string;
 
-  constructor(auth: Auth, cloudFunctionUrl?: string, edgeClientId?: string | undefined) {
+  constructor(auth: Auth, cloudFunctionUrl: string, edgeClientId?: string | undefined) {
     super(auth, edgeClientId);
-    this.cloudFunctionUrl = cloudFunctionUrl || 'https://us-central1-auto-clicker-autofill.cloudfunctions.net';
+    this.cloudFunctionUrl = cloudFunctionUrl;
   }
 
   async visionImagesAnnotate<Res>(content: string): Promise<Res> {
