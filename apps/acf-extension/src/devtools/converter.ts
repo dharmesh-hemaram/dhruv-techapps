@@ -2,6 +2,8 @@ import { Action, CONFIG_SOURCE, Configuration, getDefaultAction, getDefaultConfi
 
 import { Recording, Step } from './index.types';
 
+let ELEMENT_FINDER: string;
+
 const getProps = (selectors: Array<Array<string>>) => {
   let elementFinder = '';
   let name = '';
@@ -17,6 +19,7 @@ const getProps = (selectors: Array<Array<string>>) => {
     }
     return true;
   });
+  ELEMENT_FINDER = elementFinder;
   return { elementFinder, name };
 };
 
@@ -47,6 +50,12 @@ export const ConvertStep = (step: Step) => {
       break;
     case 'keyDown':
     case 'keyUp':
+      {
+        action.elementFinder = ELEMENT_FINDER;
+        action.name = step.key;
+        action.value = `KeyboardEvents::${step.key}`;
+      }
+      break;
     case 'navigate':
     case 'setViewport':
       break;
@@ -76,6 +85,8 @@ export const ConvertRecording = (recording: Recording) => {
     console.assert(navigate.url, 'URL is required for navigate step');
     config = getConfig(navigate.url);
     configs.push(config);
+  } else {
+    console.assert(false, 'First step should be navigate');
   }
 
   console.assert(steps.length === 0, 'No steps found in recording');
