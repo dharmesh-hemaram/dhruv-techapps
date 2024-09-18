@@ -1,6 +1,7 @@
 import { SystemError } from '@dhruv-techapps/core-common';
 import { ACTION_I18N_TITLE } from '.';
 import CommonEvents from './common.events';
+import keyCodes from './keyboard-keycode';
 
 const KEYBOARD_EVENT_KEYDOWN = 'keydown';
 const KEYBOARD_EVENT_KEYUP = 'keyup';
@@ -36,6 +37,8 @@ export const KeyboardEvents = (() => {
             a.key = c;
             a.code = c;
             c = c.toLowerCase();
+            a.keyCode = keyCodes[c];
+            a.which = keyCodes[c];
         }
         return a;
       }, {});
