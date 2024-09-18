@@ -13,10 +13,13 @@ const firebase = initializeApp({
 firebase.automaticDataCollectionEnabled = false;
 const auth = getAuth(firebase);
 auth.setPersistence(indexedDBLocalPersistence);
-if (process.env.IS_LOCAL === 'true') {
+
+if (process.env.CONNECT_EMULATOR === 'true') {
   connectAuthEmulator(auth, 'http://localhost:9099');
   connectFirestoreEmulator(getFirestore(auth.app), 'localhost', 8080);
   connectStorageEmulator(getStorage(auth.app), 'localhost', 9199);
-  signInWithEmailAndPassword(auth, 'new@example.com', 'password123').then(console.log).catch(console.error);
+  if (process.env.LOCAL_USER_EMAIL && process.env.LOCAL_USER_PASSWORD) {
+    signInWithEmailAndPassword(auth, process.env.LOCAL_USER_EMAIL, process.env.LOCAL_USER_PASSWORD).then(console.log).catch(console.error);
+  }
 }
 export { auth };

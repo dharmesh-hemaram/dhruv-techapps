@@ -47,7 +47,7 @@
     "@nx/esbuild": "19.7.0",
     "@nx/eslint": "19.7.0",
     "@nx/eslint-plugin": "19.7.0",
-    "@nx/express": "19.7.0",
+    "@nx/express": "19.7.3",
     "@nx/jest": "19.7.0",
     "@nx/js": "19.7.0",
     "@nx/node": "19.7.0",

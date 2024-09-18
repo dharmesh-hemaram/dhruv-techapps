@@ -8,10 +8,11 @@ import { Discord } from './discord-oauth.types';
 export class DiscordOauth2Background extends FirebaseFunctionsBackground {
   constructor(
     auth: Auth,
+    cloudFunctionUrl: string,
     edgeClientId?: string,
     private clientId?: string
   ) {
-    super(auth, edgeClientId);
+    super(auth, cloudFunctionUrl, edgeClientId);
     this.clientId = clientId;
   }
 
