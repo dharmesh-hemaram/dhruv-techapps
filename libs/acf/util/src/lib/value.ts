@@ -1,5 +1,7 @@
 import RandExp from 'randexp';
 
+const LOCAL_STORAGE_COPY = 'auto-clicker-copy';
+
 declare global {
   interface Window {
     __batchRepeat: number;
@@ -16,6 +18,8 @@ export const VALUE_MATCHER = {
   BATCH_REPEAT: /<batchRepeat>/,
   ACTION_REPEAT: /<actionRepeat>/,
   SESSION_COUNT: /<sessionCount>/,
+  CLIPBOARD_PASTE: /<clipboardPaste>/,
+  PASTE: /<paste>/,
 };
 
 export const Value = (() => {
@@ -51,6 +55,17 @@ export const Value = (() => {
     return value;
   };
 
+  const getClipboardPaste = async (value: string): Promise<string> => {
+    const clipText = await navigator.clipboard.readText();
+    return value.replaceAll('<clipboardPaste>', clipText);
+  };
+
+  const getPaste = (value: string): string => {
+    const copyContent = localStorage.getItem(LOCAL_STORAGE_COPY);
+    if (copyContent) return value.replaceAll('<paste>', copyContent);
+    return value;
+  };
+
   const getValue = async (value: string): Promise<string> => {
     /// For select box value is boolean true
     if (typeof value !== 'string') {
@@ -74,6 +89,12 @@ export const Value = (() => {
     }
     if (VALUE_MATCHER.API.test(value)) {
       value = getApiValue(value);
+    }
+    if (VALUE_MATCHER.CLIPBOARD_PASTE.test(value)) {
+      value = await getClipboardPaste(value);
+    }
+    if (VALUE_MATCHER.PASTE.test(value)) {
+      value = getPaste(value);
     }
     return value;
   };
