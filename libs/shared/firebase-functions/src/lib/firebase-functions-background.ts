@@ -1,7 +1,7 @@
 import { Auth, FirebaseOauth2Background } from '@dhruv-techapps/firebase-oauth';
 import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
 import { NotificationHandler } from '@dhruv-techapps/notifications';
-import { NOTIFICATIONS_ID, NOTIFICATIONS_TITLE } from './firebase-functions.constant';
+import { NOTIFICATIONS_ID } from './firebase-functions.constant';
 
 export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
   cloudFunctionUrl: string;
@@ -77,15 +77,21 @@ export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
       const response = await fetch(url.href, init);
       const result = await response.json();
       if (result.error) {
-        NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, result.error, true);
-        throw new Error(result.error);
+        throw new CustomError(result.error, result.message);
       }
       return result;
     } catch (error) {
-      if (error instanceof Error) {
-        NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, error.message, true);
+      if (error instanceof CustomError || error instanceof Error) {
+        NotificationHandler.notify(NOTIFICATIONS_ID, error.name, error.message, true);
       }
       throw error;
     }
+  }
+}
+
+class CustomError extends Error {
+  constructor(name: string, message: string) {
+    super(message);
+    this.name = name;
   }
 }
