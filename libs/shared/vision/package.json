@@ -2,7 +2,10 @@
   "name": "@dhruv-techapps/vision",
   "version": "0.0.1",
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@dhruv-techapps/firebase-functions": "*",
+    "@dhruv-techapps/core-common": "*",
+    "@dhruv-techapps/core-service": "*"
   },
   "type": "commonjs",
   "main": "./src/index.js",
