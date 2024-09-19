@@ -15,7 +15,7 @@ import { registerNotifications } from '@dhruv-techapps/notifications';
 import { RUNTIME_MESSAGE_VISION, VisionBackground } from '@dhruv-techapps/vision';
 import XMLHttpRequest from 'xhr-shim';
 import { ACTION_POPUP } from '../common/constant';
-import { DISCORD_CLIENT_ID, EDGE_OAUTH_CLIENT_ID, FIREBASE_FUNCTIONS_URL, OPTIONS_PAGE_URL, UNINSTALL_URL, VARIANT } from '../common/environments';
+import { DISCORD_CLIENT_ID, EDGE_OAUTH_CLIENT_ID, FIREBASE_FUNCTIONS_URL, OPTIONS_PAGE_URL, VARIANT } from '../common/environments';
 import AcfBackup from './acf-backup';
 import registerContextMenus from './context-menu';
 import { auth } from './firebase';
@@ -52,13 +52,6 @@ try {
    * Set Notifications
    */
   registerNotifications(OPTIONS_PAGE_URL);
-
-  /**
-   * Setup Uninstall action
-   */
-  if (UNINSTALL_URL) {
-    chrome.runtime.setUninstallURL(UNINSTALL_URL);
-  }
 
   /**
    * Setup on Message Listener
