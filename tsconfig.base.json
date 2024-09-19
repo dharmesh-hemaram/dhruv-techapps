@@ -41,7 +41,8 @@
       "@dhruv-techapps/sandbox": ["libs/shared/sandbox/src/index.ts"],
       "@dhruv-techapps/shared-util": ["libs/shared/shared-util/src/index.ts"],
       "@dhruv-techapps/status-bar": ["libs/shared/status-bar/src/index.ts"],
-      "@dhruv-techapps/ui": ["libs/ui/src/index.ts"]
+      "@dhruv-techapps/ui": ["libs/ui/src/index.ts"],
+      "@dhruv-techapps/vision": ["libs/shared/vision/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -165,6 +165,12 @@ export function DataList() {
         <option value='Element::scrollIntoView::{ "behavior": "smooth", "block": "end", "inline": "nearest" }'>
           Element::scrollIntoView::&#123; "behavior": "smooth", "block": "end", "inline": "nearest" &#123;
         </option>
+        <option value='Image::'>Image::</option>
+        <option value='Image::#'>Image::#</option>
+        <option value='Image::ClassName::'>Image::ClassName::</option>
+        <option value='Image::Name::'>Image::Name::</option>
+        <option value='Image::Selector::'>Image::Selector::</option>
+        <option value='Image:://input[@id="element-id"]'>Image:://input[@id=&quot;element-id&quot;]</option>
       </datalist>
       <datalist id='valueExtractor'>
         <option value='@id'>To get id attribute of element</option>

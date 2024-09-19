@@ -108,7 +108,8 @@
       "firebase-functions",
       "firebase-database",
       "acf-main-world",
-      "firebase-storage"
+      "firebase-storage",
+      "vision"
     ],
     "changelog": {
       "workspaceChangelog": {

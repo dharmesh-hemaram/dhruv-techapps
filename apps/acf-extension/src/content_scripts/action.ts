@@ -31,7 +31,7 @@ const ActionProcessor = (() => {
     if (elements === undefined) {
       return ACTION_STATUS.SKIPPED;
     }
-    const value = action.value ? await ACFValue.getValue(action.value) : action.value;
+    const value = action.value ? await ACFValue.getValue(action.value, action.settings) : action.value;
     await ACFEvents.check(elementFinder, elements, value);
   };
 

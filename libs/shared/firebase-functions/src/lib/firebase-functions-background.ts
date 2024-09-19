@@ -11,11 +11,8 @@ export class FirebaseFunctionsBackground extends FirebaseOauth2Background {
     this.cloudFunctionUrl = cloudFunctionUrl;
   }
 
-  async visionImagesAnnotate<Res>(content: string): Promise<Res> {
+  async visionImagesAnnotate<Req, Res>(data: Req): Promise<Res> {
     const headers = await this._getFirebaseHeaders();
-    const data = {
-      requests: [{ image: { content }, features: [{ type: 'TEXT_DETECTION' }] }],
-    };
     const url = new URL(this.cloudFunctionUrl + '/visionImagesAnnotate');
     const response = await this.#fetch(url, headers, data);
     return response;

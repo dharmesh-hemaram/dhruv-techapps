@@ -9,24 +9,17 @@ const NOTIFICATIONS_ID = 'google-sheets';
 export class GoogleSheetsBackground extends FirebaseFunctionsBackground {
   scopes = [GOOGLE_SCOPES.SHEETS];
   async getSheets({ spreadsheetId, ranges }: GoogleSheetsRequest): Promise<GoogleSheetsResponse> {
-    try {
-      if (!spreadsheetId || !ranges) {
-        throw new Error('spreadsheetId or ranges is not defined');
-      }
-
-      const response = await this.getValues<GoogleSheetsRequest, GoogleSheetsResponse>({ spreadsheetId, ranges });
-      return response.filter((result) => {
-        if (result.error) {
-          NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, result.error.message);
-          return false;
-        }
-        return true;
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, error.message);
-      }
-      throw error;
+    if (!spreadsheetId || !ranges) {
+      throw new Error('spreadsheetId or ranges is not defined');
     }
+
+    const response = await this.getValues<GoogleSheetsRequest, GoogleSheetsResponse>({ spreadsheetId, ranges });
+    return response.filter((result) => {
+      if (result.error) {
+        NotificationHandler.notify(NOTIFICATIONS_ID, NOTIFICATIONS_TITLE, result.error.message);
+        return false;
+      }
+      return true;
+    });
   }
 }
