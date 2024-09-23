@@ -31,7 +31,7 @@ export class MainWorldBackground {
       // Perform the action that requires the permission
       chrome.scripting.executeScript<[Bypass], void>({
         world: 'MAIN',
-        target: { tabId: sender.tab.id },
+        target: { tabId: sender.tab.id, allFrames: true },
         func: (message: Bypass) => {
           if (message.alert) {
             window.alert = () => {
