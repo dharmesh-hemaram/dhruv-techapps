@@ -1,6 +1,7 @@
+import { ActionStatement } from '@dhruv-techapps/acf-common';
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../../../store';
-import { ActionStatement, RANDOM_UUID } from '@dhruv-techapps/acf-common';
 
 export const openActionStatementModalAPI = createAsyncThunk<{ statement: ActionStatement | undefined; selectedActionId: RANDOM_UUID }, RANDOM_UUID, { state: RootState }>(
   'action-statement/open',

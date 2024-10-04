@@ -1,4 +1,5 @@
-import { Action, CONFIG_SOURCE, Configuration, RANDOM_UUID, getDefaultAction, getDefaultConfig } from '@dhruv-techapps/acf-common';
+import { Action, CONFIG_SOURCE, Configuration, getDefaultAction, getDefaultConfig } from '@dhruv-techapps/acf-common';
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { blogCheckAPI } from '../blog';
 
 /**

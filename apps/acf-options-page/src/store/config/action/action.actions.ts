@@ -1,4 +1,5 @@
-import { RANDOM_UUID, getDefaultAction } from '@dhruv-techapps/acf-common';
+import { getDefaultAction } from '@dhruv-techapps/acf-common';
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { ConfigStore } from '../config.slice';
 import { actionAddonActions } from './addon';

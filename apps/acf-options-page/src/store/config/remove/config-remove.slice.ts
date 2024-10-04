@@ -1,6 +1,7 @@
+import { Configuration } from '@dhruv-techapps/acf-common';
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../store';
-import { Configuration, RANDOM_UUID } from '@dhruv-techapps/acf-common';
 import { configRemoveUpdateAPI } from './config-remove.api';
 
 export type ConfigurationRemoveType = Configuration & { checked?: boolean };

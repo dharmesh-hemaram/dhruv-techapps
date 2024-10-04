@@ -1,10 +1,10 @@
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { ChangeEvent, FormEvent } from 'react';
 import { Badge, Button, Form, ListGroup, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { ErrorAlert } from '../components';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { configRemoveSelector, configRemoveUpdateAPI, switchConfigRemoveModal, switchConfigRemoveSelection } from '../store/config';
-import { RANDOM_UUID } from '@dhruv-techapps/acf-common';
 
 const RemoveConfigsModal = () => {
   const { visible, configs, error } = useAppSelector(configRemoveSelector);

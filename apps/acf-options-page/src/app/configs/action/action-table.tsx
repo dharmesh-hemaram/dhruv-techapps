@@ -1,7 +1,8 @@
 import { useConfirmationModalContext } from '@apps/acf-options-page/src/_providers/confirm.provider';
 import { useAppDispatch, useAppSelector } from '@apps/acf-options-page/src/hooks';
 import { actionSelector, addAction, openActionAddonModalAPI, openActionSettingsModalAPI, openActionStatementModalAPI, removeAction, updateAction } from '@apps/acf-options-page/src/store/config';
-import { Action, RANDOM_UUID } from '@dhruv-techapps/acf-common';
+import { Action } from '@dhruv-techapps/acf-common';
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { ColumnDef, Row, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { Button, Dropdown, Form, Table } from 'react-bootstrap';

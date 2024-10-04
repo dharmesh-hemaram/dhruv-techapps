@@ -1,4 +1,5 @@
-import { CONFIG_SOURCE, Configuration, RANDOM_UUID, START_TYPES, getDefaultConfig } from '@dhruv-techapps/acf-common';
+import { CONFIG_SOURCE, Configuration, START_TYPES, getDefaultConfig } from '@dhruv-techapps/acf-common';
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { LocalStorage } from '../../_helpers';
 import { RootState } from '../../store';
