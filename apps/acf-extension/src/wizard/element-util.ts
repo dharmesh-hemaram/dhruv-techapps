@@ -1,4 +1,5 @@
 import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
+import { generateUUID } from '@dhruv-techapps/core-common';
 import { BUTTON_FILE_SUBMIT_NODE_NAME, RADIO_CHECKBOX_NODE_NAME } from '../common/constant';
 import { xPath } from './dom-path';
 import { WizardAction } from './type';
@@ -7,6 +8,7 @@ type selectType = {
   elementValue?: string;
   optionValue?: string;
 };
+
 export const WizardElementUtil = (() => {
   const radioCheckbox = (element: HTMLInputElement): boolean => element.checked;
 
@@ -56,7 +58,7 @@ export const WizardElementUtil = (() => {
       // Input Element
       if (RADIO_CHECKBOX_NODE_NAME.test(element.type)) {
         const checked = radioCheckbox(element);
-        return { name: getName(element), id: crypto.randomUUID(), elementFinder, checked, elementValue: element.value, elementType: element.type };
+        return { name: getName(element), id: generateUUID(), elementFinder, checked, elementValue: element.value, elementType: element.type };
       }
 
       let value;
@@ -71,32 +73,32 @@ export const WizardElementUtil = (() => {
       }
 
       if (value !== null && value !== undefined) {
-        return { name: getName(element), id: crypto.randomUUID(), elementFinder, value, elementValue, elementType: element.type };
+        return { name: getName(element), id: generateUUID(), elementFinder, value, elementValue, elementType: element.type };
       }
     } else if (element instanceof HTMLButtonElement && listener) {
       // Button
-      return { name: getName(element), id: crypto.randomUUID(), elementFinder, value: '', elementValue: element.innerText };
+      return { name: getName(element), id: generateUUID(), elementFinder, value: '', elementValue: element.innerText };
     } else if (element instanceof HTMLSelectElement) {
       // Select Dropdown
       const selectType = listener ? await optionListener(element) : select(element);
       if (selectType) {
-        return { name: getName(element), id: crypto.randomUUID(), elementFinder: elementFinder, value: selectType.elementValue, elementValue: selectType.elementValue };
+        return { name: getName(element), id: generateUUID(), elementFinder: elementFinder, value: selectType.elementValue, elementValue: selectType.elementValue };
       }
     } else if (element instanceof HTMLTextAreaElement) {
       // Textarea && Editable Content
       const value = listener ? await inputListener(element) : element.value;
       if (value) {
-        return { name: getName(element), id: crypto.randomUUID(), elementFinder, value };
+        return { name: getName(element), id: generateUUID(), elementFinder, value };
       }
     } else if (element.isContentEditable && listener) {
       GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'Wizard' });
       const value = await inputListener(element);
       if (value) {
-        return { elementFinder, id: crypto.randomUUID(), value };
+        return { elementFinder, id: generateUUID(), value };
       }
     } else {
       // Other
-      return { id: crypto.randomUUID(), elementFinder };
+      return { id: generateUUID(), elementFinder };
     }
     return;
   };

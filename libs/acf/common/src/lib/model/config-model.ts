@@ -1,4 +1,5 @@
-import { RANDOM_UUID } from '../common';
+import { generateUUID, RANDOM_UUID } from '@dhruv-techapps/core-common';
+
 import { Action, getDefaultAction } from './action-model';
 import { Batch } from './batch-model';
 
@@ -56,7 +57,7 @@ export type Configuration = {
 export const getDefaultConfig = (source?: CONFIG_SOURCE, actions?: Array<Action>): Configuration => ({
   url: '',
   source,
-  id: crypto.randomUUID(),
+  id: generateUUID(),
   enable: true,
   startType: START_TYPES.AUTO,
   loadType: LOAD_TYPES.WINDOW,

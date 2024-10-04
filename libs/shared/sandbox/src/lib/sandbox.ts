@@ -1,4 +1,4 @@
-import { ConfigError } from '@dhruv-techapps/core-common';
+import { ConfigError, generateUUID } from '@dhruv-techapps/core-common';
 
 export const SANDBOX_INITIALIZED = 'sandbox-initialized';
 
@@ -54,7 +54,7 @@ export const Sandbox = (() => {
     if (!code) {
       return context;
     }
-    const name = crypto.randomUUID();
+    const name = generateUUID();
     try {
       return await Sandbox.sendMessage({ command: 'eval', name, context: context ? `\`${context}\`.${code}` : code });
     } catch (error) {

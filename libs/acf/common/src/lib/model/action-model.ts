@@ -1,4 +1,5 @@
-import { RANDOM_UUID } from '../common';
+import { generateUUID, RANDOM_UUID } from '@dhruv-techapps/core-common';
+
 import { Addon } from './addon-model';
 import { RETRY_OPTIONS } from './setting-model';
 
@@ -28,7 +29,7 @@ export type ActionCondition = {
 };
 
 export const getDefaultActionCondition = (operator?: ACTION_CONDITION_OPR): ActionCondition => ({
-  id: crypto.randomUUID(),
+  id: generateUUID(),
   actionIndex: -1,
   status: ACTION_STATUS['~~ Select STATUS ~~'],
   operator,
@@ -78,7 +79,7 @@ export type Action = {
 };
 
 export const getDefaultAction = (): Action => ({
-  id: crypto.randomUUID(),
+  id: generateUUID(),
   elementFinder: '',
   error: ['elementFinder'],
 });

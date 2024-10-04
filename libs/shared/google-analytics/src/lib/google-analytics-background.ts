@@ -1,3 +1,4 @@
+import { generateUUID } from '@dhruv-techapps/core-common';
 import { DEFAULT_ENGAGEMENT_TIME_MSEC, GA_DEBUG_ENDPOINT, GA_ENDPOINT, SESSION_EXPIRATION_IN_MIN } from './google-analytics.constant';
 import { FireErrorEventParams, FireEventParams, FirePageViewEventParams } from './google-analytics.types';
 
@@ -20,7 +21,7 @@ export class GoogleAnalyticsBackground {
     let { clientId } = await chrome.storage.local.get('clientId');
     if (!clientId) {
       // Generate a unique client ID, the actual value is not relevant
-      clientId = self.crypto.randomUUID();
+      clientId = generateUUID();
       await chrome.storage.local.set({ clientId });
     }
     return clientId;
