@@ -2,6 +2,9 @@
 export function DataList() {
   const REGEX_RANGE_STRING = '{6,12}';
   const REGEX_STRING = '{6}';
+  const EMAIL_FIRST = `{1, 20}`;
+  const EMAIL_SECOND = `{3, 15}`;
+  const EMAIL_THIRD = `{2, 4}`;
 
   return (
     <>
@@ -93,13 +96,19 @@ export function DataList() {
         <option value='Clipboard::Paste::trim()'>Clipboard::Paste::trim()</option>
         <option value='Clipboard::Paste::trimStart()'>Clipboard::Paste::trimStart()</option>
         <option value='Clipboard::Paste::trimEnd()'>Clipboard::Paste::trimEnd()</option>
-        <option value='<random[.]{6}>'>&lt;random[.]{REGEX_STRING}&gt;</option>
-        <option value='<random[.]{6,12}>'>&lt;random[.]{REGEX_RANGE_STRING}&gt;</option>
         <option value='<random[a-z]{6}>'>&lt;random[a-z]{REGEX_STRING}&gt;</option>
+        <option value='<random[a-z]{6,12}>'>&lt;random[a-z]{REGEX_RANGE_STRING}&gt;</option>
         <option value='<random[A-Z]{6}>'>&lt;random[A-Z]{REGEX_STRING}&gt;</option>
         <option value='<random[\d]{6}>'>&lt;random[\d]{REGEX_STRING}&gt;</option>
         <option value='<random[\w]{6}>'>&lt;random[\w]{REGEX_STRING}&gt;</option>
-        <option value='<random[custom-string]{6}>'>&lt;random[custom-string]{REGEX_STRING}&gt;</option>
+        <option value='<random(hello|world)>'>&lt;random(hello|world)&gt;</option>
+        <option value='<random(sun|mon|tue|wednes|thurs|fri|satur)day>'>&lt;random(sun|mon|tue|wednes|thurs|fri|satur)day&gt;</option>
+        <option value='<random[a-z0-9._+-]{1, 20}@[a-z0-9]{3, 15}\.[a-z]{2, 4}>'>
+          &lt;random[a-z0-9._+-]{EMAIL_FIRST}@[a-z0-9]{EMAIL_SECOND}\.[a-z]{EMAIL_THIRD}&gt;
+        </option>
+        <option value='<randomxxx xtreme dragon warrior xxx /i>'>&lt;randomxxx xtreme dragon warrior xxx /i&gt;</option>
+        <option value='<randomhello+ (world|to you)>'>&lt;randomhello+ (world|to you)&gt;</option>
+        <option value='<random stuff: .+>'>&lt;random stuff: .+&gt;</option>
         <option value='ScrollTo::TopLeft'>ScrollTo::TopLeft</option>
         <option value='ScrollTo::TopRight'>ScrollTo::TopRight</option>
         <option value='ScrollTo::BottomLeft'>ScrollTo::BottomLeft</option>

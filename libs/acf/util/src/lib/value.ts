@@ -14,7 +14,7 @@ declare global {
 export const VALUE_MATCHER = {
   QUERY_PARAM: /^Query::/i,
   API: /^Api::/i,
-  RANDOM: /<random(.+)>/gi,
+  RANDOM: /<random(.+?)(\/[a-z]+)?>/gi,
   BATCH_REPEAT: /<batchRepeat>/,
   ACTION_REPEAT: /<actionRepeat>/,
   SESSION_COUNT: /<sessionCount>/,
@@ -24,8 +24,9 @@ export const VALUE_MATCHER = {
 
 export const Value = (() => {
   const getRandomValue = (value: string) =>
-    value.replace(VALUE_MATCHER.RANDOM, (_, regex) => {
-      const randexp = new RandExp(regex, 'i');
+    value.replace(VALUE_MATCHER.RANDOM, (_, regex, flags) => {
+      flags = flags ? flags.replace(/[^gimsuy]/g, '') : '';
+      const randexp = new RandExp(regex, flags);
       randexp.defaultRange.add(0, 65535);
       const result = randexp.gen();
       return result;
