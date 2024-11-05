@@ -29,7 +29,7 @@ export class LocalStorage {
       // convert into JSON
       try {
         return JSON.parse(value, dateParser);
-      } catch (error) {
+      } catch {
         return value;
       }
     }

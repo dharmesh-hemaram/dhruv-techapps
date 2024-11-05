@@ -18,7 +18,7 @@ export const KeyboardEvents = (() => {
     let result;
     try {
       result = JSON.parse(events);
-    } catch (error) {
+    } catch {
       result = events.split('+').reduce((a: KeyboardEventInit, c) => {
         switch (true) {
           case /shift/i.test(c):

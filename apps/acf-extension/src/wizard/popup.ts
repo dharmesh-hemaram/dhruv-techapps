@@ -21,7 +21,7 @@ export const Popup = (() => {
           }
         }
       }
-    } catch (error) {
+    } catch {
       NotificationsService.create({ type: 'basic', title: 'Invalid Xpath', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
     }
   };
@@ -56,7 +56,7 @@ export const Popup = (() => {
             NotificationsService.create({ type: 'basic', title: 'Element not found', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
           }
         }
-      } catch (error) {
+      } catch {
         NotificationsService.create({ type: 'basic', title: 'Invalid Xpath', message: xpath, silent: false, iconUrl: chrome.runtime.getManifest().action.default_icon });
       }
     }) as EventListener);

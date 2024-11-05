@@ -1,6 +1,6 @@
-const fs = require('fs');
-const { LANGUAGES } = require('./translate.constant');
-const { Translate } = require('@google-cloud/translate').v2;
+import { Translate } from '@google-cloud/translate';
+import fs from 'fs';
+import { LANGUAGES } from './translate.constant';
 
 class TranslateCommon {
   file = '${file}';
@@ -13,7 +13,7 @@ class TranslateCommon {
   }
   // Function to remove extra properties from obj2 that are not in obj1
 
-  translateObject = async (obj, targetLanguage, targetJson) => {
+  translateObject = async () => {
     return new Error();
   };
 

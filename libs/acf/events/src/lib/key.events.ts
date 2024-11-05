@@ -26,7 +26,7 @@ export const KeyEvents = (() => {
       } else {
         throw new ConfigError(events, 'Invalid Events');
       }
-    } catch (error) {
+    } catch {
       result = events.split('').map((event) => ({ ...CommonEvents.getKeyboardEventProperties({ key: event }) }));
     }
     if (result) {

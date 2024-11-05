@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports  */
 const { composePlugins, withNx } = require('@nx/webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');

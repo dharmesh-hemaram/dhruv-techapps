@@ -64,7 +64,7 @@ export class FirebaseOauth2Background extends GoogleOauth2Background {
             return await this.#getUserAndRole(user);
           }
         }
-      } catch (error) {
+      } catch {
         return user;
       }
     }

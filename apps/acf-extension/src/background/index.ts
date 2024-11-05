@@ -31,7 +31,9 @@ try {
    */
   chrome.action.onClicked.addListener((tab) => {
     googleAnalytics?.fireEvent({ name: 'Wizard', params: { location: 'action:onClicked' } });
-    tab.id && chrome.tabs.sendMessage(tab.id, { action: ACTION_POPUP });
+    if (tab.id !== undefined) {
+      chrome.tabs.sendMessage(tab.id, { action: ACTION_POPUP });
+    }
   });
 
   /**

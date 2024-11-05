@@ -1,6 +1,6 @@
 import { LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
-import { ACTION_POPUP } from '../common/constant';
 import { GoogleAnalyticsBackground } from '@dhruv-techapps/google-analytics';
+import { ACTION_POPUP } from '../common/constant';
 
 const CONTEXT_MENU_ELEMENT_ID = 'element-mode';
 const CONTEXT_MENU_SEPARATOR_ID = 'config-separator';
@@ -27,7 +27,9 @@ export default function registerContextMenus(optionsPageUrl?: string, googleAnal
           googleAnalytics?.fireEvent({ name: 'Web', params: { location: 'contextMenus.onClicked' } });
           break;
         case ACTION_POPUP:
-          tab?.id && chrome.tabs.sendMessage(tab.id, { action: ACTION_POPUP });
+          if (tab?.id) {
+            chrome.tabs.sendMessage(tab.id, { action: ACTION_POPUP });
+          }
           googleAnalytics?.fireEvent({ name: 'Wizard', params: { location: 'contextMenus.onClicked' } });
           break;
         case CONTEXT_MENU_ELEMENT_ID:

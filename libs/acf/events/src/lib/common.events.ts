@@ -17,7 +17,7 @@ const CommonEvents = (() => {
       } else if (verifiedEvents.indexOf(eventObject.type) !== -1) {
         result = [eventObject];
       }
-    } catch (error) {
+    } catch {
       const event = events.replace(/\W/g, '');
       if (verifiedEvents.indexOf(event) !== -1) {
         result = [event];

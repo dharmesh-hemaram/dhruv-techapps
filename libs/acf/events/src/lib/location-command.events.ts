@@ -44,7 +44,7 @@ export const LocationCommandEvents = (() => {
           try {
             const { URL, name, specs } = JSON.parse(value.split('::')[2]);
             window.open(URL, name, specs);
-          } catch (error) {
+          } catch {
             window.open(value.split('::')[2]);
           }
           break;

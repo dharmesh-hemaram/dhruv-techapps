@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "@swc/helpers": "~0.5.11",
-    "firebase": "^10.12.5",
+    "firebase": "^11.0.1",
     "@dhruv-techapps/firebase-oauth": "*",
     "@dhruv-techapps/core-common": "*",
     "@dhruv-techapps/core-service": "*"

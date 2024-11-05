@@ -31,7 +31,7 @@ export const MouseEvents = (() => {
       } else {
         result = [eventObject];
       }
-    } catch (error) {
+    } catch {
       const event = events.replace(/\W/g, '');
       if (event) {
         result = [event];

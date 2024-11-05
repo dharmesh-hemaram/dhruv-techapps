@@ -1,4 +1,4 @@
-const { TranslateCommon } = require('./translate.common');
+import { TranslateCommon } from './translate.common';
 
 class TranslateWeb extends TranslateCommon {
   constructor() {

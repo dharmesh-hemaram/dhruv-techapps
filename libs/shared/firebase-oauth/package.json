@@ -5,7 +5,7 @@
     "@dhruv-techapps/google-oauth": "*",
     "@dhruv-techapps/core-common": "*",
     "@dhruv-techapps/core-service": "*",
-    "firebase": "^10.12.0",
+    "firebase": "^11.0.1",
     "@firebase/app": "*",
     "@firebase/util": "*"
   },

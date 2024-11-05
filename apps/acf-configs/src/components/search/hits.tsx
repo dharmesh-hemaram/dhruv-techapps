@@ -1,6 +1,12 @@
+import type { Hit as BasHit } from 'instantsearch.js';
+import type { MutableRefObject } from 'react';
 import { Highlight, useHits } from 'react-instantsearch';
 
-export const Hit = ({ hit }: { hit: any }) => {
+type HitProps = {
+  hit: BasHit;
+};
+
+export const Hit = ({ hit }: HitProps) => {
   return (
     <article className='d-flex p-4 w-100 flex-column'>
       <b className='hit-name'>
@@ -13,14 +19,14 @@ export const Hit = ({ hit }: { hit: any }) => {
   );
 };
 
-export const CustomHits = ({ modalRef }: { modalRef: any }) => {
-  const { items, results, banner, sendEvent } = useHits();
+export const CustomHits = ({ modalRef }: { modalRef: MutableRefObject<null | { show: (id: string) => void }> }) => {
+  const { items } = useHits();
 
   //const navigate = useNavigate();
-  const onConfigClick = (hit: any) => {
+  const onConfigClick = (hit: BasHit) => {
     console.log('hit', hit);
 
-    modalRef.current.show(hit.objectID);
+    modalRef.current?.show(hit.objectID);
     //navigate(`/config/${hit.objectID}`);
   };
 

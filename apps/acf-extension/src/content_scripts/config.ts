@@ -45,7 +45,9 @@ const ConfigProcessor = (() => {
 
   const start = async (config: Configuration) => {
     try {
-      config.bypass && (await MainWorldService.bypass(config.bypass));
+      if (config.bypass) {
+        await MainWorldService.bypass(config.bypass);
+      }
       const sheets = GoogleSheets.getSheets(config);
       window.__sheets = await new GoogleSheetsCS().getValues(sheets, config.spreadsheetId);
       await BatchProcessor.start(config.actions, config.batch);

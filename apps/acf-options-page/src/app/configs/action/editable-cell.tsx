@@ -34,7 +34,7 @@ function Cell({ getValue, row: { original }, column: { id, columnDef }, table })
     setValue(initialValue);
   }, [initialValue, id, original.error]);
 
-  const getInput = (as: any) => (
+  const getInput = (as: 'input' | 'textarea') => (
     <Form.Control
       ref={inputRef}
       aria-label={meta?.ariaLabel}
@@ -42,7 +42,7 @@ function Cell({ getValue, row: { original }, column: { id, columnDef }, table })
       value={value || ''}
       name={id}
       as={as}
-      rows={1}
+      {...(as === 'textarea' && { rows: 1 })}
       onChange={onChange}
       onBlur={onBlur}
       pattern={meta?.pattern}
