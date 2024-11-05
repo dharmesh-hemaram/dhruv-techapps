@@ -23,6 +23,18 @@ const Common = (() => {
         elements = element ? [element] : undefined;
       } else if (/^Selector::/gi.test(elementFinder)) {
         const element = document.querySelector<HTMLElement>(elementFinder.replace(/^Selector::/gi, ''));
+        if (!element) {
+          const shadowHosts = document.querySelectorAll('*');
+          for (const shadowHost of shadowHosts) {
+            if (shadowHost.shadowRoot) {
+              const shadowElement = shadowHost.shadowRoot.querySelector<HTMLElement>(elementFinder.replace(/^Selector::/gi, ''));
+              if (shadowElement) {
+                elements = [shadowElement];
+                break;
+              }
+            }
+          }
+        }
         elements = element ? [element] : undefined;
       } else if (/^ClassName::/gi.test(elementFinder)) {
         const classElements = document.getElementsByClassName(elementFinder.replace(/^ClassName::/gi, '')) as HTMLCollectionOf<HTMLElement>;
