@@ -2,45 +2,18 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "neverConnectToCloud": true,
   "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"],
-      "cache": true
-    },
-    "e2e": {
-      "inputs": ["default", "^production"],
-      "cache": true
-    },
-    "@nx/eslint:lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
-      "cache": true
-    },
-    "package": {
-      "cache": true
-    },
+    "build": { "dependsOn": ["^build"], "inputs": ["production", "^production"], "cache": true },
+    "e2e": { "inputs": ["default", "^production"], "cache": true },
+    "@nx/eslint:lint": { "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"], "cache": true },
+    "package": { "cache": true },
     "@nx/jest:jest": {
       "cache": true,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
+      "options": { "passWithNoTests": true },
+      "configurations": { "ci": { "ci": true, "codeCoverage": true } }
     },
-    "@nx/js:tsc": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
-    },
-    "@nx/js:swc": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
-    }
+    "@nx/js:tsc": { "cache": true, "dependsOn": ["^build"], "inputs": ["production", "^production"] },
+    "@nx/js:swc": { "cache": true, "dependsOn": ["^build"], "inputs": ["production", "^production"] }
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
@@ -56,34 +29,15 @@
   },
   "generators": {
     "@nx/react": {
-      "application": {
-        "babel": true,
-        "style": "scss",
-        "linter": "eslint",
-        "bundler": "webpack"
-      },
-      "component": {
-        "style": "scss"
-      },
-      "library": {
-        "style": "scss",
-        "linter": "eslint",
-        "unitTestRunner": "jest"
-      }
+      "application": { "babel": true, "style": "scss", "linter": "eslint", "bundler": "webpack" },
+      "component": { "style": "scss" },
+      "library": { "style": "scss", "linter": "eslint", "unitTestRunner": "jest" }
     },
-    "@nx/web:application": {
-      "style": "css",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    }
+    "@nx/web:application": { "style": "css", "linter": "eslint", "unitTestRunner": "jest", "e2eTestRunner": "cypress" }
   },
   "useInferencePlugins": false,
   "release": {
-    "git": {
-      "commitMessage": "chore(release): release ${version}",
-      "push": true
-    },
+    "git": { "commitMessage": "chore(release): release ${version}", "push": true },
     "projects": [
       "core-common",
       "core-extension",
@@ -111,14 +65,8 @@
       "firebase-storage",
       "vision"
     ],
-    "changelog": {
-      "workspaceChangelog": {
-        "file": false,
-        "createRelease": "github"
-      }
-    },
-    "version": {
-      "preVersionCommand": "npx nx run-many --targets=lint,test,build"
-    }
-  }
+    "changelog": { "workspaceChangelog": { "file": false, "createRelease": "github" } },
+    "version": { "preVersionCommand": "npx nx run-many --targets=lint,test,build" }
+  },
+  "nxCloudId": "672a30de5dd6176980bcbdbf"
 }
