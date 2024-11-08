@@ -4,7 +4,8 @@
     "firebase": "^11.0.1",
     "@dhruv-techapps/firebase-oauth": "*",
     "@dhruv-techapps/core-common": "*",
-    "@dhruv-techapps/core-service": "*"
+    "@dhruv-techapps/core-service": "*",
+    "tslib": "^2.8.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
