@@ -13,6 +13,7 @@ declare global {
 
 export const VALUE_MATCHER = {
   QUERY_PARAM: /^Query::/i,
+  QUERY: /<query::(.*?)>/gi,
   API: /^Api::/i,
   RANDOM: /<random(.+?)(\/[a-z]+)?>/gi,
   BATCH_REPEAT: /<batchRepeat>/,
@@ -47,6 +48,14 @@ export const Value = (() => {
     return value;
   };
 
+  const getMultiQueryParam = (value: string) => {
+    value = value.replace(VALUE_MATCHER.QUERY, (_, key) => {
+      const searchParams = new URLSearchParams(window.location.search);
+      return searchParams.get(key) || key;
+    });
+    return value;
+  };
+
   const getApiValue = (value: string): string => {
     const [, key] = value.split('::');
     const apiValue = window.__api?.[key];
@@ -75,6 +84,9 @@ export const Value = (() => {
 
     if (VALUE_MATCHER.QUERY_PARAM.test(value)) {
       value = getQueryParam(value);
+    }
+    if (VALUE_MATCHER.QUERY.test(value)) {
+      value = getMultiQueryParam(value);
     }
     if (VALUE_MATCHER.BATCH_REPEAT.test(value)) {
       value = getBatchRepeat(value);

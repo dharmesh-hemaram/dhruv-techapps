@@ -35,4 +35,17 @@ describe('getValue', () => {
     const result = await Value.getValue('<sessionCount>');
     expect(result).toBe('10');
   });
+
+  it('should handle multiple QUERY patterns correctly', async () => {
+    const searchParams = new URLSearchParams();
+    searchParams.set('param1', 'value1');
+    searchParams.set('param2', 'value2');
+    const originalSearch = window.location.search;
+    window.history.replaceState({}, '', `${window.location.pathname}?${searchParams.toString()}`);
+
+    const result = await Value.getValue('<query::param1> and <query::param2>');
+    expect(result).toBe('value1 and value2');
+
+    window.history.replaceState({}, '', `${window.location.pathname}${originalSearch}`);
+  });
 });
