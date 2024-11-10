@@ -41,7 +41,7 @@ export const Value = (() => {
 
   const sanitizeInput = (input: string): string => {
     const element = document.createElement('div');
-    element.innerText = input;
+    element.textContent = input;
     return element.innerHTML;
   };
 
@@ -51,10 +51,10 @@ export const Value = (() => {
   };
 
   const getQueryParam = (value: string) => {
-    const [, key] = value.split('::');
     const searchParams = new URLSearchParams(window.location.search);
+    const [, key] = value.split('::');
     if (searchParams.has(key)) {
-      const paramValue = searchParams.get(key) || key;
+      const paramValue = searchParams.get(key) ?? key;
       if (validateQueryParam(key, paramValue)) {
         value = sanitizeInput(paramValue);
       }
@@ -63,9 +63,9 @@ export const Value = (() => {
   };
 
   const getMultiQueryParam = (value: string) => {
+    const searchParams = new URLSearchParams(window.location.search);
     value = value.replace(VALUE_MATCHER.QUERY, (_, key) => {
-      const searchParams = new URLSearchParams(window.location.search);
-      const paramValue = searchParams.get(key) || key;
+      const paramValue = searchParams.get(key) ?? key;
       if (validateQueryParam(key, paramValue)) {
         return sanitizeInput(paramValue);
       }

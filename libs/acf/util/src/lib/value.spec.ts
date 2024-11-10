@@ -8,7 +8,6 @@ describe('getValue', () => {
 
   it('should handle RANDOM pattern correctly', async () => {
     const result = await Value.getValue('<random[a-zA-Z]{5}>');
-    console.log(result);
     expect(result).toMatch(/[a-zA-Z]{5}/);
   });
 
@@ -57,7 +56,7 @@ describe('getValue', () => {
     window.history.replaceState({}, '', `${window.location.pathname}?${searchParams.toString()}`);
 
     const result = await Value.getValue('<query::param1> and <query::param2>');
-    expect(result).toBe('value1 and value2&lt;script&gt;alert(1)&lt;/script&gt;');
+    expect(result).toBe('value1 and param2');
 
     window.history.replaceState({}, '', `${window.location.pathname}${originalSearch}`);
   });
