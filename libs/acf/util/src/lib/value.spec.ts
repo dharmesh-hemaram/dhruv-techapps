@@ -48,4 +48,17 @@ describe('getValue', () => {
 
     window.history.replaceState({}, '', `${window.location.pathname}${originalSearch}`);
   });
+
+  it('should handle multiple QUERY patterns correctly with sanitization and validation', async () => {
+    const searchParams = new URLSearchParams();
+    searchParams.set('param1', 'value1');
+    searchParams.set('param2', 'value2<script>alert(1)</script>');
+    const originalSearch = window.location.search;
+    window.history.replaceState({}, '', `${window.location.pathname}?${searchParams.toString()}`);
+
+    const result = await Value.getValue('<query::param1> and <query::param2>');
+    expect(result).toBe('value1 and value2&lt;script&gt;alert(1)&lt;/script&gt;');
+
+    window.history.replaceState({}, '', `${window.location.pathname}${originalSearch}`);
+  });
 });

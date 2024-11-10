@@ -39,11 +39,25 @@ export const Value = (() => {
 
   const getSessionCount = (value: string) => value.replaceAll('<sessionCount>', String(window.__sessionCount));
 
+  const sanitizeInput = (input: string): string => {
+    const element = document.createElement('div');
+    element.innerText = input;
+    return element.innerHTML;
+  };
+
+  const validateQueryParam = (key: string, value: string): boolean => {
+    const pattern = /^[a-zA-Z0-9_-]+$/;
+    return pattern.test(key) && pattern.test(value);
+  };
+
   const getQueryParam = (value: string) => {
     const [, key] = value.split('::');
     const searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has(key)) {
-      value = searchParams.get(key) || key;
+      const paramValue = searchParams.get(key) || key;
+      if (validateQueryParam(key, paramValue)) {
+        value = sanitizeInput(paramValue);
+      }
     }
     return value;
   };
@@ -51,7 +65,11 @@ export const Value = (() => {
   const getMultiQueryParam = (value: string) => {
     value = value.replace(VALUE_MATCHER.QUERY, (_, key) => {
       const searchParams = new URLSearchParams(window.location.search);
-      return searchParams.get(key) || key;
+      const paramValue = searchParams.get(key) || key;
+      if (validateQueryParam(key, paramValue)) {
+        return sanitizeInput(paramValue);
+      }
+      return key;
     });
     return value;
   };
