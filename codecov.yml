@@ -1,0 +1,58 @@
+# codecov.yml
+
+# Configure base settings
+#codecov:
+#  notify:
+#    require_ci_to_pass: yes  # Requires CI tests to pass before sending coverage
+
+# Paths to include coverage reports from multiple projects
+coverage:
+  # Define paths to include or exclude for coverage
+  paths:
+    - apps/*                  # Adjust paths based on your monorepo structure
+    - libs/*             # Example for libraries directory
+  status:
+    project:
+      # Configure status check for each app and library in the monorepo
+      - apps/acf-configs:            # Replace with your actual app directory names
+          flags:
+            - configs
+          target: 80%         # Set a target coverage
+      - apps/acf-extension:            # Replace with your actual app directory names
+          flags:
+            - extension
+          target: 80%         # Set a target coverage
+      - apps/acf-options-page:            # Replace with your actual app directory names
+          flags:
+            - options-page
+          target: 80%         # Set a target coverage
+      - libs/core-common:       # Replace with library names
+          flags:
+            - core-common
+          target: 75%
+
+# Flags help you manage separate coverage for each app and library
+flags:
+  configs:
+    paths:
+      - coverage/apps/acf-configs
+  extension:
+    paths:
+      - coverage/apps/acf-extension
+  options-page:
+    paths:
+      - coverage/apps/acf-options-page
+  core-common:
+    paths:
+      - coverage/core/common
+
+# Define how to handle test report merging, threshold settings, etc.
+comment:
+  layout: "reach,diff,flags,files"  # Layout of the Codecov comment in PRs
+  require_changes: no               # Only post comments if coverage changes
+
+# Thresholds for failing the coverage checks
+coverage:
+  precision: 2                      # Coverage percentage precision
+  round: up                         # Round coverage percentages up
+  range: "70...100"                 # Acceptable coverage range
