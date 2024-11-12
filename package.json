@@ -13,7 +13,7 @@
     "@dhruv-techapps:registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
-    "@nx/devkit": "20.0.8",
+    "@nx/devkit": "20.1.0",
     "@reduxjs/toolkit": "^2.3.0",
     "@tanstack/react-table": "^8.20.5",
     "@webcomponents/webcomponentsjs": "^2.8.0",
