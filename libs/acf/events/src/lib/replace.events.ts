@@ -9,7 +9,8 @@ const CHANGE_EVENT = ['input', 'change'];
 export const ReplaceEvents = (() => {
   const checkNode = (element: HTMLElement, value: string) => {
     const [target, string] = value.split('::');
-    if (element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement || (element instanceof HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
+    const eW = CommonEvents.getElementWindow(element);
+    if (element instanceof eW.HTMLSelectElement || element instanceof eW.HTMLTextAreaElement || (element instanceof eW.HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
       element.value = element.value.replace(new RegExp(target, 'g'), string);
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {

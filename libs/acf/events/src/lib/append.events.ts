@@ -7,7 +7,8 @@ import CommonEvents, { UNKNOWN_ELEMENT_TYPE_ERROR } from './common.events';
 const CHANGE_EVENT = ['input', 'change'];
 export const AppendEvents = (() => {
   const checkNode = (element: HTMLElement, value: string) => {
-    if (element instanceof HTMLTextAreaElement || (element instanceof HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
+    const eW = CommonEvents.getElementWindow(element);
+    if (element instanceof eW.HTMLTextAreaElement || (element instanceof eW.HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
       element.value += value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {

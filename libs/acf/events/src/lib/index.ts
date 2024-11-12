@@ -89,7 +89,7 @@ export const Events = (() => {
           await ClipboardEvents.start(elements, value);
           break;
         case EVENTS.ELEMENT:
-          await ElementEvents.start(elements, value);
+          ElementEvents.start(elements, value);
           break;
         default:
           PlainEvents.start(elements, value);

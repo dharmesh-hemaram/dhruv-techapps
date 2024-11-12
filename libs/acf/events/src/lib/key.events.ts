@@ -36,7 +36,8 @@ export const KeyEvents = (() => {
   };
 
   const dispatchEvent = async (element: HTMLElement, events: Array<KeyEvent>) => {
-    if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+    const eW = CommonEvents.getElementWindow(element); // Get eW
+    if (element instanceof eW.HTMLInputElement || element instanceof eW.HTMLTextAreaElement) {
       // eslint-disable-next-line no-restricted-syntax
       for (const event of events) {
         element.dispatchEvent(new KeyboardEvent(KEYBOARD_EVENT_KEYDOWN, event));

@@ -8,7 +8,8 @@ const CHANGE_EVENT = ['input', 'change'];
 
 export const PrependEvents = (() => {
   const checkNode = (element: HTMLElement, value: string) => {
-    if (element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement || (element instanceof HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
+    const eW = CommonEvents.getElementWindow(element);
+    if (element instanceof eW.HTMLSelectElement || element instanceof eW.HTMLTextAreaElement || (element instanceof eW.HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
       element.value = value + element.value;
       element.dispatchEvent(CommonEvents.getFillEvent());
     } else if (element.isContentEditable) {

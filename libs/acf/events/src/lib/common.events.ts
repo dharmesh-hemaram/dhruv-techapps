@@ -100,7 +100,11 @@ const CommonEvents = (() => {
     which = 0,
   }): KeyboardEventInit => ({ key, code, location, ctrlKey, shiftKey, altKey, metaKey, bubbles, repeat, isComposing, charCode, keyCode, which });
 
-  return { getFillEvent, getMouseEvent, getMouseEventProperties, getKeyboardEventProperties, loopElements, getVerifiedEvents, getTouchEvent, getTouchEventProperties, getTouch };
+  const getElementWindow = (element: HTMLElement): Window & typeof globalThis => {
+    return element.ownerDocument.defaultView || window;
+  };
+
+  return { getFillEvent, getElementWindow, getMouseEvent, getMouseEventProperties, getKeyboardEventProperties, loopElements, getVerifiedEvents, getTouchEvent, getTouchEventProperties, getTouch };
 })();
 
 export const EVENTS = {

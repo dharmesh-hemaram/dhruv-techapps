@@ -1,6 +1,7 @@
 import { RADIO_CHECKBOX_NODE_NAME } from '@dhruv-techapps/acf-common';
 import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 import { ACTION_I18N_TITLE } from '.';
+import CommonEvents from './common.events';
 
 const LOCAL_STORAGE_COPY = 'auto-clicker-copy';
 
@@ -16,7 +17,8 @@ export const CopyEvents = (() => {
   };
 
   const getValue = (element: HTMLElement) => {
-    if (element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement || (element instanceof HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
+    const eW = CommonEvents.getElementWindow(element);
+    if (element instanceof eW.HTMLSelectElement || element instanceof eW.HTMLTextAreaElement || (element instanceof eW.HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
       return element.value;
     }
     if (element.isContentEditable) {

@@ -6,7 +6,8 @@ const FORM_EVENTS = ['blur', 'click', 'click-once', 'focus', 'select', 'submit',
 
 export const FormEvents = (() => {
   const dispatchEvent = (element: HTMLElement, events: Array<string | Event>) => {
-    if (!(element instanceof HTMLElement)) {
+    const eW = CommonEvents.getElementWindow(element);
+    if (!(element instanceof eW.HTMLElement)) {
       throw new ConfigError(`elementFinder: ${element}`, 'Not HTMLElement');
     }
     events.forEach((event) => {
@@ -26,17 +27,17 @@ export const FormEvents = (() => {
           element.focus();
           break;
         case 'submit':
-          if (element instanceof HTMLFormElement) {
+          if (element instanceof eW.HTMLFormElement) {
             element.submit();
           } else if (
-            element instanceof HTMLSelectElement ||
-            element instanceof HTMLTextAreaElement ||
-            element instanceof HTMLInputElement ||
-            element instanceof HTMLButtonElement ||
-            element instanceof HTMLLabelElement ||
-            element instanceof HTMLOptionElement ||
-            element instanceof HTMLFieldSetElement ||
-            element instanceof HTMLOutputElement
+            element instanceof eW.HTMLSelectElement ||
+            element instanceof eW.HTMLTextAreaElement ||
+            element instanceof eW.HTMLInputElement ||
+            element instanceof eW.HTMLButtonElement ||
+            element instanceof eW.HTMLLabelElement ||
+            element instanceof eW.HTMLOptionElement ||
+            element instanceof eW.HTMLFieldSetElement ||
+            element instanceof eW.HTMLOutputElement
           ) {
             element.form?.submit();
           } else {
@@ -45,7 +46,7 @@ export const FormEvents = (() => {
           }
           break;
         case 'select':
-          if (element instanceof HTMLTextAreaElement || element instanceof HTMLInputElement) {
+          if (element instanceof eW.HTMLTextAreaElement || element instanceof eW.HTMLInputElement) {
             element.select();
           }
           break;
@@ -53,7 +54,7 @@ export const FormEvents = (() => {
           element.remove();
           break;
         case 'clear':
-          if (element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement || element instanceof HTMLInputElement) {
+          if (element instanceof eW.HTMLSelectElement || element instanceof eW.HTMLTextAreaElement || element instanceof eW.HTMLInputElement) {
             element.value = '';
           } else {
             console.error(element);

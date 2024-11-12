@@ -11,7 +11,8 @@ export const PlainEvents = (() => {
   const checkEmptyValue = (value: string) => (value === '::empty' ? '' : value);
 
   const dispatchEvent = (element: HTMLElement, value: string) => {
-    if (element instanceof HTMLSelectElement) {
+    const eW = CommonEvents.getElementWindow(element);
+    if (element instanceof eW.HTMLSelectElement) {
       const nodes = document.evaluate(
         `.//option[text()="${value}" or contains(text(),"${value}") or @value="${value}" or @id="${value}"]`,
         element,
@@ -22,10 +23,10 @@ export const PlainEvents = (() => {
       if (nodes.snapshotLength !== 0) {
         (nodes.snapshotItem(0) as HTMLOptionElement).selected = true;
       }
-    } else if (element instanceof HTMLTextAreaElement || (element instanceof HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
+    } else if (element instanceof eW.HTMLTextAreaElement || (element instanceof eW.HTMLInputElement && !RADIO_CHECKBOX_NODE_NAME.test(element.type))) {
       element.value = value;
       element.dispatchEvent(CommonEvents.getFillEvent());
-    } else if (element instanceof HTMLOptionElement) {
+    } else if (element instanceof eW.HTMLOptionElement) {
       element.selected = true;
     } else if (element.isContentEditable) {
       GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'PlainEvents' });
