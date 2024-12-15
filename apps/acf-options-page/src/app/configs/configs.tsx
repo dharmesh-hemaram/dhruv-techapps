@@ -3,6 +3,7 @@ import { createRef, useEffect } from 'react';
 import { Alert, Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { download } from '../../_helpers';
+import { Ads } from '../../components';
 import { useAppDispatch } from '../../hooks';
 import { ConfigSettingsModal, RemoveConfigsModal, ReorderConfigsModal } from '../../modal';
 import { BatchModal } from '../../modal/config-batch.modal';
@@ -79,6 +80,7 @@ function Configs(props) {
               )}
               <Config />
               <Action />
+              <Ads />
               <Footer />
               <ConfigSettingsModal />
               <BatchModal />
