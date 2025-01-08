@@ -2,6 +2,7 @@ import { CONFIG_SOURCE, Configuration, START_TYPES, getDefaultConfig } from '@dh
 import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 import { LocalStorage } from '../../_helpers';
+import { CONFIGURATIONS } from '../../data';
 import { RootState } from '../../store';
 import { actionActions, openActionAddonModalAPI, openActionSettingsModalAPI, openActionStatementModalAPI } from './action';
 import { batchActions } from './batch';
@@ -25,13 +26,11 @@ export type ConfigStore = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ConfigAction = { name: string; value: any };
 
-const config = getDefaultConfig(CONFIG_SOURCE.WEB);
-
 const initialState: ConfigStore = {
   loading: true,
-  configs: [config],
-  selectedConfigId: config.id,
-  selectedActionId: config.actions[0].id,
+  configs: CONFIGURATIONS,
+  selectedConfigId: CONFIGURATIONS[0].id,
+  selectedActionId: CONFIGURATIONS[0].actions[0].id,
   detailVisibility: LocalStorage.getItem(HIDDEN_DETAIL_KEY, defaultDetailVisibility),
 };
 
