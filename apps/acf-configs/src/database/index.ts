@@ -10,7 +10,6 @@ export type ConfigType = {
 
 export const getConfig = async (id: string) => {
   const docRef = doc(db, 'configurations', id);
-  console.log(docRef);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return { ...(docSnap.data() as ConfigType), id: docSnap.id };

@@ -1,6 +1,6 @@
 import type { Hit as BasHit } from 'instantsearch.js';
-import type { MutableRefObject } from 'react';
 import { Highlight, useHits } from 'react-instantsearch';
+import { useNavigate } from 'react-router-dom';
 
 type HitProps = {
   hit: BasHit;
@@ -19,15 +19,12 @@ export const Hit = ({ hit }: HitProps) => {
   );
 };
 
-export const CustomHits = ({ modalRef }: { modalRef: MutableRefObject<null | { show: (id: string) => void }> }) => {
+export const CustomHits = () => {
   const { items } = useHits();
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const onConfigClick = (hit: BasHit) => {
-    console.log('hit', hit);
-
-    modalRef.current?.show(hit.objectID);
-    //navigate(`/config/${hit.objectID}`);
+    navigate(`/config/${hit.objectID}`);
   };
 
   return (
