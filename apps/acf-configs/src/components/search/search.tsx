@@ -1,22 +1,20 @@
 import { liteClient as algoliasearch } from 'algoliasearch/lite';
 import 'instantsearch.css/themes/satellite.css';
-import { Breadcrumb, Configure, HitsPerPage, InstantSearch, Pagination, SearchBox, SortBy } from 'react-instantsearch';
-
-import { CustomHits } from './hits';
+import { Breadcrumb, Configure, Hits, HitsPerPage, InstantSearch, Pagination, SearchBox, SortBy } from 'react-instantsearch';
+import { Hit } from './hits';
 
 const searchClient = algoliasearch('73MWYYE2GK', '922d418699b5b6fc7c86e8acfcc060f9');
 
 export const Search = () => {
   return (
     <main className='container-fluid'>
-      <InstantSearch searchClient={searchClient} indexName='configurations' insights>
-        <Configure hitsPerPage={5} ruleContexts={[]} />
+      <InstantSearch searchClient={searchClient} indexName='configurations' insights routing>
+        <Configure ruleContexts={[]} />
         <div className='container mt-5'>
           <div className='row'>
             <div className='Search col'>
               <Breadcrumb attributes={['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1', 'hierarchicalCategories.lvl2']} />
               <SearchBox placeholder='Search' autoFocus />
-
               <div className='d-flex justify-content-end'>
                 <HitsPerPage
                   items={[
@@ -27,7 +25,7 @@ export const Search = () => {
                 />
                 <SortBy items={[{ label: 'Relevance', value: 'instant_search' }]} />
               </div>
-              <CustomHits />
+              <Hits hitComponent={Hit} />
               <Pagination className='Pagination' />
             </div>
           </div>

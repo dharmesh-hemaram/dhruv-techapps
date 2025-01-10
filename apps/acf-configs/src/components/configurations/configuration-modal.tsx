@@ -4,7 +4,6 @@ import { Button, Modal } from 'react-bootstrap';
 import JsonView from 'react18-json-view';
 import { ConfigType, getConfig } from '../../database';
 import { downloadFile } from '../../storage';
-import { onDownloadClick } from '../../util/common';
 
 export const ConfigurationModal = forwardRef<{ show: (configId: string) => void }>((_, ref) => {
   const [show, setShow] = useState(false);
@@ -58,7 +57,7 @@ export const ConfigurationModal = forwardRef<{ show: (configId: string) => void 
           )
         )}
       </Modal.Body>
-      <Modal.Footer>{file && configId && <Button onClick={() => onDownloadClick(file, configId)}>Download</Button>}</Modal.Footer>
+      <Modal.Footer>{file && configId && <Button onClick={console.log}>Download</Button>}</Modal.Footer>
     </Modal>
   );
 });

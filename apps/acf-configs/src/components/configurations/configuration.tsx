@@ -1,15 +1,16 @@
 import { Configuration as ConfigurationType } from '@dhruv-techapps/acf-common';
 import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import JsonView from 'react18-json-view';
 import 'react18-json-view/src/style.css';
 import { ConfigType, getConfig } from '../../database';
 import { downloadFile } from '../../storage';
-import { onDownloadClick } from '../../util/common';
+import { download } from '../../util/common';
 
 export const Configuration: React.FC<{ configId?: string }> = ({ configId }) => {
   let { id } = useParams();
+  let [searchParams] = useSearchParams();
   const [config, setConfig] = React.useState<ConfigType>();
   const [file, setFile] = React.useState<ConfigurationType>();
   const [loading, setLoading] = React.useState(true);
@@ -29,6 +30,12 @@ export const Configuration: React.FC<{ configId?: string }> = ({ configId }) => 
       });
     }
   }, [id]);
+
+  const onDownloadClick = () => {
+    if (file && id) {
+      download(file, id, searchParams.get('queryID'));
+    }
+  };
 
   if (!id) {
     return <h1>Configuration not found</h1>;
@@ -96,7 +103,7 @@ export const Configuration: React.FC<{ configId?: string }> = ({ configId }) => 
               {file && (
                 <>
                   <div className='d-flex justify-content-start my-2'>
-                    <Button variant='success' onClick={() => onDownloadClick(file, id)}>
+                    <Button variant='success' onClick={onDownloadClick}>
                       Download JSON
                     </Button>
                   </div>
