@@ -10,7 +10,7 @@ import { download } from '../../util/common';
 
 export const Configuration: React.FC<{ configId?: string }> = ({ configId }) => {
   let { id } = useParams();
-  let [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [config, setConfig] = React.useState<ConfigType>();
   const [file, setFile] = React.useState<ConfigurationType>();
   const [loading, setLoading] = React.useState(true);
