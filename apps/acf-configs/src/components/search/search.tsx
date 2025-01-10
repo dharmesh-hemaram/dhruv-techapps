@@ -3,7 +3,7 @@ import 'instantsearch.css/themes/satellite.css';
 import { Breadcrumb, Configure, Hits, HitsPerPage, InstantSearch, Pagination, SearchBox, SortBy } from 'react-instantsearch';
 import { Hit } from './hits';
 
-const searchClient = algoliasearch('73MWYYE2GK', '922d418699b5b6fc7c86e8acfcc060f9');
+const searchClient = algoliasearch(process.env['NX_ALGOLIA_APP_ID'] ?? '', process.env['NX_ALGOLIA_SEARCH_API_KEY'] ?? '');
 
 export const Search = () => {
   return (
