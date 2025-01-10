@@ -1,7 +1,7 @@
 import { Configuration } from '@dhruv-techapps/acf-common';
 import aa from 'search-insights';
 
-aa('init', { appId: process.env['NX_ALGOLIA_APP_ID'], apiKey: process.env['NX_ALGOLIA_SEARCH_API_KEY'] });
+aa('init', { appId: process.env.NX_PUBLIC_ALGOLIA_APP_ID, apiKey: process.env.NX_PUBLIC_ALGOLIA_SEARCH_API_KEY });
 
 export const download = (file: Configuration, name: string, queryID: string | null) => {
   queryID && aa('convertedObjectIDsAfterSearch', { userToken: aa('getUserToken') as string, index: 'configurations', objectIDs: [name], queryID, eventName: 'download' });
