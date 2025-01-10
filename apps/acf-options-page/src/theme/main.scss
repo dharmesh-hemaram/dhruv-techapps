@@ -1,8 +1,8 @@
-@import 'sidebar';
-@import 'configs';
-@import 'input';
-@import 'doc';
-@import 'subscription';
+@use 'sidebar';
+@use 'configs';
+@use 'input';
+@use 'doc';
+@use 'subscription';
 
 .btn {
   white-space: nowrap;

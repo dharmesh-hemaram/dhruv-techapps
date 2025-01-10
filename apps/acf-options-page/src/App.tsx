@@ -13,7 +13,7 @@ import { appSelector } from './store/app.slice';
 import { firebaseIsLoginAPI, firebaseSelector, profileGetAPI } from './store/firebase';
 
 function App() {
-  const { loading, error } = useAppSelector(appSelector);
+  const { loading, error, errorButton } = useAppSelector(appSelector);
   const [show, setShow] = useState(localStorage.getItem('login') !== 'true');
   const { user } = useAppSelector(firebaseSelector);
   const dispatch = useAppDispatch();
@@ -43,7 +43,7 @@ function App() {
           </Alert>
         )}
         {loading && <Loading message='Connecting with extension...' className='m-5 p-5' />}
-        <Configs error={error} />
+        <Configs error={error} errorButton={errorButton} />
         <ToastHandler />
         <BlogModal />
         <SubscribeModal />

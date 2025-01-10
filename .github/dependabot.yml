@@ -5,18 +5,6 @@ updates:
     schedule:
       interval: 'monthly'
     groups:
-      nx-dependencies:
-        patterns:
-          - "@nx*"
-      eslint-dependencies:
-        patterns:
-          - "eslint"
-      types-dependencies:
-        patterns:
-          - "types"
-      jest-dependencies:
-        patterns:
-          - "jest"
-      other-dependencies:
+      dependencies:
         patterns:
           - "*"

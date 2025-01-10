@@ -102,8 +102,8 @@ function Header() {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item as='li' className='col-6 col-lg-auto'>
-                <Nav.Link target='_blank' rel='noopener noreferrer' title='configuration' href={APP_LINK.CONFIGS}>
-                  {t('footer.configuration')}
+                <Nav.Link target='_blank' rel='noopener noreferrer' title='configuration' href={APP_LINK.CONFIGS} className='rainbow-text'>
+                  {t('footer.configuration')} (new)
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item as='li' className='col-6 col-lg-auto'>

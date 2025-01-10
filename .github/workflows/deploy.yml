@@ -163,18 +163,3 @@ jobs:
           skip_api_build: true
           output_location: '' # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
-
-  tag:
-    needs: [extension, web]
-    name: Create tag
-    runs-on: ubuntu-latest
-    environment: ${{inputs.environment}}
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set ${{vars.NX_PUBLIC_VARIANT}} Tag
-        uses: rickstaa/action-create-tag@v1
-        with:
-          force_push_tag: true
-          tag: '${{vars.NX_PUBLIC_VARIANT}}'

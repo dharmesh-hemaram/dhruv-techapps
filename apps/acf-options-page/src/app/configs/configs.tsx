@@ -1,8 +1,10 @@
 import { Configuration } from '@dhruv-techapps/acf-common';
+import { CHROME_WEB_STORE } from '@dhruv-techapps/ui';
 import { createRef, useEffect } from 'react';
 import { Alert, Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { download } from '../../_helpers';
+import { Ads } from '../../components';
 import { useAppDispatch } from '../../hooks';
 import { ConfigSettingsModal, RemoveConfigsModal, ReorderConfigsModal } from '../../modal';
 import { BatchModal } from '../../modal/config-batch.modal';
@@ -64,6 +66,18 @@ function Configs(props) {
 
   return (
     <Container fluid id='main'>
+      {props.error && (
+        <Alert variant='danger'>
+          <p className='m-0'>
+            {props.error}
+            {props.errorButton && (
+              <Alert.Link href={`${CHROME_WEB_STORE}${process.env.NX_PUBLIC_CHROME_EXTENSION_ID}`} target='_blank' className='ms-2'>
+                download
+              </Alert.Link>
+            )}
+          </p>
+        </Alert>
+      )}
       <Row>
         <Col lg='3' className='pt-3 d-none d-lg-block'>
           <ConfigSidebar importFiled={importFiled} onExportAll={onExportAll} />
@@ -72,12 +86,8 @@ function Configs(props) {
           <div>
             <ConfigDropdown importFiled={importFiled} onExportAll={onExportAll} />
             <main>
-              {props.error && (
-                <Alert variant='danger'>
-                  <p className='m-0'>{props.error}</p>
-                </Alert>
-              )}
               <Config />
+              <Ads />
               <Action />
               <Footer />
               <ConfigSettingsModal />

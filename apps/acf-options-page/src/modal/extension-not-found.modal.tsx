@@ -29,7 +29,7 @@ const ExtensionNotFoundModal = () => {
 
   return (
     <Modal show={extensionNotFound} size='lg' centered backdrop='static' keyboard={false} onHide={onHide} data-testid='extension-not-found-modal'>
-      <Modal.Header>
+      <Modal.Header closeButton>
         <Modal.Title>{t('modal.extensionNotFound.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body className='text-center'>

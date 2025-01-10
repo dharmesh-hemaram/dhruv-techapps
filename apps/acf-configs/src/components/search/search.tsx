@@ -1,26 +1,20 @@
 import { liteClient as algoliasearch } from 'algoliasearch/lite';
 import 'instantsearch.css/themes/satellite.css';
-import { useRef } from 'react';
-import { Breadcrumb, Configure, HitsPerPage, InstantSearch, Pagination, SearchBox, SortBy } from 'react-instantsearch';
+import { Breadcrumb, Configure, Hits, HitsPerPage, InstantSearch, Pagination, SearchBox, SortBy } from 'react-instantsearch';
+import { Hit } from './hits';
 
-import { ConfigurationModal } from '../configurations/configuration-modal';
-import { CustomHits } from './hits';
-
-const searchClient = algoliasearch('73MWYYE2GK', '922d418699b5b6fc7c86e8acfcc060f9');
+const searchClient = algoliasearch(process.env.NX_PUBLIC_ALGOLIA_APP_ID ?? '', process.env.NX_PUBLIC_ALGOLIA_SEARCH_API_KEY ?? '');
 
 export const Search = () => {
-  const modalRef = useRef(null);
-
   return (
     <main className='container-fluid'>
-      <InstantSearch searchClient={searchClient} indexName='configurations' insights>
-        <Configure hitsPerPage={5} ruleContexts={[]} />
+      <InstantSearch searchClient={searchClient} indexName='configurations' insights routing>
+        <Configure ruleContexts={[]} />
         <div className='container mt-5'>
           <div className='row'>
             <div className='Search col'>
               <Breadcrumb attributes={['hierarchicalCategories.lvl0', 'hierarchicalCategories.lvl1', 'hierarchicalCategories.lvl2']} />
               <SearchBox placeholder='Search' autoFocus />
-
               <div className='d-flex justify-content-end'>
                 <HitsPerPage
                   items={[
@@ -31,13 +25,12 @@ export const Search = () => {
                 />
                 <SortBy items={[{ label: 'Relevance', value: 'instant_search' }]} />
               </div>
-              <CustomHits modalRef={modalRef} />
+              <Hits hitComponent={Hit} />
               <Pagination className='Pagination' />
             </div>
           </div>
         </div>
       </InstantSearch>
-      <ConfigurationModal ref={modalRef} />
     </main>
   );
 };

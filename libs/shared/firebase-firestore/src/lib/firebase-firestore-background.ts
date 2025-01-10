@@ -1,6 +1,5 @@
 import { Auth, FirebaseOauth2Background, User } from '@dhruv-techapps/firebase-oauth';
-import { Firestore, addDoc, collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc, where } from 'firebase/firestore';
-import { SYNC_ALL_CONFIG_ALARM, SYNC_CONFIG_ALARM } from './firebase-firestore.constant';
+import { Firestore, Timestamp, addDoc, collection, doc, getDoc, getDocs, getFirestore, orderBy, query, setDoc, where } from 'firebase/firestore';
 import { ConfigRequest } from './firebase-firestore.types';
 
 export class FirebaseFirestoreBackground extends FirebaseOauth2Background {
@@ -123,19 +122,11 @@ export class FirebaseFirestoreBackground extends FirebaseOauth2Background {
   async setProfile(profile: boolean) {
     await this.auth.authStateReady();
     const docRef = doc(this.db, `users/${this.auth.currentUser?.uid}`);
-    const result = await setDoc(docRef, { publicProfile: profile }, { merge: true });
-    if (profile) {
-      const alarmInfo: chrome.alarms.AlarmCreateInfo = { when: Date.now() + 500 };
-      await chrome.alarms.create(SYNC_ALL_CONFIG_ALARM, { delayInMinutes: 1 });
-      await chrome.alarms.create(SYNC_CONFIG_ALARM, { ...alarmInfo, periodInMinutes: 1440 * 7 });
-    } else {
-      chrome.alarms.clear(SYNC_CONFIG_ALARM);
-      chrome.alarms.clear(SYNC_ALL_CONFIG_ALARM);
-    }
+    const result = await setDoc(docRef, { publicProfile: profile, userName: this.auth.currentUser?.displayName }, { merge: true });
     return result;
   }
 
-  async getProfile() {
+  async getProfile(): Promise<boolean> {
     await this.auth.authStateReady();
     const docRef = doc(this.db, `users/${this.auth.currentUser?.uid}`);
     const docSnap = await getDoc(docRef);
@@ -154,6 +145,12 @@ export class FirebaseFirestoreBackground extends FirebaseOauth2Background {
   async setConfig(config: ConfigRequest, id: string) {
     await this.auth.authStateReady();
     const docRef = doc(this.db, `configurations/${id}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      config.updated = Timestamp.fromDate(new Date());
+    } else {
+      config.created = Timestamp.fromDate(new Date());
+    }
     await setDoc(docRef, config, { merge: true });
   }
 }

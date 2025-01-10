@@ -1,20 +1,20 @@
 import { Configuration, LOCAL_STORAGE_KEY } from '@dhruv-techapps/acf-common';
-import { ConfigRequest, FirebaseFirestoreBackground, SYNC_ALL_CONFIG_ALARM, SYNC_CONFIG_ALARM } from '@dhruv-techapps/firebase-firestore';
+import { ConfigRequest, FirebaseFirestoreBackground } from '@dhruv-techapps/firebase-firestore';
 import { Auth } from '@dhruv-techapps/firebase-oauth';
 import { FirebaseStorageBackground } from '@dhruv-techapps/firebase-storage';
 import { EDGE_OAUTH_CLIENT_ID } from '../common/environments';
-import { auth } from './firebase';
 import { googleAnalytics } from './google-analytics';
 
-export const EVENTS_REGEX = new RegExp(
-  'scrollto|clickevents|mouseevents|touchevents|formevents|keyevents|tabs|keyboardevents|attr|class|copy|paste|windowcommand|locationcommand|func|replace|append|prepend|clipboard|GoogleSheets',
-  'i'
-);
+export const EVENTS_REGEX =
+  /scrollto|clickevents|mouseevents|touchevents|formevents|keyevents|tabs|keyboardevents|attr|class|copy|paste|windowcommand|locationcommand|func|replace|append|prepend|clipboard|GoogleSheets/i;
 
-export const VALUE_MATCHER = new RegExp('<batchRepeat>|<actionRepeat>|<sessionCount>|<random\\(([^)]+)\\)>|<queryParam::([^>]+)>|<api::([^>]+)>', 'i');
+export const VALUE_MATCHER = /<batchRepeat>|<actionRepeat>|<sessionCount>|<random\(([^)]+)\)>|<queryParam::([^>]+)>|<api::([^>]+)>/i;
+
+const TAGS_REGEX =
+  /Scrollto|ClickEvents|MouseEvents|TouchEvents|FormEvents|KeyEvents|Tabs|KeyboardEvents|Attr|Class|Copy|Paste|WindowCommand|LocationCommand|Func|Replace|Append|Prepend|Clipboard|GoogleSheets|BatchRepeat|ActionRepeat|SessionCount|Random|QueryParam|Api|Query/i;
 
 export class SyncConfig {
-  constructor(private auth: Auth) {}
+  constructor(private readonly auth: Auth) {}
 
   filterConfig(configs: Array<Configuration>, updated: boolean): Array<Configuration> {
     if (updated) {
@@ -96,6 +96,18 @@ export class SyncConfig {
     return new Blob([JSON.stringify(config)], { type: 'application/json;charset=utf-8;' });
   }
 
+  getTags(data: ConfigRequest, config: Configuration) {
+    data.tags = [
+      ...config.actions
+        .map((action) => action.value?.match(TAGS_REGEX))
+        .filter((match): match is RegExpMatchArray => match !== null)
+        .map((match) => match[0].toLowerCase()),
+    ];
+    if (config.actions.find((action) => action.addon)) {
+      data.tags.push('addon');
+    }
+  }
+
   async syncConfig(updated: boolean) {
     if (!this.auth.currentUser) {
       return;
@@ -105,15 +117,18 @@ export class SyncConfig {
       const storageResult = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
       const configs: Array<Configuration> = this.filterConfig(storageResult[LOCAL_STORAGE_KEY.CONFIGS] || [], updated);
       if (configs.length === 0) {
+        console.log('No configs to sync');
         return;
       }
       for (const config of configs) {
         try {
           // Update Database
-          const data: ConfigRequest = { url: config.url, userId: uid };
+          const data: ConfigRequest = { url: config.url, userId: uid, userName: this.auth.currentUser.displayName ?? '' };
           if (config.name) {
             data.name = config.name;
+            this.getTags(data, config);
           }
+          console.log(data);
           await new FirebaseFirestoreBackground(this.auth, EDGE_OAUTH_CLIENT_ID).setConfig(data, config.id);
           // Update Storage
           const blob = this.getBlob(config);
@@ -126,6 +141,7 @@ export class SyncConfig {
           }
         }
       }
+      console.log(`Synced ${configs.length} configs`);
       await this.reset();
     } catch (error) {
       if (error instanceof Error) {
@@ -136,13 +152,3 @@ export class SyncConfig {
     }
   }
 }
-
-auth.authStateReady().then(() => {
-  chrome.alarms.onAlarm.addListener(({ name }) => {
-    if (name === SYNC_CONFIG_ALARM) {
-      new SyncConfig(auth).syncConfig(true);
-    } else if (name === SYNC_ALL_CONFIG_ALARM) {
-      new SyncConfig(auth).syncConfig(false);
-    }
-  });
-});

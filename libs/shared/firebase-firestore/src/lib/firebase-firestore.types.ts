@@ -4,7 +4,11 @@ import * as FirebaseFirestore from 'firebase/firestore';
 export type ConfigRequest = {
   url: string;
   userId: string;
+  userName: string;
   name?: string;
+  tags?: string[];
+  created?: FirebaseFirestore.Timestamp;
+  updated?: FirebaseFirestore.Timestamp;
 };
 
 export interface CustomerData {

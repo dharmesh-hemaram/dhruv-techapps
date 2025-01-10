@@ -21,7 +21,7 @@ import AcfBackup from './acf-backup';
 import registerContextMenus from './context-menu';
 import { auth } from './firebase';
 import { googleAnalytics } from './google-analytics';
-import './sync-config';
+import { SyncConfig } from './sync-config';
 import { TabsMessenger } from './tab';
 
 self['XMLHttpRequest'] = XMLHttpRequest;
@@ -44,6 +44,31 @@ try {
     if (details.reason === 'install') {
       TabsMessenger.optionsTab({ url: OPTIONS_PAGE_URL });
     }
+  });
+
+  /**
+   * On startup check if user is logged in and sync config
+   * If user is not logged in then do nothing
+   * If user is logged in then sync config
+   * If user is logged in and last backup is more than 7 days then sync config
+   * Set last backup time in local storage
+   */
+  chrome.runtime.onStartup.addListener(() => {
+    auth.authStateReady().then(() => {
+      new FirebaseFirestoreBackground(auth).getProfile().then((profile) => {
+        if (profile) {
+          chrome.storage.local.get('last-backup', (result) => {
+            if (result['last-backup'] === undefined) {
+              new SyncConfig(auth).syncConfig(false);
+              chrome.storage.local.set({ 'last-backup': Date.now() });
+            } else if (Date.now() - result['last-backup'] > 604800000) {
+              new SyncConfig(auth).syncConfig(true);
+              chrome.storage.local.set({ 'last-backup': Date.now() });
+            }
+          });
+        }
+      });
+    });
   });
 
   /**
@@ -77,6 +102,13 @@ try {
   };
   Runtime.onMessageExternal(onMessageListener);
   Runtime.onMessage(onMessageListener);
+
+  auth.authStateReady().then(() => {
+    const clientId = auth.currentUser?.uid;
+    if (clientId) {
+      chrome.storage.local.set({ clientId });
+    }
+  });
 } catch (error) {
   if (error instanceof Error) {
     googleAnalytics?.fireErrorEvent({ name: error.name, error: error.message, additionalParams: { page: 'background' } });
@@ -91,4 +123,8 @@ addEventListener('unhandledrejection', async (event) => {
     googleAnalytics?.fireErrorEvent({ error: JSON.stringify(event.reason), additionalParams: { page: 'background' } });
   }
   console.error(event);
+});
+
+auth.authStateReady().then(() => {
+  new SyncConfig(auth).syncConfig(false);
 });

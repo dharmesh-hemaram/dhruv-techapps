@@ -75,6 +75,7 @@ export type Action = {
   status?: string;
   error?: string[];
   valueFieldType?: 'text' | 'textarea';
+  elementType?: string;
   selectors?: Array<Array<string>>;
 };
 

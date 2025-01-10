@@ -1,46 +1,35 @@
-import type { Hit as BasHit } from 'instantsearch.js';
-import type { MutableRefObject } from 'react';
-import { Highlight, useHits } from 'react-instantsearch';
+import { Hit as AlgoliaHit } from 'instantsearch.js';
+import { Highlight } from 'react-instantsearch';
+import { Link } from 'react-router-dom';
 
 type HitProps = {
-  hit: BasHit;
+  hit: AlgoliaHit<{
+    name: string;
+    url: string;
+    price: number;
+  }>;
 };
 
 export const Hit = ({ hit }: HitProps) => {
   return (
-    <article className='d-flex p-4 w-100 flex-column'>
-      <b className='hit-name'>
-        <Highlight attribute='name' hit={hit} />
-      </b>
-      <div className='hit-url'>
-        <Highlight attribute='url' hit={hit} />
-      </div>
-    </article>
-  );
-};
-
-export const CustomHits = ({ modalRef }: { modalRef: MutableRefObject<null | { show: (id: string) => void }> }) => {
-  const { items } = useHits();
-
-  //const navigate = useNavigate();
-  const onConfigClick = (hit: BasHit) => {
-    console.log('hit', hit);
-
-    modalRef.current?.show(hit.objectID);
-    //navigate(`/config/${hit.objectID}`);
-  };
-
-  return (
-    <div className='ais-Hits'>
-      <ol className='ais-Hits-list'>
-        {items.map((hit) => {
-          return (
-            <li className='ais-Hits-item' key={hit.objectID} onClick={() => onConfigClick(hit)}>
-              <Hit hit={hit} />
-            </li>
-          );
-        })}
-      </ol>
-    </div>
+    <Link
+      className='d-flex p-4 w-100 flex-column'
+      to={{
+        pathname: `/config/${hit.objectID}`,
+        search: `?queryID=${hit.__queryID}`,
+      }}
+    >
+      <article className='d-flex'>
+        <img src={`https://www.google.com/s2/favicons?sz=64&domain_url=${hit.url.split('/')[2]}`} alt={hit.name} width={'64px'} />
+        <div>
+          <h4 className='Hit-label'>
+            <Highlight attribute='name' hit={hit} />
+          </h4>
+          <p className='Hit-price'>
+            <Highlight attribute='url' hit={hit} />
+          </p>
+        </div>
+      </article>
+    </Link>
   );
 };
