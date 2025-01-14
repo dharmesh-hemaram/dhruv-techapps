@@ -21,7 +21,6 @@ export const SPONSORS = [
 
 export const NO_EXTENSION_ERROR = ['Could not establish connection. Receiving end does not exist.', "Cannot read properties of undefined (reading 'sendMessage')"];
 // Web store links
-export const EDGE_WEB_STORE = 'https://microsoftedge.microsoft.com/addons/detail/';
 export const CHROME_WEB_STORE = 'https://chrome.google.com/webstore/detail/';
 
 const message = encodeURIComponent('Fill input field or click button or link anything anywhere. easy configure in few steps and work like PRO #AutoClickerAutoFill');

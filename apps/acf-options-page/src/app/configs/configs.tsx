@@ -1,10 +1,10 @@
 import { Configuration } from '@dhruv-techapps/acf-common';
-import { CHROME_WEB_STORE } from '@dhruv-techapps/ui';
 import { createRef, useEffect } from 'react';
 import { Alert, Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { download } from '../../_helpers';
 import { Ads } from '../../components';
+import { CHROME_WEB_STORE } from '../../constants';
 import { useAppDispatch } from '../../hooks';
 import { ConfigSettingsModal, RemoveConfigsModal, ReorderConfigsModal } from '../../modal';
 import { BatchModal } from '../../modal/config-batch.modal';
