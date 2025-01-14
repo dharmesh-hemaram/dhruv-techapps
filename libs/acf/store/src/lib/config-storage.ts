@@ -37,6 +37,20 @@ export class ConfigStorage {
     return { autoConfig: undefined, manualConfigs: [] };
   }
 
+  //getConfigById
+  async getConfigById(id: string): Promise<Configuration | undefined> {
+    const storageResult = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
+    const configs: Array<Configuration> = storageResult['configs'] || [];
+    return configs.find((config) => config.id === id);
+  }
+
+  async getAllConfigs(url: string): Promise<Array<Configuration>> {
+    const storageResult = await chrome.storage.local.get(LOCAL_STORAGE_KEY.CONFIGS);
+    let configs: Array<Configuration> = storageResult['configs'] || [];
+    configs = configs.filter((config) => config.enable && config.url && this.urlMatcher(url, config.url));
+    return configs;
+  }
+
   urlMatcher(url: string, href: string) {
     return new RegExp(url).test(href) || href.indexOf(url) !== -1;
   }

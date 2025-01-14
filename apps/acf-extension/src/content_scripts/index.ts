@@ -1,4 +1,4 @@
-import { LOAD_TYPES } from '@dhruv-techapps/acf-common';
+import { LOAD_TYPES, RUNTIME_MESSAGE_ACF } from '@dhruv-techapps/acf-common';
 import { ConfigStorage, GetConfigResult, SettingsStorage } from '@dhruv-techapps/acf-store';
 import { Session } from '@dhruv-techapps/acf-util';
 import { Logger, LoggerColor } from '@dhruv-techapps/core-common';
@@ -61,4 +61,22 @@ addEventListener('unhandledrejection', (event) => {
     return;
   }
   GoogleAnalyticsService.fireErrorEvent('unhandledrejection', event.reason, { page: 'content_scripts' });
+});
+
+chrome.runtime.onMessage.addListener(async (message) => {
+  const { action, configId } = message;
+  if (action === RUNTIME_MESSAGE_ACF.RUN_CONFIG) {
+    try {
+      new ConfigStorage().getConfigById(configId).then(async (config) => {
+        Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, config?.url, 'START');
+        await ConfigProcessor.checkStartType([], config);
+        Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, config?.url, 'END');
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        statusBar.error(e.message);
+        GoogleAnalyticsService.fireErrorEvent(e.name, e.message, { page: 'content_scripts' });
+      }
+    }
+  }
 });
