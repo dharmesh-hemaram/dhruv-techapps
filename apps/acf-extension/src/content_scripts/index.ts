@@ -62,8 +62,12 @@ addEventListener('unhandledrejection', (event) => {
     window.location.reload();
     return;
   }
-  scope.captureException(event);
+  scope.captureException(event.reason);
 });
+
+self.onerror = (...rest) => {
+  scope.captureException({ ...rest }, { data: 'self.onerror' });
+};
 
 chrome.runtime.onMessage.addListener(async (message) => {
   const { action, configId } = message;
@@ -79,24 +83,6 @@ chrome.runtime.onMessage.addListener(async (message) => {
         statusBar.error(e.message);
       }
       scope.captureException(e);
-    }
-  }
-});
-
-chrome.runtime.onMessage.addListener(async (message) => {
-  const { action, configId } = message;
-  if (action === RUNTIME_MESSAGE_ACF.RUN_CONFIG) {
-    try {
-      new ConfigStorage().getConfigById(configId).then(async (config) => {
-        Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, config?.url, 'START');
-        await ConfigProcessor.checkStartType([], config);
-        Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, config?.url, 'END');
-      });
-    } catch (e) {
-      if (e instanceof Error) {
-        statusBar.error(e.message);
-        GoogleAnalyticsService.fireErrorEvent(e.name, e.message, { page: 'content_scripts' });
-      }
     }
   }
 });
