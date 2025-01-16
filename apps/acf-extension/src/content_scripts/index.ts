@@ -66,7 +66,7 @@ addEventListener('unhandledrejection', (event) => {
 });
 
 self.onerror = (...rest) => {
-  scope.captureException({ ...rest }, { data: 'self.onerror' });
+  scope.captureException({ ...rest });
 };
 
 chrome.runtime.onMessage.addListener(async (message) => {
