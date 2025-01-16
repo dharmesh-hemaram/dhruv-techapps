@@ -97,12 +97,7 @@ export class SyncConfig {
   }
 
   getTags(data: ConfigRequest, config: Configuration) {
-    data.tags = [
-      ...config.actions
-        .map((action) => action.value?.match(TAGS_REGEX))
-        .filter((match): match is RegExpMatchArray => match !== null)
-        .map((match) => match[0].toLowerCase()),
-    ];
+    data.tags = Array.from(new Set(config.actions.map((action) => action.value?.match(TAGS_REGEX)?.[0].toLowerCase()).filter((value): value is string => !!value)));
     if (config.actions.find((action) => action.addon)) {
       data.tags.push('addon');
     }
