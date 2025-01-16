@@ -82,3 +82,21 @@ chrome.runtime.onMessage.addListener(async (message) => {
     }
   }
 });
+
+chrome.runtime.onMessage.addListener(async (message) => {
+  const { action, configId } = message;
+  if (action === RUNTIME_MESSAGE_ACF.RUN_CONFIG) {
+    try {
+      new ConfigStorage().getConfigById(configId).then(async (config) => {
+        Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, config?.url, 'START');
+        await ConfigProcessor.checkStartType([], config);
+        Logger.color(chrome.runtime.getManifest().name, undefined, LoggerColor.PRIMARY, config?.url, 'END');
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        statusBar.error(e.message);
+        GoogleAnalyticsService.fireErrorEvent(e.name, e.message, { page: 'content_scripts' });
+      }
+    }
+  }
+});
