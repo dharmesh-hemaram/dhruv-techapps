@@ -14,6 +14,13 @@ const client = new BrowserClient({
   stackParser: defaultStackParser,
   integrations: integrations,
   release: `acf-extension@${RELEASE_VERSION?.replace('v', '')}`,
+  beforeSend: (event) => {
+    // add custom data to the event
+    if (RELEASE_VERSION === 'v9.9.9') {
+      console.log(event);
+    }
+    return event;
+  },
 });
 scope.setClient(client);
 client.init(); // initializing has to be done after setting the client on the scope

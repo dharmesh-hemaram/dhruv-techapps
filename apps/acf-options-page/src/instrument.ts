@@ -6,7 +6,10 @@ Sentry.init({
   release: `acf-options-page@${process.env.NX_PUBLIC_RELEASE_VERSION?.replace('v', '')}`,
   integrations: [],
   beforeSend: (event) => {
-    console.log('Sentry Event:', event);
+    // add custom data to the event
+    if (process.env.NX_PUBLIC_RELEASE_VERSION === 'v9.9.9') {
+      console.log(event);
+    }
     return event;
   },
 });

@@ -78,8 +78,6 @@ const Actions = (() => {
       // Increment
       i += 1;
     }
-
-    throw new Error('Method not implemented.');
   };
   return { start };
 })();
