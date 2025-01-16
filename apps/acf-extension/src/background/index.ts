@@ -121,6 +121,6 @@ self.onunhandledrejection = async (event) => {
   scope.captureException(event.reason);
 };
 
-self.onerror = async (event) => {
-  scope.captureException(event);
+self.onerror = async (...rest) => {
+  scope.captureException({ ...rest });
 };
