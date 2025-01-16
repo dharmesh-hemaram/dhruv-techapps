@@ -39,6 +39,7 @@ const registerConfigsContextMenus = () => {
               });
             });
           } else if (contextMenuExist) {
+            contextMenuExist = false;
             chrome.contextMenus.remove('configs-list-separator');
             chrome.contextMenus.remove('configs-list');
           }
