@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 import { Alert, Col, Container, Row } from 'react-bootstrap';
 
-export function ErrorAlert({ heading = 'Error', error }) {
+type ErrorAlertProps = {
+  heading?: string;
+  error?: string;
+};
+
+export const ErrorAlert: FC<ErrorAlertProps> = ({ heading = 'Error', error }) => {
   if (!error) {
     return null;
   }
@@ -20,11 +25,4 @@ export function ErrorAlert({ heading = 'Error', error }) {
       </Row>
     </Container>
   );
-}
-ErrorAlert.defaultProps = {
-  heading: 'Error',
-};
-ErrorAlert.propTypes = {
-  heading: PropTypes.string,
-  error: PropTypes.oneOfType([PropTypes.shape({ message: PropTypes.string.isRequired }).isRequired, PropTypes.string.isRequired]),
 };

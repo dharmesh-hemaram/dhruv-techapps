@@ -15,11 +15,11 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
       sentryWebpackPlugin({
         org: 'dhruv-techapps',
         project: 'acf-options-page',
-        telemetry: false,
         authToken: process.env.SENTRY_AUTH_TOKEN,
         release: {
           name: process.env.NX_PUBLIC_RELEASE_VERSION?.replace('v', ''),
         },
+        reactComponentAnnotation: { enabled: true },
         bundleSizeOptimizations: {
           excludeDebugStatements: true,
           // Only relevant if you added `browserTracingIntegration`

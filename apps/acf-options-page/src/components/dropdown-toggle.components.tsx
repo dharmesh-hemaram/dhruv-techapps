@@ -1,5 +1,4 @@
 import React, { PropsWithChildren } from 'react';
-import PropTypes from 'prop-types';
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu
 
@@ -22,11 +21,3 @@ export const DropdownToggle = React.forwardRef<DropdownToggleRef, DropdownToggle
     </button>
   );
 });
-DropdownToggle.displayName = 'DropdownToggle';
-DropdownToggle.defaultProps = {
-  className: '',
-};
-DropdownToggle.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  className: PropTypes.string,
-};

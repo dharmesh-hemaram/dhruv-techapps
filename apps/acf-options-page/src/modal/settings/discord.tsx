@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { Button, Form, Image } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -6,7 +5,13 @@ import { firebaseSelector, switchFirebaseLoginModal } from '../../store/firebase
 import { settingsSelector } from '../../store/settings';
 import { discordDeleteAPI, discordGetAPI, discordLoginAPI } from '../../store/settings/settings.api';
 
-function SettingDiscord({ onChange, label, checked }) {
+type SettingDiscordProps = {
+  checked: boolean;
+  label: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+};
+
+function SettingDiscord({ onChange, label, checked }: SettingDiscordProps) {
   const { discord } = useAppSelector(settingsSelector);
   const { user } = useAppSelector(firebaseSelector);
   const dispatch = useAppDispatch();
@@ -71,9 +76,5 @@ function SettingDiscord({ onChange, label, checked }) {
 }
 
 SettingDiscord.displayName = 'SettingDiscord';
-SettingDiscord.propTypes = {
-  checked: PropTypes.bool.isRequired,
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+
 export { SettingDiscord };

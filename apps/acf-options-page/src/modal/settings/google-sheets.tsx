@@ -1,9 +1,7 @@
-import { Alert, Button } from 'react-bootstrap';
-
 import { GOOGLE_SCOPES } from '@dhruv-techapps/google-oauth';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-
 import { useEffect } from 'react';
+import { Alert, Button } from 'react-bootstrap';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { firebaseSelector, switchFirebaseLoginModal } from '../../store/firebase';
 import { googleHasAccessAPI, googleLoginAPI, googleSelector } from '../../store/google';
 
@@ -62,5 +60,4 @@ function SettingGoogleSheets() {
 }
 
 SettingGoogleSheets.displayName = 'SettingGoogleSheets';
-SettingGoogleSheets.propTypes = {};
 export { SettingGoogleSheets };

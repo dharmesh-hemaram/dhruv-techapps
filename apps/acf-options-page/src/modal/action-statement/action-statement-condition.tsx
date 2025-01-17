@@ -1,18 +1,17 @@
-import { ChangeEvent } from 'react';
-import PropTypes from 'prop-types';
-import { Button, ButtonGroup, Form } from 'react-bootstrap';
 import { ACTION_CONDITION_OPR, ACTION_STATUS, ActionCondition } from '@dhruv-techapps/acf-common';
-import { X } from '../../util';
-import { getFieldNameValue } from '../../util/element';
+import { ChangeEvent } from 'react';
+import { Button, ButtonGroup, Form } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { removeActionStatementCondition, selectedConfigSelector, updateActionStatementCondition } from '../../store/config';
+import { X } from '../../util';
+import { getFieldNameValue } from '../../util/element';
 
-type Props = {
+type ActionStatementConditionProps = {
   condition: ActionCondition;
   index: number;
 };
 
-function ActionStatementCondition({ condition, index }: Props) {
+function ActionStatementCondition({ condition, index }: ActionStatementConditionProps) {
   const { actionIndex, status, operator = ACTION_CONDITION_OPR.AND } = condition;
   const config = useAppSelector(selectedConfigSelector);
 
@@ -81,12 +80,4 @@ function ActionStatementCondition({ condition, index }: Props) {
   );
 }
 
-ActionStatementCondition.propTypes = {
-  condition: PropTypes.shape({
-    actionIndex: PropTypes.number,
-    operator: PropTypes.string,
-    status: PropTypes.string,
-  }).isRequired,
-  index: PropTypes.number.isRequired,
-};
 export { ActionStatementCondition };

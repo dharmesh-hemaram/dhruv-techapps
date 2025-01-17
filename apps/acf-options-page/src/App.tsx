@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-bootstrap';
 import ConfirmationModalContextProvider from './_providers/confirm.provider';
@@ -20,6 +21,12 @@ function App() {
   useEffect(() => {
     dispatch(getManifest());
     dispatch(firebaseIsLoginAPI());
+    Sentry.setContext('screen_resolution', {
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+      outerWidth: window.outerWidth,
+      outerHeight: window.outerHeight,
+    });
   }, [dispatch]);
 
   useEffect(() => {
