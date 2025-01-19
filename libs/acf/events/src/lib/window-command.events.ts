@@ -52,7 +52,7 @@ export const WindowCommandEvents = (() => {
   };
   const start = (value: string) => {
     const commands = CommonEvents.getVerifiedEvents(WINDOW_COMMANDS, value);
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, commands, value);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, commands, value);
     execCommand(commands, value);
   };
   return { start };

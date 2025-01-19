@@ -1,6 +1,7 @@
 import { generateUUID, RANDOM_UUID } from '@dhruv-techapps/core-common';
 
 import { Addon } from './addon-model';
+import { GOTO } from './common-model';
 import { RETRY_OPTIONS } from './setting-model';
 
 // Action Condition
@@ -40,7 +41,7 @@ export const getDefaultActionCondition = (operator?: ACTION_CONDITION_OPR): Acti
 export type ActionStatement = {
   conditions: Array<ActionCondition>;
   then: ACTION_RUNNING;
-  goto?: number;
+  goto?: GOTO;
 };
 
 export const getDefaultActionStatement = (operator?: ACTION_CONDITION_OPR): ActionStatement => ({
@@ -54,7 +55,7 @@ export type ActionSettings = {
   retry?: number;
   retryInterval?: number | string;
   retryOption?: RETRY_OPTIONS;
-  retryGoto?: number;
+  retryGoto?: GOTO;
 };
 
 export const defaultActionSettings = {};

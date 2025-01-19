@@ -95,6 +95,18 @@
   "@ERROR__NOT_FOUND_RELOAD": {
     "message": "Not Found - RELOAD"
   },
+  "@ERROR__ACTION_NOT_FOUND_FOR_GOTO": {
+    "message": "Action not found for Goto"
+  },
+  "@ERROR__NO_ELEMENT_FOUND": {
+    "message": "No element found with the given selector"
+  },
+  "@CONDITION_SATISFIED": {
+    "message": "Condition Satisfied"
+  },
+  "@CONDITION_NOT_SATISFIED": {
+    "message": "Condition Not Satisfied"
+  },
   "@ERROR": {
     "message": "Error"
   },

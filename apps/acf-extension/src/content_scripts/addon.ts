@@ -1,4 +1,4 @@
-import { ADDON_CONDITIONS, ActionSettings, Addon, RECHECK_OPTIONS, ValueExtractorFlags } from '@dhruv-techapps/acf-common';
+import { ACTION_STATUS, ADDON_CONDITIONS, ActionSettings, Addon, RECHECK_OPTIONS } from '@dhruv-techapps/acf-common';
 import { ConfigError, SystemError } from '@dhruv-techapps/core-common';
 import { GoogleAnalyticsService } from '@dhruv-techapps/google-analytics';
 import { Sandbox } from '@dhruv-techapps/sandbox';
@@ -16,7 +16,7 @@ const ADDON_I18N = {
 type AddonType = { nodeValue: string | boolean } & Addon;
 
 const AddonProcessor = (() => {
-  const recheckFunc = async ({ nodeValue, elementFinder, value, condition, recheck, recheckOption, ...props }: AddonType, settings?: ActionSettings): Promise<number | boolean> => {
+  const recheckFunc = async ({ nodeValue, elementFinder, value, condition, recheck, recheckOption, ...props }: AddonType, settings?: ActionSettings): Promise<void> => {
     if (recheck !== undefined) {
       if (recheck > 0 || recheck < -1) {
         recheck -= 1;
@@ -25,8 +25,7 @@ const AddonProcessor = (() => {
         return await start({ elementFinder, value, condition, recheck, recheckOption, ...props }, settings);
       }
     }
-    // eslint-disable-next-line no-console
-    console.table([{ elementFinder, value, condition, nodeValue }]);
+    window.__actionError = `${ADDON_I18N.TITLE} ${I18N_COMMON.COMPARE} '${nodeValue}' ${condition} '${value}'. ${I18N_COMMON.RESULT}: ${I18N_COMMON.CONDITION_NOT_SATISFIED}`;
     if (recheckOption === RECHECK_OPTIONS.RELOAD) {
       if (document.readyState === 'complete') {
         window.location.reload();
@@ -38,13 +37,12 @@ const AddonProcessor = (() => {
     } else if (recheckOption === RECHECK_OPTIONS.STOP) {
       throw new ConfigError(`'${nodeValue}' ${condition} '${value}'`, I18N_ERROR.NO_MATCH);
     } else if (recheckOption === RECHECK_OPTIONS.GOTO && props.recheckGoto !== undefined) {
-      return props.recheckGoto;
+      throw props.recheckGoto;
     }
-    console.debug(I18N_COMMON.RECHECK_OPTION, recheckOption);
-    return false;
+    throw ACTION_STATUS.SKIPPED;
   };
 
-  const extractValue = (element: HTMLElement, value: string, valueExtractor?: string, valueExtractorFlags?: ValueExtractorFlags): string => {
+  const extractValue = (element: HTMLElement, value: string, valueExtractor?: string, valueExtractorFlags?: string): string => {
     if (!valueExtractor) {
       return value;
     }
@@ -55,7 +53,7 @@ const AddonProcessor = (() => {
     return matches?.join('') || value;
   };
 
-  const getNodeValue = (elements: Array<HTMLElement>, valueExtractor?: string, valueExtractorFlags?: ValueExtractorFlags): string | boolean => {
+  const getNodeValue = (elements: Array<HTMLElement>, valueExtractor?: string, valueExtractorFlags?: string): string | boolean => {
     const element = elements[0];
     let value: string | boolean;
     if (element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) {
@@ -68,7 +66,7 @@ const AddonProcessor = (() => {
       }
     } else if (element.isContentEditable) {
       GoogleAnalyticsService.fireEvent('isContentEditable', { event: 'Addon' });
-      value = element.textContent || element.innerText;
+      value = element.textContent ?? element.innerText;
     } else {
       value = element.innerText;
     }
@@ -78,8 +76,7 @@ const AddonProcessor = (() => {
     return value;
   };
 
-  const compare = (nodeValue: string | boolean, condition: ADDON_CONDITIONS, value: string) => {
-    console.debug(I18N_COMMON.COMPARE, nodeValue, condition, value);
+  const compare = (nodeValue: string | boolean, condition: ADDON_CONDITIONS, value: string): boolean => {
     if (/than/gi.test(condition) && (Number.isNaN(Number(nodeValue)) || Number.isNaN(Number(value)))) {
       throw new ConfigError(`${I18N_ERROR.WRONG_DESCRIPTION}'${nodeValue}' '${value}'`, I18N_ERROR.WRONG_TITLE);
     }
@@ -116,44 +113,35 @@ const AddonProcessor = (() => {
     }
   };
 
-  const start = async ({ elementFinder, value, condition, valueExtractor, valueExtractorFlags, ...props }: Addon, settings?: ActionSettings) => {
-    try {
-      statusBar.addonUpdate();
-      let nodeValue;
-      if (/^Func::/gi.test(elementFinder)) {
-        nodeValue = await Sandbox.sandboxEval(elementFinder.replace(/^Func::/gi, ''));
-      } else {
-        elementFinder = await ACFValue.getValue(elementFinder);
-        const elements = await Common.start(elementFinder, settings);
-        if (typeof elements === 'number') {
-          return elements;
-        }
-        if (elements) {
-          nodeValue = getNodeValue(elements, valueExtractor, valueExtractorFlags);
-        }
+  const start = async ({ elementFinder, value, condition, valueExtractor, valueExtractorFlags, ...props }: Addon, settings?: ActionSettings): Promise<void> => {
+    statusBar.addonUpdate();
+    let nodeValue;
+    if (/^Func::/gi.test(elementFinder)) {
+      nodeValue = await Sandbox.sandboxEval(elementFinder.replace(/^Func::/gi, ''));
+    } else {
+      elementFinder = await ACFValue.getValue(elementFinder);
+      const elements = await Common.start(elementFinder, settings);
+      if (elements) {
+        nodeValue = getNodeValue(elements, valueExtractor, valueExtractorFlags);
       }
-      if (nodeValue !== undefined) {
-        let result: boolean | number = compare(nodeValue, condition, value);
-        if (!result) {
-          result = await recheckFunc({ nodeValue, elementFinder, value, condition, valueExtractor, valueExtractorFlags, ...props }, settings);
-        }
-        console.debug(`${ADDON_I18N.TITLE} ${I18N_COMMON.RESULT}`, result);
-        console.groupEnd();
-        return result;
-      }
-      console.groupEnd();
-      return false;
-    } catch (error) {
-      console.groupEnd();
-      throw error;
     }
+    if (nodeValue !== undefined) {
+      const result: boolean = compare(nodeValue, condition, value);
+      if (!result) {
+        await recheckFunc({ nodeValue, elementFinder, value, condition, valueExtractor, valueExtractorFlags, ...props }, settings);
+      }
+      console.debug(
+        `${ADDON_I18N.TITLE} #${window.__currentAction} [${window.__currentActionName}]`,
+        `${I18N_COMMON.COMPARE} '${nodeValue}' ${condition} '${value}'. ${I18N_COMMON.RESULT}: ${I18N_COMMON.CONDITION_SATISFIED}`
+      );
+    }
+    throw ACTION_STATUS.SKIPPED;
   };
   const check = async (addon?: Addon, actionSettings?: ActionSettings) => {
     if (addon) {
       let { value } = addon;
       const { elementFinder, condition, ...props } = addon;
       if (elementFinder && value && condition) {
-        console.groupCollapsed(ADDON_I18N.TITLE);
         value = await ACFValue.getValue(value);
         return await start({ ...props, elementFinder, value, condition }, actionSettings);
       }

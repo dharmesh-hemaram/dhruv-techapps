@@ -44,7 +44,7 @@ export const ConfigDropdown = (props) => {
               <Form.Select onChange={onChange} value={selectedConfigId} id='configuration-list' className='ps-4 border-0' data-type='number'>
                 {configs.map((config) => (
                   <option key={config.id} value={config.id} className={!config.enable ? 'bg-secondary' : ''} style={style}>
-                    {`(${config.name || 'configuration - ' + config.id})`} {config.url}
+                    {`(${config.name ?? 'configuration - ' + config.id})`} {config.url}
                   </option>
                 ))}
               </Form.Select>

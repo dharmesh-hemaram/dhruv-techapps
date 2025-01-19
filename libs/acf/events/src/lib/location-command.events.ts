@@ -62,7 +62,7 @@ export const LocationCommandEvents = (() => {
 
   const start = (value: string) => {
     const commands = CommonEvents.getVerifiedEvents(LOCATION_COMMANDS, value);
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, commands);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, commands);
     execCommand(commands, value);
   };
   return { start };

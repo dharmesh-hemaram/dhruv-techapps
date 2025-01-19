@@ -13,6 +13,7 @@ const client = new BrowserClient({
   transport: makeFetchTransport,
   stackParser: defaultStackParser,
   integrations: integrations,
+  ignoreErrors: ['The browser is shutting down.', 'Extension context invalidated.', 'Could not establish connection. Receiving end does not exist.', 'Non-Error promise rejection captured'],
   release: `acf-extension@${RELEASE_VERSION?.replace('v', '')}`,
   beforeSend: (event) => {
     // add custom data to the event

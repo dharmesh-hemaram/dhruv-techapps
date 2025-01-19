@@ -27,7 +27,7 @@ export const ReplaceEvents = (() => {
 
   const start = (elements: Array<HTMLElement>, value: string) => {
     value = value.replace(/^replace::/i, '');
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements, value);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements, value);
     CommonEvents.loopElements(elements, value, checkNode);
   };
 

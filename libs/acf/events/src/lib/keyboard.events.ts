@@ -54,7 +54,7 @@ export const KeyboardEvents = (() => {
 
   const start = (elements: Array<HTMLElement>, event: string) => {
     const events = getVerifiedEvents(event);
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements, events);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements, events);
     CommonEvents.loopElements(elements, events, dispatchEvent);
   };
   return { start };

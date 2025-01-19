@@ -1,3 +1,5 @@
+import { GOTO } from './common-model';
+
 export enum ADDON_CONDITIONS {
   '~~ Select Condition ~~' = '',
   '= Equals' = 'Equals',
@@ -19,18 +21,16 @@ export enum RECHECK_OPTIONS {
   GOTO = 'goto',
 }
 
-export type ValueExtractorFlags = string;
-
 export type Addon = {
   elementFinder: string;
   value: string;
   condition: ADDON_CONDITIONS;
   valueExtractor?: string;
-  valueExtractorFlags?: ValueExtractorFlags;
+  valueExtractorFlags?: string;
   recheck?: number;
   recheckInterval?: number | string;
   recheckOption: RECHECK_OPTIONS;
-  recheckGoto?: number;
+  recheckGoto?: GOTO;
 };
 
 export const defaultAddon: Addon = {

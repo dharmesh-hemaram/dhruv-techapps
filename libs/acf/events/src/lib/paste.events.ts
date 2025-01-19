@@ -30,7 +30,7 @@ export const PasteEvents = (() => {
     const copyContent = localStorage.getItem(LOCAL_STORAGE_COPY);
     value = value.replace(/paste::/i, '');
     value = await Sandbox.sandboxEval(value, copyContent);
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements, copyContent, value);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements, copyContent, value);
     CommonEvents.loopElements(elements, value, checkNode);
     return true;
   };

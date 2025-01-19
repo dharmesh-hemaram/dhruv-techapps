@@ -118,9 +118,9 @@ try {
 }
 
 self.onunhandledrejection = async (event) => {
-  scope.captureException(event.reason);
+  scope.captureException(event.reason, { captureContext: { tags: { errorType: 'onunhandledrejection' } } });
 };
 
 self.onerror = async (...rest) => {
-  scope.captureException({ ...rest });
+  scope.captureException({ ...rest }, { captureContext: { tags: { errorType: 'onerror' } } });
 };

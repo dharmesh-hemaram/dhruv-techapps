@@ -27,7 +27,7 @@ export const FuncEvents = (() => {
 
   const start = async (elements: Array<HTMLElement>, value: string) => {
     value = value.replace(/func::/i, '');
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements, value);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements, value);
     value = await Sandbox.sandboxEval(value);
     CommonEvents.loopElements(elements, value, checkNode);
     return true;

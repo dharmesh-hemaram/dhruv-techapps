@@ -1,6 +1,6 @@
-import { ActionSettings, RETRY_OPTIONS } from '@dhruv-techapps/acf-common';
+import { ActionSettings, GOTO, RETRY_OPTIONS } from '@dhruv-techapps/acf-common';
 import { SettingsStorage } from '@dhruv-techapps/acf-store';
-import { ConfigError, Logger } from '@dhruv-techapps/core-common';
+import { ConfigError } from '@dhruv-techapps/core-common';
 import { I18N_ERROR } from './i18n';
 import { statusBar } from './status-bar';
 
@@ -23,7 +23,9 @@ const Common = (() => {
         elements = element ? [element] : undefined;
       } else if (/^Selector::/gi.test(elementFinder)) {
         const element = document.querySelector<HTMLElement>(elementFinder.replace(/^Selector::/gi, ''));
-        if (!element) {
+        if (element) {
+          elements = [element];
+        } else {
           const shadowHosts = document.querySelectorAll('*');
           for (const shadowHost of shadowHosts) {
             if (shadowHost.shadowRoot) {
@@ -35,7 +37,6 @@ const Common = (() => {
             }
           }
         }
-        elements = element ? [element] : undefined;
       } else if (/^ClassName::/gi.test(elementFinder)) {
         const classElements = document.getElementsByClassName(elementFinder.replace(/^ClassName::/gi, '')) as HTMLCollectionOf<HTMLElement>;
         elements = classElements.length !== 0 ? Array.from(classElements) : undefined;
@@ -77,12 +78,12 @@ const Common = (() => {
 
   const main = async (elementFinder: string, retry: number, retryInterval: number | string) => await getElements(document, elementFinder, retry, retryInterval);
 
-  const checkIframe = async (elementFinder: string, retry: number, retryInterval: number | string) => {
+  const checkIframe = async (elementFinder: string, retry: number, retryInterval: number | string): Promise<HTMLElement[] | undefined> => {
     const iFrames = document.getElementsByTagName('iframe');
     let elements;
-    for (let index = 0; index < iFrames.length; index += 1) {
-      if (!iFrames[index].src || iFrames[index].src === 'about:blank') {
-        const { contentDocument } = iFrames[index];
+    for (const iFrame of iFrames) {
+      if (!iFrame.src || iFrame.src === 'about:blank') {
+        const { contentDocument } = iFrame;
         if (contentDocument) {
           elements = await getElements(contentDocument, elementFinder, retry, retryInterval);
           if (elements) {
@@ -94,7 +95,7 @@ const Common = (() => {
     return elements;
   };
 
-  const checkRetryOption = (retryOption: RETRY_OPTIONS, elementFinder: string, retryGoto?: number) => {
+  const checkRetryOption = (retryOption: RETRY_OPTIONS, elementFinder: string, retryGoto?: GOTO): void => {
     if (retryOption === RETRY_OPTIONS.RELOAD) {
       if (document.readyState === 'complete') {
         window.location.reload();
@@ -105,17 +106,15 @@ const Common = (() => {
     } else if (retryOption === RETRY_OPTIONS.STOP) {
       throw new ConfigError(`elementFinder: ${elementFinder}`, I18N_ERROR.NOT_FOUND_STOP);
     } else if (retryOption === RETRY_OPTIONS.GOTO) {
-      console.groupEnd();
-      return retryGoto;
+      throw retryGoto;
     }
-    Logger.colorInfo('RetryOption', retryOption);
   };
 
   const start = async (elementFinder: string, settings?: ActionSettings) => {
     if (!elementFinder) {
       throw new ConfigError(I18N_ERROR.ELEMENT_FINDER_BLANK, 'Element Finder');
     }
-
+    window.__actionError = I18N_ERROR.NO_ELEMENT_FOUND;
     const { retryOption, retryInterval, retry, checkiFrames, iframeFirst, retryGoto } = { ...(await new SettingsStorage().getSettings()), ...settings };
     let elements: HTMLElement[] | undefined;
     if (iframeFirst) {

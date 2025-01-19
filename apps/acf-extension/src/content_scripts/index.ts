@@ -12,6 +12,8 @@ scope.setTag('page', 'content-script');
 declare global {
   interface Window {
     __currentAction: number;
+    __currentActionName: string;
+    __actionError: string;
     __actionRepeat: number;
     __batchRepeat: number;
     __sessionCount: number;
@@ -62,11 +64,11 @@ addEventListener('unhandledrejection', (event) => {
     window.location.reload();
     return;
   }
-  scope.captureException(event.reason);
+  scope.captureException(event.reason, { captureContext: { tags: { errorType: 'unhandledrejection' } } });
 });
 
 self.onerror = (...rest) => {
-  scope.captureException({ ...rest });
+  scope.captureException({ ...rest }, { captureContext: { tags: { errorType: 'onerror' } } });
 };
 
 chrome.runtime.onMessage.addListener(async (message) => {

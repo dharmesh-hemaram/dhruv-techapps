@@ -1,8 +1,8 @@
-import { ACTION_CONDITION_OPR, ACTION_RUNNING, ActionCondition, ActionStatement } from '@dhruv-techapps/acf-common';
+import { ACTION_CONDITION_OPR, ACTION_RUNNING, ActionCondition, ActionStatement, GOTO } from '@dhruv-techapps/acf-common';
+import { I18N_COMMON } from './i18n';
 
 const Statement = (() => {
   const conditionResult = (conditions: Array<ActionCondition>, actions: Array<string>) => {
-    console.debug('Condition Result', { conditions, actions });
     return conditions
       .map(({ actionIndex, status, operator }) => ({ status: actions[actionIndex] === status, operator }))
       .reduce((accumulator, currentValue) => {
@@ -13,32 +13,22 @@ const Statement = (() => {
       }, false);
   };
 
-  const checkThen = (condition: boolean | { status: boolean; operator: ACTION_CONDITION_OPR }, then: ACTION_RUNNING, goto?: number) => {
-    console.debug('Check Then', { condition, then, goto });
-    let result;
-    if (condition) {
-      if (then === ACTION_RUNNING.GOTO) {
-        result = goto;
-      } else {
-        result = then === ACTION_RUNNING.PROCEED;
-      }
-    } else {
-      result = then !== ACTION_RUNNING.PROCEED;
+  const checkThen = (condition: boolean | { status: boolean; operator: ACTION_CONDITION_OPR }, then: ACTION_RUNNING, goto?: GOTO) => {
+    window.__actionError = `↔️ ${chrome.i18n.getMessage('@ACTION__TITLE')} ${condition ? I18N_COMMON.CONDITION_SATISFIED : I18N_COMMON.CONDITION_NOT_SATISFIED}`;
+    if (!condition || then === ACTION_RUNNING.SKIP) {
+      throw ACTION_RUNNING.SKIP;
+    } else if (then === ACTION_RUNNING.GOTO) {
+      throw goto;
     }
-    return result;
   };
 
-  const check = async (actions: Array<string>, statement?: ActionStatement) => {
+  const check = (actions: Array<string>, statement?: ActionStatement) => {
     if (statement) {
       const { conditions, then, goto } = statement;
       if (conditions && then) {
-        const result = checkThen(conditionResult(conditions, actions), then, goto);
-        console.debug('Statement Result', result);
-        return result;
+        checkThen(conditionResult(conditions, actions), then, goto);
       }
     }
-
-    return true;
   };
 
   return { check };

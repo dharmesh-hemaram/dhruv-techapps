@@ -1,6 +1,6 @@
-import { ACTION_RUNNING, ActionCondition, ActionStatement, getDefaultActionStatement } from '@dhruv-techapps/acf-common';
+import { ACTION_RUNNING, ActionCondition, ActionStatement, getDefaultActionStatement, GOTO } from '@dhruv-techapps/acf-common';
 import { RANDOM_UUID } from '@dhruv-techapps/core-common';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Sentry from '@sentry/react';
 import { RootState } from '../../../../store';
 import { openActionStatementModalAPI } from './statement.api';
@@ -45,11 +45,8 @@ const slice = createSlice({
     },
     updateActionStatementThen: (state, action: PayloadAction<ACTION_RUNNING>) => {
       state.statement.then = action.payload;
-      if (action.payload === ACTION_RUNNING.GOTO) {
-        state.statement.goto = 0;
-      }
     },
-    updateActionStatementGoto: (state, action: PayloadAction<number>) => {
+    updateActionStatementGoto: (state, action: PayloadAction<GOTO>) => {
       state.statement.goto = action.payload;
     },
     switchActionStatementModal: (state) => {
@@ -68,7 +65,11 @@ const slice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(openActionStatementModalAPI.fulfilled, (state, action) => {
-      state.statement = action.payload.statement || getDefaultActionStatement();
+      if (action.payload.statement) {
+        state.statement = { ...action.payload.statement, goto: action.payload.goto };
+      } else {
+        state.statement = getDefaultActionStatement();
+      }
       state.visible = !state.visible;
     });
   },

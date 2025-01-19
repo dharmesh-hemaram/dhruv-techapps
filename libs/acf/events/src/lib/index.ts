@@ -95,7 +95,7 @@ export const Events = (() => {
           PlainEvents.start(elements, value);
       }
     } else {
-      console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements, 'Default Click Events');
+      console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements, 'Default Click Events');
       elements.forEach((element) => {
         DEFAULT_EVENT.forEach((event) => {
           element.dispatchEvent(new MouseEvent(event, CommonEvents.getMouseEventProperties()));

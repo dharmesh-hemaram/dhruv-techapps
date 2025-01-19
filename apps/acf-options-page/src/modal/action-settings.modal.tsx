@@ -4,11 +4,11 @@ import { RETRY_OPTIONS } from '@dhruv-techapps/acf-common';
 import { Alert, Button, Card, Col, Form, FormControl, Modal, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { useTimeout } from '../_hooks/message.hooks';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import {
   actionSettingsSelector,
-  configSelector,
   selectedConfigSelector,
   setActionSettingsMessage,
   switchActionSettingsModal,
@@ -24,7 +24,6 @@ const FORM_ID = 'action-settings';
 const ActionSettingsModal = () => {
   const { t } = useTranslation();
   const { message, visible, settings, error } = useAppSelector(actionSettingsSelector);
-  const { selectedActionId } = useAppSelector(configSelector);
   const config = useAppSelector(selectedConfigSelector);
   const dispatch = useAppDispatch();
 
@@ -41,8 +40,7 @@ const ActionSettingsModal = () => {
     if (update) {
       dispatch(updateActionSettings(update));
       if (update.name === 'retryOption' && update.value === RETRY_OPTIONS.GOTO) {
-        const index = actions.findIndex((action) => action.id === selectedActionId);
-        dispatch(updateActionSettingsGoto(index === 0 ? 1 : 0));
+        dispatch(updateActionSettingsGoto(actions[0].id));
       }
     }
   };
@@ -61,7 +59,7 @@ const ActionSettingsModal = () => {
   };
 
   const onUpdateGoto = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch(updateActionSettingsGoto(Number(e.currentTarget.value)));
+    dispatch(updateActionSettingsGoto(e.currentTarget.value as RANDOM_UUID));
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -73,7 +71,7 @@ const ActionSettingsModal = () => {
     }
   };
 
-  if (!config || !selectedActionId) {
+  if (!config) {
     return null;
   }
 
@@ -170,8 +168,8 @@ const ActionSettingsModal = () => {
                   <Col xs={{ span: 3, offset: 9 }}>
                     <Form.Select value={settings.retryGoto} onChange={onUpdateGoto} name='goto' required>
                       {actions.map((_action, index) => (
-                        <option key={_action.id} value={index} disabled={_action.id === selectedActionId}>
-                          {index + 1} . {_action.name || _action.elementFinder}
+                        <option key={_action.id} value={_action.id}>
+                          {index + 1} . {_action.name ?? _action.elementFinder}
                         </option>
                       ))}
                     </Form.Select>

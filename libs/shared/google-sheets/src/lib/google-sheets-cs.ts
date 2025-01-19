@@ -1,3 +1,4 @@
+import { ConfigError } from '@dhruv-techapps/core-common';
 import { GoogleSheetsService } from './google-sheets.service';
 import { Sheets, ValueRange } from './google-sheets.types';
 
@@ -47,6 +48,9 @@ export class GoogleSheetsCS {
 
   async getValues(sheets: Map<string, Set<string> | string>, spreadsheetId?: string): Promise<Sheets | undefined> {
     try {
+      if (sheets.size === 0) {
+        return undefined;
+      }
       if (spreadsheetId) {
         this.transformSheets(sheets);
         const result = await GoogleSheetsService.getSheets(
@@ -60,9 +64,11 @@ export class GoogleSheetsCS {
         return result;
       }
     } catch (error) {
+      if (error instanceof Error && error.message === 'OAuth2 not granted or revoked.') {
+        throw new ConfigError('Please connect to Google Sheets from global menu', 'Google Sheets');
+      }
       console.warn('Google Sheets', error);
     }
-
     return undefined;
   }
 }

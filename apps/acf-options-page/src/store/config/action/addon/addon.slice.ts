@@ -1,5 +1,5 @@
 import { RootState } from '@apps/acf-options-page/src/store';
-import { Addon, RECHECK_OPTIONS, defaultAddon } from '@dhruv-techapps/acf-common';
+import { Addon, GOTO, defaultAddon } from '@dhruv-techapps/acf-common';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import * as Sentry from '@sentry/react';
 import { openActionAddonModalAPI } from './addon.api';
@@ -20,11 +20,8 @@ const slice = createSlice({
     updateActionAddon: (state, action) => {
       const { name, value } = action.payload;
       state.addon[name] = value;
-      if (name === 'recheckOption' && value === RECHECK_OPTIONS.GOTO) {
-        state.addon.recheckGoto = 0;
-      }
     },
-    updateActionAddonGoto: (state, action: PayloadAction<number>) => {
+    updateActionAddonGoto: (state, action: PayloadAction<GOTO>) => {
       state.addon.recheckGoto = action.payload;
     },
     switchActionAddonModal: (state) => {
@@ -43,7 +40,11 @@ const slice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(openActionAddonModalAPI.fulfilled, (state, action) => {
-      state.addon = action.payload.addon || { ...defaultAddon };
+      if (action.payload.addon) {
+        state.addon = { ...action.payload.addon, recheckGoto: action.payload.recheckGoto };
+      } else {
+        state.addon = { ...defaultAddon };
+      }
       state.visible = !state.visible;
     });
   },

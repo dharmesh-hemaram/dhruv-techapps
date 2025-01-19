@@ -6,7 +6,7 @@ const SCROLL_COORDINATES = ['Top', 'Bottom', 'Left', 'Right', 'TopLeft', 'Bottom
 
 export const ScrollToEvents = (() => {
   const scrollToCoordinates = (axis: string) => {
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, axis);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, axis);
     let xAxis = 0;
     let yAxis = 0;
     if (axis.indexOf('Right') !== -1) {
@@ -19,7 +19,7 @@ export const ScrollToEvents = (() => {
   };
 
   const scrollToElement = (elements: Array<HTMLElement>) => {
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements[0]);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements[0]);
     elements[0].scrollIntoView();
   };
 

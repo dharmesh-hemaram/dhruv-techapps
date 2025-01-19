@@ -31,7 +31,7 @@ export const CopyEvents = (() => {
   const start = (elements: Array<HTMLElement>, value: string) => {
     const text = getValue(elements[0]);
     const result = applyFilter(text, value.replace(/copy::/gi, ''));
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements[0], text, result);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements[0], text, result);
     localStorage.setItem(LOCAL_STORAGE_COPY, result);
   };
 

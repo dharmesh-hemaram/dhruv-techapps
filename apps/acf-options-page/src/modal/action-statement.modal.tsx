@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent } from 'react';
 
 import { ACTION_CONDITION_OPR, ACTION_RUNNING, getDefaultActionCondition } from '@dhruv-techapps/acf-common';
+import { RANDOM_UUID } from '@dhruv-techapps/core-common';
 import { Alert, Button, Col, Form, Modal, Row, Table } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useTimeout } from '../_hooks/message.hooks';
@@ -8,7 +9,6 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import {
   actionStatementSelector,
   addActionStatementCondition,
-  configSelector,
   selectedConfigSelector,
   setActionStatementMessage,
   switchActionStatementModal,
@@ -25,7 +25,6 @@ const ActionStatementModal = () => {
   const { t } = useTranslation();
   const { message, visible, statement, error } = useAppSelector(actionStatementSelector);
   const config = useAppSelector(selectedConfigSelector);
-  const { selectedActionId } = useAppSelector(configSelector);
   const dispatch = useAppDispatch();
 
   useTimeout(() => {
@@ -34,10 +33,16 @@ const ActionStatementModal = () => {
 
   const onUpdateThen = (then: ACTION_RUNNING) => {
     dispatch(updateActionStatementThen(then));
+    if (then === ACTION_RUNNING.GOTO) {
+      const actionId = config?.actions[0].id;
+      if (actionId) {
+        dispatch(updateActionStatementGoto(actionId));
+      }
+    }
   };
 
   const onUpdateGoto = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch(updateActionStatementGoto(Number(e.currentTarget.value)));
+    dispatch(updateActionStatementGoto(e.currentTarget.value as RANDOM_UUID));
   };
 
   const onReset = () => {
@@ -64,7 +69,7 @@ const ActionStatementModal = () => {
     dispatch(syncActionStatement(statement));
   };
 
-  if (!config || !selectedActionId) {
+  if (!config) {
     return null;
   }
 
@@ -79,7 +84,7 @@ const ActionStatementModal = () => {
         <Modal.Body>
           <p className='text-muted'>{t('modal.actionCondition.info')}</p>
           <h4 className='text-center mb-3'>IF</h4>
-          <Table role='table' className='mb-0'>
+          <Table className='mb-0'>
             <thead>
               <tr>
                 <th>OPR</th>
@@ -136,8 +141,8 @@ const ActionStatementModal = () => {
               <Col xs={{ span: 4, offset: 8 }}>
                 <Form.Select value={statement.goto} onChange={onUpdateGoto} name='goto' required>
                   {actions.map((_action, index) => (
-                    <option key={index} value={index} disabled={_action.id === selectedActionId}>
-                      {index + 1} . {_action.name || _action.elementFinder}
+                    <option key={_action.id} value={_action.id}>
+                      {index + 1} . {_action.name ?? _action.elementFinder}
                     </option>
                   ))}
                 </Form.Select>

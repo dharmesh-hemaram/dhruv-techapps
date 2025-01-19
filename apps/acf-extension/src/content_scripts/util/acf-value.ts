@@ -5,6 +5,7 @@ import { SandboxValue } from '@dhruv-techapps/sandbox';
 import { VisionService, VisionValue } from '@dhruv-techapps/vision';
 import { OpenAIService } from '@dhruv.techapps/openai';
 import Common from '../common';
+import { I18N_ERROR } from '../i18n';
 
 export const VALUE_MATCHER = {
   GOOGLE_SHEETS: /^GoogleSheets::/i,
@@ -57,7 +58,7 @@ export class ACFValue {
       const elementFinder = value.replace(/image::/i, '');
       const elements = await Common.start(elementFinder, settings);
       if (elements === undefined || typeof elements === 'number' || elements.length === 0) {
-        throw new Error('No element found with the given selector');
+        throw new Error(I18N_ERROR.NO_ELEMENT_FOUND);
       }
       const data = VisionValue.getImageSrc(elements);
       return await VisionService.imagesAnnotate(data);

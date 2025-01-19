@@ -1,5 +1,5 @@
-import { ActionSettings, defaultActionSettings } from '@dhruv-techapps/acf-common';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { ActionSettings, defaultActionSettings, GOTO } from '@dhruv-techapps/acf-common';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as Sentry from '@sentry/react';
 import { RootState } from '../../../../store';
 import { openActionSettingsModalAPI } from './action-settings.api';
@@ -36,13 +36,17 @@ const slice = createSlice({
       Sentry.captureException(state.error);
       state.message = undefined;
     },
-    updateActionSettingsGoto: (state, action: PayloadAction<number>) => {
+    updateActionSettingsGoto: (state, action: PayloadAction<GOTO>) => {
       state.settings.retryGoto = action.payload;
     },
   },
   extraReducers(builder) {
     builder.addCase(openActionSettingsModalAPI.fulfilled, (state, action) => {
-      state.settings = action.payload.settings || { ...defaultActionSettings };
+      if (action.payload.settings) {
+        state.settings = { ...action.payload.settings, retryGoto: action.payload.retryGoto };
+      } else {
+        state.settings = { ...defaultActionSettings };
+      }
       state.visible = !state.visible;
     });
   },

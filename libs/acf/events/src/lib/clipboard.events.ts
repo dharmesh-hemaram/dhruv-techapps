@@ -51,7 +51,7 @@ export const ClipboardEvents = (() => {
   const copy = async (elements: Array<HTMLElement>, value: string) => {
     const text = getValue(elements[0]);
     const result = applyFilter(text, value.replace(/copy::/gi, ''));
-    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements[0], text, result);
+    console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements[0], text, result);
     await navigator.clipboard.writeText(result);
   };
 
@@ -59,7 +59,7 @@ export const ClipboardEvents = (() => {
     await navigator.clipboard.readText().then(async (clipText = '') => {
       value = value.replace(/paste::/i, '');
       value = await Sandbox.sandboxEval(value, clipText);
-      console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction}`, elements, clipText, value);
+      console.debug(`${ACTION_I18N_TITLE} #${window.__currentAction} [${window.__currentActionName}]`, elements, clipText, value);
       CommonEvents.loopElements(elements, value, checkNode);
     });
   };

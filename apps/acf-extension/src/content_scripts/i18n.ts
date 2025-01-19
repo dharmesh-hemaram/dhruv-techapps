@@ -10,6 +10,8 @@ export const I18N_COMMON = {
   COMPLETED: chrome.i18n.getMessage('@COMPLETED'),
   ERROR: chrome.i18n.getMessage('@ERROR'),
   SCHEDULE: chrome.i18n.getMessage('@SCHEDULE'),
+  CONDITION_SATISFIED: chrome.i18n.getMessage('@CONDITION_SATISFIED'),
+  CONDITION_NOT_SATISFIED: chrome.i18n.getMessage('@CONDITION_NOT_SATISFIED'),
 };
 
 export const I18N_ERROR = {
@@ -22,4 +24,6 @@ export const I18N_ERROR = {
   INVALID_ELEMENT_FINDER: chrome.i18n.getMessage('@ERROR__INVALID_ELEMENT_FINDER'),
   NOT_FOUND_STOP: chrome.i18n.getMessage('@ERROR__NOT_FOUND_STOP'),
   NOT_FOUND_RELOAD: chrome.i18n.getMessage('@ERROR__NOT_FOUND_RELOAD'),
+  ACTION_NOT_FOUND_FOR_GOTO: chrome.i18n.getMessage('@ERROR__ACTION_NOT_FOUND_FOR_GOTO'),
+  NO_ELEMENT_FOUND: chrome.i18n.getMessage('@ERROR__NO_ELEMENT_FOUND'),
 };
